@@ -3,14 +3,40 @@ package com.project.mrsisa.domain;
 import java.util.Collections;
 import java.util.List;
 
-public class Client {
-	
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+@Entity
+@DiscriminatorValue("CL")
+public class Client extends User {
+	@Column(name="penaltyNumber", nullable=false)
 	private int penaltyNumber;
+	
+	@Column(name="isAuthenticated", nullable=false)
 	private boolean isAuthenticated;
+	
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ClientReview> clientReviews;
+	
+	@ManyToMany(mappedBy = "subscribers")
 	private List<Offer> subscriptions;
+	
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> futureReservations;
+	
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> historyReservations;
+	
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Complaint> complaints;
+	
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ExperienceReview> experienceReviews;
 	
 	public int getPenaltyNumber() {
 		return penaltyNumber;

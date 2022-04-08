@@ -1,10 +1,35 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Complaint {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
+	@Column(nullable=false)
 	private String text;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "clientId")
 	private Client client;
+	
+	@Enumerated
 	private ProcessingStatus status;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "offerId")
+	private Offer offer;
+	
 	public String getText() {
 		return text;
 	}

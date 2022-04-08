@@ -3,16 +3,38 @@ package com.project.mrsisa.domain;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Ship extends Offer {
 	
+	@Column(nullable=false)
 	private String type;
+	
+	@Column(nullable=false)
 	private double length;
-	private String engineDesignation;
+	
+	@Column(nullable=false)
+	private String engineDesignation;	
+	
+	@Column(nullable=false)
 	private double enginePower;
+	
+	@Column(nullable=false)
 	private double maxSpeed;
+	
+	@Enumerated
 	private NavigationEquipment navigationEquipment;
+
+	@Column(nullable=false)
 	private int capacity;
 
+	@OneToMany(mappedBy = "ship", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<FishingEquipment> fishingEquipments;
 
 	public String getType() {

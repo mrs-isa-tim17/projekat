@@ -3,11 +3,35 @@ package com.project.mrsisa.domain;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Calendar {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PeriodAvailability> periodAvailabilities;
+	
+	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PeriodUnavailability> periodUnavailabilities;
+	
+	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<SaleAppointment> saleAppointments;
+	
+	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
+	
+	@OneToOne(mappedBy = "calendar")
+	private Offer offer;
 	
 	public List<PeriodAvailability> getPeriodAvailabilities() {
 		return Collections.unmodifiableList(periodAvailabilities);

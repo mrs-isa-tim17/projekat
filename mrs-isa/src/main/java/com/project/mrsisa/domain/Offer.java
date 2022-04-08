@@ -1,22 +1,74 @@
 package com.project.mrsisa.domain;
 
+import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
+
 import java.util.Collections;
 import java.util.List;
 
-public class Offer {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+
+@Entity
+@Inheritance(strategy=TABLE_PER_CLASS)
+public abstract class Offer {
+	@Id
+	@SequenceGenerator(name = "offerSeqGen", sequenceName = "offerSeq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "offerSeqGen")
+	private Long id;
+	
+	@Column(nullable=false)
 	private String name;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressId", referencedColumnName = "id")
 	private Address address;
+	
+	@Column(nullable =false )
 	private String description;
+	
+	@Column(nullable=false)
 	private boolean deleted;
 	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ExperienceReview> experienceReviews;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AdditionalServices> additionalServices;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<BehaviorRule> behaviorRules;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Image> images;
-	private CancelCondition cancelCondition;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<CancelCondition> cancelCondition;
+	
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Pricelist> pricelists;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "calendarId", referencedColumnName = "id")
 	private Calendar calendar;
+	
+	@ManyToMany
+	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
+	private List<Client> subscribers;
 	
 	public String getName() {
 		return name;
@@ -72,10 +124,10 @@ public class Offer {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	public CancelCondition getCancelCondition() {
+	public List<CancelCondition> getCancelCondition() {
 		return cancelCondition;
 	}
-	public void setCancelCondition(CancelCondition cancelCondition) {
+	public void setCancelCondition(List<CancelCondition> cancelCondition) {
 		this.cancelCondition = cancelCondition;
 	}
 	public List<Pricelist> getPricelists() {

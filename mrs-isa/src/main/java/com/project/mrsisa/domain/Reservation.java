@@ -4,13 +4,54 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Reservation {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable=false)
 	private LocalDate startDate;
+	
+	@Column(nullable=false)
 	private LocalDate endDate;
+	
+	@Column(nullable=false)
 	private double price;
-	List<AdditionalServices> additionalServices;
+	
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<AdditionalServices> additionalServices;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "calendarId")
+	private Calendar calendar;
+	
+	@Column(nullable=false)
 	private boolean quick;
+	
+	@Column(nullable=false)
 	private boolean canceled;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "clientId")
+	private Client client;
+	
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "historyClientId")
+	private Client historyClient;
+	
+	*/
 	public LocalDate getStartDate() {
 		return startDate;
 	}

@@ -1,10 +1,33 @@
 package com.project.mrsisa.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Place {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
+	@Column(nullable=false)
 	private int postNumber;
+	
+	@Column(nullable=false)
 	private String placeName;
+	
+	@Column(nullable=false)
 	private String country;
+	
+	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Address> addresses;
 	
 	public int getPostNumber() {
 		return postNumber;
