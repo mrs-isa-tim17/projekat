@@ -29,32 +29,38 @@ public abstract class User {
 	protected Long id;
 	
 	@Column(name="name", nullable=false)
-	private String name;
+	protected String name;
 	
 	@Column(name = "surname", nullable=false)
-	private String surname;
+	protected String surname;
 	
 	@Column(name = "email", unique = true, nullable=false)
-	private String email;
+	protected String email;
 	
 	@Column(name="password", nullable=false)
-	private String password;
+	protected String password;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
-	private Address address;
+	protected Address address;
 	
 	@Column(name="phonenumber", nullable=false)
-	private String phoneNumber;
+	protected String phoneNumber;
 	
 	@Column(name="deleted", nullable=false)
-	private boolean deleted;
+	protected boolean deleted;
 	
 	@Enumerated
-	private UserType userType;
+	protected UserType userType;
 	
 	@Column(nullable=false)
-	private int loyaltyPoints;
+	protected int loyaltyPoints;
+	
+	@OneToOne(mappedBy = "userRef")
+	protected RegistrationRequest registrationRequest;
+	
+	@OneToOne(mappedBy = "userRef")
+	protected DeleteRequest deleteRequest;
 	
 	public String getName() {
 		return name;
@@ -109,6 +115,24 @@ public abstract class User {
 	}
 	public void setLoyaltyPoints(int loyaltyPoints) {
 		this.loyaltyPoints = loyaltyPoints;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public RegistrationRequest getRegistrationRequest() {
+		return registrationRequest;
+	}
+	public void setRegistrationRequest(RegistrationRequest registrationRequest) {
+		this.registrationRequest = registrationRequest;
+	}
+	public DeleteRequest getDeleteRequest() {
+		return deleteRequest;
+	}
+	public void setDeleteRequest(DeleteRequest deleteRequest) {
+		this.deleteRequest = deleteRequest;
 	}
 	
 	

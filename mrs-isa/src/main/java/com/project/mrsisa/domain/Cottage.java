@@ -2,6 +2,9 @@ package com.project.mrsisa.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Cottage extends Offer {
@@ -11,6 +14,9 @@ public class Cottage extends Offer {
 	@Column(nullable=false)
 	private int bedQuantity;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner")
+	private CottageOwner owner;
 	
 	public int getRoomQuantity() {
 		return roomQuantity;
@@ -23,6 +29,12 @@ public class Cottage extends Offer {
 	}
 	public void setBedQuantity(int bedQuantity) {
 		this.bedQuantity = bedQuantity;
+	}
+	public CottageOwner getOwner() {
+		return owner;
+	}
+	public void setOwner(CottageOwner owner) {
+		this.owner = owner;
 	}
 	
 	

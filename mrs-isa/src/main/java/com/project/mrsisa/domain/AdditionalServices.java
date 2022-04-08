@@ -38,6 +38,38 @@ public class AdditionalServices {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	public SaleAppointment getSaleAppointment() {
+		return saleAppointment;
+	}
+
+	public void setSaleAppointment(SaleAppointment saleAppointment) {
+		this.saleAppointment = saleAppointment;
+	}
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
 	
 	
 

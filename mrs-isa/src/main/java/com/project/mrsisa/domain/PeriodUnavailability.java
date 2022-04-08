@@ -37,6 +37,18 @@ public class PeriodUnavailability {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
 
 	
 	

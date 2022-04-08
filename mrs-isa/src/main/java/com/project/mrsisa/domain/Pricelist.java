@@ -47,6 +47,18 @@ public class Pricelist {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
 	
 	
 

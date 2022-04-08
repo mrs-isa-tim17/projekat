@@ -1,9 +1,25 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class LoyaltyScale {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
+	@Enumerated
 	private UserType userType;
+	
+	@Column(nullable = false)
 	private int discount;
+
+	@Column(nullable = false)
 	private int trashhold;
 	
 	public UserType getUserType() {
@@ -23,6 +39,12 @@ public class LoyaltyScale {
 	}
 	public void setTrashhold(int trashhold) {
 		this.trashhold = trashhold;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	

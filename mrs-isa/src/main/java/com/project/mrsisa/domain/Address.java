@@ -56,6 +56,38 @@ public class Address {
 	public void setPlace(Place place) {
 		this.place = place;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
+	public SaleAppointment getSaleAppointment() {
+		return saleAppointment;
+	}
+
+	public void setSaleAppointment(SaleAppointment saleAppointment) {
+		this.saleAppointment = saleAppointment;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 	
 	

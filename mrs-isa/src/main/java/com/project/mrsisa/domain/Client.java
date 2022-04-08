@@ -14,10 +14,10 @@ import javax.persistence.OneToMany;
 @Entity
 @DiscriminatorValue("CL")
 public class Client extends User {
-	@Column(name="penaltyNumber", nullable=false)
+	@Column(name="penaltyNumber", nullable=true)
 	private int penaltyNumber;
 	
-	@Column(name="isAuthenticated", nullable=false)
+	@Column(name="isAuthenticated", nullable=true)
 	private boolean isAuthenticated;
 	
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -73,6 +73,18 @@ public class Client extends User {
 	}
 	public void setHistoryReservations(List<Reservation> historyReservations) {
 		this.historyReservations = historyReservations;
+	}
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+	public List<ExperienceReview> getExperienceReviews() {
+		return experienceReviews;
+	}
+	public void setExperienceReviews(List<ExperienceReview> experienceReviews) {
+		this.experienceReviews = experienceReviews;
 	}
 	
 	

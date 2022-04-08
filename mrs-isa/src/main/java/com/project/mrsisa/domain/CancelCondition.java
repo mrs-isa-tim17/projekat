@@ -37,6 +37,18 @@ public class CancelCondition {
 	public void setPrecent(double precent) {
 		this.precent = precent;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
 	
 	
 

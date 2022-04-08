@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -37,6 +39,10 @@ public class Ship extends Offer {
 	@OneToMany(mappedBy = "ship", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<FishingEquipment> fishingEquipments;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner")
+	private ShipOwner owner;
+	
 	public String getType() {
 		return type;
 	}
@@ -99,6 +105,14 @@ public class Ship extends Offer {
 
 	public void setFishingEquipments(List<FishingEquipment> fishingEquipments) {
 		this.fishingEquipments = fishingEquipments;
+	}
+
+	public ShipOwner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(ShipOwner owner) {
+		this.owner = owner;
 	}
 	
 	

@@ -1,15 +1,36 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+@Entity	
 public class RegistrationRequest {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	private User user;
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+	private Client userRef;
+	
+	@Enumerated
 	private RegistrationType registrationType;
+	
+	@Enumerated
 	private ProcessingStatus status;
-	public User getUser() {
-		return user;
+	
+	
+	public Client getUserRef() {
+		return userRef;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserRef(Client user) {
+		this.userRef = user;
 	}
 	public RegistrationType getRegistrationType() {
 		return registrationType;
@@ -22,6 +43,12 @@ public class RegistrationRequest {
 	}
 	public void setStatus(ProcessingStatus status) {
 		this.status = status;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	} 
 
 	

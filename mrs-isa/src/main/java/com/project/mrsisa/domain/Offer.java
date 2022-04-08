@@ -26,49 +26,49 @@ public abstract class Offer {
 	@Id
 	@SequenceGenerator(name = "offerSeqGen", sequenceName = "offerSeq", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "offerSeqGen")
-	private Long id;
+	protected Long id;
 	
 	@Column(nullable=false)
-	private String name;
+	protected String name;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
-	private Address address;
+	protected Address address;
 	
 	@Column(nullable =false )
-	private String description;
+	protected String description;
 	
 	@Column(nullable=false)
-	private boolean deleted;
+	protected boolean deleted;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Complaint> complaints;
+	protected List<Complaint> complaints;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ExperienceReview> experienceReviews;
+	protected List<ExperienceReview> experienceReviews;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<AdditionalServices> additionalServices;
+	protected List<AdditionalServices> additionalServices;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<BehaviorRule> behaviorRules;
+	protected List<BehaviorRule> behaviorRules;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Image> images;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<CancelCondition> cancelCondition;
+	protected List<CancelCondition> cancelCondition;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Pricelist> pricelists;
+	protected List<Pricelist> pricelists;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "calendarId", referencedColumnName = "id")
-	private Calendar calendar;
+	protected Calendar calendar;
 	
 	@ManyToMany
 	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
-	private List<Client> subscribers;
+	protected List<Client> subscribers;
 	
 	public String getName() {
 		return name;
@@ -142,6 +142,19 @@ public abstract class Offer {
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public List<Client> getSubscribers() {
+		return subscribers;
+	}
+	public void setSubscribers(List<Client> subscribers) {
+		this.subscribers = subscribers;
+	}
+	
 	
 	
 }

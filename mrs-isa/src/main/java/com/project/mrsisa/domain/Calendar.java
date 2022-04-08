@@ -57,6 +57,18 @@ public class Calendar {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
 	
 	
 	

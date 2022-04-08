@@ -45,7 +45,7 @@ public class ExperienceReview {
 	public void setRate(int rate) {
 		this.rate = rate;
 	}
-	/*public Client getClient() {
+	public Client getClient() {
 		return client;
 	}
 	public void setClient(Client client) {
@@ -57,7 +57,19 @@ public class ExperienceReview {
 	public void setStatus(ProcessingStatus status) {
 		this.status = status;
 	}
-	*/
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Offer getOffer() {
+		return offer;
+	}
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+	
 	
 
 }

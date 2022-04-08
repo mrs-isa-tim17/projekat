@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -21,6 +23,10 @@ public class Adventure extends Offer {
 	@OneToMany(mappedBy="adventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<FishingEquipment> fishingEquipments;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "owner")
+	private FishingInstructor owner;
+	
 	public String getInstructorBiography() {
 		return instructorBiography;
 	}
@@ -43,6 +49,14 @@ public class Adventure extends Offer {
 
 	public void setFishingEquipments(List<FishingEquipment> fishingEquipments) {
 		this.fishingEquipments = fishingEquipments;
+	}
+
+	public FishingInstructor getOwner() {
+		return owner;
+	}
+
+	public void setOwner(FishingInstructor owner) {
+		this.owner = owner;
 	}
 	
 	

@@ -47,6 +47,18 @@ public class ClientReview {
 	public void setStatus(ProcessingStatus status) {
 		this.status = status;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Client getClient() {
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
+	}
 	
 	
 	
