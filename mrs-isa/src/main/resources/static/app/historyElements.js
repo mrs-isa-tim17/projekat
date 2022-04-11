@@ -13,10 +13,10 @@ Vue.component('history-element', {
 							<h6 class="card-title">{{cottage.address.country}}, {{cottage.address.city}}, {{cottage.address.address}}</h6>
                             <p class="card-text">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         {{cottage.description}}
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         Od: {{cottage.startDate}}
                                         <br>
                                         Do: {{cottage.endDate}}
@@ -29,6 +29,10 @@ Vue.component('history-element', {
                                         <p v-if="cottage.quickReservation" class="text-success">
                                             na popustu
                                         </p>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-primary">Recenzija</button>
+                                        <button type="button" class="btn btn-light">Žalba</button>
                                     </div>
                                 </div>
                             </p>
