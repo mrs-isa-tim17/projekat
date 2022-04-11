@@ -41,7 +41,7 @@ Vue.component('client-home', {
                                 </div>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Vikendice</a></li>
+                                <li><a class="dropdown-item" href="#/client/history/cottage">Vikendice</a></li>
                                 <li><a class="dropdown-item" href="#">Brodovi</a></li>
                                 <li><a class="dropdown-item" href="#">Instruktori</a></li>
                             </ul>
@@ -87,7 +87,7 @@ Vue.component('client-home', {
         upcomingText: "Zakazane rezervacije",
 
         historyOfReservationImgPath: "./icons/istorijaRezervacija.png",
-        historyOfReservationLink: "...",
+        //historyOfReservationLink: "...",
         historyOfReservationText: "Istorija rezervacija",
 
         subscriptionImgPath: "./icons/subscription.png",
