@@ -3,12 +3,16 @@ Vue.component('img-option', {
     template: `
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner" >
-            <div class="carousel-item active" >
+            <div class="carousel-item active" v-if="image_paths.length!=0">
                 <img :src=image_paths[0].path class="d-block w-100"  alt="...">
             </div>
+
+            <div calss="carousel-item active" v-if="image_paths.length===0">
+                <img src="./img/Drina1.jpg">
+            </div>
          
-            <div class="carousel-item"  v-for="pathObj in image_paths">
-                <img :src=pathObj.path class="d-block w-100" alt="...">
+            <div class="carousel-item"  v-for="(item, index) in image_paths" v-if="index > 0">
+                <img :src=item.path class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

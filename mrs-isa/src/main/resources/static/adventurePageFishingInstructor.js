@@ -69,7 +69,6 @@ data() {
             description: 'Uzbudljvo putovanje za porodicu i prijatelje',
 
             images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
-
             priceList: [{startDate:"start", endDate:"end", price:12000}],
             behavioralRule: ["dozvoljeno pecanje", "zabranjeno kupanje", "pet friendly"],
             cancelCondition : [{days:5, double:30},{days:30, double:5}],
