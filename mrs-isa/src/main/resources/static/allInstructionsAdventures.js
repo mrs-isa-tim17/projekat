@@ -1,5 +1,7 @@
 Vue.component('adventure-all', {
     template: `
+    <div>
+    <instructor-header></instructor-header>
      <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-8 d-flex justify-content-center">
@@ -39,7 +41,8 @@ Vue.component('adventure-all', {
                 </div>
             </div>
         </div>
-    </div>   
+    </div>  
+    </div> 
                       
       `,
 data() {

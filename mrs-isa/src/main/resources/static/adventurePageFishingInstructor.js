@@ -1,6 +1,8 @@
 Vue.component('adventure-home', {
     template: `
         <div id="adventure-home-page">
+            
+            <instructor-header></instructor-header>
 
             <div class="container">
 

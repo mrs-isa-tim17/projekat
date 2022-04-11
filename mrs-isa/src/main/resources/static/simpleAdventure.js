@@ -1,7 +1,6 @@
 Vue.component('simple-adventure', {
     props: ['adventure', 'path'],
     template: `
-
     <div class="card mb-3 d-flex justify-content-center" style="max-width: 100;" >
         <div class="row g-0">
             <div class="col-md-4">
@@ -14,7 +13,7 @@ Vue.component('simple-adventure', {
                         <a href="./adventurePageFishingInstructor.html"><h5 class="card-title"> {{adventure.name}} </h5></a>
                         <p class="card-text"> {{adventure.address.place.name}}</p>
                         <p class="card-text"><small class="text-muted"> {{adventure.address.streetName}} {{adventure.address.serialNumber}} </small></p> 
-                        <button class="btn btn-primary  btn-sm  me-md-2"> Obriši </button>
+                        <button class="btn btn-secondary  btn-sm  me-md-2"> Obriši </button>
                     </div>
 
                     <div class="col">
