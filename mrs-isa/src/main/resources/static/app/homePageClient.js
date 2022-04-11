@@ -103,16 +103,9 @@ Vue.component('client-home', {
         deleteAccText: "Brisanje naloga",
 
         profileImgPath: "./icons/profile.png",
-        profileLink: "...",
+        profileLink: "#/client/profile",
         profileText: "Profil"
 
         }
     }
 });
-/*
-var base = new Vue({
-    el: "#root",
-    data: {
-
-    }
-})*/
