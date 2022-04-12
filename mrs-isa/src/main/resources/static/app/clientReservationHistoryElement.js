@@ -1,23 +1,23 @@
 Vue.component('history-element', {
     props: ['cottage'],
     template: `
-        <div class="d-flex justify-content-center">
-            <div class="card mb-3 " style="max-width: 900px;">
+        <div class="d-flex justify-content-center mw-90">
+            <div class="card mb-3 mw-90" style="width: 80%;">
 
                 <div class="row g-0" style="background-color: #e6fff2;">
 
                     <div class="col-md-4">
-                        <img :src=cottage.images[0] class="img-fluid rounded-start" alt="...">
+                          <img :src=cottage.images[0] class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
                     </div>
 
-                    <div class="col-md-8"  >
+                    <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">{{cottage.name}}</h5>
-							              <h6 class="card-title">{{cottage.address.country}}, {{cottage.address.city}}, {{cottage.address.address}}</h6>
+                            <h5 class="card-title" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
+							              <h6 class="card-title" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.address.country}}, {{cottage.address.city}}, {{cottage.address.address}}</h6>
                             
                             <p class="card-text">
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-5" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
                                         {{cottage.description}}
                                     </div>
 
@@ -58,6 +58,13 @@ Vue.component('history-element', {
         </div>
     `,
     methods : {
+          doNothing(){
+
+          },
+          goToOffer(){
+            console.log('/'+this.cottage.id);
+            this.$router.push('/'+this.cottage.id);
+        },
         sendReview(value, rating){
           this.cottage.reviewed = true;
           //axios

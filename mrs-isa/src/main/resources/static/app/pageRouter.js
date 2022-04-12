@@ -8,13 +8,15 @@ const historyReservationElement = {template: '<history-element></history-element
 const historyCottageList = {template: '<cottage-history-list></cottage-history-list>'}
 const modelWithTextArea = {template: '<modal-with-textarea></modal-with-textarea>'}
 const modelWithTextAreaAndRating = {template: '<modal-with-textarea-and-rating></modal-with-textarea-and-rating>'}
+const clientReservationHistoryShip = {template: '<ship-history-reservation></ship-history-reservation>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
 	  routes: [
 	    { path: '/client/home', component: clientHome},
         { path: '/client/profile', component : clientProfile},
-		{ path: '/client/history/cottage', component: cottageHistoryReservation}
+		{ path: '/client/history/:type', component: cottageHistoryReservation},
+		//{ path: '/client/history/ship', component: clientReservationHistoryShip}
 	  ]
 });
 
