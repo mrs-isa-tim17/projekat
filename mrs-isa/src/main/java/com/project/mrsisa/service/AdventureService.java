@@ -12,6 +12,7 @@ public class AdventureService {
 	@Autowired
 	private AdventureRepository adventureRepository;
 	
+	
 	public Adventure save(Adventure adventure) {
 		return adventureRepository.save(adventure);
 	}

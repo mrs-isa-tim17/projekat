@@ -18,13 +18,15 @@ public class AdventureDTO {
 	private Address address;
 	private String description;
 	private boolean deleted;
-	private List<ExperienceReview> experienceReviews;
+	
+/*	private List<ExperienceReview> experienceReviews;
 	private List<AdditionalServices> additionalServices;
 	private List<BehaviorRule> behaviorRules;
 	private List<Image> images;
 	private List<CancelCondition> cancelCondition;
 	private List<Pricelist> pricelists;	
 	private Calendar calendar;
+*/	
 	
 	public AdventureDTO() {
 		super();
@@ -36,13 +38,15 @@ public class AdventureDTO {
 		address = adventure.getAddress();
 		description = adventure.getDescription();
 		deleted = adventure.isDeleted();
-		experienceReviews = adventure.getExperienceReviews();
+		
+	/*	experienceReviews = adventure.getExperienceReviews();
 		additionalServices = adventure.getAdditionalServices();
 		behaviorRules = adventure.getBehaviorRules();
 		images = adventure.getImages();
 		cancelCondition = adventure.getCancelCondition();
 		pricelists = adventure.getPricelists();
 		calendar = adventure.getCalendar();	
+		*/
 	}
 	
 	public Long getId() {
@@ -75,7 +79,8 @@ public class AdventureDTO {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	public List<ExperienceReview> getExperienceReviews() {
+	
+/*  public List<ExperienceReview> getExperienceReviews() {
 		return experienceReviews;
 	}
 	public void setExperienceReviews(List<ExperienceReview> experienceReviews) {
@@ -117,7 +122,7 @@ public class AdventureDTO {
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
 	}
-	
+	*/
 	
 }
 

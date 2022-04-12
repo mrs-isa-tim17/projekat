@@ -19,6 +19,11 @@ public class AdventureController {
 	@Autowired
 	private AdventureService adventureService;
 	
+	public AdventureController(AdventureService adventureService2) {
+		this.adventureService = adventureService2;
+	}
+
+
 	@PostMapping(consumes="applicatiton/json")
 	public ResponseEntity<AdventureDTO> saveAdventure(@RequestBody AdventureDTO adventureDTO){
 		
@@ -27,13 +32,15 @@ public class AdventureController {
 		adventure.setName(adventureDTO.getName());
 		adventure.setDescription(adventure.getDescription());
 		adventure.setDeleted(adventureDTO.isDeleted());
-		adventure.setExperienceReviews(adventureDTO.getExperienceReviews());
+		
+	/*	adventure.setExperienceReviews(adventureDTO.getExperienceReviews());
 		adventure.setAdditionalServices(adventureDTO.getAdditionalServices());
 		adventure.setBehaviorRules(adventureDTO.getBehaviorRules());
 		adventure.setImages(adventureDTO.getImages());
 		adventure.setCancelCondition(adventureDTO.getCancelCondition());
 		adventure.setPricelists(adventureDTO.getPricelists());	
 		adventure.setCalendar(adventureDTO.getCalendar());
+	*/	
 		
 		adventure = adventureService.save(adventure);
 		return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.CREATED);
