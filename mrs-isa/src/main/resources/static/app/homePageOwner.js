@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Home page</title>
-		<link rel="stylesheet" href="../css/homePageOwner.css">
-	</head>
-	<body>
-		<div id="fun">
-		 
+Vue.component('owner-home-page',
+	{
+		template:
+		`<div>
 			<div class="fun-red">
 				<div id="logo">
 					logo
@@ -18,35 +12,35 @@
 			</div>
 			<div class="fun-red">
 				<div>
-					<a href="">
-						<img src="../icons/cottage.png">
+					<a href="#/owner/managment">
+						<img src="./icons/cottage.png">
 						<p>Vaše ponude</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/availability.png">
+						<img src="./icons/availability.png">
 						<p>Odredite period dostupnosti</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/list.png">
+						<img src="./icons/list.png">
 						<p>Istorija rezervacija</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/sale.png">
+						<img src="./icons/sale.png">
 						<p>Brze rezervacije</p>
 					</a>
 				</div>
 				<div>
 					<a href="">
-						<img src="../icons/reportRes.png">
+						<img src="./icons/reportRes.png">
 						<p>Izveštaji o rezervacijama</p>
 					</a>
 				</div>
@@ -55,38 +49,46 @@
 			<div class="fun-red">
 				<div>
 					<a href="">
-						<img src="../icons/reserve.png">
+						<img src="./icons/reserve.png">
 						<p>Nova rezervacija</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/calendar.png">
+						<img src="./icons/calendar.png">
 						<p>Kalendar zauzetosti</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/reportBusiness.png">
+						<img src="./icons/reportBusiness.png">
 						<p>Izveštaji o poslovanju</p>
 					</a>
 				</div>
 				
 				<div>
 					<a href="">
-						<img src="../icons/deleteAcc.png">
+						<img src="./icons/deleteAcc.png">
 						<p>Brisanje naloga</p>
 					</a>
 				</div>
 				
 				<div>
-					<a href="">
-						<img src="../icons/profile.png">
+					<a href="#/owner/editprofile">
+						<img src="./icons/profile.png">
 						<p>Izmena profila</p>
 					</a>
 				</div>
-		</div>
-	</body>
-</html>
+				</div>
+				</div>`,
+		data(){
+			return{}
+		},
+	    methods:{}
+	}
+
+
+
+);
