@@ -7,7 +7,7 @@ Vue.component("instructor-header", {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                     <a class="navbar-brand" href="#">
-                        <img src="./img/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top"/>
+                        <img src="./img/adventure/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top"/>
                         Book
                     </a>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">

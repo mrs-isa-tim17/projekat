@@ -8,7 +8,7 @@ Vue.component('img-option', {
             </div>
 
             <div calss="carousel-item active" v-if="image_paths.length===0">
-                <img src="./img/Drina1.jpg">
+                <img src="./img/adventure/Drina1.jpg">
             </div>
          
             <div class="carousel-item"  v-for="(item, index) in image_paths" v-if="index > 0">
@@ -29,4 +29,4 @@ Vue.component('img-option', {
         return {
         }
     }
-})
+});

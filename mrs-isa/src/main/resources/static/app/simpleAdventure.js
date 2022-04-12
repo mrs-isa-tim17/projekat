@@ -1,7 +1,7 @@
 Vue.component('simple-adventure', {
     props: ['adventure', 'path'],
     template: `
-    <div class="card mb-3 d-flex justify-content-center" style="max-width: 100;" >
+    <div class="card mb-3 d-flex justify-content-center" style="max-width: 800px;" >
         <div class="row g-0">
             <div class="col-md-4">
                 <img :src=path class="img-fluid rounded-start" alt="...">
@@ -30,4 +30,4 @@ Vue.component('simple-adventure', {
         return {
         }
     }
-})
+});

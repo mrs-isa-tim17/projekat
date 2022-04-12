@@ -1,6 +1,6 @@
-Vue.component('adventure-home', {
+Vue.component('adventure-instructor', {
     template: `
-        <div id="adventure-home-page">
+
             
             <instructor-header></instructor-header>
 
@@ -61,7 +61,7 @@ Vue.component('adventure-home', {
                 </div>
                 
             </div>
-        </div>
+
       `,
 data() {
         return {
@@ -70,7 +70,7 @@ data() {
             address: {streetName:"Gogoljeva", serialNumber:"22", place:{postNumber: 22240, name:"Bajina Bašta", country:"Srbija" }},
             description: 'Uzbudljvo putovanje za porodicu i prijatelje',
 
-            images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+            images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
             priceList: [{startDate:"start", endDate:"end", price:12000}],
             behavioralRule: ["dozvoljeno pecanje", "zabranjeno kupanje", "pet friendly"],
             cancelCondition : [{days:5, double:30},{days:30, double:5}],
@@ -84,11 +84,4 @@ data() {
             }
         }
     },
-})
-
-var base = new Vue({
-    el: "#root",
-    data: {
-
-    }
-})
+});

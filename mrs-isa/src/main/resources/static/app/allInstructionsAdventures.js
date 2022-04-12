@@ -53,7 +53,7 @@ data() {
             address: {streetName:"Gogoljeva", serialNumber:"22", place:{postNumber: 22240, name:"Bajina Bašta", country:"Srbija" }},
             description: 'Uzbudljvo putovanje za porodicu i prijatelje',
 
-            images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+            images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
 
             priceList: [{startDate:"start", endDate:"end", price:12000}],
             behavioralRule: ["dozvoljeno pecanje", "zabranjeno kupanje", "pet friendly"],
@@ -71,7 +71,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -95,7 +95,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -113,7 +113,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -132,7 +132,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -151,7 +151,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -173,7 +173,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -194,7 +194,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -213,7 +213,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -235,7 +235,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -256,7 +256,7 @@ data() {
                 address: {streetName:"Danila Kisa", serialNumber:"3", place:{postNumber: 22240, name:"Novi Pazar", country:"Srbija" }},
                 description: 'Uzbudljvo putovanje za porodicu i prijatelje',
     
-                images:[{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}],
+                images:[{path:"./img/adventure/Drina1.jpg"}, {path: "./img/adventure/Drina2.jpg"}, {path:"./img/adventure/Drina3.jpg"}, {path: "./img/adventure/Drina4.jpg"}],
     
                 priceList: [{startDate:"start", endDate:"end", price:12000}],
                 behavioralRule: ["zabranjeno branje zasticenih biljnih vrsta", "cuvamo prirodu", "pet friendly"],
@@ -272,13 +272,4 @@ data() {
         ]
         }
     },
-})
-
-var base = new Vue({
-    el: "#root",
-    data: {
-
-    }
-})
-
-// [{path:"./img/Drina1.jpg"}, {path: "./img/Drina2.jpg"}, {path:"./img/Drina3.jpg"}, {path: "./img/Drina4.jpg"}], 
+});
