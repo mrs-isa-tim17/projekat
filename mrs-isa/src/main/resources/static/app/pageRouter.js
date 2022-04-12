@@ -6,6 +6,8 @@ const standardDiasabledInputField = {template: '<disabled-input-field></diasable
 const cottageHistoryReservation = {template: '<cottage-history-reservation></cottage-history-reservation>'}
 const historyReservationElement = {template: '<history-element></history-element>'}
 const historyCottageList = {template: '<cottage-history-list></cottage-history-list>'}
+const modelWithTextArea = {template: '<modal-with-textarea></modal-with-textarea>'}
+const modelWithTextAreaAndRating = {template: '<modal-with-textarea-and-rating></modal-with-textarea-and-rating>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -25,7 +27,9 @@ var app = new Vue({
 		clientProfile : clientProfile,
 		standardDiasabledInputField: standardDiasabledInputField,
 		cottageHistoryReservation: cottageHistoryReservation,
-		historyCottageList: historyCottageList
+		historyCottageList: historyCottageList,
+		modelWithTextArea: modelWithTextArea,
+		modelWithTextAreaAndRating: modelWithTextAreaAndRating
 	}
 });
 

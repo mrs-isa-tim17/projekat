@@ -4,7 +4,7 @@ Vue.component('cottage-history-list', {
                 <div class="container" >
                     <div class="p-2" v-for="(item, index) in cottagesHistory"  :key="item.name"
                             v-if="checkIfNeedsToBeDisplayed(index, from, numToDisplay)">
-                        <history-element :cottage="item"> </history-element>
+                        <history-element :cottage="item" :key="myKey" @rerender="forceRerendering(item)"> </history-element>
                     </div>
                 </div>
     `,
@@ -15,10 +15,14 @@ Vue.component('cottage-history-list', {
                 return true;
             }
             return false;
+        },
+        forceRerendering(offer){
+            this.myKey += 1;
         }
     },
     data() {
         return {
+            myKey: 1
         }
     }
 });

@@ -61,7 +61,7 @@ Vue.component('cottage-history-reservation', {
         },
         makeMiddleNumber(){
             let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;
-            return Math.round(numPages % 2);
+            return Math.ceil(numPages / 2);
         },
         makeLastNumber(){
             let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;
@@ -109,6 +109,8 @@ Vue.component('cottage-history-reservation', {
             myKey: 0,
             cottageReservationHistory:[
                 {
+                    reviewed: false,
+                    id: 1,
                     startDate:"01.04.2022",
                     endDate:"8.04.2022",
                     price:2000,
@@ -126,6 +128,8 @@ Vue.component('cottage-history-reservation', {
                     },
                     description: "Najbolja zabava"
                 },{
+                    reviewed: true,
+                    id: 2,
                     startDate:"01.04.2022",
                     endDate:"8.04.2022",
                     price:2000,
@@ -143,6 +147,8 @@ Vue.component('cottage-history-reservation', {
                     },
                     description: "Ovde nađeš šta ti treba"
                 },{
+                    reviewed: true,
+                    id: 3,
                     startDate:"01.04.2022",
                     endDate:"8.04.2022",
                     price:2000,
@@ -160,6 +166,8 @@ Vue.component('cottage-history-reservation', {
                     },
                     description: "Tu smo za vas"
                 },{
+                    reviewed: false,
+                    id: 4,
                     startDate:"01.04.2022",
                     endDate:"8.04.2022",
                     price:2000,
@@ -177,6 +185,8 @@ Vue.component('cottage-history-reservation', {
                     },
                     description: "Neki descr"
                 },{
+                    reviewed: false,
+                    id: 5,
                     startDate:"01.04.2022",
                     endDate:"8.04.2022",
                     price:2000,
