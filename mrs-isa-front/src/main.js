@@ -3,8 +3,6 @@ import {createApp} from "vue";
 
 import router from "./router";
 
-
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/src/jquery';
 import 'bootstrap/dist/js/bootstrap.min.js';

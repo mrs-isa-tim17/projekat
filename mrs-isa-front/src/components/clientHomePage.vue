@@ -29,8 +29,8 @@
         <clientHomePageOption :image_path="upcomingImgPath" :option_link="upcomingLink" :text="upcomingText"></clientHomePageOption>
 
         <div class="col-3 px-5" >
-          <div class="btn-group">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="dropdown">
+            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
               <div class="card-lg">
                 <div class="card-body">
                   <img :src=historyOfReservationImgPath height="150">
@@ -39,14 +39,16 @@
                   {{historyOfReservationText}}
                 </div>
               </div>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
               <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" href="#">Instruktori</a></li>
+              <li><a class="dropdown-item" href="#">Avanture</a></li>
             </ul>
           </div>
         </div>
+
 
         <clientHomePageOption :image_path="subscriptionImgPath" :option_link="subscriptionLink" :text="subscriptionText"></clientHomePageOption>
       </div>
