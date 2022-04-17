@@ -1,8 +1,7 @@
 <template>
-  <div class="row">
+  <div class="row" :style="text">
     <div class="col-6">
       <div :id=carouselId class="carousel slide" data-bs-ride="carousel">
-
 
         <div class="carousel-inner px-2" >
 
@@ -40,7 +39,7 @@
       </div>
     </div>
 
-    <div class="col-6">
+    <div class="col-6" >
       <h3> {{ title }} </h3>
       <br>
       <p>{{ description }}</p>
@@ -54,7 +53,7 @@
 <script>
 export default {
   name: "homePageCarouselLeft",
-  props: ["offers", "carouselId", "title", "description"],
+  props: ["offers", "carouselId", "title", "description", "text"],
   created:
       function () {
         this.carouselHash = "#"+this.carouselId;

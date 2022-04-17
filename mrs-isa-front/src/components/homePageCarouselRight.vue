@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row" :style="text">
 
 
     <div class="col-6">
@@ -55,7 +55,7 @@
 <script>
 export default {
   name: "homePageCarouselRight",
-  props: ["offers", "title", "description"],
+  props: ["offers", "title", "description", "text"],
   methods: {
     filterOffers(){
       if (this.offers.length > 1){

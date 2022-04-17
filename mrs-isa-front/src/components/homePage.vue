@@ -1,23 +1,27 @@
 <template>
-    <div>
-      <homePageCarouselLeft :offers="cottages" :carouselId="adventureId" :title="cottageTitle" :description="cottageDescription"></homePageCarouselLeft>
+    <div class="px-5">
+      <basic-header></basic-header>
+      <homePageCarouselLeft :text="cottageTextBgColor" :offers="cottages" :carouselId="adventureId" :title="cottageTitle" :description="cottageDescription"></homePageCarouselLeft>
 
-      <homePageCarouselRight :offers="adventures" :title="adventureTitle" :description="adventureDescription"></homePageCarouselRight>
+      <homePageCarouselRight :text="adventureTextBgColor" :offers="adventures" :title="adventureTitle" :description="adventureDescription"></homePageCarouselRight>
 
-      <homePageCarouselLeft :offers="ships" :carousel-id="shipId" :title="shipTitle" :description="shipDescription"></homePageCarouselLeft>
+      <homePageCarouselLeft :text="shipTextBgColor" :offers="ships" :carousel-id="shipId" :title="shipTitle" :description="shipDescription"></homePageCarouselLeft>
     </div>
 </template>
 
 <script>
 import homePageCarouselLeft from "@/components/homePageCarouselLeft";
 import homePageCarouselRight from "@/components/homePageCarouselRight";
+import basicHeader from "@/components/basicHeader";
 export default {
   name: "homePage",
   components: {
     homePageCarouselLeft,
-    homePageCarouselRight
+    homePageCarouselRight,
+    basicHeader
   },data() {
     return {
+      adventureTextBgColor: "background-color: #687864;",
       adventures:[
         {
 
@@ -176,6 +180,7 @@ export default {
       cottageTitle: "Najbolje vikendice",
       cottageDescription: "Mnogo vikendice, najbloji kvalitet,......",
       cottageId: "cottage",
+      cottageTextBgColor: "background-color: #88BBD6;",
       ships: [
         {
           reviewed: false,
@@ -239,6 +244,7 @@ export default {
       shipId: "ship",
       shipTitle: "Najbolji brodovi",
       shipDescription: "Mnogo brodova, najbloji kvalitet,......",
+      shipTextBgColor: "background-color: #31708E;",
     }
   }
 }
