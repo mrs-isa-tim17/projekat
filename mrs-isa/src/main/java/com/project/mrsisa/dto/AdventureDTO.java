@@ -1,16 +1,9 @@
 package com.project.mrsisa.dto;
 
-import java.util.List;
 
-import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Address;
 import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.Calendar;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.ExperienceReview;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
+
 
 public class AdventureDTO {
 	private Long id;
@@ -18,18 +11,23 @@ public class AdventureDTO {
 	private Address address;
 	private String description;
 	private boolean deleted;
-	
-/*	private List<ExperienceReview> experienceReviews;
+/*	
+	private List<ExperienceReview> experienceReviews;
 	private List<AdditionalServices> additionalServices;
 	private List<BehaviorRule> behaviorRules;
 	private List<Image> images;
 	private List<CancelCondition> cancelCondition;
 	private List<Pricelist> pricelists;	
 	private Calendar calendar;
-*/	
 	
-	public AdventureDTO() {
+	*/
+	public AdventureDTO(String name, Address address, String description) {
 		super();
+		this.deleted = false;
+		this.name=name;
+		this.address = address;
+		this.description = description;
+
 	}
 
 	public AdventureDTO(Adventure adventure) {
@@ -48,6 +46,7 @@ public class AdventureDTO {
 		calendar = adventure.getCalendar();	
 		*/
 	}
+	
 	
 	public Long getId() {
 		return id;

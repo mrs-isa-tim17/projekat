@@ -8,9 +8,9 @@
         <div class="card-body">
           <div class="row">
             <div class="col">
-              <a :href=detailAdventure ><h5 align="left" class="card-title"> {{ adventure.name }} </h5></a>
+              <a :href=detailAdventure><h5 align="left" class="card-title"> {{ adventure.name }} </h5></a>
               <p align="left" class="card-text"> {{ adventure.address.place.name }}</p>
-              <p align="left" class="card-text"><small align="left" class="text-muted"> {{ adventure.address.streetName }}
+              <p align="left" class="card-text"><small align="left" class="text-muted"> {{adventure.address.streetName}}
                 {{ adventure.address.serialNumber }} </small></p>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToDetailAdventure"> Detalji</button>
               <button class="btn btn-secondary  btn-sm  me-md-2"> Obriši</button>
@@ -33,19 +33,34 @@ export default {
   name: "simple-adventure",
   components: {},
   props: ['adventure', 'path'],
-  methods:{
-    goToDetailAdventure(){
-      console.log('/'+this.adventure.id);
-      this.$router.push({name:'http://localhost:8081/instructor/adventure/detailed', params: {adventure: [this.adventure]}});
+  methods: {
+
+    goToDetailAdventure() {
+      console.log(this.adventure.id);
+      this.$router.push('/adventures/detail/'+this.adventure.id);
+    /*  this.$router.push({
+        name: 'adventureForFishingInstructor',
+        params: this.adventure.id
+*/
+         /*   name: this.adventure.name,
+            address:this.adventure.address,
+            description: this.adventure.description,
+            images: this.adventure.images,
+            priceList: this.adventure.priceList,
+            behavioralRule: this.adventure.behavioralRule,
+            cancelCondition: this.adventure.cancelCondition,
+            additionalServices: this.adventure.additionalServices,
+            instructorBiography: this.adventure.instructorBiography,
+            capacity: this.adventure.capacity,
+            fishingEquipment: this.adventure.fishingEquipment,
+            averageRaiting: this.adventure.averageRaiting,
+            experienceReview: this.adventure.experienceReview
+        }
+
+      }) */
     }
 
   }
-,
- /* data() {
-    return {
-      detailAdventure: "http://localhost:8081/instructor/adventures/detail"
-    }
-  }*/
 }
 </script>
 
