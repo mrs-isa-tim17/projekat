@@ -5,12 +5,12 @@
     <div class="row">
       <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #778899;">
         <div>
-          <disabledInputField :label="numLoyaltyPointsLabel" :info="client.numLoyaltyPoints"> </disabledInputField>
-          <disabledInputField :label="userCategoryLabel" :info="client.userCategory"> </disabledInputField>
+          <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
+          <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
           <label>Pogodnosti</label>
-          <textarea disabled class="my-4" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" v-text="client.benefits"/>
+          <textarea disabled class="my-4" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" v-text="benefits"/>
 
-          <disabledInputField :label="numPenaltiesLabel" :info="client.numPenalties"> </disabledInputField>
+          <disabledInputField :label="numPenaltiesLabel" :info="client.penaltyNumber"> </disabledInputField>
         </div>
       </div>
 
@@ -100,20 +100,39 @@
 <script>
 import clientHeader from "@/components/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
-//import ClientServce from "@/servieces/ClientServce";
+import ClientServce from "@/servieces/ClientServce";
 export default {
   name: "client-profile-change",
   components: {
     clientHeader,
-    disabledInputField
+    disabledInputField,
   },
   created:
       function () {
-        //this.getClient();
-        //ClientServce.getClient().then((response) => {
-        //  this.client = response.data;
-        //  console.log(this.client)
-        //})
+        ClientServce.getClient()
+            .then((response) => {
+              console.log(response);
+              this.client = response.data.client;
+            })
+            .catch(function (error) {
+              console.log(error.toJSON());
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            });
       }
   ,
   methods: {
@@ -176,8 +195,10 @@ export default {
 
   }
   ,mounted() {
+
     this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password, this.client.country,
       this.client.city, this.client.address];
+
   },
   data() {
     return {
@@ -199,6 +220,20 @@ export default {
       addressLabel: "Adresa*",
 
       client: {}
+      /*
+        numLoyaltyPoints: "",
+        userCategory: "",
+        benefits: "",
+        numPenalties: "",
+        name: "",
+        surname: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        country: "",
+        city: "",
+        address: ""
+      }
       /*
         numLoyaltyPoints: 20,
         userCategory: "REGULAR",
