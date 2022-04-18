@@ -15,6 +15,7 @@ const router = createRouter({
             name: 'adventureForFishingInstructor',
             component: () => import("./components/adventureForFishingInstructor"),
         },
+        { path: '/instructor/home', component: ()=> import("./components/instructorHomePage")},
     ]
 });
 
