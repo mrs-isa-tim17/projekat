@@ -8,5 +8,4 @@ import 'jquery/src/jquery';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './assets/basicCSS.css'
 
-
 createApp(App).use(router).mount('#app');
