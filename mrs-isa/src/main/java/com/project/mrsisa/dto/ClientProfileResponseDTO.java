@@ -16,10 +16,10 @@ public class ClientProfileResponseDTO {
     private String city;
     private String country;
     private String address;
+    private String serialNumber;
     
     
-    
-    public ClientProfileResponseDTO() {
+	public ClientProfileResponseDTO() {
 		super();
 	}
 
@@ -36,6 +36,7 @@ public class ClientProfileResponseDTO {
         this.city = client.getAddress().getPlace().getPlaceName();
         this.country = client.getAddress().getPlace().getCountry();
         this.address = client.getAddress().getStreetName();
+        this.serialNumber = client.getAddress().getSerialNumber();
     }
 
     public ClientProfileResponseDTO(String name, String surname, String email, String password, String phoneNumber, UserType userType, int loyaltyPoints, int penaltyNumber, String benefits, String city, String country, String address) {
@@ -149,5 +150,14 @@ public class ClientProfileResponseDTO {
         this.benefits = benefits;
     }
 	
-	
+
+    
+    public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
 }

@@ -50,5 +50,15 @@ public class Place {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public Place(int postNumber, String placeName, String country) {
+		super();
+		this.postNumber = postNumber;
+		this.placeName = placeName;
+		this.country = country;
+	}
+	public Place() {
+		super();
+	}
 
+	
 }

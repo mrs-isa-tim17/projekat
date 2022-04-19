@@ -8,8 +8,9 @@
           <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
           <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
           <label>Pogodnosti</label>
-          <textarea disabled class="my-4" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" v-text="benefits"/>
+          <textarea disabled class="my-4 text-center" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" :value="client.benefits">
 
+          </textarea>
           <disabledInputField :label="numPenaltiesLabel" :info="client.penaltyNumber"> </disabledInputField>
         </div>
       </div>
@@ -80,9 +81,13 @@
               <input type="text" ref="input" v-model="client.address" size="25" required>
               <p v-if="this.client.address == ''" style="color: red;"> Adresa mora da postoji</p>
             </div>
-            <br>
-            <br>
-            <br>
+
+            <div class="p-2">
+              <label >{{addressSerialNumberLabel}}</label>
+              <br>
+              <input type="text" ref="input" v-model="client.serialNumber" size="25" required>
+              <p v-if="this.client.serialNumber == ''" style="color: red;"> Kućni broj mora da postoji</p>
+            </div>
             <br>
             <br>
             <br>
@@ -109,10 +114,11 @@ export default {
   },
   created:
       function () {
-        ClientServce.getClient()
+        this.clientID = this.$route.params.id;
+        ClientServce.getClient(this.clientID)
             .then((response) => {
               console.log(response);
-              this.client = response.data.client;
+              this.client = response.data;
             })
             .catch(function (error) {
               console.log(error.toJSON());
@@ -168,7 +174,16 @@ export default {
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
       }
+      else if (this.client.serialNumber == ""){
+        this.message = this.errorMessage;
+        document.getElementById("emptyError").style.color = "red";
+        document.getElementById("emptyError").style.visibility = "visible";
+      }
       else{
+        ClientServce.updateClient(this.clientID, this.client)
+            .then("Success");
+        //this.client.name, this.client.surname, this.client.password,
+        //this.client.phoneNumber, this.client.city, this.client.country, this.client.address
         //axios
         this.message = this.successMessage;
         document.getElementById("emptyError").style.color = "green";
@@ -180,6 +195,7 @@ export default {
         this.backup[4] = this.client.country;
         this.backup[5] = this.client.city;
         this.backup[6] = this.client.address;
+        this.backup[7] = this.client.serialNumber;
       }
 
     },cancel(){
@@ -190,6 +206,7 @@ export default {
       this.client.country = this.backup[4];
       this.client.city = this.backup[5];
       this.client.address = this.backup[6];
+      this.client.serialNumber = this.backup[7];
       document.getElementById("emptyError").style.visibility = "hidden";
     },
 
@@ -218,36 +235,9 @@ export default {
       countryLabel: "Država*",
       cityLabel: "Grad*",
       addressLabel: "Adresa*",
+      addressSerialNumberLabel: "Kućni broj*",
 
       client: {}
-      /*
-        numLoyaltyPoints: "",
-        userCategory: "",
-        benefits: "",
-        numPenalties: "",
-        name: "",
-        surname: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        country: "",
-        city: "",
-        address: ""
-      }
-      /*
-        numLoyaltyPoints: 20,
-        userCategory: "REGULAR",
-        benefits: "Kao svaki registrovani korisnik ima mogućnost rezervisanje ponuđenih entiteta",
-        numPenalties: 1,
-        name: "Milan",
-        surname: "Milanovic",
-        email: "milan.milanovic@example.com",
-        phoneNumber: "+381256",
-        password: "",
-        country: "Serbia",
-        city: "Novi Sad",
-        address: "Cirila i Metodija 11"
-      }*/
 
     }
   }
