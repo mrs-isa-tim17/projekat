@@ -21,18 +21,9 @@ public class Address {
 	@Column(name="serialNumber")
 	private String serialNumber;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)///
 	private Place place;
-	
-	@OneToOne(mappedBy = "address")
-	private Offer offer;
-	
-	@OneToOne(mappedBy = "address")
-	private SaleAppointment saleAppointment;
-	
-	@OneToOne(mappedBy = "address")
-	private User user;
-	
+
 	public String getStreetName() {
 		return streetName;
 	}
@@ -65,30 +56,5 @@ public class Address {
 		this.id = id;
 	}
 
-	public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
-
-	public SaleAppointment getSaleAppointment() {
-		return saleAppointment;
-	}
-
-	public void setSaleAppointment(SaleAppointment saleAppointment) {
-		this.saleAppointment = saleAppointment;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	
 	
 }

@@ -19,14 +19,14 @@ public class Complaint {
 	@Column(nullable=false)
 	private String text;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clientId")
 	private Client client;
 	
 	@Enumerated
 	private ProcessingStatus status;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	

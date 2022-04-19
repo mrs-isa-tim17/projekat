@@ -1,8 +1,9 @@
 package com.project.mrsisa.dto;
 
+import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.UserType;
 
-public class ClientDTO {
+public class ClientProfileResponseDTO {
 	private String name;
     private String surname;
     private String email;
@@ -15,8 +16,29 @@ public class ClientDTO {
     private String city;
     private String country;
     private String address;
+    
+    
+    
+    public ClientProfileResponseDTO() {
+		super();
+	}
 
-    public ClientDTO(String name, String surname, String email, String password, String phoneNumber, UserType userType, int loyaltyPoints, int penaltyNumber, String benefits, String city, String country, String address) {
+	public ClientProfileResponseDTO(Client client, int discount) {
+    	this.name = client.getName();
+        this.surname = client.getSurname();
+        this.email = client.getEmail();
+        this.password = "";
+        this.phoneNumber = client.getPhoneNumber();
+        this.userType = client.getUserType();
+        this.loyaltyPoints = client.getLoyaltyPoints();
+        this.penaltyNumber = client.getLoyaltyPoints();
+        this.benefits = "Imate pravo za popust od " + discount;
+        this.city = client.getAddress().getPlace().getPlaceName();
+        this.country = client.getAddress().getPlace().getCountry();
+        this.address = client.getAddress().getStreetName();
+    }
+
+    public ClientProfileResponseDTO(String name, String surname, String email, String password, String phoneNumber, UserType userType, int loyaltyPoints, int penaltyNumber, String benefits, String city, String country, String address) {
         this.name = name;
         this.surname = surname;
         this.email = email;
