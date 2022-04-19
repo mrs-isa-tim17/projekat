@@ -6,8 +6,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Address {
@@ -21,17 +26,18 @@ public class Address {
 	@Column(name="serialNumber")
 	private String serialNumber;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+
 	private Place place;
 	
-	@OneToOne(mappedBy = "address")
-	private Offer offer;
+	/*@OneToOne(mappedBy = "address")
+	private Offer offer;*/
 	
-	@OneToOne(mappedBy = "address")
-	private SaleAppointment saleAppointment;
+	/*@OneToOne(mappedBy = "address")
+	private SaleAppointment saleAppointment;*/
 	
-	@OneToOne(mappedBy = "address")
-	private User user;
+	
 	
 	public String getStreetName() {
 		return streetName;
@@ -65,29 +71,29 @@ public class Address {
 		this.id = id;
 	}
 
-	public Offer getOffer() {
+	/*public Offer getOffer() {
 		return offer;
 	}
 
 	public void setOffer(Offer offer) {
 		this.offer = offer;
-	}
+	}*/
 
-	public SaleAppointment getSaleAppointment() {
+	/*public SaleAppointment getSaleAppointment() {
 		return saleAppointment;
 	}
 
 	public void setSaleAppointment(SaleAppointment saleAppointment) {
 		this.saleAppointment = saleAppointment;
-	}
+	}*/
 
-	public User getUser() {
+	/*public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
+	}*/
 	
 	
 	

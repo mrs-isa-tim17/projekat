@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Place {
 	@Id
@@ -27,6 +30,7 @@ public class Place {
 	private String country;
 	
 	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
 	private List<Address> addresses;
 	
 	public int getPostNumber() {
