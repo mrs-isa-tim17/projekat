@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.dto.CottageDTO;
+import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
+import com.project.mrsisa.dto.cottage.FindCottageDTO;
 import com.project.mrsisa.service.CottageService;
 @RestController
 @RequestMapping(value = "/api/cottages")
@@ -28,29 +30,29 @@ public class CottageController {
 	private CottageService cottageService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<CottageDTO> saveCottage(@RequestBody CottageDTO cottageDTO) {
+	public ResponseEntity<CreateUpdateCottageDTO> saveCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
 
 		Cottage cottage = new Cottage();
 		cottage.setId(cottageDTO.getId());
-		cottage.setAddress(cottageDTO.getAddress());
-		cottage.setOwner(cottageDTO.getOwner());
+		//cottage.setAddress(cottageDTO.getAddress());
+		//cottage.setOwner(cottageDTO.getOwner());
 		cottage.setBedQuantity(cottageDTO.getBedQuantity());
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
 		cottage.setDeleted(cottageDTO.isDeleted());
 
 		cottage = cottageService.save(cottage);
-		return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.CREATED);
+		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.CREATED);
 	}
 	
 	@CrossOrigin(origins="http://localhost:8080")
 	@GetMapping(value="/all")
-	public ResponseEntity<List<CottageDTO>> getAllCottages() {
+	public ResponseEntity<List<FindCottageDTO>> getAllCottages() {
 
 		List<Cottage> cottages = cottageService.findAll();
-		List<CottageDTO> cottageDTO = new ArrayList<>();
+		List<FindCottageDTO> cottageDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
-			cottageDTO.add(new CottageDTO(c));
+			cottageDTO.add(new FindCottageDTO(c));
 		}
 
 		return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
@@ -82,7 +84,7 @@ public class CottageController {
 	}
 	
 	@PutMapping(consumes = "application/json",value="/update")
-	public ResponseEntity<CottageDTO> updateCottage(@RequestBody CottageDTO cottageDTO) {
+	public ResponseEntity<CreateUpdateCottageDTO> updateCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
 
 		// a student must exist
 		Cottage cottage = cottageService.findOne(cottageDTO.getId());
@@ -91,8 +93,8 @@ public class CottageController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		cottage.setId(cottageDTO.getId());
-		cottage.setAddress(cottageDTO.getAddress());
-		cottage.setOwner(cottageDTO.getOwner());
+		//cottage.setAddress(cottageDTO.getAddress());
+		//cottage.setOwner(cottageDTO.getOwner());
 		cottage.setBedQuantity(cottageDTO.getBedQuantity());
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
@@ -100,7 +102,7 @@ public class CottageController {
 	
 
 		cottage = cottageService.save(cottage);
-		return new ResponseEntity<>(new CottageDTO(cottage), HttpStatus.OK);
+		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.OK);
 	}
 	
 	

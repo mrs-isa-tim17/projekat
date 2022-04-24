@@ -22,7 +22,7 @@
         <label>Cena</label><br>
         <input id="price" name="price" type="text"><br>
         <br>
-        <button id="addOffer">Dodaj</button>
+        <button id="addOffer" v-on:click="addOffer" >Dodaj</button>
       </div>
 
       <div id="tableOffers">
@@ -59,11 +59,11 @@
       <div id="dataForm">
         <p> Izaberite ponudu koju želite da izmenite</p>
         <label>Naziv</label><br>
-        <input id="name" name="name" type="text" v-model="selectedOffer.name" v-bind:disabled="mode=='BROWSE'" > <br>
+        <input id="name" name="name" type="text" ><br>
         <label>Adresa</label><br>
-        <input id="address" name="address" type="text"  v-model="selectedOffer.address" v-bind:disabled="mode=='BROWSE'" > <br>
+        <input id="address" name="address" type="text"   > <br>
         <label>Opis</label><br>
-        <input id="description" name="description" type="text"  v-model="selectedOffer.description" v-bind:disabled="mode=='BROWSE'" > <br>
+        <input id="description" name="description" type="text"  > <br>
         <label>Broj soba</label><br>
         <input id="roomsNumber" name="roomsNumber" type="text" ><br>
         <label>Pravila ponašanja</label><br>
@@ -88,11 +88,12 @@
             <th>Cena</th>
           </tr>
 
-          <tr v-for="o in allOffers" :key="o" v-on:click="selectOffer(o)" v-bind:class="{selected : selectedOffer.name===s.name}">
-            <td>1</td>
-            <td>pera</td>
-            <td>misa</td>
-            <td><button>Pogledaj</button></td>
+          <tr v-for="o in allOffers" :key="o">
+            <td>{{o.id}}</td>
+            <td>{{o.name}}</td>
+            <td>{{o.addressSerialNumber}}</td>
+            <CAlert color="primary" :visible="liveExampleVisible" dismissible @close="() => { liveExampleVisible = false }">{{o.description}}</CAlert>
+            <td><button click="()=>{liveExampleVisible=true}">Pogledaj</button></td>
             <td>{{o.roomQuantity}}</td>
             <td><button>Pogledaj</button></td>
             <td><button>Pogledaj</button></td>
@@ -143,6 +144,7 @@
 <script>
 import axios from "axios";
 
+
 export default {
   name: "managment-owner",
   data() {
@@ -173,6 +175,16 @@ export default {
       axios
           .post("api/cottages/update", offer)
       this.mode = 'BROWSE';
+    },
+    addOffer: function (){
+      var Cottage = new Cottage();
+      Cottage.name = this.offer.name;
+      Cottage.description = this.offer.description;
+      Cottage.address = this.offer.address;
+      Cottage.roomQuantity = this.offer.roomQuantity;
+      Cottage.behavior = this.offer.behavior;
+      Cottage.price = this.offer.price;
+
     }
 
   }
