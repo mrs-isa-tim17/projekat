@@ -7,6 +7,7 @@ const router = createRouter({
         { path: '/client/home', component: () => import("./components/clientHomePage.vue")},
         { path: '/client/profile', component: () => import("./components/clientProfileChange.vue")},
         { path: '/client/history/:type', component: () => import("./components/clientReservationHistory.vue")},
+        { path: '/login', component: () => import("./components/login.vue")},
     ]
 });
 
