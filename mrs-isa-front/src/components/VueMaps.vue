@@ -41,13 +41,11 @@ export default {
   name: "open-maps",
   props: ['lon', 'lat'],
   methods:{
-    registerClick(event){
-      //console.log("coordinates: " + this.map.getCoordinateFromPixel([e.clientX, e.clientY]));
+    registerClick(event) {
       let lonlat = this.map.getCoordinateFromPixel(event.pixel);
       this.center = lonlat;
       this.coordinate = lonlat;
       this.$emit('coordinate-changed', lonlat[0], lonlat[1]);
-      //console.log(event.mapBrowserEvent.coordinate);
     },
     zoomChanged(currentZoom) {
       this.currentZoom = currentZoom;
