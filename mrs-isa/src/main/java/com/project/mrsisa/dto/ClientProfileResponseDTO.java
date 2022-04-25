@@ -13,10 +13,8 @@ public class ClientProfileResponseDTO {
     private int loyaltyPoints;
     private int penaltyNumber;
     private String benefits;
-    private String city;
-    private String country;
-    private String address;
-    private String serialNumber;
+    private double longitude;
+    private double latitude;
     
     
 	public ClientProfileResponseDTO() {
@@ -33,50 +31,10 @@ public class ClientProfileResponseDTO {
         this.loyaltyPoints = client.getLoyaltyPoints();
         this.penaltyNumber = client.getLoyaltyPoints();
         this.benefits = "Imate pravo za popust od " + discount;
-        this.city = client.getAddress().getPlace().getPlaceName();
-        this.country = client.getAddress().getPlace().getCountry();
-        this.address = client.getAddress().getStreetName();
-        this.serialNumber = client.getAddress().getSerialNumber();
+        this.longitude = client.getAddress().getLongitude();
+        this.latitude = client.getAddress().getLatitude();
     }
 
-    public ClientProfileResponseDTO(String name, String surname, String email, String password, String phoneNumber, UserType userType, int loyaltyPoints, int penaltyNumber, String benefits, String city, String country, String address) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.userType = userType;
-        this.loyaltyPoints = loyaltyPoints;
-        this.penaltyNumber = penaltyNumber;
-        this.benefits = benefits;
-        this.city = city;
-        this.country = country;
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public int getPenaltyNumber() {
         return penaltyNumber;
@@ -149,15 +107,20 @@ public class ClientProfileResponseDTO {
     public void setBenefits(String benefits) {
         this.benefits = benefits;
     }
-	
 
-    
-    public String getSerialNumber() {
-		return serialNumber;
-	}
+    public double getLongitude() {
+        return longitude;
+    }
 
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 }

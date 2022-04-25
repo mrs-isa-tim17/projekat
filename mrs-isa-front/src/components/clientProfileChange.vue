@@ -3,7 +3,7 @@
 
     <clientHeader></clientHeader>
     <div class="row">
-      <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #778899;">
+      <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
           <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
           <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
@@ -16,7 +16,7 @@
       </div>
 
       <div class="col-8 d-flex justify-content-center" style="border-style: solid; border-width: medium;
-                                                background-color: #B0C4DE;">
+                                                background-color: #88BBD6;">
         <div class="row d-flex justify-content-center" style="">
           <div class="col-4 d-flex justify-content-center">
             <div>
@@ -54,16 +54,18 @@
                 <br>
                 <input type="password" ref="input" v-model="client.password" size="25">
               </div>
+              <label id="emptyError" style="color: red; visibility: hidden; margin-top: 60px"> {{message}}</label>
             </div>
           </div>
         </div>
         <div class="col-4 d-flex justify-content-right">
           <div>
 
-            <openLayers style="width: 300px; height: 400px; visibility: visible"></openLayers>
-            <label id="emptyError" style="color: red; visibility: hidden;"> {{message}}</label>
-            <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
-            <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
+            <openLayers :lon="client.longitude" :lat="client.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 380px; visibility: visible"></openLayers>
+            <div style="margin-top: 20px;">
+              <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
+              <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
+            </div>
           </div>
         </div>
 
@@ -114,7 +116,11 @@ export default {
       }
   ,
   methods: {
-
+    updateCoordinats(lon, lat){
+      this.client.longitude = lon;
+      this.client.latitude = lat;
+      console.log(lon, lat)
+    },
     applyChanges(){
       if (this.client.name == "" || this.client.name[0] == this.client.name[0].toLowerCase()){
         this.message = this.errorMessage;
@@ -127,26 +133,6 @@ export default {
         document.getElementById("emptyError").style.visibility = "visible";
       }
       else if (this.client.phoneNumber == ""){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.country == "" || this.client.country[0] == this.client.country[0].toLowerCase()){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.city == "" || this.client.city[0] == this.client.city[0].toLowerCase()){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.address == ""){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.serialNumber == ""){
         this.message = this.errorMessage;
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
@@ -164,10 +150,8 @@ export default {
         this.backup[1] = this.client.surname;
         this.backup[2] = this.client.phoneNumber;
         this.backup[3] = this.client.password;
-        this.backup[4] = this.client.country;
-        this.backup[5] = this.client.city;
-        this.backup[6] = this.client.address;
-        this.backup[7] = this.client.serialNumber;
+        this.backup[4] = this.client.longitude;
+        this.backup[5] = this.client.latitude;
       }
 
     },cancel(){
@@ -175,18 +159,16 @@ export default {
       this.client.surname = this.backup[1];
       this.client.phoneNumber = this.backup[2];
       this.client.password = this.backup[3];
-      this.client.country = this.backup[4];
-      this.client.city = this.backup[5];
-      this.client.address = this.backup[6];
-      this.client.serialNumber = this.backup[7];
+      this.client.longitude = this.backup[4];
+      this.client.latitude = this.backup[5];
       document.getElementById("emptyError").style.visibility = "hidden";
     },
 
   }
   ,mounted() {
 
-    this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password, this.client.country,
-      this.client.city, this.client.address];
+    this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password,
+      this.client.country, this.client.longitude, this.client.latitude];
 
   },
   data() {
@@ -219,10 +201,8 @@ export default {
         loyaltyPoints: "",
         penaltyNumber: "",
         benefits: "",
-        city: "",
-        country: "",
-        address: "",
-        serialNumber: "",
+        longitude: "",
+        latitude: ""
       }
 
     }

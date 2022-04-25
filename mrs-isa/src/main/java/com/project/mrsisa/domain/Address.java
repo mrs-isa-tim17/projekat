@@ -14,38 +14,27 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="streetName")
-	private String streetName;
-	
-	@Column(name="serialNumber")
-	private String serialNumber;
-	
-	@ManyToOne(fetch = FetchType.EAGER)///
-	private Place place;
 
-	public String getStreetName() {
-		return streetName;
+	@Column(name="longitude")
+	private double longitude;
+
+	@Column(name="latitude")
+	private double latitude;
+
+	public double getLongitude() {
+		return longitude;
 	}
-	
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
-	
-	public String getSerialNumber() {
-		return serialNumber;
+
+	public double getLatitude() {
+		return latitude;
 	}
-	
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	
-	public Place getPlace() {
-		return place;
-	}
-	
-	public void setPlace(Place place) {
-		this.place = place;
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Long getId() {

@@ -39,11 +39,14 @@ import {inject, ref} from 'vue'
 //https://vue3openlayers.netlify.app/
 export default {
   name: "open-maps",
+  props: ['lon', 'lat'],
   methods:{
     registerClick(event){
       //console.log("coordinates: " + this.map.getCoordinateFromPixel([e.clientX, e.clientY]));
-      this.center = this.map.getCoordinateFromPixel(event.pixel);
-      this.coordinate = this.map.getCoordinateFromPixel(event.pixel);
+      let lonlat = this.map.getCoordinateFromPixel(event.pixel);
+      this.center = lonlat;
+      this.coordinate = lonlat;
+      this.$emit('coordinate-changed', lonlat[0], lonlat[1]);
       //console.log(event.mapBrowserEvent.coordinate);
     },
     zoomChanged(currentZoom) {
@@ -53,8 +56,12 @@ export default {
       this.currentCenter = center;
     },
   },
+  mounted() {
+    this.center = [this.lon, this.lat];
+    this.coordinate = [this.lon, this.lat];
+  },
   setup() {
-    const center = ref([25, 48]);
+    const center = ref([0,0]);
     const projection = ref('EPSG:4326');
     const zoom = ref(8);
     const rotation = ref(0);
@@ -64,7 +71,7 @@ export default {
     const strokeWidth = ref(10)
     const strokeColor = ref('red')
     const fillColor = ref('white')
-    const coordinate = ref([25, 48])
+    const coordinate = ref([0,0])
 
     const pointer = require("@/assets/pin.png");
 
@@ -96,10 +103,6 @@ export default {
     return {
       currentCenter: this.center,
       currentZoom: this.zoom,
-      //zoom: 2,
-      //center: [0, 0],
-      //rotation: 0,
-      //geolocPosition: undefined,
     }
   },
 }

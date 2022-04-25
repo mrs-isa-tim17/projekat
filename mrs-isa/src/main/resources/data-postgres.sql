@@ -1,8 +1,7 @@
-
-insert into place (country, place_name, post_number) values ('Serbia', 'Novi Sad', 21000);
-
-insert into address (serial_number, street_name, place_id) values
-	('11B', 'Jovan Jovanovic Zmaj Street', 1);
+insert into address (longitude, latitude) values
+	(28, 45);
+insert into address (longitude, latitude) values
+	(70, 80);
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, is_authenticated, penalty_number, address_id) values 
@@ -11,7 +10,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, is_authenticated, penalty_number, address_id) values 
 	('CL', nextval('user_seq'), false, 'jovan555665@example.com', 20, 'Jovan', '123',
-	'+46546541', 'Mikovic', 1, true, 0,1);
+	'+46546541', 'Mikovic', 1, true, 0,2);
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, is_authenticated, penalty_number, address_id) values 
 	('CL', nextval('user_seq'), false, 'will.smith@example.com', 1, 'Will', 'thenbr1',
@@ -19,7 +18,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, is_authenticated, penalty_number, address_id) values 
 	('CL', nextval('user_seq'), false, 'herkules@example.com', 0, 'Herkules', 'hohohoho',
-	'+11296', 'Hades', 2, false, 0, 1);
+	'+11296', 'Hades', 2, false, 0, 2);
 	
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, address_id) values 
