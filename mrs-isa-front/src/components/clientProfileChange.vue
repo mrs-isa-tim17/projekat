@@ -57,40 +57,10 @@
             </div>
           </div>
         </div>
-        <div class="col-4 d-flex justify-content-center">
+        <div class="col-4 d-flex justify-content-right">
           <div>
-            <div class="p-2">
-              <label >{{countryLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.country" size="25" required>
-              <p v-if="this.client.country == ''" style="color: red;"> Država mora da postoji</p>
-              <p v-if="this.client.country[0] == this.client.country[0].toLowerCase()" style="color: red;"> Država mora da počinje velikom slovom </p>
-            </div>
 
-            <div class="p-2">
-              <label >{{cityLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.city" size="25" required>
-              <p v-if="this.client.city == ''" style="color: red;"> Grad mora da postoji</p>
-              <p v-if="this.client.city[0] == this.client.city[0].toLowerCase()" style="color: red;"> Grad mora da počinje velikom slovom </p>
-            </div>
-
-            <div class="p-2">
-              <label >{{addressLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.address" size="25" required>
-              <p v-if="this.client.address == ''" style="color: red;"> Adresa mora da postoji</p>
-            </div>
-
-            <div class="p-2">
-              <label >{{addressSerialNumberLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.serialNumber" size="25" required>
-              <p v-if="this.client.serialNumber == ''" style="color: red;"> Kućni broj mora da postoji</p>
-            </div>
-            <br>
-            <br>
-            <br>
+            <openLayers style="width: 300px; height: 400px; visibility: visible"></openLayers>
             <label id="emptyError" style="color: red; visibility: hidden;"> {{message}}</label>
             <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
             <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
@@ -106,11 +76,13 @@
 import clientHeader from "@/components/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
 import ClientServce from "@/servieces/ClientServce";
+import vueOpenLayerMap from "@/components/VueMaps";
 export default {
   name: "client-profile-change",
   components: {
     clientHeader,
     disabledInputField,
+    openLayers: vueOpenLayerMap
   },
   created:
       function () {
@@ -237,7 +209,21 @@ export default {
       addressLabel: "Adresa*",
       addressSerialNumberLabel: "Kućni broj*",
 
-      client: {}
+      client: {
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        userType: "",
+        loyaltyPoints: "",
+        penaltyNumber: "",
+        benefits: "",
+        city: "",
+        country: "",
+        address: "",
+        serialNumber: "",
+      }
 
     }
   }
