@@ -18,6 +18,7 @@
     "vee-validate": "^4.5.11",
     "vue": "^3.2.13",
     "vue-router": "^4.0.14",
+    "vuelidate": "^0.7.7",
     "yup": "^0.32.11"
   },
   "devDependencies": {

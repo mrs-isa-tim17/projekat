@@ -2,12 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3970fd31-e2da-46fd-9121-b98e62195793" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/login.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vuetify.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registerUser.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/AddressField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/CityField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/CountryField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/EmailField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/LastNameField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/NameField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/PasswordAgainField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/PasswordField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/registration_components/PhoneField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/validations/useFormValidation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/validations/useSubmitButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/validations/validators.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/basicCSS.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/basicCSS.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +30,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -71,7 +83,9 @@
       <workItem from="1650804675508" duration="1272000" />
       <workItem from="1650808750871" duration="23000" />
       <workItem from="1650808878924" duration="4028000" />
-      <workItem from="1650890950962" duration="6692000" />
+      <workItem from="1650890950962" duration="7167000" />
+      <workItem from="1650900738814" duration="111000" />
+      <workItem from="1650963388758" duration="16211000" />
     </task>
     <servers />
   </component>
