@@ -25,7 +25,7 @@ public class UserService {
     private RoleService roleService;
 
     public User findByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmailEquals(email);
     }
 
     public User findById(Long id) throws AccessDeniedException {

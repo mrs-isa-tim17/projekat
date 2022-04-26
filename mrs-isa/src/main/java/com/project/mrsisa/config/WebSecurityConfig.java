@@ -55,10 +55,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // all users can get to the following urls:
-                .authorizeRequests().antMatchers("/book/site/**").permitAll()		// login + registration + basic pages
+                .authorizeRequests().antMatchers("/book/site/*").permitAll()		// login + registration + basic pages
                 .antMatchers("/api/foo").permitAll()
                 //for all of other urls have to be authenticated
                 .anyRequest().authenticated().and()
+
                 // for development turn on configuration for from WebConfig class
                 .cors().and()
                 //add costum filter
