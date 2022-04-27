@@ -46,6 +46,8 @@ public class AuthenticationController {
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
+		//handle if email already exists
+
 		// valid credentials
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -58,4 +60,17 @@ public class AuthenticationController {
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
+	@PostMapping("/signup")
+	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+
+		User existUser = this.userService.findByUsername(userRequest.getEmail());
+
+		if (existUser != null) {
+			throw new ResourceConflictException(userRequest.getEmail(), "Email already exists");
+		}
+
+		User user = this.userService.save(userRequest);
+
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
 }

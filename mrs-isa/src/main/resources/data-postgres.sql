@@ -1,19 +1,5 @@
-
-insert into place (country, place_name, post_number) values ('Serbia', 'Novi Sad', 21000);
-
-insert into address (serial_number, street_name, place_id) values
-	('11B', 'Jovan Jovanovic Zmaj Street', 1);
-
-	--123
-insert into users (type, id, deleted, email, loyalty_points, name, password,
-	phonenumber,  surname, user_type, address_id, last_password_reset_date) values
-	('CO', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07');
-	--123
-insert into users (type, id, deleted, email, loyalty_points, name, password,
-	phonenumber, surname, user_type, address_id,last_password_reset_date) values
-	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 1, '2017-10-01 18:57:58.508-07');
+insert into address (longitude, latitude) values
+	(28, 48);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -21,8 +7,16 @@ INSERT INTO ROLE (name) VALUES ('ROLE_COTTAGE_OWNER');
 INSERT INTO ROLE (name) VALUES ('ROLE_SHIP_OWNER');
 INSERT INTO ROLE (name) VALUES ('ROLE_FISHINSTRUCTOR');
 
-INSERT INTO USER_ROLE (user_id, role_id) VALUES (1, 1);
-INSERT INTO USER_ROLE (user_id, role_id) VALUES (2, 1);
+	--123
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id) values
+	('CO', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07', 3);
+	--123
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id) values
+	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milanovic', 0, 1, '2017-10-01 18:57:58.508-07',5);
 
 
 insert into calendar (id) values (1);

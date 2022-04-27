@@ -9,6 +9,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -51,23 +52,24 @@ public class User implements UserDetails {
 	
 	@Column(nullable=false)
 	protected int loyaltyPoints;
-	
-	@OneToOne(mappedBy = "userRef")
+
+	@JsonIgnore
+	@OneToOne(mappedBy = "userRef", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	protected RegistrationRequest registrationRequest;
-	
-	@OneToOne(mappedBy = "userRef")
+
+	@JsonIgnore
+	@OneToOne(mappedBy = "userRef", fetch = FetchType.LAZY)
 	protected DeleteRequest deleteRequest;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role",
-			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private List<Role> roles;
-
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "roleId", referencedColumnName = "id")
+	private Role roles;
 
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
-	
+
+	public void setRoleId(long id) {roles = new Role(); roles.setId(id);}
+	public Long getRoleId() { return roles.getId();}
 	public String getName() {
 		return name;
 	}
@@ -143,9 +145,9 @@ public class User implements UserDetails {
 	public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
-	public void setRoles(List<Role> roles) {this.roles = roles;}
+	public void setRoles(Role roles) {this.roles = roles;}
 
-	public List<Role> getRoles() {
+	public Role getRoles() {
 		return roles;
 	}
 
@@ -159,7 +161,9 @@ public class User implements UserDetails {
 	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
+		List<GrantedAuthority> ga = new ArrayList<GrantedAuthority>();
+		ga.add(this.roles);
+		return ga;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,10 @@ public class ShipOwner extends User {
 
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Ship> ships;
+
+	public ShipOwner() {
+		ships = new ArrayList<Ship>();
+	}
 
 	public List<Ship> getShips() {
 		return Collections.unmodifiableList(ships);

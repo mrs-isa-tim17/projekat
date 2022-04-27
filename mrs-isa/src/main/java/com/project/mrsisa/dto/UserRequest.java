@@ -1,26 +1,62 @@
 package com.project.mrsisa.dto;
 
+import com.project.mrsisa.domain.Role;
+
 // DTO koji preuzima podatke iz HTML forme za registraciju
 public class UserRequest {
 
-	private Long id;
+	//private Long id;
 
-	private String username;
+	//private String username;
 
 	private String password;
 
-	private String firstname;
+	private String name;
 
-	private String lastname;
+	private String surname;
 	
 	private String email;
 
-	public String getUsername() {
-		return username;
+	private double longitude;
+
+	private double latitude;
+
+	private String phoneNumber;
+	//userType = regular
+	//deleted = false
+	//loyaltyPoints = 0
+	private Long userRole;
+
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public Long getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(Long userRole) {
+		this.userRole = userRole;
 	}
 
 	public String getPassword() {
@@ -31,28 +67,20 @@ public class UserRequest {
 		this.password = password;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getEmail() {

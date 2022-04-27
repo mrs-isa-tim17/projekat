@@ -4,18 +4,18 @@ package com.project.mrsisa.exception;
 public class ResourceConflictException extends RuntimeException {
 	private static final long serialVersionUID = 1791564636123821405L;
 
-	private Long resourceId;
+	private String resourceId;
 
-	public ResourceConflictException(Long resourceId, String message) {
+	public ResourceConflictException(String email, String message) {
 		super(message);
-		this.setResourceId(resourceId);
+		this.setResourceId(email);
 	}
 
-	public Long getResourceId() {
+	public String getResourceId() {
 		return resourceId;
 	}
 
-	public void setResourceId(Long resourceId) {
+	public void setResourceId(String resourceId) {
 		this.resourceId = resourceId;
 	}
 

@@ -15,11 +15,11 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="streetName")
-	private String streetName;
+	@Column(name="longitude")
+	private double longitude;
 	
-	@Column(name="serialNumber")
-	private String serialNumber;
+	@Column(name="latitude")
+	private double latitude;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Place place;
@@ -32,21 +32,29 @@ public class Address {
 	
 	@OneToOne(mappedBy = "address")
 	private User user;
-	
-	public String getStreetName() {
-		return streetName;
+
+	public Address(double longitude, double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
+
+	public Address() {
+	}
+
+	public double getLongitude() {
+		return longitude;
 	}
 	
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	
-	public String getSerialNumber() {
-		return serialNumber;
+	public double getLatitude() {
+		return latitude;
 	}
 	
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
+	public void setLatitude(double latitude) {
+		this.latitude = latitude	;
 	}
 	
 	public Place getPlace() {
