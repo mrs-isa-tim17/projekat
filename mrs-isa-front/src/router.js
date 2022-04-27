@@ -9,7 +9,10 @@ const router = createRouter({
         { path: '/client/history/:type', component: () => import("./components/clientReservationHistory.vue")},
         { path: '/instructor/adventures', component: () => import("./components/allInstructorsAdventures")},
         { path: '/instructor/adventures/detail', component: () => import("./components/adventureForFishingInstructor")},
-        { path: '/home', component: () => import("./components/homePage.vue")}
+        { path: '/home', component: () => import("./components/homePage.vue")},
+        { path: '/login', component: () => import("./components/login.vue")},
+        { path:  '/register', component: () => import("./components/registerUser.vue")}
+
     ]
 });
 
