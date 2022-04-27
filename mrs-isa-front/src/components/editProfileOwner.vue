@@ -56,13 +56,11 @@
           </div>
           <div class="input-box">
             <span class="details">Lozinka</span><br>
-            <button  @click="showDialog = true" id="editPassword">Promeni lozinku</button>
+            <changePasswordDialog
+             :index="buttonId" ></changePasswordDialog>
 
           </div>
-          <changePasswordDialog :show="showDialog"
-                  :cancel="cancel"
-                  :confirm="confirm"
-                  title="Promena lozinke" />
+
           <div class="input-box">
             <span class="details">Broj telefona</span><br>
             <input type="text" id="telNumber" />
@@ -86,6 +84,7 @@ export default {
   data(){
     return{
       showDialog:false,
+      buttonId : "changePass"
     }
   },
   methods: {
@@ -194,10 +193,10 @@ form .details .input-box{
 
 .header{
   text-align:center;
-  font-size: 45px;
+  font-size: 35px;
   color: white;
   font-weight: bold;
-  margin-top: 20px;
+
 }
 
 #buttonSubmit{
@@ -258,28 +257,5 @@ form .details .input-box{
 
 }
 
-#editPassword{
-  height: 45px;
-  width: 100%;
-  font-size:20px;
-  font-weight: bold;
-}
-
-
-#editPassword:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgba(30, 64, 175, var(--tw-bg-opacity));
-  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
-}
-#editPassword:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-
-
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgba(37, 99, 235, var(--tw-ring-opacity));
-  --tw-ring-opacity: 0.5;
-}
 
 </style>
