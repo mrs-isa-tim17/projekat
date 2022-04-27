@@ -20,9 +20,7 @@
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
+
 
       </div>
     </div>
@@ -58,14 +56,20 @@
           </div>
           <div class="input-box">
             <span class="details">Lozinka</span><br>
-            <input type="text" id="password" />
+            <button  @click="showDialog = true" id="editPassword">Promeni lozinku</button>
+
           </div>
+          <changePasswordDialog :show="showDialog"
+                  :cancel="cancel"
+                  :confirm="confirm"
+                  title="Promena lozinke" />
           <div class="input-box">
             <span class="details">Broj telefona</span><br>
             <input type="text" id="telNumber" />
           </div>
           <div id="buttonSubmit">
             <input type="submit" value="Potvrdi izmene" id="editButton">
+            <input type="submit" value="Otkaži izmene" id="cancelButton">
           </div>
 
         </div>
@@ -75,9 +79,25 @@
 </template>
 
 <script>
+import changePasswordDialog from "@/components/changePasswordDialog";
 export default {
   name: "edit-profile-owner",
+  components:{changePasswordDialog},
   data(){
+    return{
+      showDialog:false,
+    }
+  },
+  methods: {
+    cancel() {
+      console.log('cancel');
+      this.showDialog = false;
+
+    },
+    confirm() {
+      console.log('confirm');
+      this.showDialog = false;
+    }
   }
 }
 </script>
@@ -90,7 +110,7 @@ export default {
   font-size: 20px;
   padding: 20px;
   width: 50%;
-  height:65%;
+  height:75%;
   position: absolute;
   left: 65%;
   top: 50%;
@@ -115,10 +135,18 @@ body{
   font-size:25px;
   color: white;
   background-color:#5F9F9F;
-
-
+  float:right;
 }
-
+#cancelButton{
+  font-size:25px;
+  color: white;
+  background-color:red;
+  float:left;
+}
+#buttonSubmit{
+  width:100%;
+  padding: 30px;
+}
 .editProfile form .formdetails{
   display: flex;
   flex-wrap: wrap;
@@ -132,8 +160,8 @@ form .formdetails .input-box{
 }
 form .input-box span .details{
   display: block;
-  font-weight: 500;
-  margin-bottom: 5px;
+  font-weight: 450;
+  margin-bottom: 10px;
 }
 .formdetails .input-box input{
   height: 45px;
@@ -166,8 +194,8 @@ form .details .input-box{
 
 .header{
   text-align:center;
-  font-size: 50px;
-  color: #5F9F9F;
+  font-size: 45px;
+  color: white;
   font-weight: bold;
   margin-top: 20px;
 }
@@ -185,16 +213,16 @@ form .details .input-box{
 .loyality{
   text-align:center;
   border: 2px solid black;
-  background-color:#5F9F9F;
+  background-color:#687864;
   font-size: 20px;
   padding: 20px;
   width: 25%;
-  height:65%;
+  height:75%;
   position: absolute;
   left: 30%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: #E8E8E8;
+  color: white;
 }
 
 .loyality .input-box input{
@@ -229,4 +257,29 @@ form .details .input-box{
   border:1px solid white;
 
 }
+
+#editPassword{
+  height: 45px;
+  width: 100%;
+  font-size:20px;
+  font-weight: bold;
+}
+
+
+#editPassword:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(30, 64, 175, var(--tw-bg-opacity));
+  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+}
+#editPassword:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+
+
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgba(37, 99, 235, var(--tw-ring-opacity));
+  --tw-ring-opacity: 0.5;
+}
+
 </style>
