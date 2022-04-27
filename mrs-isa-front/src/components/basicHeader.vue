@@ -5,25 +5,24 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" :href="siteHomePage">
           <img src="../assets/icons/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
           Book
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="homeLink">Home</a>
+            <a class="nav-link active" aria-current="page" :href="siteHomePage">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  text-dark" href="#">Vikendice</a>
+            <a class="nav-link  text-dark" href="...">Vikendice</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Brodovi</a>
+            <a class="nav-link text-dark" href="...">Brodovi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Avanture</a>
+            <a class="nav-link text-dark" href="...">Avanture</a>
           </li>
         </ul>
-        <button class="btn btn-outline-dark" >Odjava</button>
       </div>
     </nav>
   </div>
@@ -31,10 +30,10 @@
 
 <script>
 export default {
-  name: "client-header",
+  name: "basicHeader",
   data() {
     return {
-      homeLink: "/client/home"
+      siteHomePage: "/home"
     }
   }
 }

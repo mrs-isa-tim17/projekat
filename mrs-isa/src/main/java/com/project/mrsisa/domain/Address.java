@@ -17,33 +17,43 @@ public class Address {
 
 	@Column(name="longitude")
 	private double longitude;
-
+	
 	@Column(name="latitude")
 	private double latitude;
+
+	@OneToOne(mappedBy = "address")
+	private Offer offer;
+	
+	@OneToOne(mappedBy = "address")
+	private SaleAppointment saleAppointment;
+	
+	@OneToOne(mappedBy = "address")
+	private User user;
+
+	public Address(double longitude, double latitude) {
+		this.longitude = longitude;
+		this.latitude = latitude;
+	}
+
+	public Address() {
+	}
 
 	public double getLongitude() {
 		return longitude;
 	}
-
+	
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-
+	
 	public double getLatitude() {
 		return latitude;
 	}
-
+	
 	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+		this.latitude = latitude	;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	
 }

@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +38,16 @@ public class Client extends User {
 	
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ExperienceReview> experienceReviews;
-	
+
+	public Client() {
+		clientReviews = new ArrayList<ClientReview>();
+		subscriptions = new ArrayList<Offer>();
+		futureReservations = new ArrayList<Reservation>();
+		historyReservations = new ArrayList<Reservation>();
+		complaints = new ArrayList<Complaint>();
+		experienceReviews = new ArrayList<ExperienceReview>();
+	}
+
 	public int getPenaltyNumber() {
 		return penaltyNumber;
 	}

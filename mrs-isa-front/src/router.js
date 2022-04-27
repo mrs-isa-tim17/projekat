@@ -7,9 +7,9 @@ const router = createRouter({
         { path: '/client/home', component: () => import("./components/clientHomePage.vue")},
         { path: '/client/profile/:id', component: () => import("./components/clientProfileChange.vue")},
         { path: '/client/history/:type', component: () => import("./components/clientReservationHistory.vue")},
-
         { path: '/instructor/adventures', component: () => import("./components/allInstructorsAdventures")},
         { path: '/instructor/adventures/detail', component: () => import("./components/adventureForFishingInstructor")},
+        { path: '/home', component: () => import("./components/homePage.vue")}
     ]
 });
 

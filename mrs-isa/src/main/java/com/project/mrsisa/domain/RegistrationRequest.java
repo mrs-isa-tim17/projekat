@@ -18,7 +18,7 @@ public class RegistrationRequest {
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
-	private Client userRef;
+	private User userRef;
 	
 	@Enumerated
 	private RegistrationType registrationType;
@@ -27,10 +27,10 @@ public class RegistrationRequest {
 	private ProcessingStatus status;
 	
 	
-	public Client getUserRef() {
+	public User getUserRef() {
 		return userRef;
 	}
-	public void setUserRef(Client user) {
+	public void setUserRef(User user) {
 		this.userRef = user;
 	}
 	public RegistrationType getRegistrationType() {
