@@ -12,4 +12,5 @@ public class MrsIsaApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication.run(MrsIsaApplication.class, args);
 	}
+
 }

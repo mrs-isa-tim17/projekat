@@ -1,84 +1,94 @@
-package com.project.mrsisa.dto;
+package com.project.mrsisa.dto.cottage;
 
-import com.project.mrsisa.domain.Address;
 import com.project.mrsisa.domain.Cottage;
-import com.project.mrsisa.domain.CottageOwner;
 
-public class CottageDTO {
-	
+import lombok.Data;
+
+@Data
+public class CreateUpdateCottageDTO {
 	private int roomQuantity;
-	private Long ownerId;
+	private String ownersEmail;
 	private int bedQuantity;
 	private Long id;
 	private String name;
-	private Address address;
+	private String addressSerialNumber;
 	private String description;
 	private boolean deleted;
-	
-	
-	public CottageDTO() {
-		super();
+
+	public CreateUpdateCottageDTO(Cottage cottage) {
+		this.roomQuantity=cottage.getRoomQuantity();
+		this.ownersEmail=cottage.getOwner().getEmail();
+		this.bedQuantity=cottage.getBedQuantity();
+		//this.addressSerialNumber=cottage.getAddress().getSerialNumber();
+		this.name=cottage.getName();
+		this.description=cottage.getDescription();
+		this.deleted=cottage.isDeleted();
+		this.id=cottage.getId();
 	}
-	
-	public CottageDTO(Cottage cottage) {
-		roomQuantity = cottage.getRoomQuantity();
-		ownerId = cottage.getOwner().getId();
-		bedQuantity = cottage.getBedQuantity();
-		id = cottage.getId();
-		name = cottage.getName();
-		address = cottage.getAddress();
-		description = cottage.getDescription();
-		deleted = cottage.isDeleted();
-	}
-	
+
 	public int getRoomQuantity() {
 		return roomQuantity;
 	}
+
 	public void setRoomQuantity(int roomQuantity) {
 		this.roomQuantity = roomQuantity;
 	}
-	public Long getOwnerId() {
-		return ownerId;
+
+	public String getOwnersEmail() {
+		return ownersEmail;
 	}
-	public void setOwner(Long ownerId) {
-		this.ownerId = ownerId;
+
+	public void setOwnersEmail(String ownersEmail) {
+		this.ownersEmail = ownersEmail;
 	}
+
 	public int getBedQuantity() {
 		return bedQuantity;
 	}
+
 	public void setBedQuantity(int bedQuantity) {
 		this.bedQuantity = bedQuantity;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Address getAddress() {
-		return address;
+
+	public String getAddressSerialNumber() {
+		return addressSerialNumber;
 	}
-	public void setAddress(Address address) {
-		this.address = address;
+
+	public void setAddressSerialNumber(String addressSerialNumber) {
+		this.addressSerialNumber = addressSerialNumber;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public boolean isDeleted() {
 		return deleted;
 	}
+
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	
 }
-	
-	

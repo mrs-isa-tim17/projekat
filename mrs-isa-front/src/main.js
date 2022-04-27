@@ -13,3 +13,4 @@ import './assets/basicCSS.css'
 
 
 createApp(App).use(OpenLayersMap).use(router).mount('#app');
+

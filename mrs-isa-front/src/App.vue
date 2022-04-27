@@ -19,6 +19,7 @@ export default {
   text-align: center;
   color: #31708E;
   margin-top: 60px;
->>>>>>> login/register
+
+
 }
 </style>
