@@ -11,7 +11,7 @@ const router = createRouter({
         { path: '/instructor/adventures', component: () => import("./components/allInstructorsAdventures")},
         { path: '/instructor/adventures/detail', component: () => import("./components/adventureForFishingInstructor")},
         { path: '/home', component: () => import("./components/homePage.vue")},
-        { path: '/login', component: () => import("./components/login.vue")},
+        { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/register', component: () => import("./components/registerUser.vue")},
 
         { path: '/owner/profile', component: () => import("./components/editProfileOwner")},

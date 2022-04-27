@@ -71,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST, "/book/login"); ///???
-        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.vue", "favicon.ico", "/**/*.js",
+        web.ignoring().antMatchers(HttpMethod.POST, "/book/site/login"); ///???
+        web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/**/*.vue", "favicon.ico", "/**/*.js",
                 "/**/*.css", "/**/*.js"); //static paths!!
     }
 

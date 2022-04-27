@@ -5,15 +5,25 @@ public class UserTokenState {
 	
     private String accessToken;
     private Long expiresIn;
+    private long roleID;
+
+    public long getRoleID() {
+        return roleID;
+    }
+
+    public void setRoleID(long roleID) {
+        this.roleID = roleID;
+    }
 
     public UserTokenState() {
         this.accessToken = null;
         this.expiresIn = null;
     }
 
-    public UserTokenState(String accessToken, long expiresIn) {
+    public UserTokenState(String accessToken, long expiresIn, long roleId) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
+        this.roleID = roleId;
     }
 
     public String getAccessToken() {

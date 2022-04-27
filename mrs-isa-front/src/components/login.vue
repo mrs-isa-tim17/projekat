@@ -7,14 +7,14 @@
 
     <div class="container">
       <label for="uname"><b>Email</b></label><br>
-      <input type="text" placeholder="Unesite email" name="uname" required><br>
+      <input type="text" placeholder="Unesite email" id="uname" required><br>
 
       <label for="psw"><b>Lozinka</b></label><br>
-      <input type="password" placeholder="Unesite lozinku" name="psw" required><br>
+      <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
 
-      <button type="submit">Prijavite se</button><br>
+      <button type="submit" @click="login">Prijavite se</button><br>
       <label>
-        <input type="checkbox" checked="checked" name="remember"> Zapamti lozinku
+        <input type="checkbox" checked="checked" id="remember"> Zapamti lozinku
       </label><br>
     </div>
 
@@ -26,7 +26,7 @@
 </div>
 </template>
 <script>
-
+import loginServce from "@/servieces/LoginServce";
 export default {
   name: "loginUsers",
   components: {
@@ -41,7 +41,48 @@ export default {
 
   },
   methods: {
-
+    login(){
+      let emailForm = document.getElementById("uname").value;
+      let passwordForm = document.getElementById("psw").value;
+      var user = {
+        username: emailForm,
+        password: passwordForm
+      }
+      loginServce.login(user)
+          .then((response) => {
+            console.log(response.data);
+            var userToken = response.data;
+            if (userToken.roleID === 1)
+              this.$route.push = "/client/home";
+            else if (userToken.roleID === 2)
+              this.$route.push = "/client/home";//admin
+            else if (userToken.roleID === 3)
+              this.$route.push = "/cottage/home";
+            else if (userToken.roleID === 4)
+              this.$route.push = "/client/home";//ship owner
+            else if (userToken.roleID === 5)
+              this.$route.push = "/client/home";//fishing instructor
+          })
+          .catch(function (error) {
+            console.log(error.toJSON());
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+          });
+    }
   },
 };
 </script>

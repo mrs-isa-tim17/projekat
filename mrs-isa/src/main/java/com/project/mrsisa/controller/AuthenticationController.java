@@ -56,8 +56,9 @@ public class AuthenticationController {
 		String jwt = tokenUtils.generateToken(user.getUsername());
 		int expiresIn = tokenUtils.getExpiredIn();
 
+		//User u = userService.findByUsername(authenticationRequest.getUsername());
 		// return created token
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, 1));
 	}
 
 	@PostMapping("/signup")

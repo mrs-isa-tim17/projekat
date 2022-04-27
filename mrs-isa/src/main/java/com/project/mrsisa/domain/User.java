@@ -51,7 +51,7 @@ public class User implements UserDetails {
 	protected String password;
 	
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//?????????
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)//?????????
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	protected Address address;
 	
