@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,7 +41,7 @@ public abstract class User {
 	@Column(name="password", nullable=false)
 	protected String password;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//?????????
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	protected Address address;
 	
@@ -56,10 +57,10 @@ public abstract class User {
 	@Column(nullable=false)
 	protected int loyaltyPoints;
 	
-	@OneToOne(mappedBy = "userRef")
+	@OneToOne(mappedBy = "userRef", fetch=FetchType.LAZY)
 	protected RegistrationRequest registrationRequest;
 	
-	@OneToOne(mappedBy = "userRef")
+	@OneToOne(mappedBy = "userRef", fetch=FetchType.LAZY)
 	protected DeleteRequest deleteRequest;
 	
 	public String getName() {
@@ -122,6 +123,7 @@ public abstract class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public RegistrationRequest getRegistrationRequest() {
 		return registrationRequest;
 	}
@@ -134,7 +136,6 @@ public abstract class User {
 	public void setDeleteRequest(DeleteRequest deleteRequest) {
 		this.deleteRequest = deleteRequest;
 	}
-	
 	
 
 }

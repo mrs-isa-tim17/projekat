@@ -118,7 +118,7 @@ export default {
       deleteAccText: "Brisanje naloga",
 
       profileImgPath: require("@/assets/icons/profile.png"),
-      profileLink: "/client/profile",
+      profileLink: "/client/profile/1",
       profileText: "Profil"
 
     }
