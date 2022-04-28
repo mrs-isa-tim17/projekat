@@ -67,10 +67,7 @@
       </div>
 
       <div>
-        <a href="">
-          <img src="@/assets/icons/deleteAcc.png">
-          <p>Brisanje naloga</p>
-        </a>
+      <deleteAccountDialog></deleteAccountDialog>
       </div>
 
       <div>
@@ -84,8 +81,10 @@
 </template>
 
 <script>
+import deleteAccountDialog from "@/components/deleteAccountDialog";
 export default {
-  name: "cottage-owner-home"
+  name: "cottage-owner-home",
+  components:{deleteAccountDialog}
 }
 </script>
 

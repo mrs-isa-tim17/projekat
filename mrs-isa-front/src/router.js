@@ -16,7 +16,8 @@ const router = createRouter({
 
         { path: '/owner/profile', component: () => import("./components/editProfileOwner")},
         { path: '/cottage/home', component: () => import("./components/cottageOwnerHomePage")},
-        { path: '/owner/managment', component: () => import("./components/managmentOwner")}
+        { path: '/owner/managment', component: () => import("./components/managmentOwner")},
+        { path: '/owner/cottages', component: () => import("./components/cottageList")}
     ]
 });
 
