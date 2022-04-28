@@ -23,7 +23,7 @@ public class Client extends User {
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ClientReview> clientReviews;
 	
-	@ManyToMany(mappedBy = "subscribers")
+	@ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
 	private List<Offer> subscriptions;
 	
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

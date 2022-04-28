@@ -1,53 +1,123 @@
 package com.project.mrsisa.dto;
 
 
-import com.project.mrsisa.domain.Address;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Adventure;
+import com.project.mrsisa.domain.BehaviorRule;
+import com.project.mrsisa.domain.CancelCondition;
+import com.project.mrsisa.domain.ExperienceReview;
+import com.project.mrsisa.domain.FishingEquipment;
+import com.project.mrsisa.domain.Image;
 
 
 public class AdventureDTO {
 	private Long id;
 	private String name;	
-	private Address address;
+	private String streetName;
+	private String country;
+	private String city;
+	private String serialNumber;
 	private String description;
-	private boolean deleted;
-/*	
-	private List<ExperienceReview> experienceReviews;
-	private List<AdditionalServices> additionalServices;
-	private List<BehaviorRule> behaviorRules;
-	private List<Image> images;
-	private List<CancelCondition> cancelCondition;
-	private List<Pricelist> pricelists;	
-	private Calendar calendar;
+	private String instructorBiography;
+
+	private List<String> behavior;
+	private List<String> images;
+	private List<String> fishingEquipment;
+	private List<String> cancelConditions;
+	private List<String> experienceReviews;
+	private List<String> additionalServices;
+
+	private double price;
+	private int capacity;
 	
-	*/
-	public AdventureDTO(String name, Address address, String description) {
-		super();
-		this.deleted = false;
-		this.name=name;
-		this.address = address;
-		this.description = description;
+	
 
-	}
-
-	public AdventureDTO(Adventure adventure) {
-		id = adventure.getId();
-		name = adventure.getName();
-		address = adventure.getAddress();
-		description = adventure.getDescription();
-		deleted = adventure.isDeleted();
+	public AdventureDTO(Adventure adventure, List<BehaviorRule> behaviorRules, List<Image> images, List<FishingEquipment> fishingEquipments,
+			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price) {
 		
-	/*	experienceReviews = adventure.getExperienceReviews();
-		additionalServices = adventure.getAdditionalServices();
-		behaviorRules = adventure.getBehaviorRules();
-		images = adventure.getImages();
-		cancelCondition = adventure.getCancelCondition();
-		pricelists = adventure.getPricelists();
-		calendar = adventure.getCalendar();	
-		*/
+		System.out.println(adventure);
+		
+		this.id = adventure.getId();
+		this.name = adventure.getName();
+		this.streetName = adventure.getAddress().getStreetName();
+		this.country = adventure.getAddress().getPlace().getCountry();
+		this.city = adventure.getAddress().getPlace().getPlaceName();
+		this.serialNumber = adventure.getAddress().getSerialNumber();
+		this.description = adventure.getDescription();
+		this.instructorBiography = adventure.getInstructorBiography();
+		
+		this.capacity = adventure.getCapacity();
+		this.price = price;
+		
+		this.behavior = new ArrayList<String>();
+		this.images =new ArrayList<String>();
+		this.fishingEquipment=new ArrayList<String>();
+		this.cancelConditions =new ArrayList<String>();
+		this.experienceReviews = new ArrayList<String>();
+		this.additionalServices = new ArrayList<String>();;
+		
+		for(BehaviorRule br : behaviorRules)
+		{
+			this.behavior.add(br.getText());
+		}
+		for(Image im : images)
+		{
+			this.images.add(im.getPath());
+		}
+		for(FishingEquipment fe : fishingEquipments)
+		{
+			this.fishingEquipment.add(fe.getName());
+		}
+		for(CancelCondition cc : cancelConditions)
+		{
+			this.cancelConditions.add("Za otkazni rok od + " + String.valueOf(cc.getDays()) +" dana pre početka događaja, naplaćuje se " + String.valueOf(cc.getPrecent()) + "od ukupne cene rezervacije.");
+		}
+
+		for(ExperienceReview er : experience)
+		{ 
+			experienceReviews.add(er.getText());	
+		}
+		
+		for(AdditionalServices as : additionalServices)
+		{
+			this.additionalServices.add(as.getName());
+		}
+		
 	}
 	
 	
+	public String getInstructorBiography() {
+		return instructorBiography;
+	}
+
+
+	public void setInstructorBiography(String instructorBiography) {
+		this.instructorBiography = instructorBiography;
+	}
+
+
+	public AdventureDTO( String name, String streetName, String country, String city, String description,
+		boolean deleted, List<String> behaviorRules, List<String> images, List<String> fishingEquipment,
+		List<String> cancelConditions, List<String> experienceReviews, double price, int capacity) {
+	super();
+	this.name = name;
+	this.streetName = streetName;
+	this.country = country;
+	this.city = city;
+	this.description = description;
+	this.behavior = behaviorRules;
+	this.images = images;
+	this.fishingEquipment = fishingEquipment;
+	this.cancelConditions = cancelConditions;
+	this.experienceReviews = experienceReviews;
+	this.price = price;
+	this.capacity = capacity;
+}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -60,68 +130,118 @@ public class AdventureDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public boolean isDeleted() {
-		return deleted;
+
+	public String getStreetName() {
+		return streetName;
 	}
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
 	}
-	
-/*  public List<ExperienceReview> getExperienceReviews() {
-		return experienceReviews;
+	public String getSerialNumber() {
+		return serialNumber;
 	}
-	public void setExperienceReviews(List<ExperienceReview> experienceReviews) {
-		this.experienceReviews = experienceReviews;
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
-	public List<AdditionalServices> getAdditionalServices() {
-		return additionalServices;
+	public String getCountry() {
+		return country;
 	}
-	public void setAdditionalServices(List<AdditionalServices> additionalServices) {
-		this.additionalServices = additionalServices;
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
-	public List<BehaviorRule> getBehaviorRules() {
-		return behaviorRules;
+
+	public String getCity() {
+		return city;
 	}
-	public void setBehaviorRules(List<BehaviorRule> behaviorRules) {
-		this.behaviorRules = behaviorRules;
+
+	public void setCity(String city) {
+		this.city = city;
 	}
-	public List<Image> getImages() {
+
+	public List<String> getBehaviorRules() {
+		return behavior;
+	}
+
+	public void setBehaviorRules(List<String> behaviorRules) {
+		this.behavior = behaviorRules;
+	}
+
+	public List<String> getImages() {
 		return images;
 	}
-	public void setImages(List<Image> images) {
+
+
+	public void setImages(List<String> images) {
 		this.images = images;
 	}
-	public List<CancelCondition> getCancelCondition() {
-		return cancelCondition;
+
+	public List<String> getFishingEquipment() {
+		return fishingEquipment;
 	}
-	public void setCancelCondition(List<CancelCondition> cancelCondition) {
-		this.cancelCondition = cancelCondition;
+
+	public void setFishingEquipment(List<String> fishingEquipment) {
+		this.fishingEquipment = fishingEquipment;
 	}
-	public List<Pricelist> getPricelists() {
-		return pricelists;
+
+	public List<String> getCancelConditions() {
+		return cancelConditions;
 	}
-	public void setPricelists(List<Pricelist> pricelists) {
-		this.pricelists = pricelists;
+
+	public void setCancelConditions(List<String> cancelConditions) {
+		this.cancelConditions = cancelConditions;
 	}
-	public Calendar getCalendar() {
-		return calendar;
+
+	public List<String> getExperienceReviews() {
+		return experienceReviews;
 	}
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
+
+	public void setExperienceReviews(List<String> experienceReviews) {
+		this.experienceReviews = experienceReviews;
 	}
-	*/
+
+	public List<String> getAdditionalServices() {
+		return additionalServices;
+	}
+
+	public void setAdditionalServices(List<String> additionalServices) {
+		this.additionalServices = additionalServices;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	@Override
+	public String toString() {
+		return "AdventureDTO [id=" + id + ", name=" + name + ", streetName=" + streetName + ", country=" + country
+				+ ", city=" + city + ", description=" + description + ", deleted=" + ", behaviorRules="
+				+ behavior + ", images=" + images + ", fishingEquipment=" + fishingEquipment
+				+ ", cancelConditions=" + cancelConditions + ", experienceReviews=" + experienceReviews
+				+ ", additionalServices=" + additionalServices + ", price=" + price + ", capacity=" + capacity + "]";
+	}
+	
 	
 }
 

@@ -1,9 +1,13 @@
 
 insert into place (country, place_name, post_number) values ('Serbia', 'Novi Sad', 21000);
+insert into place (country, place_name, post_number) values ('Serbia', 'Bajina Basta', 507725);
 
 insert into address (serial_number, street_name, place_id) values
 	('11B', 'Jovan Jovanovic Zmaj Street', 1);
-
+insert into address (serial_number, street_name, place_id) values
+	('27', 'Gogoljeva Street', 2);
+insert into address (serial_number, street_name, place_id) values
+	('13A', 'Tolstojeva Street', 1);
 	
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, address_id) values 
@@ -21,12 +25,25 @@ insert into cottage (id, deleted,description, name, address_id, calendar_id, bed
 	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 1);
 
 insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity, instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 1, 2, 8, 'Im the best instructor ever', 2);
+	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 2, 8, 'Im the best instructor ever', 2);
 	
 
 insert into additional_services (name, offer_id, reservation_id, sale_appointment_id) values ('wifi', '1', null, null);
+insert into additional_services (name, offer_id, reservation_id, sale_appointment_id) values ('wifi', '2', null, null);
 
 insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 1);
+insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 2);
+
+insert into fishing_equipment (name, quantity, units, adventure_id, ship_id) values('stap za pecanje', 10, 'komad', 2, null);
+insert into fishing_equipment (name, quantity, units, adventure_id, ship_id) values('crvi', 1, 'kg', 2, null);
 
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 1);
+insert into cancel_condition (days, precent, offer_id) values (5, 20, 2);
 
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina1.jpg', 2);
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina2.jpg', 2);
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina3.jpg', 2);
+
+insert into experience_review (rate, status, text, client_id, offer_id) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2);
+
+insert into pricelist (end_date, price, start_date, offer_id) values ('01.05.2022.', 12000, '29.04.2022.', 2);

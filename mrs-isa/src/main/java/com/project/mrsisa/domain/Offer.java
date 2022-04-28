@@ -31,7 +31,7 @@ public abstract class Offer {
 	@Column(nullable=false)
 	protected String name;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	protected Address address;
 	
@@ -62,7 +62,7 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<Pricelist> pricelists;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "id")
 	protected Calendar calendar;
 	

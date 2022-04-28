@@ -24,15 +24,15 @@ public class Address {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Place place;
 	
-	@OneToOne(mappedBy = "address")
+	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
 	private Offer offer;
-	
-	@OneToOne(mappedBy = "address")
+	/*
+	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
 	private SaleAppointment saleAppointment;
 	
-	@OneToOne(mappedBy = "address")
+	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
 	private User user;
-	
+	*/
 	public String getStreetName() {
 		return streetName;
 	}
@@ -65,7 +65,7 @@ public class Address {
 		this.id = id;
 	}
 
-	public Offer getOffer() {
+/*	public Offer getOffer() {
 		return offer;
 	}
 
@@ -89,6 +89,6 @@ public class Address {
 		this.user = user;
 	}
 	
-	
+	*/
 	
 }

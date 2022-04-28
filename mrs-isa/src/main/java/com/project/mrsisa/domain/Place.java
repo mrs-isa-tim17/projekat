@@ -26,9 +26,9 @@ public class Place {
 	@Column(nullable=false)
 	private String country;
 	
-	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	/*@OneToMany(mappedBy = "place", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Address> addresses;
-	
+	*/
 	public int getPostNumber() {
 		return postNumber;
 	}
@@ -53,13 +53,13 @@ public class Place {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<Address> getAddresses() {
+/*	public List<Address> getAddresses() {
 		return addresses;
 	}
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
-	
+*/	
 	
 
 }

@@ -1,57 +1,109 @@
 package com.project.mrsisa.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.mrsisa.domain.Address;
+import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.Place;
+import com.project.mrsisa.domain.BehaviorRule;
+import com.project.mrsisa.domain.CancelCondition;
+import com.project.mrsisa.domain.Client;
+import com.project.mrsisa.domain.ExperienceReview;
+import com.project.mrsisa.domain.FishingEquipment;
+import com.project.mrsisa.domain.Image;
+import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.AdventureDTO;
+import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
+import com.project.mrsisa.service.BehaviorRuleService;
+import com.project.mrsisa.service.CancelConditionService;
+import com.project.mrsisa.service.ClientService;
+import com.project.mrsisa.service.ExperienceReviewService;
+import com.project.mrsisa.service.FishingEquipmentService;
+import com.project.mrsisa.service.ImageService;
+import com.project.mrsisa.service.PricelistService;
 
 
 @RestController
-@RequestMapping(value="/adventure")
+@RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdventureController {
 	
-	//@Autowired
-	//private AdventureService adventureService;
+	@Autowired
+	private AdventureService adventureService;
 	
-	/*public AdventureController (AdventureService adventureService2) {
-		this.adventureService = adventureService2;
-	}*/
+	@Autowired
+	private BehaviorRuleService behaviorRuleService;
+	
+	@Autowired
+	private ImageService imageService;
+	
+	@Autowired
+	private FishingEquipmentService fishingEquipmentService;
+	
+	@Autowired
+	private CancelConditionService cancelConditionService;
+	
+	@Autowired
+	private ExperienceReviewService experienceReviewService;
+	
+	@Autowired
+	private AdditionalServicesService additionalServicesService;
+	
+	@Autowired
+	private PricelistService pricelistService;
 	
 	
 	@GetMapping(value = "/detail/{id}")
-	public AdventureDTO getAdventure(@PathVariable Long id) {
+	public ResponseEntity<AdventureDTO> getAdventure(@PathVariable Long id) {
 		System.out.println("IN CONTROLLER");
-		Place p = new Place();
-		p.setId(new Long(1));
-		p.setCountry("Srbija");
-		p.setPlaceName("Bajina Basta");
-		p.setPostNumber(32000);
-		Address a = new Address();
-		ArrayList<Address> ad = new ArrayList<Address>();
-		ad.add(a);
-		p.setAddresses(new ArrayList<Address> (ad));
+
+		Adventure adventure = null;
+		try {
+			adventure = adventureService.findOneById(id);
+			if(adventure == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		a.setId(new Long(2));
-		a.setPlace(p);
-		a.setSerialNumber("32");
-		a.setStreetName("Puskinova");
+		Long adventureId = adventure.getId(); 
+		List<BehaviorRule> behaviorRules = behaviorRuleService.findAllByAdventureId(adventureId);
+		List<Image> images = imageService.findAllByAdventureId(adventureId);
+		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
+		List<CancelCondition> cancelConditions = cancelConditionService.findAllByAdventureId(adventureId);
+		List<ExperienceReview> experience =  experienceReviewService.findAllByOfferId(adventureId);
+		List<AdditionalServices> additionalServices = additionalServicesService.findAllByAdventureId(adventureId);
+		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(adventureId);
 		
-		return new AdventureDTO("RAfting", a , "najbolja zabava ikaaad");
+		double price = pricelists.get(0).getPrice();
+		System.out.println("size za role: " + behaviorRules.size());
+		System.out.println("image siye : "  + images.size());
+		System.out.println("fishing equipment siye : "  + fishEquipment.size());
+		System.out.println("cancel condition siye : "  + cancelConditions.size());
+		System.out.println("experience review siye : "  + experience.size());
+		System.out.println("addition siye : "  + additionalServices.size());
+		
+		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price);
+			
+		System.out.println(adventureDTO);
+		
+        return new ResponseEntity<AdventureDTO>(adventureDTO, HttpStatus.OK);
+
 	}
+	
+	
 	
 /*
 	@PostMapping(consumes="applicatiton/json")
