@@ -21,6 +21,14 @@ public class BehaviorRule {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
+	
+	public BehaviorRule() {
+		
+	}
+	
+	public BehaviorRule(String text) {
+		this.text = text;
+	}
 
 	public String getText() {
 		return text;

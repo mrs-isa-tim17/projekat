@@ -9,6 +9,9 @@ class AdventureService{
         console.log(adventureId)
         return axios.get(ADVENTURE_API_BASE_URL+adventureId);
     }
+    saveAdventure(adventure){
+        return axios.post(ADVENTURE_API_BASE_URL + 'save/', adventure);
+    }
 }
 
 export default new AdventureService();

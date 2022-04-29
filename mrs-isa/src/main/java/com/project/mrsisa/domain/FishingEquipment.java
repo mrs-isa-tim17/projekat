@@ -18,11 +18,12 @@ public class FishingEquipment {
 	@Column(nullable=false)
 	private String name;
 	
-	@Column(nullable=false)
+/*	@Column(nullable=false)
 	private String units;
 	
 	@Column(nullable=false)
 	private double quantity;
+	*/
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shipId")
@@ -32,13 +33,21 @@ public class FishingEquipment {
 	@JoinColumn(name = "adventureId")
 	private Adventure adventure;
 	
+	public FishingEquipment() {
+		
+	}
+	
+	public FishingEquipment(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUnits() {
+/*	public String getUnits() {
 		return units;
 	}
 	public void setUnits(String units) {
@@ -49,7 +58,7 @@ public class FishingEquipment {
 	}
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
-	}
+	}   */
 	public Long getId() {
 		return id;
 	}

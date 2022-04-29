@@ -31,6 +31,13 @@ public class AdditionalServices {
 	private Reservation reservation;
 	
 
+	public AdditionalServices() {
+		
+	}
+	public AdditionalServices(String name) {
+		this.name=name;
+	}
+	
 	public String getName() {
 		return name;
 	}

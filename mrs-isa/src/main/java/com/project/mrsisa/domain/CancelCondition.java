@@ -25,6 +25,15 @@ public class CancelCondition {
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	
+	public CancelCondition() {
+		
+	}
+	
+	public CancelCondition(int days, double percentage) {
+		this.days = days;
+		this.precent = percentage;
+	}
+	
 	public int getDays() {
 		return days;
 	}

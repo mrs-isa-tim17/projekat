@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +22,7 @@ public class Address {
 	@Column(name="serialNumber")
 	private String serialNumber;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Place place;
 	
 	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)

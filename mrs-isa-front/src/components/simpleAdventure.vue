@@ -13,6 +13,7 @@
               <p align="left" class="card-text"><small align="left" class="text-muted"> {{adventure.address.streetName}}
                 {{ adventure.address.serialNumber }} </small></p>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToDetailAdventure"> Detalji</button>
+              <button class="btn btn-primary  btn-sm  me-md-2" @click="goToUpdateAdventure"> Izmeni</button>
               <button class="btn btn-secondary  btn-sm  me-md-2"> Obriši</button>
             </div>
 
@@ -38,26 +39,11 @@ export default {
     goToDetailAdventure() {
       console.log(this.adventure.id);
       this.$router.push('/adventures/detail/'+this.adventure.id);
-    /*  this.$router.push({
-        name: 'adventureForFishingInstructor',
-        params: this.adventure.id
-*/
-         /*   name: this.adventure.name,
-            address:this.adventure.address,
-            description: this.adventure.description,
-            images: this.adventure.images,
-            priceList: this.adventure.priceList,
-            behavioralRule: this.adventure.behavioralRule,
-            cancelCondition: this.adventure.cancelCondition,
-            additionalServices: this.adventure.additionalServices,
-            instructorBiography: this.adventure.instructorBiography,
-            capacity: this.adventure.capacity,
-            fishingEquipment: this.adventure.fishingEquipment,
-            averageRaiting: this.adventure.averageRaiting,
-            experienceReview: this.adventure.experienceReview
-        }
+    },
 
-      }) */
+    goToUpdateAdventure(){
+      console.log(this.adventure.id);
+      this.$router.push('/update/adventure/'+this.adventure.id);
     }
 
   }

@@ -60,7 +60,7 @@ export default {
     return {
       adventures: [
         {
-          id: 1,
+          id: 2,
           name: "Rafting Drinom",
           address: {
             streetName: "Gogoljeva",

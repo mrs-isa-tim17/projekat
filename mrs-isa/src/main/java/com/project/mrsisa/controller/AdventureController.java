@@ -10,11 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.domain.AdditionalServices;
+import com.project.mrsisa.domain.Address;
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.BehaviorRule;
 import com.project.mrsisa.domain.CancelCondition;
@@ -22,13 +24,13 @@ import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.ExperienceReview;
 import com.project.mrsisa.domain.FishingEquipment;
 import com.project.mrsisa.domain.Image;
+import com.project.mrsisa.domain.Place;
 import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.AdventureDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.BehaviorRuleService;
 import com.project.mrsisa.service.CancelConditionService;
-import com.project.mrsisa.service.ClientService;
 import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.FishingEquipmentService;
 import com.project.mrsisa.service.ImageService;
@@ -105,29 +107,76 @@ public class AdventureController {
 	
 	
 	
-/*
-	@PostMapping(consumes="applicatiton/json")
+
+	@PostMapping(value="/detail/save", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AdventureDTO> saveAdventure(@RequestBody AdventureDTO adventureDTO){
 		
+		
+		System.out.println("u kontroleru sam");
 		Adventure adventure = new Adventure();
-		adventure.setAddress(adventureDTO.getAddress());
+		
+		Place p = new Place();
+		p.setPlaceName(adventureDTO.getCity());
+		p.setCountry(adventureDTO.getCountry());
+		p.setPostNumber(123321);
+		
+		Address a = new Address();
+		a.setPlace(p);
+		a.setStreetName(adventureDTO.getStreetName());
+		a.setSerialNumber(adventureDTO.getSerialNumber());
+		
+		adventure.setAddress(a);
 		adventure.setName(adventureDTO.getName());
-		adventure.setDescription(adventure.getDescription());
-		adventure.setDeleted(adventureDTO.isDeleted());
+		adventure.setCapacity(adventureDTO.getCapacity());
+		adventure.setDeleted(false);
+		adventure.setDescription(adventureDTO.getDescription());
+		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
 		
-		adventure.setExperienceReviews(adventureDTO.getExperienceReviews());
-		adventure.setAdditionalServices(adventureDTO.getAdditionalServices());
-		adventure.setBehaviorRules(adventureDTO.getBehaviorRules());
-		adventure.setImages(adventureDTO.getImages());
-		adventure.setCancelCondition(adventureDTO.getCancelCondition());
-		adventure.setPricelists(adventureDTO.getPricelists());	
-		adventure.setCalendar(adventureDTO.getCalendar());
+		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
+		for(String rule : adventureDTO.getBehaviorRules())
+		{
+			behavoirRules.add(new BehaviorRule(rule));
+		}
+		adventure.setBehaviorRules(behavoirRules);
+		
+		List<FishingEquipment> fishingEquipment = new ArrayList<FishingEquipment>();
+		for(String equipmentName : adventureDTO.getFishingEquipment()) 
+		{
+			fishingEquipment.add(new FishingEquipment(equipmentName));
+		}
+		adventure.setFishingEquipments(fishingEquipment);
+		
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
+		
+		for(int i = 0; i < adventureDTO.getDays().size(); i++) 
+		{
+			cancelConditions.add(new CancelCondition(Integer.parseInt(adventureDTO.getDays().get(i)), Double.parseDouble(adventureDTO.getPercentage().get(i))));
+		}
+		adventure.setCancelCondition(cancelConditions);
 		
 		
-		adventure = adventureService.save(adventure);
-		return new ResponseEntity<>(new AdventureDTO(adventure), HttpStatus.CREATED);
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
+		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
+		pricelists.add(pricelist);
+		adventure.setPricelists(pricelists);
+		
+		List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
+		
+		for(String service : adventureDTO.getAdditionalServices()) 
+		{
+			additionalServices.add(new AdditionalServices(service));	
+		}
+		adventure.setAdditionalServices(additionalServices);
+		
+		
+		
+		
+		List<Image> images = new ArrayList<Image>();    // kasnije
+		
+		adventureService.save(adventure);
+		return new ResponseEntity<>(adventureDTO , HttpStatus.CREATED);
 	}
-	
+	/*
 	
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<AdventureDTO>> getAllAdventures() {

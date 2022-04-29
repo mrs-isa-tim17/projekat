@@ -29,11 +29,22 @@ public class AdventureDTO {
 	private List<String> cancelConditions;
 	private List<String> experienceReviews;
 	private List<String> additionalServices;
+	
+	private List<String> days;
+	private List<String> percentage;
 
 	private double price;
 	private int capacity;
 	
 	
+	public AdventureDTO() {
+		this.behavior = new ArrayList<String>();
+		this.images =new ArrayList<String>();
+		this.fishingEquipment=new ArrayList<String>();
+		this.cancelConditions =new ArrayList<String>();
+		this.experienceReviews = new ArrayList<String>();
+		this.additionalServices = new ArrayList<String>();
+	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behaviorRules, List<Image> images, List<FishingEquipment> fishingEquipments,
 			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price) {
@@ -57,7 +68,7 @@ public class AdventureDTO {
 		this.fishingEquipment=new ArrayList<String>();
 		this.cancelConditions =new ArrayList<String>();
 		this.experienceReviews = new ArrayList<String>();
-		this.additionalServices = new ArrayList<String>();;
+		this.additionalServices = new ArrayList<String>();
 		
 		for(BehaviorRule br : behaviorRules)
 		{
@@ -232,6 +243,36 @@ public class AdventureDTO {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	
+
+	public List<String> getBehavior() {
+		return behavior;
+	}
+
+	public void setBehavior(List<String> behavior) {
+		this.behavior = behavior;
+	}
+
+
+	public List<String> getDays() {
+		return days;
+	}
+
+
+	public void setDays(List<String> days) {
+		this.days = days;
+	}
+
+
+	public List<String> getPercentage() {
+		return percentage;
+	}
+
+
+	public void setPercentage(List<String> percentage) {
+		this.percentage = percentage;
+	}
+
 
 	@Override
 	public String toString() {

@@ -34,8 +34,8 @@ insert into additional_services (name, offer_id, reservation_id, sale_appointmen
 insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 1);
 insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 2);
 
-insert into fishing_equipment (name, quantity, units, adventure_id, ship_id) values('stap za pecanje', 10, 'komad', 2, null);
-insert into fishing_equipment (name, quantity, units, adventure_id, ship_id) values('crvi', 1, 'kg', 2, null);
+insert into fishing_equipment (name, adventure_id, ship_id) values('stap za pecanje', 2, null);
+insert into fishing_equipment (name, adventure_id, ship_id) values('crvi', 2, null);
 
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 1);
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 2);
