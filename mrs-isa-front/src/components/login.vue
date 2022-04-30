@@ -1,6 +1,5 @@
 <template>
 <div id="login">
-  <form  method="post">
     <div class="imgcontainer">
 
     </div>
@@ -22,7 +21,6 @@
       <button type="button" class="cancelbtn">Otkaži</button>
       <span class="psw"><a href="#">Zaboravili ste lozinku?</a></span>
     </div>
-  </form>
 </div>
 </template>
 <script>
@@ -38,7 +36,9 @@ export default {
   computed: {
   },
   created() {
-
+    if (this.loggedIn){
+      this.$router.push('client/home');
+    }
   },
   methods: {
     login(){
@@ -48,40 +48,26 @@ export default {
         username: emailForm,
         password: passwordForm
       }
-      loginServce.login(user)
-          .then((response) => {
-            console.log(response.data);
-            var userToken = response.data;
-            if (userToken.roleID === 1)
-              this.$route.push = "/client/home";
-            else if (userToken.roleID === 2)
-              this.$route.push = "/client/home";//admin
-            else if (userToken.roleID === 3)
-              this.$route.push = "/cottage/home";
-            else if (userToken.roleID === 4)
-              this.$route.push = "/client/home";//ship owner
-            else if (userToken.roleID === 5)
-              this.$route.push = "/client/home";//fishing instructor
-          })
-          .catch(function (error) {
-            console.log(error.toJSON());
-            if (error.response) {
-              // The request was made and the server responded with a status code
-              // that falls out of the range of 2xx
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-            } else if (error.request) {
-              // The request was made but no response was received
-              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
-              console.log(error.request);
-            } else {
-              // Something happened in setting up the request that triggered an Error
-              console.log('Error', error.message);
-            }
-            console.log(error.config);
-          });
+      loginServce.login(user).then((response) => {
+        console.log(response);
+        if (response.roleID === 1){
+          this.$router.push("/client/home");
+        }
+        else if (response.roleID === 2){
+          this.$router.push("/client/home");//admin
+        }
+        else if (response.roleID === 3){
+          this.$router.push("/cottage/home");
+        }
+        else if (response.roleID === 4){
+          this.$router.push("/client/home");//ship owner
+        }
+        else if (response.roleID === 5){
+          this.$router.push("/instructor/home");//fishing instructor
+        }
+      }
+      )
+
     }
   },
 };

@@ -45,7 +45,6 @@ public class AuthenticationController {
 		// if you want to add aditional params you do it here
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-
 		//handle if email already exists
 
 		// valid credentials
@@ -58,7 +57,7 @@ public class AuthenticationController {
 
 		//User u = userService.findByUsername(authenticationRequest.getUsername());
 		// return created token
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, 1));
+		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user.getRoleId(), user.getId()));
 	}
 
 	@PostMapping("/signup")

@@ -11,14 +11,16 @@ INSERT INTO ROLE (name) VALUES ('ROLE_FISHINSTRUCTOR');
 
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
-	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id) values
-	('CO', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07', 3);
+	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id,
+	is_authenticated, penalty_number) values
+	('CL', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07', 1,
+	true, 0);
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id) values
 	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 1, '2017-10-01 18:57:58.508-07',5);
+	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5);
 
 
 insert into calendar (id) values (1);

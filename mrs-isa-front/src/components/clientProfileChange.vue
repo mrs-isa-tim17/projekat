@@ -86,9 +86,15 @@ export default {
     disabledInputField,
     openLayers: vueOpenLayerMap
   },
+  /*
+  computed:{
+    currentUser(){
+      return this.$store.state.auth.user;
+    }
+  },*/
   created:
       function () {
-        this.clientID = this.$route.params.id;
+        this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
         ClientServce.getClient(this.clientID)
             .then((response) => {
               console.log(response);
@@ -154,7 +160,8 @@ export default {
         this.backup[5] = this.client.latitude;
       }
 
-    },cancel(){
+    },
+    cancel(){
       this.client.name = this.backup[0];
       this.client.surname = this.backup[1];
       this.client.phoneNumber = this.backup[2];
@@ -166,7 +173,6 @@ export default {
 
   }
   ,mounted() {
-
     this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password,
       this.client.country, this.client.longitude, this.client.latitude];
 
