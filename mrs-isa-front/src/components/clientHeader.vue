@@ -23,15 +23,25 @@
             <a class="nav-link text-dark" href="#">Avanture</a>
           </li>
         </ul>
-        <button class="btn btn-outline-dark" >Odjava</button>
+        <button class="btn btn-outline-dark" @click="logout">Odjava</button>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
+import loginServce from "@/servieces/LoginServce";
 export default {
   name: "client-header",
+  components:[
+      loginServce
+  ],
+  methods:{
+    logout(){
+      loginServce.logout();
+      this.$router.push('/book/site/home');
+    }
+  },
   data() {
     return {
       homeLink: "/client/home"

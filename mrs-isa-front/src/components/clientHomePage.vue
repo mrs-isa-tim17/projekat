@@ -1,5 +1,5 @@
 <template>
-  <div id="client-home-page">
+  <div id="client-home-page" v-cloak>
     <!--<client-header></client-header>-->
     <clientHeader></clientHeader>
     <div class="container">
@@ -66,9 +66,16 @@
   </div>
 </template>
 
+<style>
+
+[v-cloak] {
+  display: none
+}
+</style>
 <script>
 import clientHomePageOption from "@/components/clientHomePageOption";
 import clientHeader from "@/components/clientHeader";
+//import clientServce from "@/servieces/ClientServce";
 export default {
   name: "client-home",
   components: {
@@ -118,7 +125,7 @@ export default {
       deleteAccText: "Brisanje naloga",
 
       profileImgPath: require("@/assets/icons/profile.png"),
-      profileLink: "/client/profile/1",
+      profileLink: "/client/profile",
       profileText: "Profil"
 
     }

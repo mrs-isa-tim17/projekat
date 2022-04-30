@@ -23,14 +23,22 @@
             <a class="nav-link text-dark" href="...">Avanture</a>
           </li>
         </ul>
+        <button class="btn btn-outline-dark" @click="login">Log in</button>
+        <button class="btn btn-outline-dark" @click="register">Sign up</button>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "basicHeader",
+  methods: {
+    login(){
+      this.$router.push('/book/site/login');
+    }
+  },
   data() {
     return {
       siteHomePage: "/home"
