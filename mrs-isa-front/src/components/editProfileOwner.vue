@@ -1,4 +1,5 @@
 <template>
+  <ownerHeader></ownerHeader>
   <div><div class="header">
     Moj profil
   </div>
@@ -80,9 +81,10 @@
 
 <script>
 import changePasswordDialog from "@/components/changePasswordDialog";
+import ownerHeader from "@/components/ownerHeader";
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordDialog},
+  components:{changePasswordDialog, ownerHeader},
   data(){
     return{
       showDialog:false,

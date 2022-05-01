@@ -8,8 +8,8 @@ const router = createRouter({
         { path: '/client/profile', component: () => import("./components/clientProfileChange.vue")},
         { path: '/client/history/:type', component: () => import("./components/clientReservationHistory.vue")},
         { path: '/owner/profile', component: () => import("./components/editProfileOwner")},
-        { path: '/cottage/home', component: () => import("./components/cottageOwnerHomePage")},
-        { path: '/owner/managment', component: () => import("./components/managmentOwner")}
+        { path: '/cottage/home', component: () => import("./components/cottageOwnerHome")},
+        { path: '/cottages', component: () => import("./components/cottageList")}
     ]
 });
 
