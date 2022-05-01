@@ -5,9 +5,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" :href="siteHomePage">
-          <img src="../assets/icons/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
-          Book
+        <a class="navbar-brand" :href="siteHomePage" style="color:white;margin-right:150px;font-weight:bold;">
+          <img src="../assets/icons/logo_new.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
+          <div style="display:inline-block;vertical-align:bottom;">ENJOY</div>
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -23,8 +23,8 @@
             <a class="nav-link text-dark" href="...">Avanture</a>
           </li>
         </ul>
-        <button class="btn btn-outline-dark" @click="login">Log in</button>
-        <button class="btn btn-outline-dark" @click="register">Sign up</button>
+        <button class="btn btn-outline-dark" @click="login" style="margin-right:30px;">Prijavite se</button>
+        <button class="btn btn-outline-dark" @click="register">Registrujte se</button>
       </div>
     </nav>
   </div>
@@ -51,5 +51,8 @@ export default {
 </script>
 
 <style scoped>
-
+img{
+  width:70px;
+  height:70px;
+}
 </style>

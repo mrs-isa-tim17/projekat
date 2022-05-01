@@ -1,7 +1,6 @@
 <template>
   <div>
     <basic-header></basic-header>
-  <p>Registracija novih korisnika</p>
   <section class="signup-view">
   <div>
       <div id="left">
@@ -21,18 +20,17 @@
         </select>
 
       </div>
-      <div id="right">
-        <label> Izaberete vašu adresu</label>
+      <div id="right" style="margin-left:700px; margin-bottom:280px;">
+        <label> Izaberite Vašu adresu</label>
         <open-maps :lon="user.longitude" :lat="user.latitude" @coordinate-changed="updateCoordinats" style="width: 400px; height: 400px;"></open-maps>
       </div>
         <div class="footer">
       <button class="ui button red fluid big"
           @click="signUpButtonPressed"
           :disabled="isSignupButtonDisabled"
-              style="float:right;width:200px;background-color: #31708E;">
+              style="float:right;width:200px;background-color: #31708E;margin-bottom: 60px;">
         Registruj se
       </button>
-          <button id="cancel">Otkaži</button>
         </div>
 
   </div>
@@ -111,26 +109,23 @@ export default {
   height: 100vh;
 }
 
-.form {
+#left{
   border: 1px solid black;
   text-align:center;
   background-color:#687864;
   font-size: 20px;
-  padding: 60px;
-  width: 60%;
-  height:75%;
+  padding: 40px;
+  width: 40%;
+  height:70%;
   position: absolute;
-  left: 50%;
-  top: 35%;
+  left: 30%;
+  top: 50%;
   transform: translate(-50%, -50%);
   color: white;
 }
 
-#left{
-  float:left;
-}
 #right{
-  float:right;
+
 }
 .footer{
   bottom:50px;
