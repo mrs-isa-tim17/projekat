@@ -61,7 +61,7 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest) {
 
 		User existUser = this.userService.findByUsername(userRequest.getEmail());
 
