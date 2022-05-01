@@ -38,6 +38,9 @@ class LoginServce{
     logout(){
         localStorage.removeItem('user');
     }
+    registration(userRequest){
+        return axios.post(AUTH_URL + "/signup", userRequest);
+    }
 }
 
 export default new LoginServce();
