@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import deleteAccountDialog from "@/components/deleteAccountDialog";
+import deleteAccountDialog from "@/components/deleteAccountModal";
 export default {
   name: "cottage-owner-home",
   components:{deleteAccountDialog}

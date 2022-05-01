@@ -1,6 +1,7 @@
 <template>
   <div><div class="header">
-    Moj profil
+   <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
+    <div id="profile">Moj profil</div>
   </div>
     <!--  Loyality  -->
     <div class="loyality">
@@ -56,8 +57,8 @@
           </div>
           <div class="input-box">
             <span class="details">Lozinka</span><br>
-            <changePasswordDialog
-             :index="buttonId" ></changePasswordDialog>
+            <changePasswordModal
+             :index="buttonId" :header="changePassHeader"></changePasswordModal>
 
           </div>
 
@@ -77,26 +78,22 @@
 </template>
 
 <script>
-import changePasswordDialog from "@/components/changePasswordDialog";
+import changePasswordModal from "@/components/changePasswordModal";
+import deleteAccountModal from "@/components/deleteAccountModal"
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordDialog},
+  components:{changePasswordModal, deleteAccountModal},
   data(){
     return{
       showDialog:false,
-      buttonId : "changePass"
+      buttonId : "changePass",
+      deleteAcc: "deleteAcc",
+      deleteHeader:"Zahtev za brisanje naloga",
+      changePassHeader:"Promena lozinke"
     }
   },
   methods: {
-    cancel() {
-      console.log('cancel');
-      this.showDialog = false;
 
-    },
-    confirm() {
-      console.log('confirm');
-      this.showDialog = false;
-    }
   }
 }
 </script>
@@ -112,7 +109,7 @@ export default {
   height:75%;
   position: absolute;
   left: 65%;
-  top: 50%;
+  top: 55%;
   transform: translate(-50%, -50%);
   color: #5F9F9F;
 
@@ -196,7 +193,9 @@ form .details .input-box{
   font-size: 35px;
   color: white;
   font-weight: bold;
-
+}
+#profile{
+  margin-left:200px;
 }
 
 #buttonSubmit{
@@ -218,8 +217,8 @@ form .details .input-box{
   width: 25%;
   height:75%;
   position: absolute;
-  left: 30%;
-  top: 50%;
+  left: 28%;
+  top: 55%;
   transform: translate(-50%, -50%);
   color: white;
 }

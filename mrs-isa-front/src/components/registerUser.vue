@@ -6,19 +6,19 @@
     <form class="ui form" @submit.prevent>
       <div id="left">
         <NameField v-model="user.name" /><br>
-        <LastNameField v-model="user.lastname"/><br>
+        <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
         <PasswordAgainField v-model="user.password" /><br>
 
       </div>
       <div id="right">
-      <PhoneField v-model="user.phone" /><br>
+      <PhoneField v-model="user.phoneNumber" /><br>
       <AddressField v-model="user.address"/><br>
       <CityField v-model="user.city"/><br>
       <CountryField v-model="user.country"/><br>
         <i class="fa fa-users"></i>
-        <select name="role" id="roles">
+        <select name="role" id="roles" v-model="user.role">
           <option style="color:grey;" value="" disabled selected>Vrsta korisnika</option>
           <option value="user">Klijent</option>
           <option value="cottage-owner">Vlasnik vikendice</option>
