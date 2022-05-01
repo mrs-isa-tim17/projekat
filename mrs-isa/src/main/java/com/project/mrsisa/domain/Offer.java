@@ -2,6 +2,7 @@ package com.project.mrsisa.domain;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,10 +48,10 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<ExperienceReview> experienceReviews;
 	
-	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<AdditionalServices> additionalServices;
 	
-	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)   //(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<BehaviorRule> behaviorRules;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -69,6 +70,16 @@ public abstract class Offer {
 	@ManyToMany
 	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
 	protected List<Client> subscribers;
+	
+	public Offer() {
+		this.complaints = new ArrayList<Complaint>();
+		this.additionalServices = new ArrayList<AdditionalServices>();
+		this.behaviorRules = new ArrayList<BehaviorRule>();
+		this.cancelCondition = new ArrayList<CancelCondition>();
+		this.experienceReviews = new ArrayList<ExperienceReview>();
+		this.images = new ArrayList<Image>();
+		this.pricelists = new ArrayList<Pricelist>();
+	}
 	
 	public String getName() {
 		return name;

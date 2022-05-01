@@ -3,7 +3,6 @@ package com.project.mrsisa.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.project.mrsisa.domain.Adventure;
@@ -28,7 +27,10 @@ public class AdventureService {
 	public Adventure findOneById(Long id) {
 		return adventureRepository.findOneById(id);
 	}
-
+	
+	public void remove(Long id) {
+		adventureRepository.deleteById(id);
+	}
 /*	public Adventure fetchAdventureWithOther(Long id) {
 		return adventureRepository.fetchAdventureWithOther(id);
 	}*/

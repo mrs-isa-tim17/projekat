@@ -1,65 +1,138 @@
 <template>
   <div class="container">
+
     <instructor-header></instructor-header>
     <div class="row">
       <div class="col-4  d-flex justify-content-center"
-           style="border-style: solid; border-width: medium; background-color: #B0C4DE;">
+           style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
-          <inputField :label="adventureNameLabel" :info="adventure.name"></inputField>
-          <inputField :label="cityLabel" :info="adventure.address.place.name"></inputField>
-          <inputField :label="streetLabel" :info="adventure.address.streetName"></inputField>
-          <inputField :label="numberLabel" :info="adventure.address.serialNumber"></inputField>
-          <inputField :label="countryLabel" :info="adventure.address.place.country"></inputField>
+          <div class="p-2">
+            <label>{{ adventureNameLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.name" size="25">
+          </div>
 
-          <inputField :label="priceLabel" :info="adventure.priceList[0].price"></inputField>
+          <div class="p-2">
+            <label>{{ cityLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.city" size="25">
+          </div>
+          <div class="p-2">
+            <label>{{ streetLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.streetName" size="25">
+          </div>
+          <div class="p-2">
+            <label>{{ numberLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.serialNumber" size="25">
+          </div>
+          <div class="p-2">
+            <label>{{ countryLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.country" size="25">
+          </div>
+          <div class="p-2">
+            <label>{{ priceLabel }}</label>
+            <br>
+            <input type="text" ref="input" v-model="adventure.price" size="25">
+          </div>
           <div class="p-2">
             <label>{{ descriptionLabel }}</label>
             <br>
-            <textarea type="text" ref="input" :value="adventure.description" size="25">
+            <textarea type="text" ref="input" v-model="adventure.description" size="25">
             </textarea>
+            <br>
+            <br>
+            <h5 id="message"></h5>
           </div>
 
         </div>
       </div>
       <div class="col-4 d-flex justify-content-center" style="border-style: solid; border-width: medium;
-                                                background-color: #B0C4DE;">
+                                                background-color: #CDCDCD;">
         <div>
 
 
           <div class="p-2">
             <div class="mb-3">
               <label for="formFile" class="form-label">{{ imgLabel }}</label>
-              <input class="form-control" type="file" id="formFile">
+              <input class="form-control" type="file"  id="formFile" >
             </div>
           </div>
 
-          <inputField :label="capacityLabel" :info="adventure.capacity"></inputField>
+          <div class="p-2">
+            <label>{{ capacityLabel }}</label>
+            <br>
+            <input type="number" ref="input" v-model="adventure.capacity" size="25">
+          </div>
 
           <div class="p-2">
             <label>{{ biographyLabel }}</label>
             <br>
-            <textarea type="text" ref="input" :value="adventure.instructorBiography" size="25">
+            <textarea type="text" ref="input" v-model="adventure.instructorBiography" size="25">
             </textarea>
           </div>
           <br>
           <label>{{ ruleLabel }}</label>
           <br>
           <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check" v-for="rule in adventure.behavioralRule" :key="rule">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-              <label class="form-check-label" for="flexCheckDefault">
-                {{ rule }}
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=rule1 id="flexCheckDefault"
+                     :checked="rule1 in this.adventure.behaviorRules"  v-model="adventure.behaviorRules">
+              <label :for=rule1 class="form-check-label">
+                {{ rule1 }}
               </label>
             </div>
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=rule2 id="flexCheckDefault"
+                     :checked="rule2 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
+              <label class="form-check-label" :for=rule2>
+                {{ rule2 }}
+              </label>
+            </div>
+
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=rule3 id="flexCheckDefault"
+                     :checked="rule3 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
+              <label class="form-check-label" :for=rule3>
+                {{ rule3 }}
+              </label>
+            </div>
+
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=rule4 id="flexCheckDefault"
+                     :checked="rule4 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
+              <label class="form-check-label" :for=rule4>
+                {{ rule4 }}
+              </label>
+            </div>
+
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=rule5 id="flexCheckDefault"
+                     :checked="rule5 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
+              <label class="form-check-label" :for=rule5>
+                {{ rule5 }}
+              </label>
+            </div>
+          </div>
 
           <br>
           <label>{{ additionalEquipmentLabel }}</label>
           <br>
           <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check" v-for="equipment in adventure.additionalServices" :key="equipment">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
-              <label class="form-check-label" for="flexCheckDefault">
-                {{ equipment }}
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=additionalEquipment1 id="flexCheckDefault"
+                     :checked="additionalEquipment1 in this.adventure.additionalServices" v-model="adventure.additionalServices">
+              <label class="form-check-label" :for=additionalEquipment1>
+                {{ additionalEquipment1 }}
+              </label>
+            </div>
+            <div align="left" class="form-check">
+              <input class="form-check-input" type="checkbox" :value=additionalEquipment2 id="flexCheckDefault"
+                     :checked="additionalEquipment2 in this.adventure.additionalServices" v-model="adventure.additionalServices">
+              <label class="form-check-label" :for=additionalEquipment2>
+                {{ additionalEquipment2 }}
               </label>
             </div>
           </div>
@@ -71,20 +144,41 @@
 
 
       <div class="col-4 d-flex justify-content-center" style="border-style: solid; border-width: medium;
-                                                background-color: #B0C4DE;">
+                                                background-color: #CDCDCD;">
         <div>
           <div class="p-2">
             <br>
             <label>{{ fishingEquipmentLabel }}</label>
             <br>
             <div class="p-2" style="border-style: solid; border-width: medium;">
-              <div align="left" class="form-check" v-for="fishingEquipment in adventure.fishingEquipment" :key="fishingEquipment">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  {{ fishingEquipment.name }}
+              <div align="left" class="form-check">
+                <input class="form-check-input" type="checkbox" :value=fishingEquipment1 id="flexCheckDefault"
+                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
+                <label class="form-check-label" :for=fishingEquipment1>
+                  {{ fishingEquipment1 }}
                 </label>
               </div>
-
+              <div align="left" class="form-check">
+                <input class="form-check-input" type="checkbox" :value=fishingEquipment2 id="flexCheckDefault"
+                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
+                <label class="form-check-label" :for=fishingEquipment2>
+                  {{ fishingEquipment2 }}
+                </label>
+              </div>
+              <div align="left" class="form-check">
+                <input class="form-check-input" type="checkbox" :value=fishingEquipment3 id="flexCheckDefault"
+                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
+                <label class="form-check-label" :for=fishingEquipment3>
+                  {{ fishingEquipment3 }}
+                </label>
+              </div>
+              <div align="left" class="form-check">
+                <input class="form-check-input" type="checkbox" :value=fishingEquipment4 id="flexCheckDefault"
+                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
+                <label class="form-check-label" :for=fishingEquipment4>
+                  {{ fishingEquipment4 }}
+                </label>
+              </div>
             </div>
 
           </div>
@@ -92,9 +186,23 @@
           <label> {{ cancelConditionsLabel }} </label>
           <br>
 
-          <div class="p-2" style="border-style: solid; border-width: medium;" v-for="cancelRule in adventure.cancelCondition" :key="cancelRule">
+          <div class="p-2" style="border-style: solid; border-width: medium;">
 
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule.days}}</b> dana plaća se <input type="text" :value= cancelRule.double size="1"/> %
+            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule1 }}</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.percentage[0]"
+                                                                                                size="15"/> %
+              ukupnog iznosa</p>
+            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule2 }}</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.percentage[1]"
+                                                                                                size="15"/> %
+              ukupnog iznosa</p>
+            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule3 }}</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.percentage[2]"
+                                                                                                size="15"/> %
+              ukupnog iznosa</p>
+            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule4 }}</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.percentage[3]"
+                                                                                                size="15"/> %
               ukupnog iznosa</p>
 
           </div>
@@ -104,97 +212,95 @@
       </div>
     </div>
     <div align="right">
-      <botton class="col-1 btn btn-primary  btn-md  me-md-2">Izmeni</botton>
-      <botton class="col-1 btn btn-secondary  btn-md  me-md-2">Odustani</botton>
+      <botton class="col-1 btn btn-primary  btn-md  me-md-2" @click="updateAdventure">Izmeni</botton>
+      <botton class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</botton>
     </div>
   </div>
-  </div>
+
 </template>
+
 
 <script>
 
-import InputField from "@/components/inputField";
 import InstructorHeader from "@/components/insrtuctorHeader"
-//import AdventureService from "@/services/AdventureService";
+import AdventureService from "@/services/AdventureService";
 
 export default {
-  name: "addAdventure",
+  name: "updateAdventure",
   components: {
-    InputField,
     InstructorHeader,
   },
 
-  created: {
-   /* function() {
+  created:
+    function() {
+      console.log("bar je usao u funkciju");
+
       let type = this.$route.params.type
       AdventureService.getAdventure(type).then((response) => {
         this.adventure = response.data;
-        console.log(this.adventure)
+        console.log(this.adventure);
+        console.log(this.adventure.behavioralRules);
       })
-    }*/
-  },
-  methods:{
-  applyChanges(){
-    if (this.adventure.name == "" || this.adventure.name[0] == this.adventure.name[0].toLowerCase()){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
     }
-    else if (this.client.surname == "" || this.client.surname[0] == this.client.surname[0].toLowerCase()){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
-    }
-    else if (this.client.phoneNumber == ""){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
-    }
-    else if (this.client.country == "" || this.client.country[0] == this.client.country[0].toLowerCase()){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
-    }
-    else if (this.client.city == "" || this.client.city[0] == this.client.city[0].toLowerCase()){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
-    }
-    else if (this.client.address == ""){
-      this.message = this.errorMessage;
-      document.getElementById("emptyError").style.color = "red";
-      document.getElementById("emptyError").style.visibility = "visible";
-    }
-    else{
-      //axios
-      this.message = this.successMessage;
-      document.getElementById("emptyError").style.color = "green";
-      document.getElementById("emptyError").style.visibility = "visible";
-      this.backup[0] = this.client.name;
-      this.backup[1] = this.client.surname;
-      this.backup[2] = this.client.phoneNumber;
-      this.backup[3] = this.client.password;
-      this.backup[4] = this.client.country;
-      this.backup[5] = this.client.city;
-      this.backup[6] = this.client.address;
+  ,
+  methods: {
+    updateAdventure() {
+      if (this.adventure.name === "" || this.adventure.capacity == null || this.adventure.instructorBiography === "" || this.adventure.description === "") {
+        document.getElementById("message").innerText = this.message;
+        document.getElementById("message").style.color = 'red';
+      } else {
+        //axios
+        AdventureService.updateAdventure(this.adventure).then((response) => {
+          this.adventure = response.data;
+          document.getElementById("message").innerText = this.successMessage;
+          console.log(this.adventure)
+        })
+            .catch(function (error) {
+              console.log(error.toJSON());
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // error.request is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            });
+
+
+        /*  this.backup[0] = this.adventure.name;
+          this.backup[1] = this.adventure.description;
+          this.backup[2] = this.adventure.instructorBiography;
+          this.backup[3] = this.adventure.capacity;
+          this.backup[4] = this.adventure.price; */
+        document.getElementById("message").innerText = this.successMessage;
+      }
+
+    },/* cancel() {
+      this.adventure.name = this.backup[0];
+      this.adventure.description = this.backup[1];
+      this.adventure.instructorBiography = this.backup[2];
+      this.adventure.capacity = this.backup[3];
+      this.adventure.price = this.backup[4];
+
+    },*/
+    back(){
+      this.$router.push('/instructor/adventures');
     }
 
-  },cancel(){
-    this.client.name = this.backup[0];
-    this.client.surname = this.backup[1];
-    this.client.phoneNumber = this.backup[2];
-    this.client.password = this.backup[3];
-    this.client.country = this.backup[4];
-    this.client.city = this.backup[5];
-    this.client.address = this.backup[6];
-    document.getElementById("emptyError").style.visibility = "hidden";
+    /* }
+     , mounted() {
+       this.backup = [this.adventure.name, this.adventure.description, this.adventure.instructorBiography, this.adventure.capacity,
+         this.adventure.price];*/
   },
-
-}
-,mounted() {
-  this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password, this.client.country,
-    this.client.city, this.client.address];
-},
 
   data() {
     return {
@@ -239,49 +345,27 @@ export default {
       cancelRule3: "od više 10",
       cancelRule4: "od više 15",
       cancelRule5: "od više 20",
+
       adventure: {
+        id:2,
         name: "",
         streetName: "",
         serialNumber: "",
         country: "",
         description: "",
         city: "",
-        behavioralRules: [],
+        behaviorRules: [],
         images: [],
         fishingEquipment: [],
         cancelConditions: [],
-        experienceReviews: [],
         price: "",
         capacity: "",
-        instructorBiography: ""
+        instructorBiography: "",
+        additionalServices: [],
+        days: ['5', '10', '15', '20'],
+        percentage: ['0', '0', '0', '0'],
+        experienceReviews: [],
       },
-      /*   adventure: {
-        id: 1,
-        name: "Rafting Drinom",
-        address: {
-          streetName: "Gogoljeva",
-          serialNumber: "22",
-          place: {postNumber: 22240, name: "Bajina Bašta", country: "Srbija"}
-        },
-        description: 'Uzbudljvo putovanje za porodicu i prijatelje',
-        images: [{path: require("@/assets/img/adventure/Drina1.jpg")}, {path: require("@/assets/img/adventure/Drina2.jpg")}, {path: require("@/assets/img/adventure/Drina3.jpg")}, {path: require("@/assets/img/adventure/Drina4.jpg")}],
-        priceList: [{startDate: "start", endDate: "end", price: 12000}],
-        behavioralRule: ["dozvoljeno pecanje", "zabranjeno kupanje", "pet friendly"],
-        cancelCondition: [{days: 5, double: 30}, {days: 30, double: 5}],
-        additionalServices: ["prevoz do plaze", "dorucak u kampu", "baterijska lampa"],
-        instructorBiography: "Avanturisticki duh, zastitom reke Drine se bavi od 2008. godine...",
-        capacity: 5,
-        fishingEquipment: [{name: "stap", units: "komada", quantity: 10}, {name: "crvi", units: "kg", quantity: "2"}],
-        averageRaiting: 4.35,
-        experienceReview: [{
-          text: "odlicno   Pravila ponašanja dozvoljeno pecanje zabranjeno kupanjepet friendlyPecaroška opremastap ima 10 komadacrvi ima 2 kglovi otkaza otkažete u roku od 5 dana pre početka događaja, plaćate 30% od ukupne cene rezervacije.roku od 30 dana pre početka događaja, plaćate 5% od ukupne cene rezervacijeBiografija instruktora Avanturisticki duh, zastitom reke Drine se bavi od 2008. godine...",
-          client: {name: "Milan", surname: "Milic"}
-        }, {text: "onako", client: {name: "Jelena", surname: "Jankovic"}}, {
-          text: "prelepo",
-          client: {name: "Pera", surname: "Peric"}
-        }]
-      }*/
-
     }
   }
 }

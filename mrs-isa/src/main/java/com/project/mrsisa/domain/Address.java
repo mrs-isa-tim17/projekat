@@ -25,7 +25,7 @@ public class Address {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Place place;
 	
-	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Offer offer;
 	/*
 	@OneToOne(mappedBy = "address", fetch = FetchType.LAZY)

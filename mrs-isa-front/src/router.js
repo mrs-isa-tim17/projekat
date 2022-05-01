@@ -17,7 +17,7 @@ const router = createRouter({
         },
         { path: '/instructor/home', component: ()=> import("./components/instructorHomePage")},
         { path: '/adventure/add', component: ()=> import("./components/addAdventure")},
-        { path: '/adventure/update', component: ()=> import("./components/updateAdventure")}
+        { path: '/adventure/update/:type', component: ()=> import("./components/updateAdventure.vue")}
     ]
 });
 

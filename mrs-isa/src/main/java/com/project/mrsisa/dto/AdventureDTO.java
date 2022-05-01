@@ -23,7 +23,7 @@ public class AdventureDTO {
 	private String description;
 	private String instructorBiography;
 
-	private List<String> behavior;
+	private List<String> behavioralRules;
 	private List<String> images;
 	private List<String> fishingEquipment;
 	private List<String> cancelConditions;
@@ -38,18 +38,18 @@ public class AdventureDTO {
 	
 	
 	public AdventureDTO() {
-		this.behavior = new ArrayList<String>();
+		this.behavioralRules = new ArrayList<String>();
 		this.images =new ArrayList<String>();
 		this.fishingEquipment=new ArrayList<String>();
 		this.cancelConditions =new ArrayList<String>();
 		this.experienceReviews = new ArrayList<String>();
 		this.additionalServices = new ArrayList<String>();
+		this.days = new ArrayList<String>();
+		this.percentage = new ArrayList<String>();
 	}
 
-	public AdventureDTO(Adventure adventure, List<BehaviorRule> behaviorRules, List<Image> images, List<FishingEquipment> fishingEquipments,
+	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
 			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price) {
-		
-		System.out.println(adventure);
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
@@ -63,16 +63,19 @@ public class AdventureDTO {
 		this.capacity = adventure.getCapacity();
 		this.price = price;
 		
-		this.behavior = new ArrayList<String>();
+		this.behavioralRules = new ArrayList<String>();
 		this.images =new ArrayList<String>();
 		this.fishingEquipment=new ArrayList<String>();
 		this.cancelConditions =new ArrayList<String>();
 		this.experienceReviews = new ArrayList<String>();
 		this.additionalServices = new ArrayList<String>();
 		
-		for(BehaviorRule br : behaviorRules)
+		this.days = new ArrayList<String>();
+		this.percentage = new ArrayList<String>();
+		
+		for(BehaviorRule br : behavior)
 		{
-			this.behavior.add(br.getText());
+			this.behavioralRules.add(br.getText());
 		}
 		for(Image im : images)
 		{
@@ -85,6 +88,8 @@ public class AdventureDTO {
 		for(CancelCondition cc : cancelConditions)
 		{
 			this.cancelConditions.add("Za otkazni rok od + " + String.valueOf(cc.getDays()) +" dana pre početka događaja, naplaćuje se " + String.valueOf(cc.getPrecent()) + "od ukupne cene rezervacije.");
+			this.days.add(String.valueOf(cc.getDays()));
+			this.percentage.add(String.valueOf(cc.getPrecent()));	
 		}
 
 		for(ExperienceReview er : experience)
@@ -95,8 +100,7 @@ public class AdventureDTO {
 		for(AdditionalServices as : additionalServices)
 		{
 			this.additionalServices.add(as.getName());
-		}
-		
+		}	
 	}
 	
 	
@@ -111,7 +115,7 @@ public class AdventureDTO {
 
 
 	public AdventureDTO( String name, String streetName, String country, String city, String description,
-		boolean deleted, List<String> behaviorRules, List<String> images, List<String> fishingEquipment,
+		boolean deleted, List<String> behavior, List<String> images, List<String> fishingEquipment,
 		List<String> cancelConditions, List<String> experienceReviews, double price, int capacity) {
 	super();
 	this.name = name;
@@ -119,7 +123,7 @@ public class AdventureDTO {
 	this.country = country;
 	this.city = city;
 	this.description = description;
-	this.behavior = behaviorRules;
+	this.behavioralRules = behavior;
 	this.images = images;
 	this.fishingEquipment = fishingEquipment;
 	this.cancelConditions = cancelConditions;
@@ -180,11 +184,11 @@ public class AdventureDTO {
 	}
 
 	public List<String> getBehaviorRules() {
-		return behavior;
+		return behavioralRules;
 	}
 
-	public void setBehaviorRules(List<String> behaviorRules) {
-		this.behavior = behaviorRules;
+	public void setBehaviorRules(List<String> behavior) {
+		this.behavioralRules = behavior;
 	}
 
 	public List<String> getImages() {
@@ -245,15 +249,6 @@ public class AdventureDTO {
 	}
 	
 
-	public List<String> getBehavior() {
-		return behavior;
-	}
-
-	public void setBehavior(List<String> behavior) {
-		this.behavior = behavior;
-	}
-
-
 	public List<String> getDays() {
 		return days;
 	}
@@ -278,7 +273,7 @@ public class AdventureDTO {
 	public String toString() {
 		return "AdventureDTO [id=" + id + ", name=" + name + ", streetName=" + streetName + ", country=" + country
 				+ ", city=" + city + ", description=" + description + ", deleted=" + ", behaviorRules="
-				+ behavior + ", images=" + images + ", fishingEquipment=" + fishingEquipment
+				+ behavioralRules + ", images=" + images + ", fishingEquipment=" + fishingEquipment
 				+ ", cancelConditions=" + cancelConditions + ", experienceReviews=" + experienceReviews
 				+ ", additionalServices=" + additionalServices + ", price=" + price + ", capacity=" + capacity + "]";
 	}

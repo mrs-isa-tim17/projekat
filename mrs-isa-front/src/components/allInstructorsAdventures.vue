@@ -43,6 +43,7 @@
 <script>
 import instructorHeader from "@/components/insrtuctorHeader"
 import simpleAdventure from "./simpleAdventure";
+import AdventureService from "@/services/AdventureService";
 
 export default {
   name: "adventure-all",
@@ -50,6 +51,17 @@ export default {
     instructorHeader,
     simpleAdventure
   },
+
+  created:
+      function() {
+        console.log("bar je usao u funkciju");
+
+        AdventureService.getAllAdventures().then((response) => {
+          this.adventures = response.data;
+        })
+      }
+  ,
+
   methods: {
     goToAddAdventure() {
       this.$router.push('/adventure/add');
@@ -58,7 +70,29 @@ export default {
 
   data() {
     return {
-      adventures: [
+      adventures:[],
+      adventure:{
+        id:2,
+        name: "",
+        streetName: "",
+        serialNumber: "",
+        country: "",
+        description: "",
+        city: "",
+        behavioralRules: [],
+        images: [],
+        fishingEquipment: [],
+        cancelConditions: [],
+        price: "",
+        capacity: "",
+        instructorBiography: "",
+        additionalEquipment: [],
+        days: ['5', '10', '15', '20'],
+        percentage: ['0', '0', '0', '0'],
+        experienceReviews: [],
+      }
+
+      /*adventures: [
         {
           id: 2,
           name: "Rafting Drinom",
@@ -114,7 +148,7 @@ export default {
             client: {name: "Pera", surname: "Peric"}
           }]
         }
-      ]
+      ]*/
     }
   }
 }

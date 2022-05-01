@@ -9,12 +9,12 @@
           <div class="row">
             <div class="col">
               <a :href=detailAdventure><h5 align="left" class="card-title"> {{ adventure.name }} </h5></a>
-              <p align="left" class="card-text"> {{ adventure.address.place.name }}</p>
-              <p align="left" class="card-text"><small align="left" class="text-muted"> {{adventure.address.streetName}}
-                {{ adventure.address.serialNumber }} </small></p>
+              <p align="left" class="card-text"> {{ adventure.city }}</p>
+              <p align="left" class="card-text"><small align="left" class="text-muted"> {{adventure.streetName}}
+                {{ adventure.serialNumber }} </small></p>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToDetailAdventure"> Detalji</button>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToUpdateAdventure"> Izmeni</button>
-              <button class="btn btn-secondary  btn-sm  me-md-2"> Obriši</button>
+              <button class="btn btn-secondary  btn-sm  me-md-2" @click="deleteAdventure"> Obriši</button>
             </div>
 
             <div class="col">
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import AdventureService from "@/services/AdventureService";
+
 export default {
   name: "simple-adventure",
   components: {},
@@ -38,15 +40,47 @@ export default {
 
     goToDetailAdventure() {
       console.log(this.adventure.id);
-      this.$router.push('/adventures/detail/'+this.adventure.id);
+      this.$router.push('/adventures/detail/' + this.adventure.id);
     },
 
-    goToUpdateAdventure(){
+    goToUpdateAdventure() {
       console.log(this.adventure.id);
-      this.$router.push('/update/adventure/'+this.adventure.id);
-    }
+      this.$router.push('/adventure/update/' + this.adventure.id);
+    },
 
-  }
+    deleteAdventure() {
+      console.log(this.adventure.id);
+      AdventureService.deleteAdventure(this.adventure.id).then((response) => {
+        console.log(response);
+      })
+          .catch(function (error) {
+            console.log(error.toJSON());
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              // The request was made but no response was received
+              // error.request is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+            }
+            console.log(error.config);
+
+          });
+
+    }
+  },
+    data() {
+      return {
+        adventures: [],
+      }
+    }
 }
 </script>
 
