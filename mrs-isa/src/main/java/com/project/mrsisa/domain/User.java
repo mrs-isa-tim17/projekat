@@ -51,7 +51,7 @@ public class User implements UserDetails {
 	protected String password;
 	
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)//?????????
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//?????????
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	protected Address address;
 	
@@ -81,6 +81,9 @@ public class User implements UserDetails {
 
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
+
+	@Column(name= "enabled")
+	private boolean enabled;
 
 	public void setRoleId(long id) {roles = new Role(); roles.setId(id);}
 	public Long getRoleId() { return roles.getId();}
@@ -206,11 +209,11 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return !this.deleted;
+		return this.enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
-		setDeleted(!enabled);
+		this.enabled = enabled;
 	}
 
 

@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <basic-header></basic-header>
 <div id="login">
     <div class="imgcontainer">
 
@@ -22,13 +24,15 @@
       <span class="psw"><a href="#">Zaboravili ste lozinku?</a></span>
     </div>
 </div>
+  </div>
 </template>
 <script>
 import loginServce from "@/servieces/LoginServce";
+import basicHeader from "@/components/basicHeader";
 export default {
   name: "loginUsers",
   components: {
-
+    basicHeader
   },
   data() {
 

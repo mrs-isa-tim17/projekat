@@ -18,8 +18,8 @@ public class Client extends User {
 	@Column(name="penaltyNumber", nullable=true)
 	private int penaltyNumber;
 	
-	@Column(name="isAuthenticated", nullable=true)
-	private boolean isAuthenticated;
+	//@Column(name="isAuthenticated", nullable=true)
+	//private boolean isAuthenticated;
 	
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ClientReview> clientReviews;
@@ -39,6 +39,16 @@ public class Client extends User {
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ExperienceReview> experienceReviews;
 
+	@Column(name = "verificationCode", updatable = false)
+	private String verificationCode;
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+
 	public Client() {
 		clientReviews = new ArrayList<ClientReview>();
 		subscriptions = new ArrayList<Offer>();
@@ -54,12 +64,12 @@ public class Client extends User {
 	public void setPenaltyNumber(int penaltyNumber) {
 		this.penaltyNumber = penaltyNumber;
 	}
-	public boolean isAuthenticated() {
-		return isAuthenticated;
-	}
-	public void setAuthenticated(boolean isAuthenticated) {
-		this.isAuthenticated = isAuthenticated;
-	}
+	//public boolean isAuthenticated() {
+	//	return isAuthenticated;
+	//}
+	//public void setAuthenticated(boolean isAuthenticated) {
+		//this.isAuthenticated = isAuthenticated;
+	//}
 	public List<ClientReview> getClientReviews() {
 		return Collections.unmodifiableList(clientReviews);
 	}

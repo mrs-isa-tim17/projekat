@@ -17,6 +17,20 @@ class ClientServce{
             headers: authHeader()
         });
     }
+    verify(code){
+        return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
+            .then((response) =>{
+                console.log(response.data);
+                if (response.data.accessToken){
+                    localStorage.user = JSON.stringify(response.data); //setItem('user', response.data);
+                }else{
+                    localStorage.user = null;
+                }
+
+                return response.data;
+
+            })
+    }
 }
 
 export default new ClientServce();

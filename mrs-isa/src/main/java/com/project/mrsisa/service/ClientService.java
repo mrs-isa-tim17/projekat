@@ -12,7 +12,18 @@ import com.project.mrsisa.repository.ClientRepository;
 public class ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
-	
+
+	public Client verify(String verificationCode){
+		Client c = clientRepository.findByVerificationCode(verificationCode);
+		if (c == null){
+			return null;
+		}else if(c.isEnabled()){
+			return c;
+		}else{
+			clientRepository.updateEnabledById(true, c.getId());
+			return c;
+		}
+	}
 	
 	public Client save(Client client) {
 		return clientRepository.save(client);

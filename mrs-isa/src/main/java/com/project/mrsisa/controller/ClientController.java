@@ -1,6 +1,9 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.dto.ClientProfileResponseDTO;
 import com.project.mrsisa.service.ClientService;
 import com.project.mrsisa.service.LoyaltyScaleService;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -22,10 +26,21 @@ public class ClientController {
 	private ClientService clientService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
+    @Autowired
+    private TokenUtils tokenUtils;
 
-    @GetMapping("/home")
-    @PreAuthorize("hasRole('CLIENT')")
-    public void homePage(){}
+    @GetMapping("/verify/{code}")
+    public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
+        Client c = clientService.verify(code);
+        if (c == null){
+            return ResponseEntity.ok(null);
+        }
+        //System.out.println(c.getEmail());
+        String jwt = tokenUtils.generateToken(c.getUsername());
+        int expiresIn = tokenUtils.getExpiredIn();
+        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, c.getRoleId(), c.getId()));//new ResponseEntity<Client>(c, HttpStatus.OK);
+        //return new ModelAndView("login.vue");//"redirect:".concat("http://localhost:8081/book/site/login");//
+    }
 
 	@GetMapping("/profile/{id}")
     @PreAuthorize("hasRole('CLIENT')")

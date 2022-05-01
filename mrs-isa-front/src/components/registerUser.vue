@@ -1,9 +1,9 @@
 <template>
   <div>
+    <basic-header></basic-header>
   <p>Registracija novih korisnika</p>
   <section class="signup-view">
-
-    <form class="ui form" @submit.prevent>
+  <div>
       <div id="left">
         <NameField v-model="user.name" /><br>
         <LastNameField v-model="user.lastname"/><br>
@@ -33,14 +33,13 @@
       <button class="ui button red fluid big"
           @click="signUpButtonPressed"
           :disabled="isSignupButtonDisabled"
-              style="float:right;width:200px;background-color: #5805A5;"
-      >
+              style="float:right;width:200px;background-color: #5805A5;">
         Registruj se
       </button>
           <button id="cancel">Otkaži</button>
         </div>
 
-    </form>
+  </div>
   </section>
   </div>
 </template>
@@ -62,7 +61,8 @@ import CityField from "@/components/registration_components/CityField";
 import LastNameField from "@/components/registration_components/LastNameField";
 import CountryField from "@/components/registration_components/CountryField";
 import PasswordAgainField from "@/components/registration_components/PasswordAgainField";
-
+import basicHeader from "@/components/basicHeader";
+//import loginServce from "@/servieces/LoginServce";
 
 export default {
   components: {
@@ -74,7 +74,9 @@ export default {
     AddressField,
     CityField,
     LastNameField,
-    CountryField
+    CountryField,
+    basicHeader,
+    //loginServce
   },
 
   setup() {
@@ -90,6 +92,7 @@ export default {
 
     const signUpButtonPressed = () => {
       console.log(user);
+      //loginServce.logout();//user);
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
@@ -114,7 +117,7 @@ export default {
   height:75%;
   position: absolute;
   left: 50%;
-  top: 55%;
+  top: 35%;
   transform: translate(-50%, -50%);
   color: white;
 }
