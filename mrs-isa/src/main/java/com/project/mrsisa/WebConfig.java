@@ -13,5 +13,5 @@ public class WebConfig implements WebMvcConfigurer{
         registry.addMapping("/**").allowedOrigins("http://localhost:8081",
                 "http://mrs-isa-front.herokuapp.com",
                 "https://mrs-isa-front.herokuapp.com");
-}
+	}
 }

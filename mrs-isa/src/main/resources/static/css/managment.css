@@ -1,0 +1,126 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial;
+  background-color: E8E8E8;
+}
+
+#tab1{display:none;}
+#tab2{display:none;}
+#tab3{display:none;}              
+input + label { display: inline-block } 
+#tab1 ~ .tab { display: none }   
+#tab2 ~ .tab { display: none }   
+#tab3 ~ .tab { display: none }      
+/* show contents only for selected tab */
+#tab1:checked ~ .tab.content1,
+#tab2:checked ~ .tab.content2,
+#tab3:checked ~ .tab.content3 { display: block; }
+
+input + label {             /* box with rounded corner */
+  border: 1px solid #999;
+  background: #EEE;
+  padding: 4px 12px;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  top: 1px;
+  width: 31.33%;
+}
+input:checked + label {     /* white background for selected tab */
+  background: #FFF;
+  border-bottom: 1px solid transparent;
+}
+input ~ .tab {          /* grey line between tab and contents */
+  border-top: 1px solid #999;
+  padding: 12px;
+}
+
+/*add tab*/
+#dataForm{
+	text-align:center;
+	border: 2px solid black;
+	background-color:E8E8E8;
+	font-size: 17px;
+	padding: 20px;
+	width: 20%;
+	height:75%;
+	position: absolute;
+	left: 75%;
+	top: 50%;
+	transform: translate(-40%, -50%);
+	color: 5F9F9F;
+	
+}
+
+#tableOffers{
+	
+	text-align:center;
+	border: 2px solid black;
+	background-color:5F9F9F;
+	font-size: 20px;
+	padding: 20px;
+	width: 60%;
+	height:75%;
+	position: absolute;
+	left: 35%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	color: E8E8E8;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid black;
+  text-align: left;
+  padding: 8px;
+}
+
+#addOffer{
+	font-size:20px;
+	color: white;
+	background-color:5F9F9F;
+}
+
+
+#description{
+	height: 80px;
+	width: 70%;
+}
+
+#behavior{
+	height: 80px;
+	width: 70%;
+}
+
+#dataForm input{
+	width: 70%;
+}
+
+#dataForm label{
+	font-weight: bold;
+}
+
+#Add{
+	background-color:g;
+}
+
+table button{
+	font-size: 20px;
+	
+}
+
+#removeOffer{
+	margin-top: 180px;
+	font-size:24px;
+	background-color:5F9F9F;
+}
+
+p{
+	font-weight:bold;
+    text-decoration: underline;
+}

@@ -16,10 +16,10 @@ import com.project.mrsisa.domain.Image;
 public class AdventureDTO {
 	private Long id;
 	private String name;	
-	private String streetName;
-	private String country;
-	private String city;
-	private String serialNumber;
+	
+    private double longitude;
+    private double latitude;
+    
 	private String description;
 	private String instructorBiography;
 
@@ -53,10 +53,8 @@ public class AdventureDTO {
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
-		this.streetName = adventure.getAddress().getStreetName();
-		this.country = adventure.getAddress().getPlace().getCountry();
-		this.city = adventure.getAddress().getPlace().getPlaceName();
-		this.serialNumber = adventure.getAddress().getSerialNumber();
+		this.latitude = adventure.getAddress().getLatitude();
+		this.longitude = adventure.getAddress().getLongitude();
 		this.description = adventure.getDescription();
 		this.instructorBiography = adventure.getInstructorBiography();
 		
@@ -114,14 +112,13 @@ public class AdventureDTO {
 	}
 
 
-	public AdventureDTO( String name, String streetName, String country, String city, String description,
+	public AdventureDTO( String name, double latitude, double longitude, String description,
 		boolean deleted, List<String> behavior, List<String> images, List<String> fishingEquipment,
 		List<String> cancelConditions, List<String> experienceReviews, double price, int capacity) {
 	super();
 	this.name = name;
-	this.streetName = streetName;
-	this.country = country;
-	this.city = city;
+	this.latitude = latitude;
+	this.longitude = longitude;
 	this.description = description;
 	this.behavioralRules = behavior;
 	this.images = images;
@@ -153,34 +150,20 @@ public class AdventureDTO {
 		this.description = description;
 	}
 
-	public String getStreetName() {
-		return streetName;
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
-	}
-	public String getSerialNumber() {
-		return serialNumber;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	public String getCountry() {
-		return country;
+	public double getLatitude() {
+		return latitude;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	public List<String> getBehaviorRules() {
@@ -268,16 +251,15 @@ public class AdventureDTO {
 		this.percentage = percentage;
 	}
 
-
 	@Override
 	public String toString() {
-		return "AdventureDTO [id=" + id + ", name=" + name + ", streetName=" + streetName + ", country=" + country
-				+ ", city=" + city + ", description=" + description + ", deleted=" + ", behaviorRules="
+		return "AdventureDTO [id=" + id + ", name=" + name + ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", description=" + description + ", instructorBiography=" + instructorBiography + ", behavioralRules="
 				+ behavioralRules + ", images=" + images + ", fishingEquipment=" + fishingEquipment
 				+ ", cancelConditions=" + cancelConditions + ", experienceReviews=" + experienceReviews
-				+ ", additionalServices=" + additionalServices + ", price=" + price + ", capacity=" + capacity + "]";
-	}
-	
+				+ ", additionalServices=" + additionalServices + ", days=" + days + ", percentage=" + percentage
+				+ ", price=" + price + ", capacity=" + capacity + "]";
+	}	
 	
 }
 

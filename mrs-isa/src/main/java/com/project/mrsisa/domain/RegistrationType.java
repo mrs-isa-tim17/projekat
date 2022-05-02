@@ -1,9 +1,9 @@
 package com.project.mrsisa.domain;
 
 public enum RegistrationType {
-	COTTAGE_OWNER(0),
-	SHIP_OWNER(1),
-	FISHING_INSTRUCTOR(2);
+	COTTAGE_OWNER(3),
+	SHIP_OWNER(4),
+	FISHING_INSTRUCTOR(5);
 	
 	private final int value;
 
@@ -13,9 +13,9 @@ public enum RegistrationType {
 
     public static RegistrationType valueOf(int value) {
     	switch (value) {
-    	case 0:
+    	case 3:
     		return RegistrationType.COTTAGE_OWNER;
-    	case 1:
+    	case 4:
     		return RegistrationType.SHIP_OWNER;
     	default:
     		return RegistrationType.FISHING_INSTRUCTOR;

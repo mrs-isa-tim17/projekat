@@ -3,19 +3,20 @@
 
     <clientHeader></clientHeader>
     <div class="row">
-      <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #778899;">
+      <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
-          <disabledInputField :label="numLoyaltyPointsLabel" :info="client.numLoyaltyPoints"> </disabledInputField>
-          <disabledInputField :label="userCategoryLabel" :info="client.userCategory"> </disabledInputField>
+          <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
+          <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
           <label>Pogodnosti</label>
-          <textarea disabled class="my-4" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" v-text="client.benefits"/>
+          <textarea disabled class="my-4 text-center" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" :value="client.benefits">
 
-          <disabledInputField :label="numPenaltiesLabel" :info="client.numPenalties"> </disabledInputField>
+          </textarea>
+          <disabledInputField :label="numPenaltiesLabel" :info="client.penaltyNumber"> </disabledInputField>
         </div>
       </div>
 
       <div class="col-8 d-flex justify-content-center" style="border-style: solid; border-width: medium;
-                                                background-color: #B0C4DE;">
+                                                background-color: #88BBD6;">
         <div class="row d-flex justify-content-center" style="">
           <div class="col-4 d-flex justify-content-center">
             <div>
@@ -53,42 +54,18 @@
                 <br>
                 <input type="password" ref="input" v-model="client.password" size="25">
               </div>
+              <label id="emptyError" style="color: red; visibility: hidden; margin-top: 60px"> {{message}}</label>
             </div>
           </div>
         </div>
-        <div class="col-4 d-flex justify-content-center">
+        <div class="col-4 d-flex justify-content-right">
           <div>
-            <div class="p-2">
-              <label >{{countryLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.country" size="25" required>
-              <p v-if="this.client.country == ''" style="color: red;"> Država mora da postoji</p>
-              <p v-if="this.client.country[0] == this.client.country[0].toLowerCase()" style="color: red;"> Država mora da počinje velikom slovom </p>
-            </div>
 
-            <div class="p-2">
-              <label >{{cityLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.city" size="25" required>
-              <p v-if="this.client.city == ''" style="color: red;"> Grad mora da postoji</p>
-              <p v-if="this.client.city[0] == this.client.city[0].toLowerCase()" style="color: red;"> Grad mora da počinje velikom slovom </p>
+            <openLayers :lon="client.longitude" :lat="client.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 380px; visibility: visible"></openLayers>
+            <div style="margin-top: 20px;">
+              <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
+              <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
             </div>
-
-            <div class="p-2">
-              <label >{{addressLabel}}</label>
-              <br>
-              <input type="text" ref="input" v-model="client.address" size="25" required>
-              <p v-if="this.client.address == ''" style="color: red;"> Adresa mora da postoji</p>
-            </div>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <label id="emptyError" style="color: red; visibility: hidden;"> {{message}}</label>
-            <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
-            <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
           </div>
         </div>
 
@@ -100,24 +77,56 @@
 <script>
 import clientHeader from "@/components/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
-//import ClientServce from "@/servieces/ClientServce";
+import ClientServce from "@/servieces/ClientServce";
+import vueOpenLayerMap from "@/components/VueMaps";
 export default {
   name: "client-profile-change",
   components: {
     clientHeader,
-    disabledInputField
+    disabledInputField,
+    openLayers: vueOpenLayerMap
   },
+  /*
+  computed:{
+    currentUser(){
+      return this.$store.state.auth.user;
+    }
+  },*/
   created:
       function () {
-        //this.getClient();
-        //ClientServce.getClient().then((response) => {
-        //  this.client = response.data;
-        //  console.log(this.client)
-        //})
+        this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+        ClientServce.getClient(this.clientID)
+            .then((response) => {
+              console.log(response);
+              this.client = response.data;
+            })
+            .catch(function (error) {
+              console.log(error.toJSON());
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            });
       }
   ,
   methods: {
-
+    updateCoordinats(lon, lat){
+      this.client.longitude = lon;
+      this.client.latitude = lat;
+      console.log(lon, lat)
+    },
     applyChanges(){
       if (this.client.name == "" || this.client.name[0] == this.client.name[0].toLowerCase()){
         this.message = this.errorMessage;
@@ -134,22 +143,11 @@ export default {
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
       }
-      else if (this.client.country == "" || this.client.country[0] == this.client.country[0].toLowerCase()){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.city == "" || this.client.city[0] == this.client.city[0].toLowerCase()){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
-      else if (this.client.address == ""){
-        this.message = this.errorMessage;
-        document.getElementById("emptyError").style.color = "red";
-        document.getElementById("emptyError").style.visibility = "visible";
-      }
       else{
+        ClientServce.updateClient(this.clientID, this.client)
+            .then("Success");
+        //this.client.name, this.client.surname, this.client.password,
+        //this.client.phoneNumber, this.client.city, this.client.country, this.client.address
         //axios
         this.message = this.successMessage;
         document.getElementById("emptyError").style.color = "green";
@@ -158,26 +156,26 @@ export default {
         this.backup[1] = this.client.surname;
         this.backup[2] = this.client.phoneNumber;
         this.backup[3] = this.client.password;
-        this.backup[4] = this.client.country;
-        this.backup[5] = this.client.city;
-        this.backup[6] = this.client.address;
+        this.backup[4] = this.client.longitude;
+        this.backup[5] = this.client.latitude;
       }
 
-    },cancel(){
+    },
+    cancel(){
       this.client.name = this.backup[0];
       this.client.surname = this.backup[1];
       this.client.phoneNumber = this.backup[2];
       this.client.password = this.backup[3];
-      this.client.country = this.backup[4];
-      this.client.city = this.backup[5];
-      this.client.address = this.backup[6];
+      this.client.longitude = this.backup[4];
+      this.client.latitude = this.backup[5];
       document.getElementById("emptyError").style.visibility = "hidden";
     },
 
   }
   ,mounted() {
-    this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password, this.client.country,
-      this.client.city, this.client.address];
+    this.backup = [this.client.name, this.client.surname, this.client.phoneNumber, this.client.password,
+      this.client.country, this.client.longitude, this.client.latitude];
+
   },
   data() {
     return {
@@ -197,22 +195,21 @@ export default {
       countryLabel: "Država*",
       cityLabel: "Grad*",
       addressLabel: "Adresa*",
+      addressSerialNumberLabel: "Kućni broj*",
 
-      client: {}
-      /*
-        numLoyaltyPoints: 20,
-        userCategory: "REGULAR",
-        benefits: "Kao svaki registrovani korisnik ima mogućnost rezervisanje ponuđenih entiteta",
-        numPenalties: 1,
-        name: "Milan",
-        surname: "Milanovic",
-        email: "milan.milanovic@example.com",
-        phoneNumber: "+381256",
+      client: {
+        name: "",
+        surname: "",
+        email: "",
         password: "",
-        country: "Serbia",
-        city: "Novi Sad",
-        address: "Cirila i Metodija 11"
-      }*/
+        phoneNumber: "",
+        userType: "",
+        loyaltyPoints: "",
+        penaltyNumber: "",
+        benefits: "",
+        longitude: "",
+        latitude: ""
+      }
 
     }
   }

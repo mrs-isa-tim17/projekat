@@ -51,7 +51,7 @@ public abstract class Offer {
 	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<AdditionalServices> additionalServices;
 	
-	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)   //(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<BehaviorRule> behaviorRules;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -63,7 +63,8 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<Pricelist> pricelists;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinColumn(name = "calendarId", referencedColumnName = "id")
 	protected Calendar calendar;
 	

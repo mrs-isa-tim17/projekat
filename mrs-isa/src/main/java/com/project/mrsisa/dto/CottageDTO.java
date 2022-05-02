@@ -7,7 +7,7 @@ import com.project.mrsisa.domain.CottageOwner;
 public class CottageDTO {
 	
 	private int roomQuantity;
-	private CottageOwner owner;
+	private Long ownerId;
 	private int bedQuantity;
 	private Long id;
 	private String name;
@@ -22,7 +22,7 @@ public class CottageDTO {
 	
 	public CottageDTO(Cottage cottage) {
 		roomQuantity = cottage.getRoomQuantity();
-		owner = cottage.getOwner();
+		ownerId = cottage.getOwner().getId();
 		bedQuantity = cottage.getBedQuantity();
 		id = cottage.getId();
 		name = cottage.getName();
@@ -37,11 +37,11 @@ public class CottageDTO {
 	public void setRoomQuantity(int roomQuantity) {
 		this.roomQuantity = roomQuantity;
 	}
-	public CottageOwner getOwner() {
-		return owner;
+	public Long getOwnerId() {
+		return ownerId;
 	}
-	public void setOwner(CottageOwner owner) {
-		this.owner = owner;
+	public void setOwner(Long ownerId) {
+		this.ownerId = ownerId;
 	}
 	public int getBedQuantity() {
 		return bedQuantity;
