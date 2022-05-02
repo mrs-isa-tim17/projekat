@@ -4,6 +4,12 @@ insert into address (longitude, latitude) values
 	(70, 80);
 insert into address (longitude, latitude) values
 	(42, 100);
+insert into address (longitude, latitude) values
+	(10, 30);
+insert into address (longitude, latitude) values
+	(80, 10);
+insert into address (longitude, latitude) values
+	(0, 100);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -36,9 +42,30 @@ insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 1);
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 1);
 
 insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava', 'myName', 3, 1, 4, 2, 1);
+    values (nextval('offer_seq'), false, 'Najbolja zabava', 'B myName', 3, 1, 4, 2, 1);
+
+insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 2', 'Z Next name', 4, 1, 4, 2, 1);
+
+insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 3' , 'A Neverovatno ime', 5, 1, 4, 2, 1);
+
+insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 4', 'N Last name', 6, 1, 4, 2, 1);
 
 insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
+insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 2);
+insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 3);
+insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '17.01.2022', 0, 4000, false, false, '10.01.2022.', 1, 1);
+    (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 2);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '17.01.2022', 0, 100, true, false, '11.01.2022.', 1, 3);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 4);

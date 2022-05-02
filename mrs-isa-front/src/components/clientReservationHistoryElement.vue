@@ -93,12 +93,12 @@ export default {
       firstButtonText: "Komentariši",
       firstButtonColor: "background-color: #6699ff; width: 125px",
       firstButtonHeader: "Unosi tvoje mišljenje:",
-      firstButtonId: this.cottage.name + "review",
+      firstButtonId: "review" + this.cottage.id,
 
       secondButtonText: "Podnesi žalbu",
       secondButtonColor: "background-color: #ccddff; width: 125px",
       secondButtonHeader: "Unosi tvoju žalbu",
-      secondButtonId: this.cottage.name + "complaint",
+      secondButtonId: "complaint" + this.cottage.id,
     }
   }
 }

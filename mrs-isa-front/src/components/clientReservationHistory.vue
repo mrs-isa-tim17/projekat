@@ -11,6 +11,7 @@
           <option value="1">Datum</option>
           <option value="2">Trajanja</option>
           <option value="3">Naziv</option>
+          <option value="4">Cena</option>
         </select>
       </div>
     </div>
@@ -185,6 +186,32 @@ export default {
       this.fromElement = 0;
       this.forceRemounting();
       console.log(document.getElementById("sortBy").value);
+      let sortBy = document.getElementById("sortBy").value;
+      if (sortBy == 3){
+        clientServce.getSortedPastCottageReservationsByName(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      } else if (sortBy == 1){
+        clientServce.getSortedPastCottageReservationsByDate(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 2){
+        clientServce.getSortedPastCottageReservationsByDuration(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 4){
+        clientServce.getSortedPastCottageReservationsByPrice(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }
     },
     makeMiddleNumber(){
       let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;

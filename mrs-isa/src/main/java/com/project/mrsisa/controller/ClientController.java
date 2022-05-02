@@ -18,7 +18,10 @@ import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.dto.ClientProfileResponseDTO;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -63,6 +66,94 @@ public class ClientController {
             System.out.println(r.getOffer().getName());
             dtoList.add(new CottageHistoryReservationDTO(r));
         }
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/cottage/history/name/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ArrayList<CottageHistoryReservationDTO>> getAllCottagePastReservationsSortByName(@PathVariable Long id){
+        System.out.println("CONTROLLER");
+        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
+        ArrayList<CottageHistoryReservationDTO> dtoList = new ArrayList<CottageHistoryReservationDTO>();
+        for (Reservation r : pastCottageReservations){
+            r.setOffer(cottageService.findOne(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            System.out.println(r.getOffer().getName());
+            dtoList.add(new CottageHistoryReservationDTO(r));
+        }
+        Collections.sort(dtoList, new Comparator<CottageHistoryReservationDTO>() {
+            @Override
+            public int compare(CottageHistoryReservationDTO c1, CottageHistoryReservationDTO c2) {
+                int NameCompare = c1.getName().compareTo(
+                        c2.getName());
+
+                return NameCompare;
+            }
+        });
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/cottage/history/date/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ArrayList<CottageHistoryReservationDTO>> getAllCottagePastReservationsSortByDate(@PathVariable Long id){
+        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
+        ArrayList<CottageHistoryReservationDTO> dtoList = new ArrayList<CottageHistoryReservationDTO>();
+        for (Reservation r : pastCottageReservations){
+            r.setOffer(cottageService.findOne(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            System.out.println(r.getOffer().getName());
+            dtoList.add(new CottageHistoryReservationDTO(r));
+        }
+        Collections.sort(dtoList, //(x, y) -> x.getStartDate().compareTo(y.getEndDate()));
+                new Comparator<CottageHistoryReservationDTO>() {
+            @Override
+            public int compare(CottageHistoryReservationDTO c1, CottageHistoryReservationDTO c2) {
+                int dateCompare = c1.getEndDateLocalDate().compareTo(
+                        c2.getEndDateLocalDate());
+
+                return dateCompare;
+            }
+        });//*/
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/cottage/history/duration/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ArrayList<CottageHistoryReservationDTO>> getAllCottagePastReservationsSortByDuration(@PathVariable Long id){
+        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
+        ArrayList<CottageHistoryReservationDTO> dtoList = new ArrayList<CottageHistoryReservationDTO>();
+        for (Reservation r : pastCottageReservations){
+            r.setOffer(cottageService.findOne(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            System.out.println(r.getOffer().getName());
+            dtoList.add(new CottageHistoryReservationDTO(r));
+        }
+        Collections.sort(dtoList,new Comparator<CottageHistoryReservationDTO>() {
+            @Override
+            public int compare(CottageHistoryReservationDTO c1, CottageHistoryReservationDTO c2) {
+                return Comparator.comparing(CottageHistoryReservationDTO::getDuration).compare(c1, c2);
+            }
+        });
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @GetMapping("/cottage/history/price/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ArrayList<CottageHistoryReservationDTO>> getAllCottagePastReservationsSortByPrice(@PathVariable Long id){
+        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
+        ArrayList<CottageHistoryReservationDTO> dtoList = new ArrayList<CottageHistoryReservationDTO>();
+        for (Reservation r : pastCottageReservations){
+            r.setOffer(cottageService.findOne(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            System.out.println(r.getOffer().getName());
+            dtoList.add(new CottageHistoryReservationDTO(r));
+        }
+        Collections.sort(dtoList,new Comparator<CottageHistoryReservationDTO>() {
+            @Override
+            public int compare(CottageHistoryReservationDTO c1, CottageHistoryReservationDTO c2) {
+                return Comparator.comparing(CottageHistoryReservationDTO::getPrice).compare(c1, c2);
+            }
+        });
         return ResponseEntity.ok(dtoList);
     }
 

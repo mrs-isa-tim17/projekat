@@ -1,8 +1,10 @@
 package com.project.mrsisa.dto.client;
 
 import com.project.mrsisa.converter.DateToStringConverter;
+import com.project.mrsisa.converter.StringToDateConverter;
 import com.project.mrsisa.domain.Reservation;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,23 @@ public class CottageHistoryReservationDTO {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    public LocalDate getStartDateLocalDate() {
+        StringToDateConverter converter = new StringToDateConverter();
+        return converter.convert(startDate);
+    }
+///*
+    public long getDuration(){
+        return Duration.between(getStartDateLocalDate().atStartOfDay(), getEndDateLocalDate().atStartOfDay()).toDays();
+    }
+    //*/
+
+    public LocalDate getEndDateLocalDate() {
+        StringToDateConverter converter = new StringToDateConverter();
+        return converter.convert(endDate);
+    }
+
+
 
     public boolean isQuickReservation() {
         return quickReservation;
