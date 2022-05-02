@@ -1,46 +1,41 @@
 <template>
   <div>
+    <basic-header></basic-header>
   <p>Registracija novih korisnika</p>
   <section class="signup-view">
-
-    <form class="ui form" @submit.prevent>
+  <div>
       <div id="left">
         <NameField v-model="user.name" /><br>
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
         <PasswordAgainField v-model="user.password" /><br>
+        <PhoneField v-model="user.phoneNumber" /><br>
+        <i class="fa fa-users"></i>
+        <select name="role" id="roles" @change="changeUserType">
+          <option style="color:grey;" value="" disabled selected>Vrsta korisnika</option>
+          <option value="1">Klijent</option>
+          <option value="3">Vlasnik vikendice</option>
+          <option value="4">Vlasnik broda</option>
+          <option value="5">Instruktor</option>
+        </select>
 
       </div>
       <div id="right">
-      <PhoneField v-model="user.phoneNumber" /><br>
-      <AddressField v-model="user.address"/><br>
-      <CityField v-model="user.city"/><br>
-      <CountryField v-model="user.country"/><br>
-        <i class="fa fa-users"></i>
-        <select name="role" id="roles" v-model="user.role">
-          <option style="color:grey;" value="" disabled selected>Vrsta korisnika</option>
-          <option value="user">Klijent</option>
-          <option value="cottage-owner">Vlasnik vikendice</option>
-          <option value="ship-owner">Vlasnik broda</option>
-          <option value="instructor">Instruktor</option>
-        </select>
-        <br>
-        <br>
-        <br>
+        <label> Izaberete vašu adresu</label>
+        <open-maps :lon="user.longitude" :lat="user.latitude" @coordinate-changed="updateCoordinats" style="width: 400px; height: 400px;"></open-maps>
       </div>
         <div class="footer">
       <button class="ui button red fluid big"
           @click="signUpButtonPressed"
           :disabled="isSignupButtonDisabled"
-              style="float:right;width:200px;background-color: #5805A5;"
-      >
+              style="float:right;width:200px;background-color: #31708E;">
         Registruj se
       </button>
           <button id="cancel">Otkaži</button>
         </div>
 
-    </form>
+  </div>
   </section>
   </div>
 </template>
@@ -57,32 +52,33 @@ import NameField from "@/components/registration_components/NameField";
 import EmailField from "@/components/registration_components/EmailField";
 import PhoneField from "@/components/registration_components/PhoneField";
 import PasswordField from "@/components/registration_components/PasswordField";
-import AddressField from "@/components/registration_components/AddressField";
-import CityField from "@/components/registration_components/CityField";
 import LastNameField from "@/components/registration_components/LastNameField";
-import CountryField from "@/components/registration_components/CountryField";
 import PasswordAgainField from "@/components/registration_components/PasswordAgainField";
-
+import basicHeader from "@/components/basicHeader";
+import OpenMaps from "@/components/VueMaps";
+import loginServce from "@/servieces/LoginServce";
 
 export default {
   components: {
+    OpenMaps,
     PasswordAgainField,
     NameField,
     EmailField,
     PhoneField,
     PasswordField,
-    AddressField,
-    CityField,
     LastNameField,
-    CountryField
+    basicHeader
   },
 
   setup() {
     let user = reactive({
       name: "",
       email: "",
-      phone: "",
+      phoneNumber: "",
       password: "",
+      userRole: "",
+      longitude: 0,
+      latitude: 0
     });
 
     const { errors } = useFormValidation();
@@ -90,9 +86,20 @@ export default {
 
     const signUpButtonPressed = () => {
       console.log(user);
+      loginServce.registration(user);
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
+  methods:{
+    updateCoordinats(lon, lat){
+      this.user.longitude = lon;
+      this.user.latitude = lat;
+      console.log(lon, lat)
+    },
+    changeUserType(){
+      this.user.userRole = document.getElementById("roles").value;
+    }
+  }
 };
 </script>
 
@@ -114,7 +121,7 @@ export default {
   height:75%;
   position: absolute;
   left: 50%;
-  top: 55%;
+  top: 35%;
   transform: translate(-50%, -50%);
   color: white;
 }

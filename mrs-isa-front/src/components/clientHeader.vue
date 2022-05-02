@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" :href="homeLink">
           <img src="../assets/icons/logo.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
           Book
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="homeLink">Home</a>
+            <a class="nav-link active" aria-current="page" :href="clientHomeLink">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link  text-dark" href="#">Vikendice</a>
@@ -23,18 +23,32 @@
             <a class="nav-link text-dark" href="#">Avanture</a>
           </li>
         </ul>
-        <button class="btn btn-outline-dark" >Odjava</button>
+        <button class="btn btn-outline-dark" @click="logout">Odjava</button>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
+import loginServce from "@/servieces/LoginServce";
 export default {
   name: "client-header",
+  components:[
+      loginServce
+  ],
+  methods:{
+    onBookClick(){
+      this.$router.push(this.homeLink);
+    },
+    logout(){
+      loginServce.logout();
+      this.$router.push('/book/site/home');
+    }
+  },
   data() {
     return {
-      homeLink: "/client/home"
+      homeLink: "/client/site/home",
+      clientHomeLink: "/client/home"
     }
   }
 }

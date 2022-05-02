@@ -82,6 +82,9 @@ public class User implements UserDetails {
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
 
+	@Column(name= "enabled")
+	private boolean enabled;
+
 	public void setRoleId(long id) {roles = new Role(); roles.setId(id);}
 	public Long getRoleId() { return roles.getId();}
 	public String getName() {
@@ -206,11 +209,11 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return !this.deleted;
+		return this.enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
-		setDeleted(!enabled);
+		this.enabled = enabled;
 	}
 
 

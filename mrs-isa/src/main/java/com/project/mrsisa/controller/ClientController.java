@@ -1,33 +1,49 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.dto.ClientProfileResponseDTO;
 import com.project.mrsisa.service.ClientService;
 import com.project.mrsisa.service.LoyaltyScaleService;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin
 public class ClientController {
 	
 	@Autowired
 	private ClientService clientService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
+    @Autowired
+    private TokenUtils tokenUtils;
+
+    @GetMapping("/verify/{code}")
+    public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
+        Client c = clientService.verify(code);
+        if (c == null){
+            return ResponseEntity.ok(null);
+        }
+        //System.out.println(c.getEmail());
+        String jwt = tokenUtils.generateToken(c.getUsername());
+        int expiresIn = tokenUtils.getExpiredIn();
+        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, c.getRoleId(), c.getId()));//new ResponseEntity<Client>(c, HttpStatus.OK);
+        //return new ModelAndView("login.vue");//"redirect:".concat("http://localhost:8081/book/site/login");//
+    }
 
 	@GetMapping("/profile/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<ClientProfileResponseDTO> getClient(@PathVariable Long id){
         
         Client client = null;
@@ -54,6 +70,7 @@ public class ClientController {
 	
 	@PostMapping(value = "/profile/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
+    @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<ClientProfileResponseDTO> updateClient(@PathVariable Long id, @RequestBody ClientProfileResponseDTO clientDTO){
         
         Client client = null;

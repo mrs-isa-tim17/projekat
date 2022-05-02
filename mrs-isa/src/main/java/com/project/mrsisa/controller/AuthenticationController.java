@@ -45,7 +45,6 @@ public class AuthenticationController {
 		// if you want to add aditional params you do it here
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-
 		//handle if email already exists
 
 		// valid credentials
@@ -56,12 +55,13 @@ public class AuthenticationController {
 		String jwt = tokenUtils.generateToken(user.getUsername());
 		int expiresIn = tokenUtils.getExpiredIn();
 
+		//User u = userService.findByUsername(authenticationRequest.getUsername());
 		// return created token
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user.getRoleId(), user.getId()));
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest) {
 
 		User existUser = this.userService.findByUsername(userRequest.getEmail());
 

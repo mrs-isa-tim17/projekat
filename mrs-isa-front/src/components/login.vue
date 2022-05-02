@@ -1,20 +1,21 @@
 <template>
+  <div>
+    <basic-header></basic-header>
 <div id="login">
-  <form  method="post">
     <div class="imgcontainer">
 
     </div>
 
     <div class="container">
       <label for="uname"><b>Email</b></label><br>
-      <input type="text" placeholder="Unesite email" name="uname" required><br>
+      <input type="text" placeholder="Unesite email" id="uname" required><br>
 
       <label for="psw"><b>Lozinka</b></label><br>
-      <input type="password" placeholder="Unesite lozinku" name="psw" required><br>
+      <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
 
-      <button type="submit">Prijavite se</button><br>
+      <button type="submit" @click="login">Prijavite se</button><br>
       <label>
-        <input type="checkbox" checked="checked" name="remember"> Zapamti lozinku
+        <input type="checkbox" checked="checked" id="remember"> Zapamti lozinku
       </label><br>
     </div>
 
@@ -22,15 +23,16 @@
       <button type="button" class="cancelbtn">Otkaži</button>
       <span class="psw"><a href="#">Zaboravili ste lozinku?</a></span>
     </div>
-  </form>
 </div>
+  </div>
 </template>
 <script>
-
+import loginServce from "@/servieces/LoginServce";
+import basicHeader from "@/components/basicHeader";
 export default {
   name: "loginUsers",
   components: {
-
+    basicHeader
   },
   data() {
 
@@ -38,10 +40,39 @@ export default {
   computed: {
   },
   created() {
-
+    if (this.loggedIn){
+      this.$router.push('client/home');
+    }
   },
   methods: {
+    login(){
+      let emailForm = document.getElementById("uname").value;
+      let passwordForm = document.getElementById("psw").value;
+      var user = {
+        username: emailForm,
+        password: passwordForm
+      }
+      loginServce.login(user).then((response) => {
+        console.log(response);
+        if (response.roleID === 1){
+          this.$router.push("/client/home");
+        }
+        else if (response.roleID === 2){
+          this.$router.push("/client/home");//admin
+        }
+        else if (response.roleID === 3){
+          this.$router.push("/cottage/home");
+        }
+        else if (response.roleID === 4){
+          this.$router.push("/client/home");//ship owner
+        }
+        else if (response.roleID === 5){
+          this.$router.push("/instructor/home");//fishing instructor
+        }
+      }
+      )
 
+    }
   },
 };
 </script>
