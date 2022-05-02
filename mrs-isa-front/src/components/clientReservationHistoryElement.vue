@@ -5,14 +5,13 @@
       <div class="row g-0" style="background-color: #E9E9E9;">
 
         <div class="col-md-4">
-          <img :src=cottage.images[0] class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src="require('@/assets/' + cottage.images[0])" class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
 
         <div class="col-md-8">
           <div class="card-body">
 
             <h5 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
-            <h6 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.address.country}}, {{cottage.address.city}}, {{cottage.address.address}}</h6>
 
             <div class="card-text">
               <div class="row">

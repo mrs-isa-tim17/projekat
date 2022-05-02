@@ -2,6 +2,8 @@ insert into address (longitude, latitude) values
 	(28, 45);
 insert into address (longitude, latitude) values
 	(70, 80);
+insert into address (longitude, latitude) values
+	(42, 100);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -33,3 +35,10 @@ insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 1);
 
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 1);
 
+insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava', 'myName', 3, 1, 4, 2, 1);
+
+insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '17.01.2022', 0, 4000, false, false, '10.01.2022.', 1, 1);

@@ -43,10 +43,11 @@ public abstract class Offer {
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<Complaint> complaints;
-	
+
+
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<ExperienceReview> experienceReviews;
-	
+
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<AdditionalServices> additionalServices;
 	

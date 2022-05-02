@@ -32,10 +32,32 @@ public class Reservation {
 	
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AdditionalServices> additionalServices;
-	
+
+	@Column(nullable = false)
+	private OfferType offerType;
+
+	@Column
+	private boolean reviewed;
+
+	public boolean isReviewed() {
+		return reviewed;
+	}
+
+	public void setReviewed(boolean reviewed) {
+		this.reviewed = reviewed;
+	}
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
+/*
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "calendarId")
-	private Calendar calendar;
+	private Calendar calendar;*/
 	
 	@Column(nullable=false)
 	private boolean quick;
@@ -47,11 +69,25 @@ public class Reservation {
 	@JoinColumn(name = "clientId")
 	private Client client;
 	
-	/*@ManyToOne(fetch = FetchType.LAZY)
+	/*
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "historyClientId")
 	private Client historyClient;
 	
-	*/
+	//*/
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "offerId")
+	private Offer offer;
+
+	public Offer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Offer offer) {
+		this.offer = offer;
+	}
+
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -94,12 +130,13 @@ public class Reservation {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	/*
 	public Calendar getCalendar() {
 		return calendar;
 	}
 	public void setCalendar(Calendar calendar) {
 		this.calendar = calendar;
-	}
+	}*/
 	public Client getClient() {
 		return client;
 	}

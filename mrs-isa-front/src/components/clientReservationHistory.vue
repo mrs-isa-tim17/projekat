@@ -48,6 +48,7 @@
 <script>
 import clientReservationHistoryList from "@/components/clientReservationHistoryList";
 import clientHeader from "@/components/clientHeader";
+import clientServce from "@/servieces/ClientServce";
 export default {
   name: "clientReservationHistory",
   components:{
@@ -57,9 +58,9 @@ export default {
   props: ['option_link', 'image_path', 'text'],
   created: function() {
     this.fromElement = 0;
-    let type = this.$route.params.type;
-    console.log(type);
-    if (type == "ship")
+    this.type = this.$route.params.type;
+    console.log(this.type);
+    if (this.type == "ship")
       this.cottageReservationHistory = [
         {
           reviewed: false,
@@ -158,105 +159,13 @@ export default {
           description: "Neki descr"
         },
       ]
-    else if (type == "cottage")
-      this.cottageReservationHistory = [
-        {
-          reviewed: false,
-          id: 1,
-          startDate:"01.04.2022",
-          endDate:"8.04.2022",
-          price:2000,
-          quickReservation:true,
-          additionalServices: ["wifi", "parking"],
-          canceled: false,
-          images: [require("@/assets/img/cottage/1/331714665.jpg"), "./img/cottage/1/325185409.jpg",
-            "./img/cottage/1/331713246.jpg", "./img/cottage/1/330214770.jpg"],
-          name: "HOPPPPAA",
-          address:
-              {
-                country: "Serbia",
-                city: "Novi Sad",
-                address: "Cirila i Metodija"
-              },
-          description: "Najbolja zabava"
-        },{
-          reviewed: true,
-          id: 2,
-          startDate:"01.04.2022",
-          endDate:"8.04.2022",
-          price:2000,
-          quickReservation:false,
-          additionalServices: ["wifi", "parking"],
-          canceled: true,
-          images: [require("@/assets/img/cottage/2/169294777.jpg"), "./img/cottage/2/228908947.jpg",
-            "./img/cottage/2/242540483.jpg", "./img/cottage/2/169287671.jpg"],
-          name: "Naslov 2",
-          address:
-              {
-                country: "Serbia",
-                city: "Novi Sad",
-                address: "Cirila i Metodija"
-              },
-          description: "Ovde nađeš šta ti treba"
-        },{
-          reviewed: true,
-          id: 3,
-          startDate:"01.04.2022",
-          endDate:"8.04.2022",
-          price:2000,
-          quickReservation:false,
-          additionalServices: ["wifi", "parking"],
-          canceled: false,
-          images: [require("@/assets/img/cottage/3/132308681.jpg"), "./img/cottage/3/132308680.jpg",
-            "./img/cottage/3/132308695.jpg", "./img/cottage/3/132308676.jpg"],
-          name: "Glupi naslovi",
-          address:
-              {
-                country: "Serbia",
-                city: "Novi Sad",
-                address: "Cirila i Metodija"
-              },
-          description: "Tu smo za vas"
-        },{
-          reviewed: false,
-          id: 4,
-          startDate:"01.04.2022",
-          endDate:"8.04.2022",
-          price:2000,
-          quickReservation:true,
-          additionalServices: ["wifi", "parking"],
-          canceled: false,
-          images: [require("@/assets/img/cottage/4/238068376.jpg"), "./img/cottage/4/238309022.jpg",
-            "./img/cottage/4/308003572.jpg", "./img/cottage/4/308003917.jpg"],
-          name: "Nešto",
-          address:
-              {
-                country: "Serbia",
-                city: "Novi Sad",
-                address: "Cirila i Metodija"
-              },
-          description: "Neki descr"
-        },{
-          reviewed: false,
-          id: 5,
-          startDate:"01.04.2022",
-          endDate:"8.04.2022",
-          price:2000,
-          quickReservation:true,
-          additionalServices: ["wifi", "parking"],
-          canceled: false,
-          images: [require("@/assets/img/cottage/4/238068376.jpg"), "./img/cottage/4/238309022.jpg",
-            "./img/cottage/4/308003572.jpg", "./img/cottage/4/308003917.jpg"],
-          name: "Nešto",
-          address:
-              {
-                country: "Serbia",
-                city: "Novi Sad",
-                address: "Cirila i Metodija"
-              },
-          description: "Neki descr"
-        },
-      ]
+    else if (this.type == "cottage")
+      clientServce.getPastCottageReservations(JSON.parse(localStorage.user).id)
+          .then((response) => {
+            this.cottageReservationHistory = response.data;
+            }
+      );
+
   },
   methods : {
     itemReviewed(itemID){
@@ -325,7 +234,7 @@ export default {
   data() {
     return {
       myKey: 0,
-
+      cottageReservationHistory: [],
       numberOfElementsForDisplay: 2
     }
   }

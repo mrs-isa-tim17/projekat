@@ -17,6 +17,12 @@ class ClientServce{
             headers: authHeader()
         });
     }
+    getPastCottageReservations(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/" + clientID, {
+            headers : authHeader()
+        });
+    }
+
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{
