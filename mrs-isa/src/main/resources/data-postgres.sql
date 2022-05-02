@@ -4,6 +4,7 @@ insert into address (longitude, latitude) values
 	(70, 80);
 insert into address(longitude, latitude) values (30,40);
 
+
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
 INSERT INTO ROLE (name) VALUES ('ROLE_COTTAGE_OWNER');
@@ -31,9 +32,41 @@ insert into calendar (id) values (1);
 insert into calendar (id) values (2);
 
 
-insert into additional_services (name, offer_id, reservation_id, sale_appointment_id) values ('wifi', '1', null, null);
+insert into cottage (id, deleted,description, name, address_id, calendar_id, bed_quantity, room_quantity, owner) values
+	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 1);
 
-insert into behavior_rule (text, offer_id) values ('Not allowed smoking', 1);
+insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity, instructor_biography, owner) values
+	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 2, 8, 'Im the best instructor ever', 2);
+	
+
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('wifi', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('kabanica', null, null);
+
+insert into additional_services_offer (offer_id, additional_service_id) values (2, 1);
+insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
+
+
+insert into behavior_rule (text) values ('dozvoljeno pecanje');
+insert into behavior_rule (text) values ('volimo ljubimce');
+
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (2, 1);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (2, 2);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 1);
+
+insert into fishing_equipment (name, ship_id) values('štapovi', null);
+insert into fishing_equipment (name, ship_id) values('udice', null);
+
+insert into fishing_equipments_offer (adventure_id, fishing_equipment_id) values (2, 1);
+insert into fishing_equipments_offer (adventure_id, fishing_equipment_id) values (2, 2);
+
 
 insert into cancel_condition (days, precent, offer_id) values (5, 20, 1);
+insert into cancel_condition (days, precent, offer_id) values (5, 20, 2);
 
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina1.jpg', 2);
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina2.jpg', 2);
+insert into image (path, offer_id) values('@/assets/img/adventure/Drina3.jpg', 2);
+
+insert into experience_review (rate, status, text, client_id, offer_id) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2);
+
+insert into pricelist (end_date, price, start_date, offer_id) values ('01.05.2022.', 12000, '29.04.2022.', 2);

@@ -14,6 +14,7 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+
 	@Column(name="longitude")
 	private double longitude;
 
@@ -30,6 +31,7 @@ public class Address {
 	public Address(double longitude, double latitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;
+
 	}
 
 	public Address() {
@@ -52,33 +54,6 @@ public class Address {
 		this.latitude = latitude	;
 	}
 
-
-
-	/*public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}*/
-
-	/*public SaleAppointment getSaleAppointment() {
-		return saleAppointment;
-	}
-
-	public void setSaleAppointment(SaleAppointment saleAppointment) {
-		this.saleAppointment = saleAppointment;
-	}*/
-
-	/*public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}*/
-	
-	
 
 	
 }

@@ -41,7 +41,7 @@ public class SaleAppointment {
 	@Column(nullable=false)
 	private double discount;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	private Address address;
 	

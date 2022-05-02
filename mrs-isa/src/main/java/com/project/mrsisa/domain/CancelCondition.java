@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +22,18 @@ public class CancelCondition {
 	@Column(nullable = false)
 	private double precent;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
+	
+	public CancelCondition() {
+		
+	}
+	
+	public CancelCondition(int days, double percentage) {
+		this.days = days;
+		this.precent = percentage;
+	}
 	
 	public int getDays() {
 		return days;

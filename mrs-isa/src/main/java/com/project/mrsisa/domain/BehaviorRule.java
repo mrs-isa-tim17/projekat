@@ -1,5 +1,8 @@
 package com.project.mrsisa.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -18,9 +23,18 @@ public class BehaviorRule {
 	@Column(nullable = false)
 	private String text;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "offerId")
-	private Offer offer;
+	@ManyToMany
+	@JoinTable(name="behaviorRulesOffer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "behavior_rule_id", referencedColumnName = "id"))
+
+	private List<Offer> offer;
+	
+	public BehaviorRule() {
+		
+	}
+	
+	public BehaviorRule(String text) {
+		this.text = text;
+	}
 
 	public String getText() {
 		return text;
@@ -38,11 +52,11 @@ public class BehaviorRule {
 		this.id = id;
 	}
 
-	public Offer getOffer() {
+	public List<Offer> getOffer() {
 		return offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(List<Offer> offer) {
 		this.offer = offer;
 	}
 	

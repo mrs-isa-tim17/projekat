@@ -19,7 +19,7 @@ public class Pricelist {
 	@Column(nullable=false)
 	
 	private LocalDate startDate;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private LocalDate endDate;
 
 	@Column(nullable=false)
@@ -29,6 +29,13 @@ public class Pricelist {
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	
+	public Pricelist() {
+	}
+	public Pricelist(double price) {
+		this.price = price;
+		this.startDate =  LocalDate.now();
+		this.endDate = null;
+	}
 	public LocalDate getStartDate() {
 		return startDate;
 	}

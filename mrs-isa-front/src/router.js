@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
+
     routes:[
         { path: '/client/home', component: () => import("./components/clientHomePage.vue")},
         { path: '/client/profile', component: () => import("./components/clientProfileChange.vue")},
@@ -10,7 +11,12 @@ const router = createRouter({
         { path: '/client/site/home', component: () => import("./components/homePageClient.vue")},
 
         { path: '/instructor/adventures', component: () => import("./components/allInstructorsAdventures")},
-        { path: '/instructor/adventures/detail', component: () => import("./components/adventureForFishingInstructor")},
+
+        {path: '/adventures/detail/:type', name: 'adventureForFishingInstructor', component: () => import("./components/adventureForFishingInstructor"),},
+        { path: '/instructor/home', component: ()=> import("./components/instructorHomePage")},
+        { path: '/adventure/add', component: ()=> import("./components/addAdventure")},
+        { path: '/adventure/update/:type', component: ()=> import("./components/updateAdventure.vue")},
+
         { path: '/book/site/home', component: () => import("./components/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},

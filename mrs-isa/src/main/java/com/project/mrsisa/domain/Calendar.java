@@ -29,7 +29,7 @@ public class Calendar {
 	
 	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
-	
+
 	@OneToOne(mappedBy = "calendar", fetch= FetchType.LAZY)
 	private Offer offer;
 	

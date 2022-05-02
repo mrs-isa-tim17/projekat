@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -22,14 +23,14 @@ public class ExperienceReview {
 	@Column(nullable =false)
 	private int rate;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clientId")
 	private Client client;
 	
 	@Enumerated
 	private ProcessingStatus status;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	

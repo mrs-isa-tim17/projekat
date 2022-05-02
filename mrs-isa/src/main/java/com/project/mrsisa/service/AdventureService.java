@@ -3,10 +3,12 @@ package com.project.mrsisa.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.repository.AdventureRepository;
 
+@Service
 public class AdventureService {
 	
 	@Autowired
@@ -20,5 +22,16 @@ public class AdventureService {
 	public List<Adventure> findAll(){
 		return adventureRepository.findAll();
 	}
-
+	
+	
+	public Adventure findOneById(Long id) {
+		return adventureRepository.findOneById(id);
+	}
+	
+	public void remove(Long id) {
+		adventureRepository.deleteById(id);
+	}
+/*	public Adventure fetchAdventureWithOther(Long id) {
+		return adventureRepository.fetchAdventureWithOther(id);
+	}*/
 }
