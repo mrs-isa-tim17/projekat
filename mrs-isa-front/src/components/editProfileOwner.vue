@@ -8,16 +8,17 @@
       <div class="headerLoyality">Loyality program</div>
       <div class="input-box">
         <span class="loyalityDetails">Broj poena</span><br>
-        <input type="text" id="name" />
+        <input type="text" id="name" v-model="owner.loyaltyPoints"/>
       </div>
 
       <div class="input-box">
         <span class="loyalityDetails">Kategorija</span><br>
-        <input type="text" id="name" />
+        <input type="text" id="name"/>
       </div>
       <br>
       <div id="benefits">
         <p>Pogodnosti</p>
+        <div ></div>
         <br>
         <br>
         <br>
@@ -33,7 +34,7 @@
         <div class="formdetails">
           <div class="input-box">
             <span class="details">Ime</span><br>
-            <input type="text" id="name" />
+            <input type="text" id="name" v-model="owner.name"/>
           </div>
           <div class="input-box">
             <span class="details">Adresa</span><br>
@@ -41,7 +42,7 @@
           </div>
           <div class="input-box">
             <span class="details">Prezime</span><br>
-            <input type="text" id="surname" />
+            <input type="text" id="surname" v-model="owner.surname" />
           </div>
           <div class="input-box">
             <span class="details">Grad</span><br>
@@ -49,7 +50,7 @@
           </div>
           <div class="input-box">
             <span class="details">Email</span><br>
-            <input type="text" id="email" />
+            <input type="text" id="email" v-model="owner.email"/>
           </div>
           <div class="input-box">
             <span class="details">Država</span><br>
@@ -64,7 +65,7 @@
 
           <div class="input-box">
             <span class="details">Broj telefona</span><br>
-            <input type="text" id="telNumber" />
+            <input type="text" id="telNumber" v-model="owner.phoneNumber"/>
           </div>
           <div id="buttonSubmit">
             <input type="submit" value="Potvrdi izmene" id="editButton">
@@ -80,16 +81,59 @@
 <script>
 import changePasswordModal from "@/components/changePasswordModal";
 import deleteAccountModal from "@/components/deleteAccountModal"
+import CottageOwnerService from "@/servieces/CottageOwnerService";
 export default {
   name: "edit-profile-owner",
   components:{changePasswordModal, deleteAccountModal},
+  created:
+      function () {
+        this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+        CottageOwnerService.getClient(this.coID)
+            .then((response) => {
+              console.log(response);
+              this.client = response.data;
+            })
+            .catch(function (error) {
+              console.log(error.toJSON());
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            });
+      }
+  ,
   data(){
     return{
       showDialog:false,
       buttonId : "changePass",
       deleteAcc: "deleteAcc",
       deleteHeader:"Zahtev za brisanje naloga",
-      changePassHeader:"Promena lozinke"
+      changePassHeader:"Promena lozinke",
+      owner:{
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        userType: "",
+        loyaltyPoints: "",
+        penaltyNumber: "",
+        benefits: "",
+        longitude: "",
+        latitude: ""
+      }
     }
   },
   methods: {
