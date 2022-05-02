@@ -1,4 +1,5 @@
 <template>
+  <ownerHeader></ownerHeader>
   <div><div class="header">
    <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
     <div id="profile">Moj profil</div>
@@ -82,9 +83,10 @@
 import changePasswordModal from "@/components/changePasswordModal";
 import deleteAccountModal from "@/components/deleteAccountModal"
 import CottageOwnerService from "@/servieces/CottageOwnerService";
+import ownerHeader from "@/components/ownerHeader";
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordModal, deleteAccountModal},
+  components:{changePasswordModal, deleteAccountModal, ownerHeader},
   created:
       function () {
         this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
@@ -112,8 +114,7 @@ export default {
               }
               console.log(error.config);
             });
-      }
-  ,
+      },
   data(){
     return{
       showDialog:false,

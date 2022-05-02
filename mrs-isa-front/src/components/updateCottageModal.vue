@@ -1,25 +1,29 @@
 <template>
   <div>
-
-    <button type="button"  :style="buttonColor" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target="modalIdHash">
-      {{buttonText}}
+    <button type="button" @click="openModel" :style="buttonColor" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target="modalId">
+      Izmeni podatke
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" style="overflow-y: auto" :id=modalId tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal fade" style="overflow-y: auto">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{header}}</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Izmena podataka</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              Razlog za brisanje naloga:
-              <textarea class="my-4" rows="5" cols="50" name="text" v-model="text"></textarea>
+            <label>Naziv</label><br>
+            <input type="text" value=""><br>
+            <label>Adresa</label><br>
+            <input type="text"><br>
+            <label>Opis</label><br>
+            <input type="text" value=""><br>
+          </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-            <button type="button" class="btn btn-primary" @click.prevent="sendValue">Pošalji</button>
+            <button type="button" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
       </div>
@@ -28,25 +32,16 @@
 
 
 
-  </div>
 </template>
 
 <script>
-import $ from 'jquery';
+
 export default {
   name: "modalWithTextArea",
-  props: ['buttonText', 'buttonColor', "header", "index"],
-  created:
-      function () {
-        this.modalId= this.index.replace(" ", "");
-        this.modalIdHash = "#"+this.modalId;
-      }
-  ,
+  props: ['buttonText', 'buttonColor', "header", "index","cottage"],
   methods : {
     openModel(){
-      $('#'+this.index).modal('show');
-      console.log(this.modalIdHash);
-      /*
+
       const modal = document.getElementById(this.index);
 
       // change state like in hidden modal
@@ -59,7 +54,7 @@ export default {
 
       // remove opened modal backdrop
       document.body.removeChild(modalBackdrops[0]);
-      */
+
     },
     sendValue(){
       if (this.text == ""){

@@ -13,11 +13,13 @@ export default {
   name: "cottageList",
   components:{cottageElement},
   data(){
-  return {
-    allCottages: null,
-    myKey: 1
-  }
-},
+
+    return {
+      allCottages: null,
+      myKey: 1
+    }
+  },
+
   mounted() {
     axios
         .get('/api/cottages/all')
