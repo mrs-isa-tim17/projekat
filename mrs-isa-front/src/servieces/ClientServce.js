@@ -23,6 +23,11 @@ class ClientServce{
         });
     }
 
+    getPastShipReservations(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/ship/history/" + clientID, {
+            headers : authHeader()
+        });
+    }
     getSortedPastCottageReservationsByName(clientID){
         return axios.get(CLIENT_API_BASE_URL + "/cottage/history/name/" + clientID, {
             headers : authHeader()

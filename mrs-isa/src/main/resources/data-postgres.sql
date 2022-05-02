@@ -10,6 +10,14 @@ insert into address (longitude, latitude) values
 	(80, 10);
 insert into address (longitude, latitude) values
 	(0, 100);
+insert into address (longitude, latitude) values
+	(42, 100);
+insert into address (longitude, latitude) values
+	(10, 30);
+insert into address (longitude, latitude) values
+	(80, 10);
+insert into address (longitude, latitude) values
+	(0, 100);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -53,10 +61,37 @@ insert into cottage (id, deleted, description, name, address_id, calendar_id, be
 insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
     values (nextval('offer_seq'), false, 'Najbolja zabava 4', 'N Last name', 6, 1, 4, 2, 1);
 
+insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+ length, max_speed, navigation_equipment, type, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 7, 1, 4,
+    'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
+
+
+insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+ length, max_speed, navigation_equipment, type, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 8, 1, 4,
+    'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
+
+
+insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+ length, max_speed, navigation_equipment, type, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 9, 1, 4,
+    'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
+
+
+insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+ length, max_speed, navigation_equipment, type, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 10, 1, 4,
+    'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
+
 insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
 insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 2);
 insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 3);
 insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
+insert into image (path, offer_id) values ('img/ship/4/41.jpg', 5);
+insert into image (path, offer_id) values ('img/ship/3/31.jpg', 6);
+insert into image (path, offer_id) values ('img/ship/2/21.jpg', 7);
+insert into image (path, offer_id) values ('img/ship/1/11.jpg', 8);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1);
@@ -69,3 +104,16 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 4);
+
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '28.01.2022', 1, 4000, false, false, '24.01.2022.', 1, 5);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 6);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '17.01.2022', 1, 100, true, false, '11.01.2022.', 1, 7);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+    (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 8);

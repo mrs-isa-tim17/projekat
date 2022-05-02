@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CottageHistoryReservationDTO {
+public class OfferHistoryReservationDTO {
     private Long id;
     private String startDate;
     private String endDate;
@@ -23,7 +23,7 @@ public class CottageHistoryReservationDTO {
     private List<String> images;
     private boolean reviewed;
 
-    public CottageHistoryReservationDTO() {
+    public OfferHistoryReservationDTO() {
     }
 
     public Long getId() {
@@ -139,7 +139,7 @@ public class CottageHistoryReservationDTO {
         this.reviewed = reviewed;
     }
 
-    public CottageHistoryReservationDTO(Reservation r) {
+    public OfferHistoryReservationDTO(Reservation r) {
         this.id = r.getOffer().getId();
         DateToStringConverter converter = new DateToStringConverter();
         this.startDate = converter.convert(r.getStartDate());
