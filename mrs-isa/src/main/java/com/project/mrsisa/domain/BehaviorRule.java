@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,10 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class BehaviorRule {
@@ -23,17 +21,16 @@ public class BehaviorRule {
 	@Column(nullable = false)
 	private String text;
 	
-	@ManyToMany
-	@JoinTable(name="behaviorRulesOffer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "behavior_rule_id", referencedColumnName = "id"))
-
+	@ManyToMany (mappedBy = "behaviorRules", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
 	
 	public BehaviorRule() {
-		
+		this.offer = new ArrayList<Offer>();
 	}
 	
 	public BehaviorRule(String text) {
 		this.text = text;
+		this.offer = new ArrayList<Offer>();
 	}
 
 	public String getText() {

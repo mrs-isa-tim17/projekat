@@ -1,5 +1,8 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -22,17 +27,17 @@ public class CancelCondition {
 	@Column(nullable = false)
 	private double precent;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "offerId")
-	private Offer offer;
+	@ManyToMany(mappedBy = "cancelCondition", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Offer> offer;
 	
 	public CancelCondition() {
-		
+		this.offer = new ArrayList<Offer>();
 	}
 	
 	public CancelCondition(int days, double percentage) {
 		this.days = days;
 		this.precent = percentage;
+		this.offer = new ArrayList<Offer>();
 	}
 	
 	public int getDays() {
@@ -53,10 +58,10 @@ public class CancelCondition {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Offer getOffer() {
+	public List<Offer> getOffer() {
 		return offer;
 	}
-	public void setOffer(Offer offer) {
+	public void setOffer(List<Offer> offer) {
 		this.offer = offer;
 	}
 	

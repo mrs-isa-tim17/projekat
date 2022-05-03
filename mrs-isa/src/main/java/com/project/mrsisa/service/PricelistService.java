@@ -31,4 +31,9 @@ public class PricelistService {
 	public List<Pricelist> findAllByAdventureId(Long id){
 		return pricelistRepository.findAllByOfferId(id);
 	}
+	
+	public Pricelist findOffersCurrentPriceById(Long offerId){
+		return pricelistRepository.findOffersCurrentPriceById(offerId);
+	}
+	
 }

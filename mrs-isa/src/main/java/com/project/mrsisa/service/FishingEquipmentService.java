@@ -30,4 +30,8 @@ public class FishingEquipmentService {
 	public List<FishingEquipment> findAllByAdventureId(Long id){
 		return fishingEquipmentRepository.findAllByAdventureId(id);
 	}
+	
+	public FishingEquipment findOneByName(String name) {
+		return fishingEquipmentRepository.findOneByName(name);
+	}
 }

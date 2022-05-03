@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -23,28 +23,20 @@ public class FishingEquipment {
 	@Column(nullable=false)
 	private String name;
 	
-/*	@Column(nullable=false)
-	private String units;
-	
-	@Column(nullable=false)
-	private double quantity;
-	*/
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shipId", nullable = true)
 	private Ship ship;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "fishingEquipmentsOffer", joinColumns=@JoinColumn(name = "fishing_equipment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "adventure_id", referencedColumnName = "id"))
-
+	@ManyToMany(mappedBy="fishingEquipments", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Adventure> adventure;
 	
 	public FishingEquipment() {
-		
+		this.adventure = new ArrayList<Adventure>();
 	}
 	
 	public FishingEquipment(String name) {
 		this.name = name;
+		this.adventure = new ArrayList<Adventure>();
 	}
 	
 	public String getName() {
@@ -53,18 +45,7 @@ public class FishingEquipment {
 	public void setName(String name) {
 		this.name = name;
 	}
-/*	public String getUnits() {
-		return units;
-	}
-	public void setUnits(String units) {
-		this.units = units;
-	}
-	public double getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
-	}   */
+
 	public Long getId() {
 		return id;
 	}

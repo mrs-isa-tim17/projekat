@@ -4,11 +4,12 @@
 
     <div class="row">
       <div class="col-8">
-      <!--  <h1>{{ adventure }}</h1>  -->
 
         <h1 align="left">{{ adventure.name }}</h1>
-        <h3 align="left" class="px-5">adresa: {{ adventure.streetName }} {{ adventure.serialNumber }},
-          {{ adventure.city }}, {{ adventure.country }}</h3>
+
+        <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                    style="width: 300px; height: 380px; visibility: visible"></openLayers>
+
         <h3 align="left" class="px-5"><em>{{ adventure.description }} </em></h3>
 
         <div class="px-5">
@@ -21,7 +22,7 @@
         <hr>
         <h4 align="left" class="px-5"> Pravila ponašanja </h4>
         <ul align="left" class="px-5">
-          <li align="left" class="px-10" v-for="rule in adventure.behavioralRules" :key="rule">{{ rule }}</li>
+          <li align="left" class="px-10" v-for="rule in adventure.behaviorRules" :key="rule">{{ rule }}</li>
         </ul>
         <hr>
 
@@ -29,7 +30,6 @@
         <ul align="left" class="px-5">
           <li align="left" class="px-10" v-for="equipment in adventure.fishingEquipment" :key="equipment">
             {{ equipment }}
-          <!--  {{ equipment.quantity }} {{ equipment.units }} -->
           </li>
         </ul>
         <hr>
@@ -71,12 +71,15 @@
 import instructorHeader from "@/components/insrtuctorHeader"
 import imagesCarousel from "@/components/imagesCarousel";
 import AdventureService from "@/services/AdventureService";
+import openLayers from "@/components/VueMaps";
+
 
 export default {
   name: "adventure-instructor",
   components: {
     instructorHeader,
     imagesCarousel,
+    openLayers,
   },
   created:
       function () {
@@ -105,55 +108,33 @@ export default {
               console.log(error.config);
             });
       },
+  methods: {
+    updateCoordinats(lon, lat) {
+      this.adventure.longitude = lon;
+      this.adventure.latitude = lat;
+      console.log(lon, lat)
+    }
+  },
   data() {
     return {
       adventure: {
+        id: 2,
         name: "",
-        streetName: "",
-        serialNumber: "",
-        country: "",
+        latitude: "",
+        longitude: "",
         description: "",
-        city: "",
-        behavioralRules: [],
+        behaviorRules: [],
         images: [],
         fishingEquipment: [],
         cancelConditions: [],
-        experienceReviews: [],
         price: "",
         capacity: "",
         instructorBiography: "",
-        additionalEquipment:[],
-        days : [5,10,15,20],
-        percentage : [0, 0, 0, 0],
+        additionalServices: [],
+        days: ['5', '10', '15', '20'],
+        percentage: ['0', '0', '0', '0'],
+        experienceReviews: [],
       },
-
-      /* adventure1: {
-         name: "Rafting Drinom",
-         address: {
-           streetName: "Gogoljeva",
-           serialNumber: "22",
-           place: {postNumber: 22240, name: "Bajina Bašta", country: "Srbija"}
-         },
-         description: 'Uzbudljvo putovanje za porodicu i prijatelje',
-
-         images: [{path: require("@/assets/img/adventure/Drina1.jpg")}, {path: require("@/assets/img/adventure/Drina2.jpg")}, {path: require("@/assets/img/adventure/Drina3.jpg")}, {path: require("@/assets/img/adventure/Drina4.jpg")}],
-         priceList: [{startDate: "start", endDate: "end", price: 12000}],
-         behavioralRule: ["dozvoljeno pecanje", "zabranjeno kupanje", "pet friendly"],
-         cancelCondition: [{days: 5, double: 30}, {days: 30, double: 5}],
-         additionalServices: ["prevoz do plaze", "dorucak u kampu", "baterijska lampa"],
-
-         instructorBiography: "Avanturisticki duh, zastitom reke Drine se bavi od 2008. godine...",
-         capacity: 5,
-         fishingEquipment: [{name: "stap", units: "komada", quantity: 10}, {name: "crvi", units: "kg", quantity: "2"}],
-         averageRaiting: 4.35,
-         experienceReview: [{
-           text: "odlicno   Pravila ponašanja dozvoljeno pecanje zabranjeno kupanjepet friendlyPecaroška opremastap ima 10 komadacrvi ima 2 kglovi otkaza otkažete u roku od 5 dana pre početka događaja, plaćate 30% od ukupne cene rezervacije.roku od 30 dana pre početka događaja, plaćate 5% od ukupne cene rezervacijeBiografija instruktora Avanturisticki duh, zastitom reke Drine se bavi od 2008. godine...",
-           client: {name: "Milan", surname: "Milic"}
-         }, {text: "onako", client: {name: "Jelena", surname: "Jankovic"}}, {
-           text: "prelepo",
-           client: {name: "Pera", surname: "Peric"}
-         }]
-       }  */
     }
   }
 }

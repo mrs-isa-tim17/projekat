@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,8 +24,7 @@ public class AdditionalServices {
 	@Column(name="name", nullable=false)
 	private String name;
 	
-	@ManyToMany
-	@JoinTable(name = "additionalServices_offer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "additional_service_id", referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -37,10 +37,13 @@ public class AdditionalServices {
 	
 
 	public AdditionalServices() {
+		this.offer = new ArrayList<Offer>();
 		
 	}
 	public AdditionalServices(String name) {
 		this.name=name;
+		this.offer = new ArrayList<Offer>();
+
 	}
 	
 	public String getName() {

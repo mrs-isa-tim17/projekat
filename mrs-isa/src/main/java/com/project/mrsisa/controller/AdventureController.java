@@ -1,6 +1,7 @@
 package com.project.mrsisa.controller;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,7 @@ import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.FishingEquipmentService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.PricelistService;
+
 
 
 
@@ -67,6 +70,7 @@ public class AdventureController {
 	
 	
 	@GetMapping(value = "/detail/{id}")
+    @PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<AdventureDTO> getAdventure(@PathVariable Long id) {
 		System.out.println("IN CONTROLLER");
 
@@ -87,6 +91,7 @@ public class AdventureController {
 	
 
 	@PostMapping(value="/detail/save", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<AdventureDTO> saveAdventure(@RequestBody AdventureDTO adventureDTO){
 		
 		
@@ -98,6 +103,7 @@ public class AdventureController {
 	}
 	
 	@PostMapping(value = "/detail/update", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<AdventureDTO> updateAdventure(@RequestBody AdventureDTO adventureDTO) {
 
 		System.out.println("update controler");
@@ -109,33 +115,20 @@ public class AdventureController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Adventure updatedAdventure = formAdventure(adventureDTO);
-		adventure.setName(updatedAdventure.getName());
-		adventure.setPricelists(updatedAdventure.getPricelists());
-		adventure.setAdditionalServices(updatedAdventure.getAdditionalServices());
-		adventure.setAddress(updatedAdventure.getAddress());
-		adventure.setBehaviorRules(updatedAdventure.getBehaviorRules());
-		adventure.setCancelCondition(updatedAdventure.getCancelCondition());
-		adventure.setCapacity(updatedAdventure.getCapacity());
-		adventure.setDescription(updatedAdventure.getDescription());
-		adventure.setFishingEquipments(updatedAdventure.getFishingEquipments());
-		adventure.setInstructorBiography(updatedAdventure.getInstructorBiography());
-		adventure.setImages(updatedAdventure.getImages());
+		System.out.println("ID: " + adventure.getId());
+		
+		adventure = this.updateAdventure(adventure, adventureDTO);
 	
 		
 		adventure = adventureService.save(adventure);
 		System.out.println("update in database");
 		
-		for(BehaviorRule b : updatedAdventure.getBehaviorRules())
-		{
-			System.out.println(b.getText());
-
-		}
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
 	
 	
 	@DeleteMapping(value = "/detail/delete/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<Boolean> deleteAdventure(@PathVariable Long id) {
 		
 		System.out.println("delete - in controller");
@@ -151,6 +144,7 @@ public class AdventureController {
 	}
 	
 	@GetMapping(value = "/detail/all")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<AdventureDTO>> getAllAdventures() {
 
 		List<Adventure> adventures = adventureService.findAll();
@@ -165,15 +159,11 @@ public class AdventureController {
 	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
-Adventure adventure = new Adventure();
-		
-
-		
+		Adventure adventure = new Adventure();
+			
 		Address a = new Address();
 		a.setLatitude(adventureDTO.getLatitude());
 		a.setLongitude(adventureDTO.getLongitude());
-
-		
 		adventure.setAddress(a);
 		adventure.setName(adventureDTO.getName());
 		adventure.setCapacity(adventureDTO.getCapacity());
@@ -184,43 +174,61 @@ Adventure adventure = new Adventure();
 		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
 		for(String rule : adventureDTO.getBehaviorRules())
 		{
-			behavoirRules.add(new BehaviorRule(rule));
+			BehaviorRule br = behaviorRuleService.findOneByText(rule);
+			behavoirRules.add(br);
 		}
 		adventure.setBehaviorRules(behavoirRules);
 		
 		List<FishingEquipment> fishingEquipment = new ArrayList<FishingEquipment>();
 		for(String equipmentName : adventureDTO.getFishingEquipment()) 
 		{
-			fishingEquipment.add(new FishingEquipment(equipmentName));
+			FishingEquipment fe = fishingEquipmentService.findOneByName(equipmentName);
+			fishingEquipment.add(fe);
 		}
 		adventure.setFishingEquipments(fishingEquipment);
 		
-		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
-		
-		for(int i = 0; i < adventureDTO.getDays().size(); i++) 
-		{
-			cancelConditions.add(new CancelCondition(Integer.parseInt(adventureDTO.getDays().get(i)), Double.parseDouble(adventureDTO.getPercentage().get(i))));
-		}
-		adventure.setCancelCondition(cancelConditions);
-		
-		
-		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
-		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
-		pricelists.add(pricelist);
-		adventure.setPricelists(pricelists);
-		
 		List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
-		
 		for(String service : adventureDTO.getAdditionalServices()) 
 		{
-			additionalServices.add(new AdditionalServices(service));	
+			AdditionalServices as = additionalServicesService.findOneByName(service);
+			additionalServices.add(as);	
 		}
 		adventure.setAdditionalServices(additionalServices);
 		
 		
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
+
+			CancelCondition c1 = new CancelCondition(5, Double.parseDouble(adventureDTO.getP1()));
+			cancelConditions.add(c1);
+			cancelConditionService.save(c1);
+			
+			CancelCondition c2 = new CancelCondition(10, Double.parseDouble(adventureDTO.getP2()));
+			cancelConditions.add(c2);
+			cancelConditionService.save(c2);
+			
+			CancelCondition c3 = new CancelCondition(15, Double.parseDouble(adventureDTO.getP3()));
+			cancelConditions.add(c3);
+			cancelConditionService.save(c3);
+			
+			CancelCondition c4 = new CancelCondition(20, Double.parseDouble(adventureDTO.getP4()));
+			cancelConditions.add(c4);
+			cancelConditionService.save(c4);
 		
+		adventure.setCancelCondition(cancelConditions);
+		
+		
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
+		pricelist.setOffer(adventure);
+		
+		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
+		pricelists.add(pricelist);
+		adventure.setPricelists(pricelists);
+		
+		
+
 		
 		List<Image> images = new ArrayList<Image>();    // kasnije
+				
 		
 		return adventure;
 		
@@ -232,23 +240,98 @@ Adventure adventure = new Adventure();
 		List<BehaviorRule> behaviorRules = behaviorRuleService.findAllByAdventureId(adventureId);
 		List<Image> images = imageService.findAllByAdventureId(adventureId);
 		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
-		List<CancelCondition> cancelConditions = cancelConditionService.findAllByAdventureId(adventureId);
+		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(adventureId);
 		List<ExperienceReview> experience =  experienceReviewService.findAllByOfferId(adventureId);
 		List<AdditionalServices> additionalServices = additionalServicesService.findAllByAdventureId(adventureId);
-		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(adventureId);
-		
-		double price = pricelists.get(0).getPrice();
+		Pricelist pricelist = pricelistService.findOffersCurrentPriceById(adventureId);
+		double price = pricelist.getPrice();
+
 		System.out.println("size za role: " + behaviorRules.size());
 		System.out.println("image siye : "  + images.size());
 		System.out.println("fishing equipment siye : "  + fishEquipment.size());
 		System.out.println("cancel condition siye : "  + cancelConditions.size());
 		System.out.println("experience review siye : "  + experience.size());
 		System.out.println("addition siye : "  + additionalServices.size());
-		
+		System.out.println("OVDE");
 		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price);
 			
 		System.out.println(adventureDTO);
 		return adventureDTO;
 	}
 
+	private Adventure updateAdventure(Adventure adventure, AdventureDTO adventureDTO) {
+		
+		adventure.setName(adventureDTO.getName());
+		adventure.getAddress().setLatitude(adventureDTO.getLatitude());
+		adventure.getAddress().setLongitude(adventureDTO.getLongitude());
+		adventure.setCapacity(adventureDTO.getCapacity());
+		adventure.setDescription(adventureDTO.getDescription());
+		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
+
+		List<AdditionalServices> aService = new ArrayList<AdditionalServices>();
+		for(String as : adventureDTO.getAdditionalServices()) 
+		{
+			aService.add(additionalServicesService.findOneByName(as));
+		}
+		adventure.setAdditionalServices(aService);
+
+		List<BehaviorRule> bRules = new ArrayList<BehaviorRule>();
+		for(String as : adventureDTO.getBehaviorRules()) 
+		{
+			bRules.add(behaviorRuleService.findOneByText(as));	
+		}
+		adventure.setBehaviorRules(bRules);
+		
+		List<FishingEquipment> fEquipment = new ArrayList<FishingEquipment>();
+		for(String fe : adventureDTO.getFishingEquipment()) 
+		{
+			fEquipment.add(fishingEquipmentService.findOneByName(fe));	
+		}
+		adventure.setFishingEquipments(fEquipment);
+		
+		List<CancelCondition> cCondition = new ArrayList<CancelCondition>();
+		for(int i = 0; i < adventureDTO.getDays().size(); i++) 
+		{
+			int day = Integer.parseInt(adventureDTO.getDays().get(i));
+			CancelCondition cc = cancelConditionService.findOneByOfferIdAndDays(adventureDTO.getId(), day);
+			switch (day) {
+			case 5:
+				cc.setPrecent(Double.parseDouble(adventureDTO.getP1()));
+				break;
+			case 10:
+				cc.setPrecent(Double.parseDouble(adventureDTO.getP2()));
+				break;
+			case 15:
+				cc.setPrecent(Double.parseDouble(adventureDTO.getP3()));
+				break;
+
+			case 20:
+				cc.setPrecent(Double.parseDouble(adventureDTO.getP4()));
+				break;
+			default:
+				break;
+			}
+			cCondition.add(cc);
+			cancelConditionService.save(cc);
+		}
+		adventure.setCancelCondition(cCondition);
+		
+
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
+		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(adventureDTO.getId());
+		for(Pricelist p : pricelists) 
+		{
+			if(p.getEndDate() == null) {
+				p.setEndDate(LocalDate.now());
+			}
+		}
+		pricelists.add(pricelist);
+		pricelist.setOffer(adventure);
+		adventure.setPricelists(pricelists);
+		System.out.println("priceee !!!");
+
+		adventure.setImages(adventureDTO.getImagesAdventure());  // kasnije
+		
+	return adventure;
+	}
 }

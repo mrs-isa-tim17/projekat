@@ -11,27 +11,6 @@
             <br>
             <input type="text" ref="input" v-model="adventure.name" size="25">
           </div>
-
-          <div class="p-2">
-            <label>{{ cityLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.city" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ streetLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.streetName" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ numberLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.serialNumber" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ countryLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.country" size="25">
-          </div>
           <div class="p-2">
             <label>{{ priceLabel }}</label>
             <br>
@@ -42,9 +21,13 @@
             <br>
             <textarea type="text" ref="input" v-model="adventure.description" size="25">
             </textarea>
-            <br>
-            <br>
-            <h5 id="message"></h5>
+          </div>
+
+          <div>
+            <label>{{addressLabel}} </label>
+          <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                      style="width: 400px; height: 400px; visibility: visible"></openLayers>
+
           </div>
 
         </div>
@@ -135,7 +118,10 @@
                 {{ additionalEquipment2 }}
               </label>
             </div>
+
           </div>
+          <br>
+          <h5 id="message"></h5>
 
         </div>
 
@@ -188,21 +174,21 @@
 
           <div class="p-2" style="border-style: solid; border-width: medium;">
 
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule1 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[0]"
-                                                                                                size="15"/> %
+            <p>Za odustanak od rezervacije u roku<b> 0 - 5 </b>dana plaća se <input type="number"
+                                                                                    v-model="adventure.p1"
+                                                                                    size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule2 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[1]"
-                                                                                                size="15"/> %
+            <p>Za odustanak od rezervacije u roku <b>6 - 10</b> dana plaća se <input type="number"
+                                                                                     v-model="adventure.p2"
+                                                                                     size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule3 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[2]"
-                                                                                                size="15"/> %
+            <p>Za odustanak od rezervacije u roku <b>11 - 15</b> dana plaća se <input type="number"
+                                                                                      v-model="adventure.p3"
+                                                                                      size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule4 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[3]"
-                                                                                                size="15"/> %
+            <p>Za odustanak od rezervacije <b>16</b> i više dana pre termina plaća se <input type="number"
+                                                                                      v-model="adventure.p4"
+                                                                                      size="15"/> %
               ukupnog iznosa</p>
 
           </div>
@@ -224,11 +210,13 @@
 
 import InstructorHeader from "@/components/insrtuctorHeader"
 import AdventureService from "@/services/AdventureService";
+import openLayers from "@/components/VueMaps";
 
 export default {
   name: "updateAdventure",
   components: {
     InstructorHeader,
+    openLayers
   },
 
   created:
@@ -244,6 +232,11 @@ export default {
     }
   ,
   methods: {
+    updateCoordinats(lon, lat) {
+      this.adventure.longitude = lon;
+      this.adventure.latitude = lat;
+      console.log(lon, lat)
+    },
     updateAdventure() {
       if (this.adventure.name === "" || this.adventure.capacity == null || this.adventure.instructorBiography === "" || this.adventure.description === "") {
         document.getElementById("message").innerText = this.message;
@@ -253,7 +246,9 @@ export default {
         AdventureService.updateAdventure(this.adventure).then((response) => {
           this.adventure = response.data;
           document.getElementById("message").innerText = this.successMessage;
-          console.log(this.adventure)
+          console.log(this.adventure);
+      //    this.$router.push('/instructor/adventures/')
+
         })
             .catch(function (error) {
               console.log(error.toJSON());
@@ -306,13 +301,10 @@ export default {
     return {
       message: "Obavezno polje",
       errorMessage: "Obavezno polje",
-      successMessage: "Uspešno sačuvana avantura",
+      successMessage: "Uspešno izmenjena avantura",
 
       adventureNameLabel: "Naziv avanture*",
-      cityLabel: "Grad*",
-      streetLabel: "Adresa*",
-      numberLabel: "Broj*",
-      countryLabel: "Država*",
+      addressLabel: "Adresa*",
 
       descriptionLabel: "Opis avanture*",
       imgLabel: "Fotografije",
@@ -349,11 +341,9 @@ export default {
       adventure: {
         id:2,
         name: "",
-        streetName: "",
-        serialNumber: "",
-        country: "",
+        latitude:"",
+        longitude:"",
         description: "",
-        city: "",
         behaviorRules: [],
         images: [],
         fishingEquipment: [],
@@ -363,7 +353,10 @@ export default {
         instructorBiography: "",
         additionalServices: [],
         days: ['5', '10', '15', '20'],
-        percentage: ['0', '0', '0', '0'],
+        p1:"",
+        p2:"",
+        p3:"",
+        p4:"",
         experienceReviews: [],
       },
     }

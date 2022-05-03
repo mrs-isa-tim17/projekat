@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -21,7 +21,8 @@ public class Adventure extends Offer {
 	@Column(nullable=false)
 	private int capacity;
 	
-	@ManyToMany(mappedBy="adventure", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name = "fishingEquipmentsOffer", joinColumns=@JoinColumn(name = "adventure_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_equipment_id", referencedColumnName = "id"))
 	private List<FishingEquipment> fishingEquipments;
 
 	@ManyToOne(fetch = FetchType.LAZY)

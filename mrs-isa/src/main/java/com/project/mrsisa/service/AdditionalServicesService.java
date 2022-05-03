@@ -26,6 +26,9 @@ public class AdditionalServicesService {
 	public AdditionalServices findOneById(Long id) {
 		return additionalServicesRepository.findOneById(id);
 	}
+	public AdditionalServices findOneByName(String name) {
+		return additionalServicesRepository.findOneByName(name);
+	}
 	
 	public List<AdditionalServices> findAllByAdventureId(Long id){
 		return additionalServicesRepository.findAllByOfferId(id);
