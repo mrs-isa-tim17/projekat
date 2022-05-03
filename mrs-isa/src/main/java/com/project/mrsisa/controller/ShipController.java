@@ -51,7 +51,6 @@ public class ShipController {
 			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId()));
 			shipsDTO.add(dto);
 		}
-		System.out.println("Number of cottagesDTO: " + shipsDTO.size());
 		return ResponseEntity.ok(shipsDTO);
 	}
 

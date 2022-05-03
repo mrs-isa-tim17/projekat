@@ -20,7 +20,7 @@
             <a class="nav-link text-dark" :href="shipsLink">Brodovi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="...">Avanture</a>
+            <a class="nav-link text-dark" :href="adventuresLink">Avanture</a>
           </li>
         </ul>
         <button class="btn btn-outline-dark" @click="login">Log in</button>
@@ -46,7 +46,8 @@ export default {
     return {
       siteHomePage: "/book/site/home",
       cottagesLink: "/book/cottage/site",
-      shipsLink: "/book/ship/site"
+      shipsLink: "/book/ship/site",
+      adventuresLink: "/book/adventure/site"
     }
   }
 }

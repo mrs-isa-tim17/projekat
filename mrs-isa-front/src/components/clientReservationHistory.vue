@@ -150,7 +150,7 @@ export default {
     },
     makeLastNumber(){
       let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;
-      return Math.round(numPages);
+      return Math.ceil(numPages);
     },
     makeFirstLink(){
       this.fromElement = 0;

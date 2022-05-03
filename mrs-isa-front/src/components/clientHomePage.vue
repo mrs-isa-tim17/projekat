@@ -99,7 +99,7 @@ export default {
 
       instructorImgPath: require("@/assets/icons/fishing.png"),
       instructorText: 'Instrukture',
-      instructorLink: '...',
+      instructorLink: "/book/adventure/site",
 
       upcomingImgPath: require("@/assets/icons/booking.png"),
       upcomingLink: "...",

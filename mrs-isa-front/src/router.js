@@ -16,6 +16,7 @@ const router = createRouter({
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
         { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageListView.vue")},
         { path:  '/book/ship/site', component: () => import("./components/main_site/siteShipListView.vue")},
+        { path:  '/book/adventure/site', component: () => import("./components/main_site/siteAdventureListView.vue")},
 
         { path: '/owner/profile', component: () => import("./components/editProfileOwner")},
         { path: '/cottage/home', component: () => import("./components/cottageOwnerHomePage")},
@@ -27,7 +28,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const publicPages = ['/book/site/login', '/book/site/register', '/book/site/home', '/book/cottage/site',
-        '/book/ship/site'];
+        '/book/ship/site', '/book/adventure/site'];
     let authRequired = !publicPages.includes(to.path);
     if (to.path.includes('/client/verify/')){
         authRequired = false;
