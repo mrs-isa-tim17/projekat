@@ -5,6 +5,7 @@
   <div>
     <div class="row">
       <div class="col-3" style="width: 240px;">
+        <site-adventure-search-nav></site-adventure-search-nav>
       </div>
       <div class="col">
         <site-adventure-list></site-adventure-list>
@@ -17,9 +18,10 @@
 import siteAdventureList from "@/components/main_site/siteAdventureList";
 import BasicHeader from "@/components/basicHeader";
 import ClientHeader from "@/components/clientHeader";
+import SiteAdventureSearchNav from "@/components/main_site/siteAdventureSearchNav";
 export default {
   name: "siteAdventureListView",
-  components: {ClientHeader, BasicHeader, siteAdventureList},
+  components: {SiteAdventureSearchNav, ClientHeader, BasicHeader, siteAdventureList},
   created:
       function () {
         try{
