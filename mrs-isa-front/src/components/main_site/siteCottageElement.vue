@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex justify-content-center mw-90">
-    <div class="card mb-3 mw-90" style="width: 80%;">
+  <div class="d-flex justify-content-center mw-100">
+    <div class="card mb-3 mw-100" style="width: 80%;">
 
       <div class="row g-0" style="background-color: #E9E9E9;">
 
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="col-4">
-                  <bird-vue-map :index="cottage.id" style="width: 300px; height: 200px;" :lon="cottage.longitude" :lat="cottage.latitude"></bird-vue-map>
+                  <bird-vue-map :index="cottage.id" style="width: 280px; height: 200px;" :lon="cottage.longitude" :lat="cottage.latitude"></bird-vue-map>
                 </div>
               </div>
             </div>

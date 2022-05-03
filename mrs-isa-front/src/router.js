@@ -14,7 +14,7 @@ const router = createRouter({
         { path: '/book/site/home', component: () => import("./components/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
-        { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageList.vue")},
+        { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageListView.vue")},
 
         { path: '/owner/profile', component: () => import("./components/editProfileOwner")},
         { path: '/cottage/home', component: () => import("./components/cottageOwnerHomePage")},

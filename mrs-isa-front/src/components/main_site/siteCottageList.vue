@@ -1,10 +1,7 @@
 <template>
 
 
-  <basic-header :key="basicHeaderKey" v-show="!verifiedClient"></basic-header>
-  <client-header :key="clientHeaderKey" v-show="verifiedClient"></client-header>
-
-  <div class="container" >
+  <div>
     <div class="p-2" v-for="(item) in filterOffers()"  :key="item.name">
       <site-cottage-element :cottage="item"></site-cottage-element>
     </div>
@@ -37,12 +34,10 @@
 <script>
 import cottageServce from "@/servieces/CottageServce";
 import SiteCottageElement from "@/components/main_site/siteCottageElement";
-import BasicHeader from "@/components/basicHeader";
-import ClientHeader from "@/components/clientHeader";
 
 export default {
-  name: "cottageList",
-  components: {ClientHeader, BasicHeader, SiteCottageElement},
+  name: "site-cottage-list",
+  components: {SiteCottageElement},
   mounted() {
     cottageServce.getCottages().then(
         (response) => {
