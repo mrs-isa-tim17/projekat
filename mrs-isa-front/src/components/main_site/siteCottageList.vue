@@ -84,7 +84,7 @@ export default {
     },
     makeLastNumber() {
       let numPages = this.cottages.length / this.numberOfElementsForDisplay;
-      return Math.round(numPages);
+      return Math.ceil(numPages);
     },
     makeFirstLink() {
       this.fromElement = 0;

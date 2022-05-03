@@ -84,7 +84,7 @@ export default {
     },
     makeLastNumber() {
       let numPages = this.cottages.length / this.numberOfElementsForDisplay;
-      return Math.round(numPages);
+      return Math.ceil(numPages);
     },
     makeFirstLink() {
       this.fromElement = 0;
@@ -125,7 +125,7 @@ export default {
     return {
       verifiedClient: false,
       cottages : [],
-      numberOfElementsForDisplay : 4,
+      numberOfElementsForDisplay : 3,
       fromElement: 0,
       basicHeaderKey: 0,
       clientHeaderKey: 0

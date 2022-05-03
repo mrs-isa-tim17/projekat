@@ -5,6 +5,7 @@
   <div>
     <div class="row">
       <div class="col-3" style="width: 240px;">
+        <site-ship-search-nav></site-ship-search-nav>
       </div>
       <div class="col">
         <site-ship-list></site-ship-list>
@@ -17,9 +18,10 @@
 import SiteShipList from "@/components/main_site/siteShipList";
 import BasicHeader from "@/components/basicHeader";
 import ClientHeader from "@/components/clientHeader";
+import SiteShipSearchNav from "@/components/main_site/siteShipSearchNav";
 export default {
   name: "siteShipListView",
-  components: {ClientHeader, BasicHeader, SiteShipList},
+  components: {SiteShipSearchNav, ClientHeader, BasicHeader, SiteShipList},
   created:
       function () {
         try{
