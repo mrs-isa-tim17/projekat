@@ -17,7 +17,7 @@ insert into address (longitude, latitude) values
 insert into address (longitude, latitude) values
 	(80, 10);
 insert into address (longitude, latitude) values
-	(0, 100);
+	(0, -30);
 insert into address (longitude, latitude) values
 	(11, 70);
 

@@ -30,7 +30,7 @@ public class ImageService {
         return imageRepository.findAllByOfferId(id);
     }
 
-    public List<Image> findAllByCottageId(Long id){
+    public List<Image> findAllByOfferId(Long id){
         return imageRepository.findAllByOfferId(id);
     }
 }

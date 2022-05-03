@@ -59,7 +59,7 @@ public class ClientController {
         List<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         return ResponseEntity.ok(dtoList);
@@ -72,7 +72,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList, new Comparator<OfferHistoryReservationDTO>() {
@@ -94,7 +94,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList, //(x, y) -> x.getStartDate().compareTo(y.getEndDate()));
@@ -117,7 +117,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
@@ -136,7 +136,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
@@ -155,7 +155,7 @@ public class ClientController {
         List<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastShipReservations){
             r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         return ResponseEntity.ok(dtoList);
@@ -168,7 +168,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList, new Comparator<OfferHistoryReservationDTO>() {
@@ -190,7 +190,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList, //(x, y) -> x.getStartDate().compareTo(y.getEndDate()));
@@ -213,7 +213,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
@@ -232,7 +232,7 @@ public class ClientController {
         ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
         for (Reservation r : pastCottageReservations){
             r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByCottageId(r.getOffer().getId()));
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
             dtoList.add(new OfferHistoryReservationDTO(r));
         }
         Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {

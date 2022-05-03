@@ -17,7 +17,7 @@
             <a class="nav-link  text-dark" :href="cottagesLink">Vikendice</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="...">Brodovi</a>
+            <a class="nav-link text-dark" :href="shipsLink">Brodovi</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark" href="...">Avanture</a>
@@ -45,7 +45,8 @@ export default {
   data() {
     return {
       siteHomePage: "/book/site/home",
-      cottagesLink: "/book/cottage/site"
+      cottagesLink: "/book/cottage/site",
+      shipsLink: "/book/ship/site"
     }
   }
 }

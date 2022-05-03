@@ -3,7 +3,6 @@ package com.project.mrsisa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.ExperienceReview;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.ImageService;
@@ -51,7 +50,7 @@ public class CottageController {
 		List<CottageForListViewDTO> cottagesDTO = new ArrayList<>();
 		System.out.println("Number of cottages: " + cottages.size());
 		for (Cottage c : cottages) {
-			c.setImages(imageService.findAllByCottageId(c.getId()));
+			c.setImages(imageService.findAllByOfferId(c.getId()));
 			CottageForListViewDTO dto = new CottageForListViewDTO(c);
 			dto.setPrice(priceService.getCurrentPriceOfOffer(c.getId()));
 			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId()));

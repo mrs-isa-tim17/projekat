@@ -3,25 +3,23 @@
   <basic-header :key="basicHeaderKey" v-show="!verifiedClient"></basic-header>
   <client-header :key="clientHeaderKey" v-show="verifiedClient"></client-header>
   <div>
-  <div class="row">
-    <div class="col-3" style="width: 240px;">
-      <site-cottage-search-nav></site-cottage-search-nav>
+    <div class="row">
+      <div class="col-3" style="width: 240px;">
+      </div>
+      <div class="col">
+        <site-ship-list></site-ship-list>
+      </div>
     </div>
-    <div class="col">
-      <site-cottage-list></site-cottage-list>
-    </div>
-  </div>
   </div>
 </template>
 
 <script>
-import SiteCottageSearchNav from "@/components/main_site/siteCottageSearchNav";
-import SiteCottageList from "@/components/main_site/siteCottageList";
+import SiteShipList from "@/components/main_site/siteShipList";
 import BasicHeader from "@/components/basicHeader";
 import ClientHeader from "@/components/clientHeader";
 export default {
-  name: "siteCottageListView",
-  components: {ClientHeader, BasicHeader, SiteCottageList, SiteCottageSearchNav},
+  name: "siteShipListView",
+  components: {ClientHeader, BasicHeader, SiteShipList},
   created:
       function () {
         try{
