@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ownerHeader from "@/components/ownerHeader";
+import ownerHeader from "@/components/cottageOwnerHeader";
 export default {
   name: "cottageOwnerHome",
   components:{ownerHeader}

@@ -23,6 +23,7 @@ public class CottageService {
 		return cottageRepository.findAll();
 	}
 	
+	
 	public List<Cottage> getCottagesByOwner(CottageOwner owner){
 		return cottageRepository.findByOwner(owner);
 	}

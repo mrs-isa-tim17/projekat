@@ -1,7 +1,7 @@
 <template>
-  <ownerHeader></ownerHeader>
+  <shipOwnerHeader></shipOwnerHeader>
   <div><div class="header">
-   <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
+    <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
     <div id="profile">Moj profil</div>
   </div>
     <!--  Loyality  -->
@@ -33,44 +33,28 @@
 
       <form action="">
         <div class="formdetails">
-          <div class="input-box">
+          <div id="left">
             <span class="details">Ime</span><br>
-            <input type="text" id="name" v-model="owner.name"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Adresa</span><br>
-            <input type="text" id="address" />
-          </div>
-          <div class="input-box">
+            <input type="text" id="name" v-model="owner.name"/><br>
             <span class="details">Prezime</span><br>
-            <input type="text" id="surname" v-model="owner.surname"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Grad</span><br>
-            <input type="text" id="city"/>
-          </div>
-          <div class="input-box">
+            <input type="text" id="surname" v-model="owner.surname"/><br>
             <span class="details">Email</span><br>
-            <input type="text" id="email" v-model="owner.email"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Država</span><br>
-            <input type="text" id="country" />
-          </div>
-          <div class="input-box">
-            <span class="details">Lozinka</span><br>
-            <changePasswordModal
-             :index="buttonId" :header="changePassHeader"></changePasswordModal>
-
-          </div>
-
-          <div class="input-box">
+            <input type="text" id="email" v-model="owner.email"/><br>
             <span class="details">Broj telefona</span><br>
-            <input type="text" id="telNumber" v-model="owner.phoneNumber"/>
+            <input type="text" id="telNumber" v-model="owner.phoneNumber"/><br>
+            <br>
+            <changePasswordModal
+                :index="buttonId" :header="changePassHeader"></changePasswordModal>
+            </div>
+          <div id="right">
+            <label>Adresa</label><br>
+            <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps>
+
           </div>
+
           <div id="buttonSubmit">
-            <button type="button" class="btn" @click="cancel" style="background-color:#31708E;margin-right:20px;color:white;height:50px;width:150px;">Odustani</button>
-            <button type="button" class="btn" @click="updateProfile" style="background-color:#31708E;color:white;height:50px;width:150px;">Potvrdi izmene</button>
+            <button type="button" class="btn" @click="cancel" style="background-color:#31708E;margin-right:50px;color:white;height:50px;width:150px;margin-bottom: 40px;">Odustani</button>
+            <button type="button" class="btn" @click="updateProfile" style="background-color:#31708E;color:white;height:50px;width:150px;margin-bottom: 40px;">Potvrdi izmene</button>
           </div>
 
         </div>
@@ -82,16 +66,17 @@
 <script>
 import changePasswordModal from "@/components/changePasswordModal";
 import deleteAccountModal from "@/components/deleteAccountModal"
-import CottageOwnerService from "@/servieces/CottageOwnerService";
-import ownerHeader from "@/components/ownerHeader";
+import ShipOwnerService from "@/servieces/ShipOwnerService";
+import shipOwnerHeader from "@/components/shipOwnerHeader";
+import OpenMaps from "@/components/VueMaps";
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordModal, deleteAccountModal, ownerHeader},
+  components:{changePasswordModal, deleteAccountModal, shipOwnerHeader,OpenMaps},
   created:
       function () {
         this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
         console.log(this.coID);
-        CottageOwnerService.getOwner(this.coID)
+        ShipOwnerService.getOwner(this.coID)
             .then((response) => {
               console.log(response);
               this.owner = response.data;
@@ -137,8 +122,8 @@ export default {
         loyaltyPoints: "",
         penaltyNumber: "",
         benefits: "",
-        longitude: "",
-        latitude: ""
+        longitude: 0,
+        latitude: 0
       }
     }
   },
@@ -149,7 +134,7 @@ export default {
       console.log(lon, lat)
     },
     updateProfile(){
-      CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
+      ShipOwnerService.updateOwner(this.coID,this.owner).then("Success");
       this.backup[0] = this.owner.name;
       this.backup[1] = this.owner.surname;
       this.backup[2] = this.owner.phoneNumber;
@@ -204,7 +189,8 @@ body{
 }
 #buttonSubmit{
   width:100%;
-  padding: 30px;
+
+  margin-bottom:50px;
 }
 .editProfile form .formdetails{
   display: flex;
@@ -248,7 +234,7 @@ form .details .input-box{
 
 .details{
   float: left;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .header{
@@ -317,6 +303,13 @@ form .details .input-box{
 #benefits{
   border:1px solid white;
 
+}
+#left{
+  float:left;
+}
+#right{
+  float:right;
+  margin-right: 60px;
 }
 
 

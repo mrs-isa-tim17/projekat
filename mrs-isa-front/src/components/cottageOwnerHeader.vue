@@ -59,7 +59,7 @@ export default {
           this.$router.push('/book/site/home');
         },
         editProfilePage(){
-          this.$router.push('/cottageOwner/profile');
+          this.$router.push('/owner/profile/' + this.c);
         }
       }
 }

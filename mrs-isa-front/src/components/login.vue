@@ -58,10 +58,10 @@ export default {
           this.$router.push("/client/home");//admin
         }
         else if (response.roleID === 3){
-          this.$router.push("/cottage/home");
+          this.$router.push("/cottageOwner/home");
         }
         else if (response.roleID === 4){
-          this.$router.push("/client/home");//ship owner
+          this.$router.push("/shipOwner/home");//ship owner
         }
         else if (response.roleID === 5){
           this.$router.push("/instructor/home");//fishing instructor

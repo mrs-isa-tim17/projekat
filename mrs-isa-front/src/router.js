@@ -21,11 +21,16 @@ const router = createRouter({
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
 
-        { path: '/cottageOwner/profile', component: () => import("./components/editProfileOwner")},
-        { path: '/cottage/home', component: () => import("./components/cottageOwnerHome")},
+        { path: '/cottageOwner/profile', component: () => import("./components/editProfileCottageOwner")},
+        { path: '/shipOwner/profile', component: () => import("./components/editProfileShipOwner")},
+        { path: '/cottageOwner/home', component: () => import("./components/homePageCottageOwner")},
+        { path: '/shipOwner/home', component: () => import("./components/homePageShipOwner")},
         { path: '/owner/cottages', component: () => import("./components/cottageList")},
+        { path: '/owner/ships', component: () => import("./components/shipList")},
         {path:'/cottage/add',component:() => import("./components/addCottage.vue")},
-        { path: '/cottage/update/:id',component:()=>import("./components/updateCottage")}
+        {path:'/ship/add',component:() => import("./components/addShip.vue")},
+        { path: '/cottage/update/:id',component:()=>import("./components/updateCottage")},
+        { path: '/ship/update/:id',component:()=>import("./components/updateShip")}
 
     ]
 });

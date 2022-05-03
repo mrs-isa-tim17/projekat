@@ -13,7 +13,7 @@
 <script>
 import cottageElement from "@/components/cottageElement";
 import CottageService from "@/servieces/CottageService";
-import ownerHeader from "@/components/ownerHeader";
+import ownerHeader from "@/components/cottageOwnerHeader";
 export default {
   name: "cottageList",
   components:{cottageElement,ownerHeader},
