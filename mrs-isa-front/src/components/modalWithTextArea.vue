@@ -45,6 +45,7 @@ export default {
   methods : {
     openModel(){
       $('#'+this.index).modal('show');
+      console.log(this.modalIdHash);
       /*
       const modal = document.getElementById(this.index);
 

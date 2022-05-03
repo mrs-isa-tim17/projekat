@@ -2,6 +2,7 @@ insert into address (longitude, latitude) values
 	(28, 45);
 insert into address (longitude, latitude) values
 	(70, 80);
+insert into address(longitude, latitude) values (30,40);
 
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
@@ -22,14 +23,17 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
-
+insert into users(type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
+	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+38177590', 'Samcovic', 0, 3, '2017-10-01 18:57:58.508-07',3,true);
 
 insert into calendar (id) values (1);
 insert into calendar (id) values (2);
 
 
 insert into cottage (id, deleted,description, name, address_id, calendar_id, bed_quantity, room_quantity, owner) values
-	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 1);
+	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 3);
 
 insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 2, 8, 'Im the best instructor ever', 2);

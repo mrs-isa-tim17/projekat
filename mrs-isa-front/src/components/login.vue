@@ -2,27 +2,24 @@
   <div>
     <basic-header></basic-header>
 <div id="login">
-    <div class="imgcontainer">
-
+  <br>
+    <div class="">
+      <img src="../assets/icons/user.png">
+      <br>
+      <br>
     </div>
 
     <div class="container">
-      <label for="uname"><b>Email</b></label><br>
+
       <input type="text" placeholder="Unesite email" id="uname" required><br>
-
-      <label for="psw"><b>Lozinka</b></label><br>
+      <br>
       <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
-
+      <br>
       <button type="submit" @click="login">Prijavite se</button><br>
-      <label>
-        <input type="checkbox" checked="checked" id="remember"> Zapamti lozinku
-      </label><br>
+
     </div>
 
-    <div id="footer" >
-      <button type="button" class="cancelbtn">Otkaži</button>
-      <span class="psw"><a href="#">Zaboravili ste lozinku?</a></span>
-    </div>
+
 </div>
   </div>
 </template>
@@ -84,7 +81,7 @@ export default {
   font-size: 20px;
   padding: 20px;
   width: 50%;
-  height:80%;
+  height:70%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -147,6 +144,10 @@ a{
   background-color: #f44336;
   float: left;
 
+}
+img{
+  width:90px;
+  height:90px;
 }
 
 /* Center the avatar image inside this container */

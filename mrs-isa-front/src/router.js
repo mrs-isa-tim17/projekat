@@ -21,10 +21,12 @@ const router = createRouter({
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
 
-        { path: '/owner/profile', component: () => import("./components/editProfileOwner")},
-        { path: '/cottage/home', component: () => import("./components/cottageOwnerHomePage")},
-        { path: '/owner/managment', component: () => import("./components/managmentOwner")},
-        { path: '/owner/cottages', component: () => import("./components/cottageList")}
+        { path: '/cottageOwner/profile', component: () => import("./components/editProfileOwner")},
+        { path: '/cottage/home', component: () => import("./components/cottageOwnerHome")},
+        { path: '/owner/cottages', component: () => import("./components/cottageList")},
+        {path:'/cottage/add',component:() => import("./components/addCottage.vue")},
+        { path: '/cottage/update/:id',component:()=>import("./components/updateCottage")}
+
     ]
 });
 

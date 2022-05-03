@@ -1,4 +1,5 @@
 <template>
+  <ownerHeader></ownerHeader>
   <div><div class="header">
    <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
     <div id="profile">Moj profil</div>
@@ -8,16 +9,17 @@
       <div class="headerLoyality">Loyality program</div>
       <div class="input-box">
         <span class="loyalityDetails">Broj poena</span><br>
-        <input type="text" id="name" />
+        <input type="text" id="loyalityPoints" v-model="owner.loyaltyPoints"/>
       </div>
 
       <div class="input-box">
         <span class="loyalityDetails">Kategorija</span><br>
-        <input type="text" id="name" />
+        <input type="text" id="loyalityCategory" v-model="owner.userType"/>
       </div>
       <br>
       <div id="benefits">
-        <p>Pogodnosti</p>
+        <p style="color:#5F9F9F;font-weight: bold;">Pogodnosti</p>
+        {{owner.benefits}}
         <br>
         <br>
         <br>
@@ -33,7 +35,7 @@
         <div class="formdetails">
           <div class="input-box">
             <span class="details">Ime</span><br>
-            <input type="text" id="name" />
+            <input type="text" id="name" v-model="owner.name"/>
           </div>
           <div class="input-box">
             <span class="details">Adresa</span><br>
@@ -41,15 +43,15 @@
           </div>
           <div class="input-box">
             <span class="details">Prezime</span><br>
-            <input type="text" id="surname" />
+            <input type="text" id="surname" v-model="owner.surname"/>
           </div>
           <div class="input-box">
             <span class="details">Grad</span><br>
-            <input type="text" id="city" />
+            <input type="text" id="city"/>
           </div>
           <div class="input-box">
             <span class="details">Email</span><br>
-            <input type="text" id="email" />
+            <input type="text" id="email" v-model="owner.email"/>
           </div>
           <div class="input-box">
             <span class="details">Država</span><br>
@@ -64,11 +66,11 @@
 
           <div class="input-box">
             <span class="details">Broj telefona</span><br>
-            <input type="text" id="telNumber" />
+            <input type="text" id="telNumber" v-model="owner.phoneNumber"/>
           </div>
           <div id="buttonSubmit">
-            <input type="submit" value="Potvrdi izmene" id="editButton">
-            <input type="submit" value="Otkaži izmene" id="cancelButton">
+            <button type="button" class="btn" @click="cancel" style="background-color:#31708E;margin-right:20px;color:white;height:50px;width:150px;">Odustani</button>
+            <button type="button" class="btn" @click="updateProfile" style="background-color:#31708E;color:white;height:50px;width:150px;">Potvrdi izmene</button>
           </div>
 
         </div>
@@ -80,20 +82,81 @@
 <script>
 import changePasswordModal from "@/components/changePasswordModal";
 import deleteAccountModal from "@/components/deleteAccountModal"
+import CottageOwnerService from "@/servieces/CottageOwnerService";
+import ownerHeader from "@/components/ownerHeader";
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordModal, deleteAccountModal},
+  components:{changePasswordModal, deleteAccountModal, ownerHeader},
+  created:
+      function () {
+        this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+        console.log(this.coID);
+        CottageOwnerService.getOwner(this.coID)
+            .then((response) => {
+              console.log(response);
+              this.owner = response.data;
+            })
+            .catch(function (error) {
+              console.log(error.toJSON());
+              if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+              } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in node.js
+                console.log(error.request);
+              } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+              }
+              console.log(error.config);
+            });
+      },
+  mounted() {
+    this.backup = [this.owner.name, this.owner.surname, this.owner.phoneNumber, this.owner.password,
+      this.owner.country, this.owner.longitude, this.owner.latitude];
+  },
   data(){
     return{
       showDialog:false,
       buttonId : "changePass",
       deleteAcc: "deleteAcc",
       deleteHeader:"Zahtev za brisanje naloga",
-      changePassHeader:"Promena lozinke"
+      changePassHeader:"Promena lozinke",
+      owner:{
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        userType: "",
+        loyaltyPoints: "",
+        penaltyNumber: "",
+        benefits: "",
+        longitude: "",
+        latitude: ""
+      }
     }
   },
   methods: {
-
+    updateCoordinats(lon, lat){
+      this.owner.longitude = lon;
+      this.owner.latitude = lat;
+      console.log(lon, lat)
+    },
+    updateProfile(){
+      CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
+      this.backup[0] = this.owner.name;
+      this.backup[1] = this.owner.surname;
+      this.backup[2] = this.owner.phoneNumber;
+      this.backup[3] = this.owner.password;
+      this.backup[4] = this.owner.longitude;
+      this.backup[5] = this.owner.latitude;
+    }
   }
 }
 </script>
