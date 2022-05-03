@@ -14,7 +14,7 @@
             <a class="nav-link active" aria-current="page" :href="clientHomeLink">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  text-dark" href="#">Vikendice</a>
+            <a class="nav-link  text-dark" :href="cottagesLink">Vikendice</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-dark" href="#">Brodovi</a>
@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       homeLink: "/client/site/home",
-      clientHomeLink: "/client/home"
+      clientHomeLink: "/client/home",
+      cottagesLink: "/book/cottage/site"
     }
   }
 }

@@ -16,10 +16,10 @@ public class ExperienceReview {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable =false)
+	@Column(nullable =true)
 	private String text;
 
-	@Column(nullable =false)
+	@Column(nullable =true)
 	private int rate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

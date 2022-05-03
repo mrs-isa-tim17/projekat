@@ -3,9 +3,16 @@ package com.project.mrsisa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.ExperienceReview;
+import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
+import com.project.mrsisa.service.ExperienceReviewService;
+import com.project.mrsisa.service.ImageService;
+import com.project.mrsisa.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +31,38 @@ import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.cottage.FindCottageDTO;
 import com.project.mrsisa.service.CottageService;
 @RestController
-@RequestMapping(value = "/api/cottages")
+@RequestMapping(value = "/cottage", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CottageController {
 	@Autowired
 	private CottageService cottageService;
+
+	@Autowired
+	private ImageService imageService;
+
+	@Autowired
+	private PriceService priceService;
+
+	@Autowired
+	private ExperienceReviewService experienceReviewService;
+
+	@GetMapping(value = "/site/all")
+	public ResponseEntity<List<CottageForListViewDTO>> getCottages(){
+		List<Cottage> cottages = cottageService.findAll();
+		List<CottageForListViewDTO> cottagesDTO = new ArrayList<>();
+		System.out.println("Number of cottages: " + cottages.size());
+		for (Cottage c : cottages) {
+			c.setImages(imageService.findAllByCottageId(c.getId()));
+			CottageForListViewDTO dto = new CottageForListViewDTO(c);
+			dto.setPrice(priceService.getCurrentPriceOfOffer(c.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId()));
+			cottagesDTO.add(dto);
+		}
+		System.out.println("Number of cottagesDTO: " + cottagesDTO.size());
+		return ResponseEntity.ok(cottagesDTO);
+	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CreateUpdateCottageDTO> saveCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
 
 		Cottage cottage = new Cottage();
@@ -47,6 +80,7 @@ public class CottageController {
 	
 	@CrossOrigin(origins="http://localhost:8080")
 	@GetMapping(value="/all")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<List<FindCottageDTO>> getAllCottages() {
 
 		List<Cottage> cottages = cottageService.findAll();

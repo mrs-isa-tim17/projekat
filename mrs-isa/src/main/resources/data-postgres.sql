@@ -3,7 +3,15 @@ insert into address (longitude, latitude) values
 insert into address (longitude, latitude) values
 	(70, 80);
 insert into address (longitude, latitude) values
-	(42, 100);
+	(42, -30);
+insert into address (longitude, latitude) values
+	(10, 30);
+insert into address (longitude, latitude) values
+	(80, 10);
+insert into address (longitude, latitude) values
+	(0, 44);
+insert into address (longitude, latitude) values
+	(20, 55);
 insert into address (longitude, latitude) values
 	(10, 30);
 insert into address (longitude, latitude) values
@@ -11,13 +19,7 @@ insert into address (longitude, latitude) values
 insert into address (longitude, latitude) values
 	(0, 100);
 insert into address (longitude, latitude) values
-	(42, 100);
-insert into address (longitude, latitude) values
-	(10, 30);
-insert into address (longitude, latitude) values
-	(80, 10);
-insert into address (longitude, latitude) values
-	(0, 100);
+	(11, 70);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -37,6 +39,12 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
+
+
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
+	('CO', nextval('user_seq'), false, 'm.m@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milanovic', 0, 11, '2017-10-01 18:57:58.508-07',3, true);
 
 
 insert into calendar (id) values (1);
