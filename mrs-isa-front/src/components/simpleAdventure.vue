@@ -2,16 +2,13 @@
   <div class="card mb-3 d-flex justify-content-center" style="max-width: 800px;">
     <div class="row g-0">
       <div class="col-md-4">
-        <img :src=path class="img-fluid rounded-start" alt="...">
+        <img :src="require('@/assets/' + path)" class="img-fluid rounded-start" alt="require('@/assets/logo.png')">
       </div>
       <div class="col-md-8">
         <div class="card-body">
           <div class="row">
             <div class="col">
               <a :href=detailAdventure><h5 align="left" class="card-title"> {{ adventure.name }} </h5></a>
-              <p align="left" class="card-text"> {{ adventure.city }}</p>
-              <p align="left" class="card-text"><small align="left" class="text-muted"> {{adventure.streetName}}
-                {{ adventure.serialNumber }} </small></p>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToDetailAdventure"> Detalji</button>
               <button class="btn btn-primary  btn-sm  me-md-2" @click="goToUpdateAdventure"> Izmeni</button>
               <button class="btn btn-secondary  btn-sm  me-md-2" @click="deleteAdventure"> Obriši</button>
@@ -37,7 +34,6 @@ export default {
   components: {},
   props: ['adventure', 'path'],
   methods: {
-
     goToDetailAdventure() {
       console.log(this.adventure.id);
       this.$router.push('/adventures/detail/' + this.adventure.id);
@@ -49,9 +45,10 @@ export default {
     },
 
     deleteAdventure() {
-      console.log(this.adventure.id);
+      console.log(this.adventure.id + "  za delete");
       AdventureService.deleteAdventure(this.adventure.id).then((response) => {
         console.log(response);
+        this.$emit('rerender');
       })
           .catch(function (error) {
             console.log(error.toJSON());
@@ -73,14 +70,14 @@ export default {
             console.log(error.config);
 
           });
-
     }
   },
-    data() {
-      return {
-        adventures: [],
-      }
+
+  data() {
+    return {
+      adventures: [],
     }
+  }
 }
 </script>
 

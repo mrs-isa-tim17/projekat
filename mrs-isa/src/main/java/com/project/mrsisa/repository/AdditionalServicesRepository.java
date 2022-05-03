@@ -16,4 +16,6 @@ public interface AdditionalServicesRepository extends JpaRepository<AdditionalSe
 	
 	public List<AdditionalServices> findAllByOfferId(Long id);
 
+	public AdditionalServices findOneByName(String name);
+
 }

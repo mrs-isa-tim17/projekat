@@ -11,27 +11,6 @@
             <br>
             <input type="text" ref="input" v-model="adventure.name" size="25">
           </div>
-
-          <div class="p-2">
-            <label>{{ cityLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.city" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ streetLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.streetName" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ numberLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.serialNumber" size="25">
-          </div>
-          <div class="p-2">
-            <label>{{ countryLabel }}</label>
-            <br>
-            <input type="text" ref="input" v-model="adventure.country" size="25">
-          </div>
           <div class="p-2">
             <label>{{ priceLabel }}</label>
             <br>
@@ -42,10 +21,13 @@
             <br>
             <textarea type="text" ref="input" v-model="adventure.description" size="25">
             </textarea>
-            <br>
-            <br>
-            <h5 id="message"> </h5>
 
+
+          </div>
+          <div>
+            <label>{{}}</label>
+          <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                      style="width: 300px; height: 380px; visibility: visible"></openLayers>
           </div>
 
         </div>
@@ -80,14 +62,14 @@
           <div class="p-2" style="border-style: solid; border-width: medium;">
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=rule1 id="flexCheckDefault"
-                     v-model="adventure.behavioralRules">
+                     v-model="adventure.behaviorRules">
               <label :for=rule1 class="form-check-label">
                 {{ rule1 }}
               </label>
             </div>
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=rule2 id="flexCheckDefault"
-                     v-model="adventure.behavioralRules">
+                     v-model="adventure.behaviorRules">
               <label class="form-check-label" :for=rule2>
                 {{ rule2 }}
               </label>
@@ -95,7 +77,7 @@
 
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=rule3 id="flexCheckDefault"
-                     v-model="adventure.behavioralRules">
+                     v-model="adventure.behaviorRules">
               <label class="form-check-label" :for=rule3>
                 {{ rule3 }}
               </label>
@@ -103,7 +85,7 @@
 
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=rule4 id="flexCheckDefault"
-                     v-model="adventure.behavioralRules">
+                     v-model="adventure.behaviorRules">
               <label class="form-check-label" :for=rule4>
                 {{ rule4 }}
               </label>
@@ -111,7 +93,7 @@
 
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=rule5 id="flexCheckDefault"
-                     v-model="adventure.behavioralRules">
+                     v-model="adventure.behaviorRules">
               <label class="form-check-label" :for=rule5>
                 {{ rule5 }}
               </label>
@@ -124,19 +106,21 @@
           <div class="p-2" style="border-style: solid; border-width: medium;">
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=additionalEquipment1 id="flexCheckDefault"
-                     v-model="adventure.additionalEquipment">
+                     v-model="adventure.additionalServices">
               <label class="form-check-label" :for=additionalEquipment1>
                 {{ additionalEquipment1 }}
               </label>
             </div>
             <div align="left" class="form-check">
               <input class="form-check-input" type="checkbox" :value=additionalEquipment2 id="flexCheckDefault"
-                     v-model="adventure.additionalEquipment">
+                     v-model="adventure.additionalServices">
               <label class="form-check-label" :for=additionalEquipment2>
                 {{ additionalEquipment2 }}
               </label>
             </div>
           </div>
+          <br>
+          <h5 id="message"></h5>
 
         </div>
 
@@ -189,20 +173,20 @@
 
           <div class="p-2" style="border-style: solid; border-width: medium;">
 
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule1 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[0]"
+            <p>Za odustanak od rezervacije u roku<b> 0 - 5 </b>dana plaća se <input type="number"
+                                                                                                v-model="adventure.p1"
                                                                                                 size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule2 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[1]"
+            <p>Za odustanak od rezervacije u roku <b>6 - 10</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.p2"
                                                                                                 size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule3 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[2]"
+            <p>Za odustanak od rezervacije u roku <b>11 - 15</b> dana plaća se <input type="number"
+                                                                                                v-model="adventure.p3"
                                                                                                 size="15"/> %
               ukupnog iznosa</p>
-            <p>Za odustanak od rezervacije u roku <b>{{ cancelRule4 }}</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.percentage[3]"
+            <p>Za odustanak od rezervacije <b>16</b> i više dana pre termina plaća se <input type="number"
+                                                                                                v-model="adventure.p4"
                                                                                                 size="15"/> %
               ukupnog iznosa</p>
 
@@ -223,13 +207,20 @@
 <script>
 import InstructorHeader from "@/components/insrtuctorHeader"
 import AdventureService from "@/services/AdventureService";
-
+import openLayers from "@/components/VueMaps";
 export default {
   name: "addAdventure",
   components: {
     InstructorHeader,
+    openLayers,
   },
   methods: {
+    updateCoordinats(lon, lat) {
+      this.adventure.longitude = lon;
+      this.adventure.latitude = lat;
+      console.log(lon, lat)
+    },
+
     addAdventure() {
       console.log(this.adventure);
       if (this.adventure.name === "" || this.adventure.capacity == null || this.adventure.instructorBiography === "" || this.adventure.description === "") {
@@ -264,7 +255,7 @@ export default {
       }
 
     },
-    back(){
+    back() {
       this.$router.push('/instructor/adventures');
     }
     /* onFileSelected(){
@@ -287,10 +278,8 @@ export default {
       successMessage: "Uspešno sačuvana avantura",
 
       adventureNameLabel: "Naziv avanture*",
-      cityLabel: "Grad*",
-      streetLabel: "Adresa*",
-      numberLabel: "Broj*",
-      countryLabel: "Država*",
+      addressLabel: "Adresa*",
+
       descriptionLabel: "Opis avanture*",
       imgLabel: "Fotografije",
       priceLabel: "Cena*",
@@ -320,21 +309,22 @@ export default {
       adventure: {
         id:2,
         name: "",
-        streetName: "",
-        serialNumber: "",
-        country: "",
+        latitude:"",
+        longitude:"",
         description: "",
-        city: "",
-        behavioralRules: [],
+        behaviorRules: [],
         images: [],
         fishingEquipment: [],
         cancelConditions: [],
         price: "",
         capacity: "",
         instructorBiography: "",
-        additionalEquipment: [],
+        additionalServices: [],
         days: ['5', '10', '15', '20'],
-        percentage: ['0', '0', '0', '0'],
+        p1:"0",
+        p2:"0",
+        p3:"0",
+        p4:"0",
         experienceReviews: [],
       }
     }

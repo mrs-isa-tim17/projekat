@@ -24,12 +24,15 @@ public class BehaviorRuleService {
 		return behaviorRuleRepository.findAll();
 	}
 	
-	
 	public BehaviorRule findOneById(Long id) {
 		return behaviorRuleRepository.findOneById(id);
 	}
 	
 	public List<BehaviorRule> findAllByAdventureId(Long id){
 		return behaviorRuleRepository.findAllByOfferId(id);
+	}
+
+	public BehaviorRule findOneByText(String text) {
+		return behaviorRuleRepository.findOneByText(text);
 	}
 }

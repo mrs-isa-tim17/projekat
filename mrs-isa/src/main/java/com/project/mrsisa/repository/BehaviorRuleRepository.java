@@ -16,4 +16,6 @@ public interface BehaviorRuleRepository extends JpaRepository<BehaviorRule, Long
 	
 	public List<BehaviorRule> findAllByOfferId(Long id);
 
+	public BehaviorRule findOneByText(String text);
+
 }

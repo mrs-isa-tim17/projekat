@@ -28,7 +28,11 @@ public class CancelConditionService {
 		return cancelConditionRepository.findOneById(id);
 	}
 	
-	public List<CancelCondition> findAllByAdventureId(Long id){
+	public List<CancelCondition> findAllByOfferId(Long id){
 		return cancelConditionRepository.findAllByOfferId(id);
+	}
+	
+	public CancelCondition findOneByOfferIdAndDays(Long id, int days) {
+		return cancelConditionRepository.findOneByOfferIdAndDays(id, days);
 	}
 }

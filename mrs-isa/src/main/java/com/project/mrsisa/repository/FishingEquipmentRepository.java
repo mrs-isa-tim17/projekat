@@ -15,6 +15,9 @@ public interface FishingEquipmentRepository  extends JpaRepository<FishingEquipm
 	public FishingEquipment findOneById(Long id);
 	
 	public List<FishingEquipment> findAllByAdventureId(Long id);
+	
+	public FishingEquipment findOneByName(String name);
+
 
 }
 

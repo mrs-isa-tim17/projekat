@@ -48,16 +48,19 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<ExperienceReview> experienceReviews;
 	
-	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name = "additionalServices_offer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "additional_service_id", referencedColumnName = "id"))
 	protected List<AdditionalServices> additionalServices;
 	
-	@ManyToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name="behaviorRulesOffer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "behavior_rule_id", referencedColumnName = "id"))
 	protected List<BehaviorRule> behaviorRules;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Image> images;
 	
-	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany
+	@JoinTable(name = "cancel_condition_offer", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "cancel_condition_id", referencedColumnName = "id"))
 	protected List<CancelCondition> cancelCondition;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

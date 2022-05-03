@@ -11,6 +11,7 @@ import com.project.mrsisa.domain.CancelCondition;
 import com.project.mrsisa.domain.ExperienceReview;
 import com.project.mrsisa.domain.FishingEquipment;
 import com.project.mrsisa.domain.Image;
+import com.project.mrsisa.domain.Pricelist;
 
 
 public class AdventureDTO {
@@ -31,7 +32,11 @@ public class AdventureDTO {
 	private List<String> additionalServices;
 	
 	private List<String> days;
-	private List<String> percentage;
+	private String p1;
+	private String p2;
+	private String p3;
+	private String p4;
+
 
 	private double price;
 	private int capacity;
@@ -45,7 +50,6 @@ public class AdventureDTO {
 		this.experienceReviews = new ArrayList<String>();
 		this.additionalServices = new ArrayList<String>();
 		this.days = new ArrayList<String>();
-		this.percentage = new ArrayList<String>();
 	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
@@ -69,7 +73,7 @@ public class AdventureDTO {
 		this.additionalServices = new ArrayList<String>();
 		
 		this.days = new ArrayList<String>();
-		this.percentage = new ArrayList<String>();
+		//this.percentage = new ArrayList<String>();
 		
 		for(BehaviorRule br : behavior)
 		{
@@ -85,9 +89,28 @@ public class AdventureDTO {
 		}
 		for(CancelCondition cc : cancelConditions)
 		{
-			this.cancelConditions.add("Za otkazni rok od + " + String.valueOf(cc.getDays()) +" dana pre početka događaja, naplaćuje se " + String.valueOf(cc.getPrecent()) + "od ukupne cene rezervacije.");
+			
 			this.days.add(String.valueOf(cc.getDays()));
-			this.percentage.add(String.valueOf(cc.getPrecent()));	
+			switch (cc.getDays()) {
+			case 5:
+				this.p1 = String.valueOf(cc.getPrecent());
+				this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "od ukupne cene rezervacije.");
+				break;
+			case 10:
+				this.p2 = String.valueOf(cc.getPrecent());
+				this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "od ukupne cene rezervacije.");
+				break;
+			case 15:
+				this.p3 = String.valueOf(cc.getPrecent());
+				this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "od ukupne cene rezervacije.");
+				break;
+			case 20:
+				this.p4 = String.valueOf(cc.getPrecent());
+				this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "od ukupne cene rezervacije.");
+				break;
+			default:
+				break;
+			}
 		}
 
 		for(ExperienceReview er : experience)
@@ -240,27 +263,112 @@ public class AdventureDTO {
 	public void setDays(List<String> days) {
 		this.days = days;
 	}
-
-
-	public List<String> getPercentage() {
-		return percentage;
-	}
-
-
-	public void setPercentage(List<String> percentage) {
-		this.percentage = percentage;
-	}
-
-	@Override
-	public String toString() {
-		return "AdventureDTO [id=" + id + ", name=" + name + ", longitude=" + longitude + ", latitude=" + latitude
-				+ ", description=" + description + ", instructorBiography=" + instructorBiography + ", behavioralRules="
-				+ behavioralRules + ", images=" + images + ", fishingEquipment=" + fishingEquipment
-				+ ", cancelConditions=" + cancelConditions + ", experienceReviews=" + experienceReviews
-				+ ", additionalServices=" + additionalServices + ", days=" + days + ", percentage=" + percentage
-				+ ", price=" + price + ", capacity=" + capacity + "]";
-	}	
 	
+
+
+	
+	public String getP1() {
+		return p1;
+	}
+
+	public void setP1(String p1) {
+		this.p1 = p1;
+	}
+
+	public String getP2() {
+		return p2;
+	}
+
+	public void setP2(String p2) {
+		this.p2 = p2;
+	}
+
+	public String getP3() {
+		return p3;
+	}
+
+	public void setP3(String p3) {
+		this.p3 = p3;
+	}
+
+	public String getP4() {
+		return p4;
+	}
+
+	public void setP4(String p4) {
+		this.p4 = p4;
+	}
+
+	public List<BehaviorRule> getBehaviorRuleAdventure(){
+		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
+		for(String rule : this.behavioralRules)
+		{
+			BehaviorRule br = new BehaviorRule(rule);
+			behavoirRules.add(br);
+		}
+		return behavoirRules;
+	}
+	
+	public List<FishingEquipment> getFishingEquipmentAdventure(){
+		List<FishingEquipment> fishingEquipmentAdventure = new ArrayList<FishingEquipment>();
+		for(String equipmentName : this.fishingEquipment) 
+		{
+			FishingEquipment fe = new FishingEquipment(equipmentName);
+			fishingEquipmentAdventure.add(fe);
+			System.out.println("PRINT: " + fe.getName());
+		}
+		return fishingEquipmentAdventure;
+	}
+	
+	public List<CancelCondition> getCancelConditionsAdventure(){
+		List<CancelCondition> cancelConditionsAdventure = new ArrayList<CancelCondition>();
+		for(int i = 0; i < this.days.size(); i++) 
+		{
+			CancelCondition cc;
+			switch (Integer.parseInt(this.days.get(i))) {
+			case 5:
+				cc = new CancelCondition(5, Double.parseDouble(this.p1));
+				cancelConditionsAdventure.add(cc);
+				break;
+			case 10:
+				cc = new CancelCondition(5, Double.parseDouble(this.p2));
+				cancelConditionsAdventure.add(cc);
+				break;
+			case 15:
+				cc = new CancelCondition(5, Double.parseDouble(this.p3));
+				cancelConditionsAdventure.add(cc);
+				break;
+			case 20:
+				cc = new CancelCondition(5, Double.parseDouble(this.p4));
+				cancelConditionsAdventure.add(cc);
+				break;
+			default:
+				break;
+			}
+		}
+		return cancelConditionsAdventure;
+	}
+	public List<Pricelist> getPricelistAdventure(){
+		Pricelist pricelist = new Pricelist(this.price);
+		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
+		pricelists.add(pricelist);
+		return pricelists;
+		}
+	
+	public List<AdditionalServices> getAdditionalServicesAdventure(){
+		List<AdditionalServices> additionalServicesAdventure = new ArrayList<AdditionalServices>();
+		
+		for(String service : this.additionalServices) 
+		{
+			AdditionalServices as = new AdditionalServices(service);
+			additionalServicesAdventure.add(as);	
+		}
+		return additionalServicesAdventure;
+	}
+	
+	public List<Image> getImagesAdventure(){
+		return new ArrayList<Image>();
+	}
 }
 
 
