@@ -1,10 +1,10 @@
 <template>
 
-  <div>
-  <div class="d-flex justify-content-center mw-90">
+  <div >
+  <div class="d-flex justify-content-center mw-90" >
     <div class="card mb-3 mw-90" style="width: 80%;">
 
-      <div class="row g-0" style="background-color: #E9E9E9;">
+      <div class="row g-0" style="background-color: #8FC1E3;color:#F7F9FB;">
 
         <div class="col-md-4">
 
@@ -14,9 +14,9 @@
         <div class="col-md-8">
           <div class="card-body">
 
-            <h5 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
+            <div class="card-title text-black d-flex justify-content-lg-start" style="color:#F7F9FB" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</div>
 
-            <h6 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">adresa</h6>
+            <div class="card-title text-black d-flex justify-content-lg-start" style="color:#F7F9FB" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">adresa</div>
 
             <div class="card-text">
               <div class="row">
@@ -24,9 +24,10 @@
                   <b>Opis:</b>{{cottage.description}}<br><b>Cena:</b> {{cottage.price}} din
                 </div>
 
-                <div class="col-6">
-                  <button id="deleteCottage">Obriši vikendicu</button>
-                  <updateCottageModal :index=updateId></updateCottageModal>
+                <div class="col-7">
+                  <button id="deleteCottage" @click="deleteCottage">Obriši vikendicu</button><br>
+                  <br>
+                  <button @click="updateDataPage">Izmeni podatke</button>
                 </div>
 
               </div>
@@ -40,26 +41,36 @@
 </template>
 
 <script>
-import updateCottageModal from "@/components/updateCottageModal";
 import $ from "jquery";
+import CottageService from "@/servieces/CottageService";
 export default {
   name: "cottageElement",
   props: ["cottage"],
-  components:{updateCottageModal},
   data(){
     return{
       updateId:"updateCottage"
+
     }
   },
   methods:{
     openModel() {
 
       $('#' + this.index).modal('show');
+    },
+    deleteCottage(){
+      CottageService.deleteCottage(this.cottage.id);
+    },
+    updateDataPage(){
+      this.$router.push('/cottage/update/' + this.cottage.id);
     }
   }
 }
 </script>
 
 <style scoped>
+button{
+  width:150px;
+  background-color: #687864;
+}
 
 </style>

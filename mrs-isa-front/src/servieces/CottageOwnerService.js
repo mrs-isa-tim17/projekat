@@ -6,14 +6,14 @@ import Config from "../config.json";
 const COTTAGE_OWNER_API_BASE_URL = Config.BASE_URL + '/cottage_owner';
 
 class CottageOwnerService{
-    getClient(coID){
+    getOwner(coID){
         console.log(authHeader());
         return axios.get(COTTAGE_OWNER_API_BASE_URL+'/profile/'+coID, {
             headers: authHeader()
         });
     }
-    updateClient(coID, co){
-        return axios.post(COTTAGE_OWNER_API_BASE_URL + "/profile/" + coID, co, {
+    updateOwner(coID, co){
+        return axios.post(COTTAGE_OWNER_API_BASE_URL + "/update/profile/" + coID, co, {
             headers: authHeader()
         });
     }

@@ -9,17 +9,17 @@
       <div class="headerLoyality">Loyality program</div>
       <div class="input-box">
         <span class="loyalityDetails">Broj poena</span><br>
-        <input type="text" id="name" v-model="owner.loyaltyPoints"/>
+        <input type="text" id="loyalityPoints" v-model="owner.loyaltyPoints"/>
       </div>
 
       <div class="input-box">
         <span class="loyalityDetails">Kategorija</span><br>
-        <input type="text" id="name"/>
+        <input type="text" id="loyalityCategory" v-model="owner.userType"/>
       </div>
       <br>
       <div id="benefits">
-        <p>Pogodnosti</p>
-        <div ></div>
+        <p style="color:#5F9F9F;font-weight: bold;">Pogodnosti</p>
+        {{owner.benefits}}
         <br>
         <br>
         <br>
@@ -43,11 +43,11 @@
           </div>
           <div class="input-box">
             <span class="details">Prezime</span><br>
-            <input type="text" id="surname" v-model="owner.surname" />
+            <input type="text" id="surname" v-model="owner.surname"/>
           </div>
           <div class="input-box">
             <span class="details">Grad</span><br>
-            <input type="text" id="city" />
+            <input type="text" id="city"/>
           </div>
           <div class="input-box">
             <span class="details">Email</span><br>
@@ -69,8 +69,8 @@
             <input type="text" id="telNumber" v-model="owner.phoneNumber"/>
           </div>
           <div id="buttonSubmit">
-            <input type="submit" value="Potvrdi izmene" id="editButton">
-            <input type="submit" value="Otkaži izmene" id="cancelButton">
+            <button type="button" class="btn" @click="cancel" style="background-color:#31708E;margin-right:20px;color:white;height:50px;width:150px;">Odustani</button>
+            <button type="button" class="btn" @click="updateProfile" style="background-color:#31708E;color:white;height:50px;width:150px;">Potvrdi izmene</button>
           </div>
 
         </div>
@@ -90,10 +90,11 @@ export default {
   created:
       function () {
         this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
-        CottageOwnerService.getClient(this.coID)
+        console.log(this.coID);
+        CottageOwnerService.getOwner(this.coID)
             .then((response) => {
               console.log(response);
-              this.client = response.data;
+              this.owner = response.data;
             })
             .catch(function (error) {
               console.log(error.toJSON());
@@ -115,6 +116,10 @@ export default {
               console.log(error.config);
             });
       },
+  mounted() {
+    this.backup = [this.owner.name, this.owner.surname, this.owner.phoneNumber, this.owner.password,
+      this.owner.country, this.owner.longitude, this.owner.latitude];
+  },
   data(){
     return{
       showDialog:false,
@@ -138,7 +143,20 @@ export default {
     }
   },
   methods: {
-
+    updateCoordinats(lon, lat){
+      this.owner.longitude = lon;
+      this.owner.latitude = lat;
+      console.log(lon, lat)
+    },
+    updateProfile(){
+      CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
+      this.backup[0] = this.owner.name;
+      this.backup[1] = this.owner.surname;
+      this.backup[2] = this.owner.phoneNumber;
+      this.backup[3] = this.owner.password;
+      this.backup[4] = this.owner.longitude;
+      this.backup[5] = this.owner.latitude;
+    }
   }
 }
 </script>

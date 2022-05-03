@@ -43,7 +43,7 @@ public class CottageOwnerController {
 
 	@GetMapping("/profile/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
-    public ResponseEntity<CottageOwnerProfileResponseDTO> getClient(@PathVariable Long id){
+    public ResponseEntity<CottageOwnerProfileResponseDTO> getCottageOwner(@PathVariable Long id){
         
         CottageOwner co = null;
        try {
@@ -67,10 +67,10 @@ public class CottageOwnerController {
         return new ResponseEntity<CottageOwnerProfileResponseDTO>(new CottageOwnerProfileResponseDTO(co, discount), HttpStatus.OK);
     }
 	
-	@PostMapping(value = "/profile/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "update/profile/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
-    public ResponseEntity<CottageOwnerProfileResponseDTO> updateClient(@PathVariable Long id, @RequestBody CottageOwnerProfileResponseDTO clientDTO){
+    public ResponseEntity<CottageOwnerProfileResponseDTO> updateCottageOwner(@PathVariable Long id, @RequestBody CottageOwnerProfileResponseDTO clientDTO){
         
         CottageOwner co = null;
        try {

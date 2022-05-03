@@ -33,7 +33,7 @@ insert into calendar (id) values (2);
 
 
 insert into cottage (id, deleted,description, name, address_id, calendar_id, bed_quantity, room_quantity, owner) values
-	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 1);
+	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 3);
 
 insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 2, 8, 'Im the best instructor ever', 2);
