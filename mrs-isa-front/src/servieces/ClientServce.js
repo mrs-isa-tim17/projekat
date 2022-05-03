@@ -48,6 +48,26 @@ class ClientServce{
             headers : authHeader()
         });
     }
+    getSortedPastShipReservationsByName(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/ship/history/name/" + clientID, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByDate(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/ship/history/date/" + clientID, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByPrice(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/ship/history/price/" + clientID, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByDuration(clientID){
+        return axios.get(CLIENT_API_BASE_URL + "/ship/history/duration/" + clientID, {
+            headers : authHeader()
+        });
+    }
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{

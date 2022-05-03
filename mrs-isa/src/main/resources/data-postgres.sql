@@ -63,13 +63,13 @@ insert into cottage (id, deleted, description, name, address_id, calendar_id, be
 
 insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 7, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'L Neverovatno ime', 7, 1, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
 
 
 insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 8, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'T Neverovatno ime', 8, 1, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
 
 
@@ -81,7 +81,7 @@ insert into ship (id, deleted, description, name, address_id, calendar_id, capac
 
 insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 10, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'B Neverovatno ime', 10, 1, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 1);
 
 insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);

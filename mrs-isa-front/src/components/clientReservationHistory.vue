@@ -94,26 +94,50 @@ export default {
       this.forceRemounting();
       console.log(document.getElementById("sortBy").value);
       let sortBy = document.getElementById("sortBy").value;
-      if (sortBy == 3){
+      if (sortBy == 3 && this.type == "cottage"){
         clientServce.getSortedPastCottageReservationsByName(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
-      } else if (sortBy == 1){
+      } else if (sortBy == 1 && this.type == "cottage"){
         clientServce.getSortedPastCottageReservationsByDate(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
-      }else if (sortBy == 2){
+      }else if (sortBy == 2 && this.type == "cottage"){
         clientServce.getSortedPastCottageReservationsByDuration(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
-      }else if (sortBy == 4){
+      }else if (sortBy == 4 && this.type == "cottage"){
         clientServce.getSortedPastCottageReservationsByPrice(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 3 && this.type == "ship"){
+        clientServce.getSortedPastShipReservationsByName(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      } else if (sortBy == 1 && this.type == "ship"){
+        clientServce.getSortedPastShipReservationsByDate(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 2 && this.type == "ship"){
+        clientServce.getSortedPastShipReservationsByDuration(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 4 && this.type == "ship"){
+        clientServce.getSortedPastShipReservationsByPrice(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
