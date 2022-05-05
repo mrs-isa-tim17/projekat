@@ -73,14 +73,13 @@ public class Adventure extends Offer {
 				+ ", address=" + address + ", description=" + description + ", deleted=" + deleted + ", complaints="
 				+ complaints + ", experienceReviews=" + experienceReviews + ", additionalServices=" + additionalServices
 				+ ", behaviorRules=" + behaviorRules + ", cancelCondition=" + cancelCondition + ", pricelists="
-				+ pricelists + ", calendar=" + calendar + ", subscribers=" + subscribers + ", getInstructorBiography()="
+				+ pricelists + ", subscribers=" + subscribers + ", getInstructorBiography()="
 				+ getInstructorBiography() + ", getCapacity()=" + getCapacity() + ", getFishingEquipments()="
 				+ getFishingEquipments() + ", getOwner()=" + getOwner() + ", getName()=" + getName() + ", getAddress()="
 				+ getAddress() + ", getDescription()=" + getDescription() + ", isDeleted()=" + isDeleted()
 				+ ", getComplaints()=" + getComplaints() + ", getExperienceReviews()=" + getExperienceReviews()
 				+ ", getAdditionalServices()=" + getAdditionalServices() + ", getBehaviorRules()=" + getBehaviorRules()
 				+ ", getImages()=" + getImages() + ", getCancelCondition()=" + getCancelCondition()
-				+ ", getPricelists()=" + getPricelists() + ", getCalendar()=" + getCalendar() + ", getId()=" + getId()
 				+ ", getSubscribers()=" + getSubscribers() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}

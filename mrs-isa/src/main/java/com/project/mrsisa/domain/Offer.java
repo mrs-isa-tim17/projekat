@@ -67,11 +67,18 @@ public abstract class Offer {
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	protected List<Pricelist> pricelists;
-	
 
-	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinColumn(name = "calendarId", referencedColumnName = "id")
-	protected Calendar calendar;
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<PeriodAvailability> periodAvailabilities;
+
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<PeriodUnavailability> periodUnavailabilities;
+
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<SaleAppointment> saleAppointments;
+
+	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Reservation> reservations;
 	
 	@ManyToMany
 	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
@@ -152,12 +159,6 @@ public abstract class Offer {
 	}
 	public void setPricelists(List<Pricelist> pricelists) {
 		this.pricelists = pricelists;
-	}
-	public Calendar getCalendar() {
-		return calendar;
-	}
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
 	}
 	public Long getId() {
 		return id;

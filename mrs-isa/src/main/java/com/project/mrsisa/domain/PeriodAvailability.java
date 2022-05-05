@@ -22,8 +22,8 @@ public class PeriodAvailability {
 	private String endDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "calendarId")
-	private Calendar calendar;
+	@JoinColumn(name = "offerId")
+	private Offer offer;
 	
 	public String getStartDate() {
 		return startDate;
@@ -43,11 +43,11 @@ public class PeriodAvailability {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Calendar getCalendar() {
-		return calendar;
+	public Offer getCalendar() {
+		return offer;
 	}
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
+	public void setCalendar(Offer offer) {
+		this.offer = offer;
 	}
 	
 	

@@ -54,17 +54,12 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3817885', 'Milanovic', 0, 11, '2017-10-01 18:57:58.508-07',4, true);
 
-insert into calendar (id) values (1);
-insert into calendar (id) values (2);
-insert into calendar (id) values (3);
-insert into calendar (id) values (4);
 
+insert into cottage (id, deleted,description, name, address_id, bed_quantity, room_quantity, owner) values
+	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 4, 2, 3);
 
-insert into cottage (id, deleted,description, name, address_id, calendar_id, bed_quantity, room_quantity, owner) values
-	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 1, 4, 2, 3);
-
-insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity, instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 2, 8, 'Im the best instructor ever', 2);
+insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
+	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
 	
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('wifi', null, null);
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('kabanica', null, null);
@@ -111,60 +106,60 @@ insert into experience_review (rate, status, text, client_id, offer_id) values(5
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 
-insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava', 'B myName', 3, 1, 4, 2, 3);
+insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava', 'B myName', 3, 4, 2, 3);
 
-insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 2', 'Z Next name', 4, 1, 4, 2, 3);
+insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 2', 'Z Next name', 4, 4, 2, 3);
 
-insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 3' , 'A Neverovatno ime', 5, 1, 4, 2, 3);
+insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 3' , 'A Neverovatno ime', 5, 4, 2, 3);
 
-insert into cottage (id, deleted, description, name, address_id, calendar_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 4', 'N Last name', 6, 1, 4, 2, 3);
+insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
+    values (nextval('offer_seq'), false, 'Najbolja zabava 4', 'N Last name', 6, 4, 2, 3);
 
-insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'L Neverovatno ime', 7, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'L Neverovatno ime', 7, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
 
 
-insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'T Neverovatno ime', 8, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'T Neverovatno ime', 8, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
 
 
-insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 9, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 9, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
 
 
-insert into ship (id, deleted, description, name, address_id, calendar_id, capacity, engine_designation, engine_power,
+insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'B Neverovatno ime', 10, 1, 4,
+    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'B Neverovatno ime', 10, 4,
     'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
 
-insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity,
+insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 12, 2, 8,
+	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 12, 8,
 	'Im the best instructor ever', 2);
 
 
-insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity,
+insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Palić', 'Fishing on the Lake', 13, 2, 10,
+	(nextval('offer_seq'), false, 'Palić', 'Fishing on the Lake', 13, 10,
 	'Humbalee humbalaa', 2);
 
-insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity,
+insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Sava', 'Fishing on the Lake', 14, 2, 2,
+	(nextval('offer_seq'), false, 'Sava', 'Fishing on the Lake', 14, 2,
 	'Oxfort oxfort oxy foxy roxfort', 2);
 
-insert into adventure (id, deleted, description, name, address_id, calendar_id, capacity,
+insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Fishing on the Lake', 15, 2, 6,
+	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Fishing on the Lake', 15, 6,
 	'Instruktor instruktor instruktor, najbolji na svetu', 2);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 11);

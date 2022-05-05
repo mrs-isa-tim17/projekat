@@ -32,8 +32,8 @@ public class SaleAppointment {
 	private int peopleQuantity;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "calendarId")
-	private Calendar calendar;
+	@JoinColumn(name = "offerId")
+	private Offer offer;
 	
 	@OneToMany(mappedBy = "saleAppointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<AdditionalServices> additionalServices;
@@ -88,11 +88,11 @@ public class SaleAppointment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Calendar getCalendar() {
-		return calendar;
+	public Offer getOffer() {
+		return offer;
 	}
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
+	public void setOffer(Offer offer) {
+		this.offer = offer;
 	}
 	
 	

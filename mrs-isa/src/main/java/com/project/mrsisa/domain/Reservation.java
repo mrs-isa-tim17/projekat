@@ -39,6 +39,27 @@ public class Reservation {
 	@Column
 	private boolean reviewed;
 
+	@Column(nullable=false)
+	private boolean quick;
+
+	@Column(nullable=false)
+	private boolean canceled;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "clientId")
+	private Client client;
+
+	/*
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "historyClientId")
+	private Client historyClient;
+
+	//*/
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "offerId")
+	private Offer offer;
+
 	public boolean isReviewed() {
 		return reviewed;
 	}
@@ -59,26 +80,7 @@ public class Reservation {
 	@JoinColumn(name = "calendarId")
 	private Calendar calendar;*/
 	
-	@Column(nullable=false)
-	private boolean quick;
-	
-	@Column(nullable=false)
-	private boolean canceled;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "clientId")
-	private Client client;
-	
-	/*
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "historyClientId")
-	private Client historyClient;
-	
-	//*/
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "offerId")
-	private Offer offer;
 
 	public Offer getOffer() {
 		return offer;
