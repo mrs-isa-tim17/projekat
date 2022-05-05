@@ -17,10 +17,10 @@ public class ExperienceReview {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable =false)
+	@Column(nullable =true)
 	private String text;
 
-	@Column(nullable =false)
+	@Column(nullable =true)
 	private int rate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -29,8 +29,8 @@ public class ExperienceReview {
 	
 	@Enumerated
 	private ProcessingStatus status;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	

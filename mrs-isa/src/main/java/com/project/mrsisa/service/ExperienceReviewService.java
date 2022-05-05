@@ -13,7 +13,10 @@ public class ExperienceReviewService {
 	
 	@Autowired
 	private ExperienceReviewRepository experienceReviewRepository;
-	
+
+	public double getReatingByOfferId(long id){
+		return experienceReviewRepository.findOffersCurrentPriceById(id).orElse(0.0);
+	}
 	
 	public ExperienceReview save(ExperienceReview experienceReview) {
 		return experienceReviewRepository.save(experienceReview);
@@ -31,4 +34,5 @@ public class ExperienceReviewService {
 	public List<ExperienceReview> findAllByOfferId(Long id){
 		return experienceReviewRepository.findAllByOfferId(id);
 	}
+
 }

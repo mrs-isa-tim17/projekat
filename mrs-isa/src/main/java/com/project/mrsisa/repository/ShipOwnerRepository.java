@@ -15,7 +15,7 @@ public interface ShipOwnerRepository extends JpaRepository<ShipOwner,Long>{
 	public Page<ShipOwner> findAll(Pageable pageable);
 
 
-	ShipOwner findByVerificationCode(String verificationCode);
+	//ShipOwner findByVerificationCode(String verificationCode);
 
 	@Transactional
 	@Modifying

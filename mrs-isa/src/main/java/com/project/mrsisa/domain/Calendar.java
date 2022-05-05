@@ -26,9 +26,9 @@ public class Calendar {
 	
 	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<SaleAppointment> saleAppointments;
-	
-	@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Reservation> reservations;
+
+	//@OneToMany(mappedBy = "calendar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//private List<Reservation> reservations;
 
 	@OneToOne(mappedBy = "calendar", fetch= FetchType.LAZY)
 	private Offer offer;
@@ -51,12 +51,12 @@ public class Calendar {
 	public void setSaleAppointments(List<SaleAppointment> saleAppointments) {
 		this.saleAppointments = saleAppointments;
 	}
-	public List<Reservation> getReservations() {
+	/*public List<Reservation> getReservations() {
 		return Collections.unmodifiableList(reservations);
 	}
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
-	}
+	}*/
 	public Long getId() {
 		return id;
 	}

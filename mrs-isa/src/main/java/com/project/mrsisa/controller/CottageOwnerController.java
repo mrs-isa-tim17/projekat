@@ -28,19 +28,6 @@ public class CottageOwnerController {
     @Autowired
     private TokenUtils tokenUtils;
 
-    @GetMapping("/verify/{code}")
-    public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
-        CottageOwner c = coService.verify(code);
-        if (c == null){
-            return ResponseEntity.ok(null);
-        }
-        //System.out.println(c.getEmail());
-        String jwt = tokenUtils.generateToken(c.getUsername());
-        int expiresIn = tokenUtils.getExpiredIn();
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, c.getRoleId(), c.getId()));//new ResponseEntity<Client>(c, HttpStatus.OK);
-        //return new ModelAndView("login.vue");//"redirect:".concat("http://localhost:8081/book/site/login");//
-    }
-
 	@GetMapping("/profile/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     public ResponseEntity<CottageOwnerProfileResponseDTO> getCottageOwner(@PathVariable Long id){

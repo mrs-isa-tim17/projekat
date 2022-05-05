@@ -12,18 +12,6 @@ public class ShipOwnerService {
 	@Autowired
 	private ShipOwnerRepository soRepository;
 
-	public ShipOwner verify(String verificationCode){
-		ShipOwner so = soRepository.findByVerificationCode(verificationCode);
-		if (so == null){
-			return null;
-		}else if(so.isEnabled()){
-			return so;
-		}else{
-			soRepository.updateEnabledById(true, so.getId());
-			return so;
-		}
-	}
-	
 	public ShipOwner save(ShipOwner so) {
 		return soRepository.save(so);
 	}

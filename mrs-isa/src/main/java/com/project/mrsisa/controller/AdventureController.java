@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
+import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
+import com.project.mrsisa.service.ExperienceReviewService;
+import com.project.mrsisa.service.ImageService;
+import com.project.mrsisa.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,16 +43,13 @@ import com.project.mrsisa.service.FishingEquipmentService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.PricelistService;
 
-
-
-
 @RestController
 @RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdventureController {
 	
 	@Autowired
 	private AdventureService adventureService;
-	
+
 	@Autowired
 	private BehaviorRuleService behaviorRuleService;
 	
@@ -77,15 +80,34 @@ public class AdventureController {
 		Adventure adventure = null;
 		try {
 			adventure = adventureService.findOneById(id);
-			if(adventure == null) {
+			if (adventure == null) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		AdventureDTO adventureDTO = formAdventureDTO(adventure);
-		
-        return new ResponseEntity<AdventureDTO>(adventureDTO, HttpStatus.OK);
+
+		return new ResponseEntity<AdventureDTO>(adventureDTO, HttpStatus.OK);
+
+	}
+
+	@GetMapping(value = "/site/all")
+	public ResponseEntity<List<AdventureForListViewDTO>> getAdventures(){
+		List<Adventure> adventures = adventureService.findAll();
+		List<AdventureForListViewDTO> shipsDTO = new ArrayList<>();
+		for (Adventure adventure : adventures) {
+			adventure.setImages(imageService.findAllByOfferId(adventure.getId()));
+			AdventureForListViewDTO dto = new AdventureForListViewDTO(adventure);
+			dto.setPrice(pricelistService.getCurrentPriceOfOffer(adventure.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId()));
+			shipsDTO.add(dto);
+		}
+		return ResponseEntity.ok(shipsDTO);
+	}
+
+	public AdventureController(AdventureService adventureService2) {
+		this.adventureService = adventureService2;
 
 	}
 	

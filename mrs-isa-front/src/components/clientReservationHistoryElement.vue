@@ -5,14 +5,13 @@
       <div class="row g-0" style="background-color: #E9E9E9;">
 
         <div class="col-md-4">
-          <img :src=cottage.images[0] class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
 
         <div class="col-md-8">
           <div class="card-body">
 
             <h5 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
-            <h6 class="card-title text-black d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.address.country}}, {{cottage.address.city}}, {{cottage.address.address}}</h6>
 
             <div class="card-text">
               <div class="row">
@@ -68,6 +67,13 @@ export default {
     modalWithTextArea
   },
   props: ["cottage"],
+  created() {
+    if (this.cottage.images[0] != null) {
+      this.image = this.cottage.images[0];
+    }else {
+      this.image = "icons/ship.png";
+    }
+  },
   methods : {
     goToOffer(){
       console.log('/'+this.cottage.id);
@@ -94,12 +100,13 @@ export default {
       firstButtonText: "Komentariši",
       firstButtonColor: "background-color: #6699ff; width: 125px",
       firstButtonHeader: "Unosi tvoje mišljenje:",
-      firstButtonId: this.cottage.name + "review",
+      firstButtonId: "review" + this.cottage.id,
 
       secondButtonText: "Podnesi žalbu",
       secondButtonColor: "background-color: #ccddff; width: 125px",
       secondButtonHeader: "Unosi tvoju žalbu",
-      secondButtonId: this.cottage.name + "complaint",
+      secondButtonId: "complaint" + this.cottage.id,
+      image: ""
     }
   }
 }

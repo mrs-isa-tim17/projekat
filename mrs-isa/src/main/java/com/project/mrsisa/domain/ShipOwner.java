@@ -17,16 +17,6 @@ public class ShipOwner extends User {
 
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Ship> ships;
-	
-	@Column(name = "verificationCode", updatable = false)
-	private String verificationCode;
-
-	public String getVerificationCode() {
-		return verificationCode;
-	}
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
 
 	public ShipOwner() {
 		ships = new ArrayList<Ship>();

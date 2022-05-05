@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.repository.AdventureRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AdventureService {

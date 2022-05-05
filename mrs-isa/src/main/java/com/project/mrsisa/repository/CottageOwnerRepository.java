@@ -12,7 +12,7 @@ public interface CottageOwnerRepository extends JpaRepository<CottageOwner,Long>
 	public Page<CottageOwner> findAll(Pageable pageable);
 
 
-	CottageOwner findByVerificationCode(String verificationCode);
+	//CottageOwner findByVerificationCode(String verificationCode);
 
 	@Transactional
 	@Modifying

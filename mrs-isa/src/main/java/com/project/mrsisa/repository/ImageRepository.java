@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.project.mrsisa.domain.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
-	
+
 	public Page<Image> findAll(Pageable pageable);
 
 	public Image findOneById(Long id);

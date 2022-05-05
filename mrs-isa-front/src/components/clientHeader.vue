@@ -14,13 +14,13 @@
             <a class="nav-link active" aria-current="page" :href="clientHomeLink">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  text-dark" href="#">Vikendice</a>
+            <a class="nav-link  text-dark" :href="cottagesLink">Vikendice</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Brodovi</a>
+            <a class="nav-link text-dark" :href="shipsLink">Brodovi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-dark" href="#">Avanture</a>
+            <a class="nav-link text-dark" :href="adventuresLink">Avanture</a>
           </li>
         </ul>
         <button class="btn btn-outline-dark" @click="logout">Odjava</button>
@@ -48,7 +48,10 @@ export default {
   data() {
     return {
       homeLink: "/client/site/home",
-      clientHomeLink: "/client/home"
+      clientHomeLink: "/client/home",
+      cottagesLink: "/book/cottage/site",
+      shipsLink: "/book/ship/site",
+      adventuresLink: "/book/adventure/site"
     }
   }
 }

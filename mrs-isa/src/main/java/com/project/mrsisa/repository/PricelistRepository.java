@@ -21,4 +21,5 @@ public interface PricelistRepository extends JpaRepository<Pricelist, Long> {
 	@Transactional
     @Query(value = "SELECT * FROM pricelist p WHERE p.offer_id = ?1 and p.end_date is null", nativeQuery = true)
     public Pricelist findOffersCurrentPriceById(Long offerId);
+
 }

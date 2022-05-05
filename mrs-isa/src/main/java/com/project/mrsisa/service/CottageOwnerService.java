@@ -12,18 +12,6 @@ public class CottageOwnerService {
 	@Autowired
 	private CottageOwnerRepository coRepository;
 
-	public CottageOwner verify(String verificationCode){
-		CottageOwner co = coRepository.findByVerificationCode(verificationCode);
-		if (co == null){
-			return null;
-		}else if(co.isEnabled()){
-			return co;
-		}else{
-			coRepository.updateEnabledById(true, co.getId());
-			return co;
-		}
-	}
-	
 	public CottageOwner save(CottageOwner co) {
 		return coRepository.save(co);
 	}

@@ -3,6 +3,8 @@ package com.project.mrsisa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
+import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.domain.Ship;
 import com.project.mrsisa.dto.ShipDTO;
-import com.project.mrsisa.service.ShipService;
+
 @RestController
-@RequestMapping(value = "/api/ships")
+@RequestMapping(value = "/ship")
 public class ShipController {
 
 	@Autowired
 	private ShipService shipService;
-	
+
+	@Autowired
+	private ImageService imageService;
+
+	@Autowired
+	private PricelistService pricelistService;
+
+	@Autowired
+	private ExperienceReviewService experienceReviewService;
+
+	@GetMapping(value = "/site/all")
+	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
+		List<Ship> ships = shipService.findAll();
+		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
+		for (Ship ship : ships) {
+			ship.setImages(imageService.findAllByOfferId(ship.getId()));
+			ShipForListViewDTO dto = new ShipForListViewDTO(ship);
+			dto.setPrice(pricelistService.getCurrentPriceOfOffer(ship.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId()));
+			shipsDTO.add(dto);
+		}
+		return ResponseEntity.ok(shipsDTO);
+	}
+
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<ShipDTO> saveShip(@RequestBody ShipDTO shipDTO) {
 

@@ -32,17 +32,6 @@ public class ShipOwnerController {
     @Autowired
     private TokenUtils tokenUtils;
 
-	 @GetMapping("/verify/{code}")
-	    public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
-	        ShipOwner so = soService.verify(code);
-	        if (so == null){
-	            return ResponseEntity.ok(null);
-	        }
-	        String jwt = tokenUtils.generateToken(so.getUsername());
-	        int expiresIn = tokenUtils.getExpiredIn();
-	        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, so.getRoleId(), so.getId()));
-	    }
-
 		@GetMapping("/profile/{id}")
 	    @PreAuthorize("hasRole('SHIP_OWNER')")
 	    public ResponseEntity<ShipOwnerProfileResponseDTO> getShipOwner(@PathVariable Long id){

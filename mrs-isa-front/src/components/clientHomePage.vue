@@ -91,15 +91,15 @@ export default {
 
       cottageImgPath : require("@/assets/icons/wood-house-color.png"),
       cottageText: 'Vikendice',
-      cottageLink: '...',
+      cottageLink: "/book/cottage/site",
 
       shipImgPath : require("@/assets/icons/ship.png"),
       shipText: 'Brodovi',
-      shipLink: '...',
+      shipLink: "/book/ship/site",
 
       instructorImgPath: require("@/assets/icons/fishing.png"),
       instructorText: 'Instrukture',
-      instructorLink: '...',
+      instructorLink: "/book/adventure/site",
 
       upcomingImgPath: require("@/assets/icons/booking.png"),
       upcomingLink: "...",

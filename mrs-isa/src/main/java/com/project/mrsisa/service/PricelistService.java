@@ -35,5 +35,11 @@ public class PricelistService {
 	public Pricelist findOffersCurrentPriceById(Long offerId){
 		return pricelistRepository.findOffersCurrentPriceById(offerId);
 	}
-	
+
+	public double getCurrentPriceOfOffer(long offerID){
+		Pricelist p =  pricelistRepository.findOffersCurrentPriceById(offerID);
+		if (p == null)
+			return 0;
+		return p.getPrice();
+	}
 }

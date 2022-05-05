@@ -18,16 +18,6 @@ public class CottageOwner extends User {
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Cottage> cottages;
 	
-	@Column(name = "verificationCode", updatable = false)
-	private String verificationCode;
-
-	public String getVerificationCode() {
-		return verificationCode;
-	}
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
-
 	public CottageOwner() {
 		cottages = new ArrayList<Cottage>();
 	}
