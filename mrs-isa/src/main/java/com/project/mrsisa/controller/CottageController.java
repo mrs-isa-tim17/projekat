@@ -3,6 +3,7 @@ package com.project.mrsisa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class CottageController {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			CottageForListViewDTO dto = new CottageForListViewDTO(c);
 			dto.setPrice(pricelistService.getCurrentPriceOfOffer(c.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
 			cottagesDTO.add(dto);
 		}
 		System.out.println("Number of cottagesDTO: " + cottagesDTO.size());

@@ -2,6 +2,7 @@ package com.project.mrsisa.service;
 
 import java.util.List;
 
+import com.project.mrsisa.domain.OfferType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class ExperienceReviewService {
 	@Autowired
 	private ExperienceReviewRepository experienceReviewRepository;
 
-	public double getReatingByOfferId(long id){
-		return experienceReviewRepository.findOffersCurrentPriceById(id).orElse(0.0);
+	public double getReatingByOfferId(long id, OfferType offerType){
+		return experienceReviewRepository.findOffersCurrentPriceById(id, offerType.getValue()).orElse(0.0);
 	}
 	
 	public ExperienceReview save(ExperienceReview experienceReview) {

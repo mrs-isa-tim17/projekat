@@ -1,12 +1,30 @@
 package com.project.mrsisa.dto.client;
 
 public class CottageReviewedDTO {
+    private long reservationId;
     private long cottageId;
     private long clientID;
     private String rating;
     private String text;
+    private int offerType;
 
     public CottageReviewedDTO() {
+    }
+
+    public int getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(int offerType) {
+        this.offerType = offerType;
+    }
+
+    public long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(long reservationId) {
+        this.reservationId = reservationId;
     }
 
     public long getCottageId() {

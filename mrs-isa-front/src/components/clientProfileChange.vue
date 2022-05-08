@@ -2,9 +2,9 @@
   <div class="container">
 
     <clientHeader></clientHeader>
-    <div class="row">
+    <div class="row mt-2">
       <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
-        <div>
+        <div class=" mt-3">
           <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
           <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
           <label>Pogodnosti</label>
@@ -15,10 +15,10 @@
         </div>
       </div>
 
-      <div class="col-8 d-flex justify-content-center" style="border-style: solid; border-width: medium;
+      <div class="col-8" style="border-style: solid; border-width: medium;
                                                 background-color: #88BBD6;">
-        <div class="row d-flex justify-content-center" style="">
-          <div class="col-4 d-flex justify-content-center">
+        <div class="row" style="">
+          <div class="col-4 mt-3" style="margin-left: 10%;">
             <div>
 
               <div class="p-2">
@@ -49,26 +49,25 @@
                 <p v-if="this.client.surname == ''" style="color: red;"> Broj telefona mora da postoji</p>
               </div>
 
-              <div class="p-2">
-                <label >{{passwordLabel}}</label>
-                <br>
-                <input type="password" ref="input" v-model="client.password" size="25">
+              <modal-password-change :index="changePass" :header="changePassHeader"></modal-password-change>
+
+              <label id="emptyError" style="color: red; visibility: hidden; margin-top: 25%;"> {{message}}</label>
+
+            </div>
+          </div>
+
+          <div class="col-4  mt-3" style="margin-left: 10%;">
+            <div>
+
+              <openLayers :lon="client.longitude" :lat="client.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 380px; visibility: visible"></openLayers>
+              <div style="margin-top: 20px;">
+
+                <button type="button" class="btn" @click="cancel" style="background-color:#3399FF; margin-right: 2%;">Odustani</button>
+                <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
               </div>
-              <label id="emptyError" style="color: red; visibility: hidden; margin-top: 60px"> {{message}}</label>
             </div>
-          </div>
         </div>
-        <div class="col-4 d-flex justify-content-right">
-          <div>
-
-            <openLayers :lon="client.longitude" :lat="client.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 380px; visibility: visible"></openLayers>
-            <div style="margin-top: 20px;">
-              <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
-              <button type="button" class="btn" @click="applyChanges" style="background-color:#3399FF;">Promeni</button>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -79,9 +78,11 @@ import clientHeader from "@/components/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
 import ClientServce from "@/servieces/ClientServce";
 import vueOpenLayerMap from "@/components/VueMaps";
+import ModalPasswordChange from "@/components/modalPasswordChange";
 export default {
   name: "client-profile-change",
   components: {
+    ModalPasswordChange,
     clientHeader,
     disabledInputField,
     openLayers: vueOpenLayerMap
@@ -179,6 +180,9 @@ export default {
   },
   data() {
     return {
+      changePass : "changePassword",
+      changePassHeader: "HEADER",
+
       message: "Obavezne polje mora da postoje",
       errorMessage: "Obavezne polje mora da postoje",
       successMessage: "Uspešno sačuvano podaci",

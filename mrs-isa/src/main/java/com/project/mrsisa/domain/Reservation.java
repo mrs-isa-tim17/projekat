@@ -30,7 +30,7 @@ public class Reservation {
 	@Column(nullable=false)
 	private double price;
 	
-	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
 	private List<AdditionalServices> additionalServices;
 
 	@Column(nullable = false)
@@ -48,13 +48,6 @@ public class Reservation {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clientId")
 	private Client client;
-
-	/*
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "historyClientId")
-	private Client historyClient;
-
-	//*/
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
@@ -75,12 +68,6 @@ public class Reservation {
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
 	}
-/*
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "calendarId")
-	private Calendar calendar;*/
-	
-
 
 	public Offer getOffer() {
 		return offer;
@@ -132,13 +119,6 @@ public class Reservation {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	/*
-	public Calendar getCalendar() {
-		return calendar;
-	}
-	public void setCalendar(Calendar calendar) {
-		this.calendar = calendar;
-	}*/
 	public Client getClient() {
 		return client;
 	}

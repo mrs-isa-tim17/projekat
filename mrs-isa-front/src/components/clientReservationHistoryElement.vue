@@ -87,10 +87,12 @@ export default {
         cottageId : this.cottage.id,
         clientID : JSON.parse(localStorage.user).id,
         rating : rating,
-        text : text
+        text : text,
+        reservationId : this.cottage.reservationId,
+        offerType : this.cottage.offerType
       }
       console.log(review);
-      reviewServce.cottageReviewed(review).then(() => {
+      reviewServce.offerReviewed(review).then(() => {
 
         this.$emit('reviewed', this.cottage.id);
       })

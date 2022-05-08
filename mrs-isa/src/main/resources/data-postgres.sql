@@ -102,7 +102,7 @@ insert into image (path, offer_id) values('img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina2.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina3.jpg', 2);
 
-insert into experience_review (rate, status, text, client_id, offer_id) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 

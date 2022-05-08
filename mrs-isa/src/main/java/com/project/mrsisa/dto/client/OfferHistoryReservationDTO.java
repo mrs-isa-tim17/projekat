@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OfferHistoryReservationDTO {
+    private long reservationId;
     private Long id;
+    private int offerType;
     private String startDate;
     private String endDate;
     private boolean quickReservation;
@@ -24,6 +26,21 @@ public class OfferHistoryReservationDTO {
     private boolean reviewed;
 
     public OfferHistoryReservationDTO() {
+    }
+    public long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(long reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public int getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(int offerType) {
+        this.offerType = offerType;
     }
 
     public Long getId() {
@@ -54,11 +71,10 @@ public class OfferHistoryReservationDTO {
         StringToDateConverter converter = new StringToDateConverter();
         return converter.convert(startDate);
     }
-///*
+
     public long getDuration(){
         return Duration.between(getStartDateLocalDate().atStartOfDay(), getEndDateLocalDate().atStartOfDay()).toDays();
     }
-    //*/
 
     public LocalDate getEndDateLocalDate() {
         StringToDateConverter converter = new StringToDateConverter();
@@ -140,6 +156,7 @@ public class OfferHistoryReservationDTO {
     }
 
     public OfferHistoryReservationDTO(Reservation r) {
+        this.reservationId = r.getId();
         this.id = r.getOffer().getId();
         DateToStringConverter converter = new DateToStringConverter();
         this.startDate = converter.convert(r.getStartDate());
@@ -156,5 +173,6 @@ public class OfferHistoryReservationDTO {
             images.add(r.getOffer().getImages().get(0).getPath());
         }
         this.reviewed = r.isReviewed();
+        this.offerType = r.getOfferType().getValue();
     }
 }

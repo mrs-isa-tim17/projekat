@@ -3,6 +3,7 @@ package com.project.mrsisa.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class ShipController {
 			ship.setImages(imageService.findAllByOfferId(ship.getId()));
 			ShipForListViewDTO dto = new ShipForListViewDTO(ship);
 			dto.setPrice(pricelistService.getCurrentPriceOfOffer(ship.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP));
 			shipsDTO.add(dto);
 		}
 		return ResponseEntity.ok(shipsDTO);

@@ -6,7 +6,7 @@ import Config from "../config.json";
 const CLIENT_API_BASE_URL = Config.BASE_URL + '/review';
 
 class ReviewServce{
-    cottageReviewed(review) {
+    offerReviewed(review) {
         return axios.post(CLIENT_API_BASE_URL+'/cottage', review, {
             headers: authHeader()
         });

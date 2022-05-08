@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.ExperienceReviewService;
@@ -24,15 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Address;
-import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.ExperienceReview;
-import com.project.mrsisa.domain.FishingEquipment;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.AdventureDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
@@ -100,7 +91,7 @@ public class AdventureController {
 			adventure.setImages(imageService.findAllByOfferId(adventure.getId()));
 			AdventureForListViewDTO dto = new AdventureForListViewDTO(adventure);
 			dto.setPrice(pricelistService.getCurrentPriceOfOffer(adventure.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE));
 			shipsDTO.add(dto);
 		}
 		return ResponseEntity.ok(shipsDTO);
