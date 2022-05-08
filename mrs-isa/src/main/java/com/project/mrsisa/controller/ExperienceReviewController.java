@@ -1,8 +1,7 @@
 package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.*;
-import com.project.mrsisa.dto.ClientProfileResponseDTO;
-import com.project.mrsisa.dto.client.CottageReviewedDTO;
+import com.project.mrsisa.dto.client.OfferReviewedDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,31 +28,31 @@ public class ExperienceReviewController {
     @Autowired
     private AdventureService adventureService;
 
-    @PostMapping(value = "/cottage", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/offer", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<HttpStatus> cottageReviewed(@RequestBody CottageReviewedDTO cottageReviewedDTO){
+    public ResponseEntity<HttpStatus> cottageReviewed(@RequestBody OfferReviewedDTO offerReviewedDTO){
         ExperienceReview er = new ExperienceReview();
         er.setStatus(ProcessingStatus.UNPROCESSED);
 
         Offer o = null;
-        if (cottageReviewedDTO.getOfferType() == OfferType.COTTAGE.getValue())
-            o = cottageService.findOne(cottageReviewedDTO.getCottageId());
-        else if (cottageReviewedDTO.getOfferType() == OfferType.SHIP.getValue())
-            o = shipService.findOne(cottageReviewedDTO.getCottageId());
-        else if (cottageReviewedDTO.getOfferType() == OfferType.ADVENTURE.getValue())
-            o = adventureService.findOneById(cottageReviewedDTO.getCottageId());
+        if (offerReviewedDTO.getOfferType() == OfferType.COTTAGE.getValue())
+            o = cottageService.findOne(offerReviewedDTO.getCottageId());
+        else if (offerReviewedDTO.getOfferType() == OfferType.SHIP.getValue())
+            o = shipService.findOne(offerReviewedDTO.getCottageId());
+        else if (offerReviewedDTO.getOfferType() == OfferType.ADVENTURE.getValue())
+            o = adventureService.findOneById(offerReviewedDTO.getCottageId());
         er.setOffer(o);
-        er.setOfferType(OfferType.valueOf(cottageReviewedDTO.getOfferType()));
+        er.setOfferType(OfferType.valueOf(offerReviewedDTO.getOfferType()));
 
-        Client cl = clientService.findOne(cottageReviewedDTO.getClientID());
+        Client cl = clientService.findOne(offerReviewedDTO.getClientID());
         er.setClient(cl);
-        if (cottageReviewedDTO.getText() == "") er.setText(null);
-        else er.setText(cottageReviewedDTO.getText());
-        if (cottageReviewedDTO.getRating() == "") er.setRate(-1);
-        else er.setRate(Integer.parseInt(cottageReviewedDTO.getRating()));
+        if (offerReviewedDTO.getText() == "") er.setText(null);
+        else er.setText(offerReviewedDTO.getText());
+        if (offerReviewedDTO.getRating() == "") er.setRate(-1);
+        else er.setRate(Integer.parseInt(offerReviewedDTO.getRating()));
         experienceReviewService.save(er);
-        Reservation r = reservationService.getReservationById(cottageReviewedDTO.getReservationId());
+        Reservation r = reservationService.getReservationById(offerReviewedDTO.getReservationId());
         r.setReviewed(true);
         reservationService.save(r);
         return new ResponseEntity<>(HttpStatus.OK);

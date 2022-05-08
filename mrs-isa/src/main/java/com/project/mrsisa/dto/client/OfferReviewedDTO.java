@@ -1,6 +1,6 @@
 package com.project.mrsisa.dto.client;
 
-public class CottageReviewedDTO {
+public class OfferReviewedDTO {
     private long reservationId;
     private long cottageId;
     private long clientID;
@@ -8,7 +8,7 @@ public class CottageReviewedDTO {
     private String text;
     private int offerType;
 
-    public CottageReviewedDTO() {
+    public OfferReviewedDTO() {
     }
 
     public int getOfferType() {

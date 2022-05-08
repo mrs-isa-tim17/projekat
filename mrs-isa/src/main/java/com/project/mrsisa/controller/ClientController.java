@@ -245,7 +245,12 @@ public class ClientController {
         return ResponseEntity.ok(dtoList);
     }
 
-
+    @GetMapping("/penalties/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Integer> getNumberOfPenalties(@PathVariable Long id){
+        Client client = clientService.findOne(id);
+        return ResponseEntity.ok(client.getPenaltyNumber());
+    }
 
     @GetMapping("/profile/{id}")
     @PreAuthorize("hasRole('CLIENT')")

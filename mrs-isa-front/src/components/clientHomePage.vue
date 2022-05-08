@@ -75,6 +75,7 @@
 <script>
 import clientHomePageOption from "@/components/clientHomePageOption";
 import clientHeader from "@/components/clientHeader";
+import ClientServce from "@/servieces/ClientServce";
 //import clientServce from "@/servieces/ClientServce";
 export default {
   name: "client-home",
@@ -82,6 +83,15 @@ export default {
     clientHomePageOption,
     clientHeader
   },
+  created:
+      function () {
+        this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+        ClientServce.getClientPenalties(this.clientID)
+            .then((response) => {
+              console.log(response);
+              this.penalties = response.data;
+            })
+      },
   data() {
     return {
       penalties: 3,

@@ -3,11 +3,11 @@ import authHeader from "@/servieces/authHeader";
 
 import Config from "../config.json";
 
-const CLIENT_API_BASE_URL = Config.BASE_URL + '/review';
+const REVIEW_API_BASE_URL = Config.BASE_URL + '/complaint';
 
 class ReviewServce{
-    offerReviewed(review) {
-        return axios.post(CLIENT_API_BASE_URL+'/cottage', review, {
+    offerReviewed(complaint) {
+        return axios.post(REVIEW_API_BASE_URL+'/offer', complaint, {
             headers: authHeader()
         });
     }

@@ -61,6 +61,7 @@
 import modalWithTextArea from "@/components/modalWithTextArea";
 import modalWithTextAreaAndRating from "@/components/modalWithTextAreaAndRating";
 import reviewServce from "@/servieces/ReviewServce";
+import complaintServce from "@/servieces/ComplaintServce";
 export default {
   name: "clientReservationHistoryElement",
   components: {
@@ -98,9 +99,17 @@ export default {
       })
     },
     sendComplaint(value){
-      console.log(value);
-      //axios
-      //complaint
+      let complaint = {
+        offerId : this.cottage.id,
+        clientID : JSON.parse(localStorage.user).id,
+        text : value,
+        offerType : this.cottage.offerType
+      }
+      console.log(complaint);
+      console.log(complaint);
+      complaintServce.complaintOnOffer(complaint).then(() => {
+
+      })
     }
   },
   data() {
