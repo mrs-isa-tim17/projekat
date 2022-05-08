@@ -64,12 +64,19 @@ insert into adventure (id, deleted, description, name, address_id, capacity, ins
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('wifi', null, null);
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('kabanica', null, null);
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('baterijska lampa', null, null);
-
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('bazen', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('parking', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('kablovska TV', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('WiFi', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('društvene igre', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('besplatne pešačke ture', null, null);
+insert into additional_services (name, reservation_id, sale_appointment_id) values ('bicikli', null, null);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 1);
 insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
 
 insert into behavior_rule (text) values ('zabranjeno pecanje');
+insert into behavior_rule (text) values ('zabranjeno pusenje');
 insert into behavior_rule (text) values ('dozvoljeno pecanje');
 insert into behavior_rule (text) values ('dozvoljeno kupanje');
 insert into behavior_rule (text) values ('zabranjeno kupanje');

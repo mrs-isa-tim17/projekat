@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import net.bytebuddy.utility.RandomString;
@@ -21,6 +22,7 @@ import net.bytebuddy.utility.RandomString;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 
 @Service
 public class UserService {
@@ -136,6 +138,11 @@ public class UserService {
         u.setPhoneNumber(userRequest.getPhoneNumber());
         return u;
     }
+    
+    public User save(User user) {
+    	return userRepository.save(user);
+    }
+   
+    }
 
 
-}

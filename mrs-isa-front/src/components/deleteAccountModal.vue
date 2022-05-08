@@ -3,15 +3,15 @@
     Brisanje naloga
   </button>
 
-  <div class="modal fade" :id=index tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" :id=index tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" style="background-color:#687864">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{header}}</h5>
+          <h5 class="modal-title" id="exampleModalLabel" >{{header}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-
+        <div class="modal-body" >
+          {{textModal}}
           <textarea class="my-4" rows="4" cols="20" name="text" v-model="text"></textarea>
         </div>
         <div class="modal-footer">
@@ -28,7 +28,7 @@ import $ from "jquery";
 
 export default {
   name: "deleteAccountDialog",
-  props:["index","header"],
+  props:["index","header","textModal"],
   created:
       function () {
         this.modalId = "#"+this.index;
@@ -50,7 +50,14 @@ methods:{
 
 <style scoped>
 #delete{
-float:right;
-  margin-right:155px;
+
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  background-color: #687864;
 }
 </style>

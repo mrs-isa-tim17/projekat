@@ -150,6 +150,8 @@ export default {
       },
     addCottage(){
         CottageService.saveCottage(this.cottage);
+        alert("Dodata vikendica!");
+        this.$router.push('/owner/cottages');
              },
     back(){
       this.$router.push('/owner/cottages');
@@ -165,9 +167,9 @@ export default {
       eq6:"besplatne pešačke ture",
       eq7:"bickili",
       br1:"zabranjeno pušenje",
-      br2:"dozvoljeni kućni ljubimci",
+      br2:"volimo ljubimce",
       cottage: {
-        id:2,
+        ownerId:3,
         name: "",
         longitude:0,
         latitude:0,

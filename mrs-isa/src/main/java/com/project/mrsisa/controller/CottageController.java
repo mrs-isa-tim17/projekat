@@ -21,8 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.mrsisa.domain.AdditionalServices;
+import com.project.mrsisa.domain.Address;
+import com.project.mrsisa.domain.BehaviorRule;
+import com.project.mrsisa.domain.CancelCondition;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
+import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.CottageDTO;
 import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.cottage.FindCottageDTO;
@@ -44,6 +49,15 @@ public class CottageController {
 
 	@Autowired
 	private ExperienceReviewService experienceReviewService;
+	
+	@Autowired
+	private BehaviorRuleService behaviorRuleService;
+	
+	@Autowired
+	private AdditionalServicesService additionalServicesService;
+	
+	@Autowired
+	private CancelConditionService cancelConditionService;
 
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<CottageForListViewDTO>> getCottages(){
@@ -61,19 +75,60 @@ public class CottageController {
 		return ResponseEntity.ok(cottagesDTO);
 	}
 
-	@PostMapping(consumes = "application/json")
+	@PostMapping(value="/save", consumes = "application/json")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CreateUpdateCottageDTO> saveCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
-
+		System.out.println("cuvanje vikendice");
 		Cottage cottage = new Cottage();
-		cottage.setId(cottageDTO.getId());
+		//cottage.setId(cottageDTO.getId());
 		//cottage.setAddress(cottageDTO.getAddress());
 		//cottage.setOwner(cottageDTO.getOwner());
+		Address a = new Address();
+		a.setLatitude(cottageDTO.getLatitude());
+		a.setLongitude(cottageDTO.getLongitude());
+		cottage.setAddress(a);
 		cottage.setBedQuantity(cottageDTO.getBedQuantity());
+		cottage.setRoomQuantity(cottageDTO.getRoomQuantity());
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
 		cottage.setDeleted(cottageDTO.isDeleted());
+		List<BehaviorRule> rules = new ArrayList<BehaviorRule>();
+		for(String rule : cottageDTO.getBehavioralRules()) {
+			rules.add(behaviorRuleService.findOneByText(rule));
+		}
+		cottage.setBehaviorRules(rules);
+		List<AdditionalServices> additionalService = new ArrayList<AdditionalServices>();
+		for(String service : cottageDTO.getAdditionalServices()) {
+			additionalService.add(additionalServicesService.findOneByName(service));
+		}
+		cottage.setAdditionalServices(additionalService);
+		
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
 
+		CancelCondition c1 = new CancelCondition(5, Double.parseDouble(cottageDTO.getPercent1()));
+		cancelConditions.add(c1);
+		cancelConditionService.save(c1);
+		
+		CancelCondition c2 = new CancelCondition(10, Double.parseDouble(cottageDTO.getPercent2()));
+		cancelConditions.add(c2);
+		cancelConditionService.save(c2);
+		
+		CancelCondition c3 = new CancelCondition(15, Double.parseDouble(cottageDTO.getPercent3()));
+		cancelConditions.add(c3);
+		cancelConditionService.save(c3);
+		
+		CancelCondition c4 = new CancelCondition(20, Double.parseDouble(cottageDTO.getPercent4()));
+		cancelConditions.add(c4);
+		cancelConditionService.save(c4);
+		
+		Pricelist pricelist = new Pricelist(cottageDTO.getPrice());
+		pricelist.setOffer(cottage);
+		
+		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
+		pricelists.add(pricelist);
+		cottage.setPricelists(pricelists);
+		
+		cottage.setCancelCondition(cancelConditions);
 		cottage = cottageService.save(cottage);
 		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.CREATED);
 	}

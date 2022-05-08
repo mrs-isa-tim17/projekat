@@ -1,76 +1,98 @@
 <template>
-  <ownerHeader></ownerHeader>
-    <div><div class="header">
-      <deleteAccountModal :index="deleteAcc" :header="deleteHeader"></deleteAccountModal>
-      <div id="profile">Moj profil</div>
+  <div class="container">
+  <cottageOwnerHeader></cottageOwnerHeader>
+    <div class="alert alert-success alert-dismissible fade show" id="successChangePass" role="alert" style="visibility: hidden;">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      Lozinka uspesno izmenjena!
     </div>
-      <!--  Loyality  -->
-      <div class="loyality">
-        <div class="headerLoyality">Loyality program</div>
-        <div class="input-box">
-          <span class="loyalityDetails">Broj poena</span><br>
-          <input type="text" id="loyalityPoints" v-model="owner.loyaltyPoints"/>
-        </div>
-
-        <div class="input-box">
-          <span class="loyalityDetails">Kategorija</span><br>
-          <input type="text" id="loyalityCategory" v-model="owner.userType"/>
-        </div>
-        <br>
-        <div id="benefits">
-          <p style="color:#5F9F9F;font-weight: bold;">Pogodnosti</p>
-          {{owner.benefits}}
-          <br>
-          <br>
-          <br>
-
-
+    <div class="alert alert-danger alert-dismissible fade show" id="notSuccessChangePass" role="alert" style="visibility: hidden;">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      Lozinka nije uspesno izmenjena!
+    </div>
+    <div class="row">
+      <div class="col-4  d-flex justify-content-center" style=" border-style: solid; border-width: medium; background-color: #CDCDCD;">
+        <div>
+          <disabledInputField :label="numLoyaltyPointsLabel" :info="owner.loyaltyPoints"> </disabledInputField>
+          <disabledInputField :label="userCategoryLabel" :info="owner.userType"> </disabledInputField>
+          <label>Pogodnosti</label>
+          <textarea disabled class="my-4 text-center" rows="5" cols="40" style="background-color: #BBC4CC;" name="Pogodnosti" :value="owner.benefits">
+          </textarea>
         </div>
       </div>
 
-      <!--  Edit profile  -->
-      <div class="editProfile">
 
-        <form action="">
-          <div class="formdetails">
-            <div id="left">
-              <span class="details">Ime</span><br>
-              <input type="text" id="name" v-model="owner.name"/><br>
-              <span class="details">Prezime</span><br>
-              <input type="text" id="surname" v-model="owner.surname"/><br>
-              <span class="details">Email</span><br>
-              <input type="text" id="email" v-model="owner.email"/><br>
-              <span class="details">Broj telefona</span><br>
-              <input type="text" id="telNumber" v-model="owner.phoneNumber"/><br>
-              <br>
-              <changePasswordModal
-                  :index="buttonId" :header="changePassHeader"></changePasswordModal>
+      <div class="col-8 d-flex justify-content-center" style="border-style: solid; border-width: medium;
+                                                background-color: #88BBD6;">
+        <div class="row d-flex justify-content-center" style="">
+          <div class="col-4 d-flex justify-content-center">
+            <div>
+
+              <div class="p-2">
+                <label >Ime</label>
+                <br>
+                <input type="text" ref="input" v-model="owner.name" size="25" required>
+                <br>
+                <p id="nameEmpty" v-if="this.owner.name == ''" style="color: red;"> Ime mora da postoji </p>
+                <p v-if="this.owner.name[0] == this.owner.name[0].toLowerCase()" style="color: red;"> Ime mora da počinje velikim slovom </p>
+
+              </div>
+
+              <div class="p-2">
+                <label >Prezime</label>
+                <br>
+                <input type="text" ref="input" v-model="owner.surname" size="25" required>
+                <p v-if="this.owner.surname == ''" style="color: red;"> Prezime mora da postoji</p>
+                <p  v-if="this.owner.surname[0] == this.owner.surname[0].toLowerCase()" style="color: red;"> Prezime mora da počinje velikim slovom </p>
+              </div>
+
+
+              <disabled-input-field :label="emailLabel" :info="owner.email"> </disabled-input-field>
+
+              <div class="p-2">
+                <label >Broj telefona</label>
+                <br>
+                <input type="text" ref="input" v-model="owner.phoneNumber" size="25" required>
+                <p v-if="this.owner.phoneNumber == ''" style="color: red;"> Broj telefona mora da postoji</p>
+              </div>
+
+              <div class="p-2">
+                <changePasswordModal
+                    :index="buttonId" :header="changePassHeader" @input-new-password="changePassword"></changePasswordModal>
+                <br><br>
+                <deleteAccountModal :index="deleteAcc" :header="deleteHeader" :textModal="text"></deleteAccountModal>
             </div>
-            <div id="right">
-              <label>Adresa</label><br>
-              <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps>
-
-            </div>
-
-            <div id="buttonSubmit">
-              <button type="button" class="btn" @click="cancel" style="background-color:#31708E;margin-right:50px;color:white;height:50px;width:150px;margin-bottom: 40px;">Odustani</button>
-              <button type="button" class="btn" @click="updateProfile" style="background-color:#31708E;color:white;height:50px;width:150px;margin-bottom: 40px;">Potvrdi izmene</button>
-            </div>
-
           </div>
-        </form>
+        </div>
+
+          <div class="col-4 d-flex justify-content-right">
+            <div>
+
+              <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps>
+              <div style="margin-top: 20px;">
+                <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
+                <button type="button" class="btn" @click="updateProfile" style="background-color:#3399FF;">Promeni</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
       </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import changePasswordModal from "@/components/changePasswordModal";
+import cottageOwnerHeader from "@/components/cottageOwnerHeader";
+import OpenMaps from "@/components/VueMaps";
+import disabledInputField from "@/components/disabledInputField";
 import deleteAccountModal from "@/components/deleteAccountModal"
 import CottageOwnerService from "@/servieces/CottageOwnerService";
-import ownerHeader from "@/components/cottageOwnerHeader";
+import PasswordService from "@/servieces/PasswordService";
 export default {
   name: "edit-profile-owner",
-  components:{changePasswordModal, deleteAccountModal, ownerHeader},
+  components:{changePasswordModal,
+    deleteAccountModal, disabledInputField,
+    cottageOwnerHeader, OpenMaps},
   created:
       function () {
         this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
@@ -111,6 +133,10 @@ export default {
       deleteAcc: "deleteAcc",
       deleteHeader:"Zahtev za brisanje naloga",
       changePassHeader:"Promena lozinke",
+      text:"Razlog za brisanje naloga:",
+      numLoyaltyPointsLabel:"Broj poena",
+      userCategoryLabel:"Tip korisnika",
+      emailLabel:"Email",
       owner:{
         name: "",
         surname: "",
@@ -123,6 +149,10 @@ export default {
         benefits: "",
         longitude: "",
         latitude: ""
+      },
+      passwords:{
+        old_password:"",
+        new_password:""
       }
     }
   },
@@ -140,6 +170,31 @@ export default {
       this.backup[3] = this.owner.password;
       this.backup[4] = this.owner.longitude;
       this.backup[5] = this.owner.latitude;
+    },
+    cancel(){
+      this.owner.name = this.backup[0];
+      this.owner.surname = this.backup[1];
+      this.owner.phoneNumber = this.backup[2];
+      this.owner.password = this.backup[3];
+      this.owner.longitude = this.backup[4];
+      this.owner.latitude = this.backup[5];
+    },
+    changePassword(old_password, new_password){
+      console.log("menjam lozinku");
+      this.coID = JSON.parse(localStorage.user).id;
+      this.passwords.old_password=old_password;
+      this.passwords.new_password = new_password;
+      PasswordService.matchPassword(this.passwords,this.coID)
+          .then((response)=>{
+                if(response.data){
+                  document.getElementById("successChangePass").style.visibility = 'visible';
+                }
+                else{
+                  document.getElementById("notSuccessChangePass").style.visibility = 'visible';
+                }
+              }
+          )
+      console.log(new_password);
     }
   }
 }
@@ -232,7 +287,7 @@ form .details .input-box{
 
 .details{
   float: left;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .header{

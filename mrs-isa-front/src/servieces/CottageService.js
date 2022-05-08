@@ -24,13 +24,13 @@ class CottageService{
         });
     }
     saveCottage(cottage){
-        return axios.post(COTTAGE_OWNER_API_BASE_URL + 'save/', cottage,{
+        return axios.post(COTTAGE_OWNER_API_BASE_URL + 'save', cottage,{
             headers:authHeader()
         });
     }
 
     updateCottage(cottage){
-        return axios.post(COTTAGE_OWNER_API_BASE_URL + 'update/', cottage,{
+        return axios.post(COTTAGE_OWNER_API_BASE_URL + 'update', cottage,{
             headers: authHeader()
         });
 

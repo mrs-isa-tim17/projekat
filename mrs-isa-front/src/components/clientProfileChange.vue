@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="containter h-100">
 
     <clientHeader></clientHeader>
-    <div class="row">
+    <div class="row modal-full-height">
       <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
           <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
