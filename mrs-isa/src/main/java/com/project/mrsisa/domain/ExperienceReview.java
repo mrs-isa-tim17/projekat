@@ -30,7 +30,7 @@ public class ExperienceReview {
 	@Enumerated
 	private ProcessingStatus status;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	

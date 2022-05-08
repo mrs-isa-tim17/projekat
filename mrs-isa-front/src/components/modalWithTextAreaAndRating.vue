@@ -19,7 +19,7 @@
               <div class="box box-orange box-example-1to10">
                 <div class="box-body">
                   <p class="d-flex justify-content-start"> Ocena: </p>
-                  <select @change="changeRating" style="width: 70px" id="ratingId" name="rating" class="form-select" aria-label="Default select">
+                  <select @change="changeRating" class="form-select" style="width: 70px" id="ratingId" name="rating" aria-label="Default select">
                     <option selected>*</option>
                     <option value="1">1</option>
                     <option value="2">2</option>

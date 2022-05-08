@@ -60,6 +60,7 @@
 <script>
 import modalWithTextArea from "@/components/modalWithTextArea";
 import modalWithTextAreaAndRating from "@/components/modalWithTextAreaAndRating";
+import reviewServce from "@/servieces/ReviewServce";
 export default {
   name: "clientReservationHistoryElement",
   components: {
@@ -79,15 +80,20 @@ export default {
       console.log('/'+this.cottage.id);
       this.$router.push('/'+this.cottage.id);
     },
-    sendReview(value, rating){
-      console.log(value);
-      console.log(rating);
-      //this.cottage.reviewed = true; NE MOZE DA SE MENJA ZATO STO JE DOSAO PREKO PROPS?
-      //axios
-      //review
-      //this.cottage.reviewed = true;
-      console.log(this.cottage.id);
-      this.$emit('reviewed', this.cottage.id);
+    sendReview(text, rating){
+      if (rating == "*")
+        rating = "";
+      let review = {
+        cottageId : this.cottage.id,
+        clientID : JSON.parse(localStorage.user).id,
+        rating : rating,
+        text : text
+      }
+      console.log(review);
+      reviewServce.cottageReviewed(review).then(() => {
+
+        this.$emit('reviewed', this.cottage.id);
+      })
     },
     sendComplaint(value){
       console.log(value);
