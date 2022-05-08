@@ -56,8 +56,8 @@
       <div class="row justify-content-center ">
         <clientHomePageOption :image_path="complaintImgPath" :option_link="complaintLink" :text="complaintText"></clientHomePageOption>
 
-        <clientHomePageOption :image_path="deleteAccImgPath" :option_link="deleteAccLink"
-                       :text="deleteAccText"></clientHomePageOption>
+        <request-for-deleting-account-modal :image_path="deleteAccImgPath" :option_link="deleteAccLink"
+                       :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"></request-for-deleting-account-modal>
 
         <clientHomePageOption :image_path="profileImgPath" :option_link="profileLink" :text="profileText"></clientHomePageOption>
       </div>
@@ -76,10 +76,12 @@
 import clientHomePageOption from "@/components/clientHomePageOption";
 import clientHeader from "@/components/clientHeader";
 import ClientServce from "@/servieces/ClientServce";
+import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
 //import clientServce from "@/servieces/ClientServce";
 export default {
   name: "client-home",
   components: {
+    RequestForDeletingAccountModal,
     clientHomePageOption,
     clientHeader
   },
@@ -133,6 +135,8 @@ export default {
       deleteAccImgPath: require("@/assets/icons/deleteAcc.png"),
       deleteAccLink:"...",
       deleteAccText: "Brisanje naloga",
+      deleteAccHeader: "Razlog za brisanje",
+      deleteAccModal: "modalId",
 
       profileImgPath: require("@/assets/icons/profile.png"),
       profileLink: "/client/profile",
