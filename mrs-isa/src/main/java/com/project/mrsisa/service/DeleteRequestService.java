@@ -15,4 +15,11 @@ public class DeleteRequestService {
         return deleteRequestRepository.save(deleteRequest);
     }
 
+    public boolean getIfUserMadeDeleteRequest(long id){
+        DeleteRequest dr = deleteRequestRepository.findByUserRef(id);
+        if (dr == null)
+            return false;
+        return true;
+    }
+
 }

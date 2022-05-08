@@ -2,6 +2,7 @@ package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.dto.client.HomePageInfoDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
 import com.project.mrsisa.service.*;
 import com.project.mrsisa.util.TokenUtils;
@@ -40,6 +41,8 @@ public class ClientController {
     private ImageService imageService;
     @Autowired
     private ShipService shipService;
+    @Autowired
+    private DeleteRequestService deleteRequestService;
 
     @GetMapping("/verify/{code}")
     public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
@@ -247,9 +250,12 @@ public class ClientController {
 
     @GetMapping("/penalties/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<Integer> getNumberOfPenalties(@PathVariable Long id){
+    public ResponseEntity<HomePageInfoDTO> getInfoForHome(@PathVariable Long id){
+        HomePageInfoDTO hp = new HomePageInfoDTO();
         Client client = clientService.findOne(id);
-        return ResponseEntity.ok(client.getPenaltyNumber());
+        hp.setPenalties(client.getPenaltyNumber());
+        hp.setDeleteRequestMade(deleteRequestService.getIfUserMadeDeleteRequest(client.getId()));
+        return ResponseEntity.ok(hp);
     }
 
     @GetMapping("/profile/{id}")

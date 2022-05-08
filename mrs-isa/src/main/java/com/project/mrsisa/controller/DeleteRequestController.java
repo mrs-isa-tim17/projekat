@@ -35,6 +35,7 @@ public class DeleteRequestController {
             return ResponseEntity.ok(false);
         System.out.println(reason);
         dr.setText(reason);//deleting = from the end of the string
+
         deleteRequestService.save(dr);
         return null;
     }

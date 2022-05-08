@@ -49,7 +49,6 @@
                 <p v-if="this.client.surname == ''" style="color: red;"> Broj telefona mora da postoji</p>
               </div>
 
-              <modal-password-change :index="changePass" :header="changePassHeader"></modal-password-change>
 
               <label id="emptyError" style="color: red; visibility: hidden; margin-top: 25%;"> {{message}}</label>
 
@@ -78,11 +77,9 @@ import clientHeader from "@/components/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
 import ClientServce from "@/servieces/ClientServce";
 import vueOpenLayerMap from "@/components/VueMaps";
-import ModalPasswordChange from "@/components/modalPasswordChange";
 export default {
   name: "client-profile-change",
   components: {
-    ModalPasswordChange,
     clientHeader,
     disabledInputField,
     openLayers: vueOpenLayerMap
