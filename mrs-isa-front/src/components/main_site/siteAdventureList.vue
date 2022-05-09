@@ -7,46 +7,29 @@
     </div>
   </div>
 
-  <nav class="d-flex justify-content-center" aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item">
-        <button class="page-link" @click="makePreviousLink" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </button>
-      </li>
-
-      <li class="page-item"><button class="page-link" @click="makeFirstLink">1</button></li>
-      <li class="page-item"><button class="page-link" disabled>...</button></li>
-      <li class="page-item"><button class="page-link" @click="makeMiddleLink">{{makeMiddleNumber()}}</button></li>
-      <li class="page-item"><button class="page-link" disabled>...</button></li>
-      <li class="page-item"><button class="page-link" @click="makeLastLink">{{makeLastNumber()}}</button></li>
-
-      <li class="page-item">
-        <button class="page-link" @click="makeNextLink" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </button>
-      </li>
-    </ul>
-  </nav>
+  <pagination-component :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement"
+                        :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
 
 </template>
 
 <script>
 import adventureServce from "@/servieces/AdventureServce";
 import SiteAdventureElement from "@/components/main_site/siteAdventureElement";
+import PaginationComponent from "@/components/paginationComponent";
 
 export default {
   name: "site-adventure-list",
-  components: {SiteAdventureElement},
+  components: {PaginationComponent, SiteAdventureElement},
   mounted() {
-    adventureServce.getAdventures().then(
-        (response) => {
-          this.cottages = response.data;
-        }
-    )
   },
   created:
       function () {
+        adventureServce.getAdventures().then(
+            (response) => {
+              this.cottages = response.data;
+              this.listLength = this.cottages.length;
+            }
+        )
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -63,6 +46,10 @@ export default {
 
       },
   methods: {
+    fromUntilElement(from){
+      this.fromElement = from;
+      this.forceRemounting();
+    },
     forceRemounting(){
       this.clientHeaderKey += 1;
       this.basicHeaderKey += 1;
@@ -77,40 +64,6 @@ export default {
         index++;
       }
       return this.resultingOffers;
-    },
-    makeMiddleNumber() {
-      let numPages = this.cottages.length / this.numberOfElementsForDisplay;
-      return Math.ceil(numPages / 2);
-    },
-    makeLastNumber() {
-      let numPages = this.cottages.length / this.numberOfElementsForDisplay;
-      return Math.ceil(numPages);
-    },
-    makeFirstLink() {
-      this.fromElement = 0;
-      this.forceRemounting();
-    },
-    makeMiddleLink() {
-      this.fromElement = (this.makeMiddleNumber() - 1) * this.numberOfElementsForDisplay;
-      this.forceRemounting();
-    },
-    makeLastLink() {
-      this.fromElement = (this.makeLastNumber() - 1) * this.numberOfElementsForDisplay;
-      this.forceRemounting();
-    },
-    makePreviousLink() {
-      let previousFrom = parseInt(this.fromElement) - parseInt(this.numberOfElementsForDisplay);
-      if (previousFrom < 0)
-        return
-      this.fromElement = previousFrom;
-      this.forceRemounting();
-    },
-    makeNextLink() {
-      let nextFrom = parseInt(this.fromElement) + parseInt(this.numberOfElementsForDisplay);
-      if (nextFrom > parseInt(this.cottageReservationHistory.length))
-        return
-      this.fromElement = nextFrom;
-      this.forceRemounting();
     },
     checkIfNeedsToBeDisplayed(index) {
       let untilElement = parseInt(this.numberOfElementsForDisplay) + parseInt(this.fromElement);
@@ -128,7 +81,8 @@ export default {
       numberOfElementsForDisplay : 4,
       fromElement: 0,
       basicHeaderKey: 0,
-      clientHeaderKey: 0
+      clientHeaderKey: 0,
+      //listLength: 0
     }
   }
 }

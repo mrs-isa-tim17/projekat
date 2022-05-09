@@ -21,27 +21,8 @@
       <clientReservationHistoryList @reviewed="itemReviewed" :key="myKey" :numToDisplay="numberOfElementsForDisplay" :from="fromElement" :cottagesHistory="cottageReservationHistory"> </clientReservationHistoryList>
     </div>
 
-    <nav class="d-flex justify-content-center" aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <button class="page-link" @click="makePreviousLink" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </button>
-        </li>
+    <pagination-component :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement" :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
 
-        <li class="page-item"><button class="page-link" @click="makeFirstLink">1</button></li>
-        <li class="page-item"><button class="page-link" disabled>...</button></li>
-        <li class="page-item"><button class="page-link" @click="makeMiddleLink">{{makeMiddleNumber()}}</button></li>
-        <li class="page-item"><button class="page-link" disabled>...</button></li>
-        <li class="page-item"><button class="page-link" @click="makeLastLink">{{makeLastNumber()}}</button></li>
-
-        <li class="page-item">
-          <button class="page-link" @click="makeNextLink" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </button>
-        </li>
-      </ul>
-    </nav>
 
   </div>
 </template>
@@ -49,10 +30,13 @@
 <script>
 import clientReservationHistoryList from "@/components/clientReservationHistoryList";
 import clientHeader from "@/components/clientHeader";
-import clientServce from "@/servieces/ClientServce";
+//import clientServce from "@/servieces/ClientServce";
+import PaginationComponent from "@/components/paginationComponent";
+import reservationServce from "@/servieces/ReservationServce";
 export default {
   name: "clientReservationHistory",
   components:{
+    PaginationComponent,
     clientReservationHistoryList,
     clientHeader
   },
@@ -62,20 +46,32 @@ export default {
     this.type = this.$route.params.type;
     console.log(this.type);
     if (this.type == "ship")
-      clientServce.getPastShipReservations(JSON.parse(localStorage.user).id)
+      reservationServce.getPastShipReservations(JSON.parse(localStorage.user).id)
           .then(response =>{
             this.cottageReservationHistory = response.data;
-
+            this.listLength = this.cottageReservationHistory.length;
           })
     else if (this.type == "cottage")
-      clientServce.getPastCottageReservations(JSON.parse(localStorage.user).id)
+      reservationServce.getPastCottageReservations(JSON.parse(localStorage.user).id)
           .then((response) => {
             this.cottageReservationHistory = response.data;
+            this.listLength = this.cottageReservationHistory.length;
             }
       );
+    else if (this.type == "adventure")
+      reservationServce.getPastAdventureReservations(JSON.parse(localStorage.user).id)
+          .then((response) => {
+                this.cottageReservationHistory = response.data;
+                this.listLength = this.cottageReservationHistory.length;
+              }
+          );
 
   },
   methods : {
+    fromUntilElement(from){
+      this.fromElement = from;
+      this.forceRemounting();
+    },
     itemReviewed(itemID){
       console.log(itemID);
       for (let offer of this.cottageReservationHistory){
@@ -95,88 +91,78 @@ export default {
       console.log(document.getElementById("sortBy").value);
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 3 && this.type == "cottage"){
-        clientServce.getSortedPastCottageReservationsByName(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastCottageReservationsByName(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       } else if (sortBy == 1 && this.type == "cottage"){
-        clientServce.getSortedPastCottageReservationsByDate(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastCottageReservationsByDate(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 2 && this.type == "cottage"){
-        clientServce.getSortedPastCottageReservationsByDuration(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastCottageReservationsByDuration(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 4 && this.type == "cottage"){
-        clientServce.getSortedPastCottageReservationsByPrice(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastCottageReservationsByPrice(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 3 && this.type == "ship"){
-        clientServce.getSortedPastShipReservationsByName(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastShipReservationsByName(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       } else if (sortBy == 1 && this.type == "ship"){
-        clientServce.getSortedPastShipReservationsByDate(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastShipReservationsByDate(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 2 && this.type == "ship"){
-        clientServce.getSortedPastShipReservationsByDuration(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastShipReservationsByDuration(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 4 && this.type == "ship"){
-        clientServce.getSortedPastShipReservationsByPrice(JSON.parse(localStorage.user).id)
+        reservationServce.getSortedPastShipReservationsByPrice(JSON.parse(localStorage.user).id)
             .then(response =>{
               this.cottageReservationHistory = response.data;
               this.forceRemounting();
             })
+      }else if (sortBy == 3 && this.type == "adventure"){
+        reservationServce.getSortedPastAdventureReservationsByName(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      } else if (sortBy == 1 && this.type == "adventure"){
+        reservationServce.getSortedPastAdventureReservationsByDate(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 2 && this.type == "adventure"){
+        reservationServce.getSortedPastAdventureReservationsByDuration(JSON.parse(localStorage.user).id)
+            .then(response =>{
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 4 && this.type == "adventure") {
+        reservationServce.getSortedPastAdventureReservationsByPrice(JSON.parse(localStorage.user).id)
+            .then(response => {
+              this.cottageReservationHistory = response.data;
+              this.forceRemounting();
+            })
       }
-    },
-    makeMiddleNumber(){
-      let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;
-      return Math.ceil(numPages / 2);
-    },
-    makeLastNumber(){
-      let numPages = this.cottageReservationHistory.length / this.numberOfElementsForDisplay;
-      return Math.ceil(numPages);
-    },
-    makeFirstLink(){
-      this.fromElement = 0;
-      this.forceRemounting();
-    },
-    makeMiddleLink(){
-      this.fromElement = (this.makeMiddleNumber()-1) * this.numberOfElementsForDisplay;
-      this.forceRemounting();
-    },
-    makeLastLink(){
-      this.fromElement = (this.makeLastNumber()-1) * this.numberOfElementsForDisplay;
-      this.forceRemounting();
-    },
-    makePreviousLink(){
-      let previousFrom = parseInt(this.fromElement) - parseInt(this.numberOfElementsForDisplay);
-      if (previousFrom < 0)
-        return
-      this.fromElement = previousFrom;
-      this.forceRemounting();
-    },
-    makeNextLink(){
-      let nextFrom = parseInt(this.fromElement) + parseInt(this.numberOfElementsForDisplay);
-      if (nextFrom > parseInt(this.cottageReservationHistory.length))
-        return
-      this.fromElement = nextFrom;
-      this.forceRemounting();
     },
     checkIfNeedsToBeDisplayed(index){
       let untilElement = parseInt(this.numberOfElementsForDisplay) + parseInt(this.fromElement);
@@ -192,8 +178,9 @@ export default {
   data() {
     return {
       myKey: 0,
+      fromElement: 0,
       cottageReservationHistory: [],
-      numberOfElementsForDisplay: 2
+      numberOfElementsForDisplay: 3
     }
   }
 }
