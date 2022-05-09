@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import shipServce from "@/servieces/ShipServce";
+import shipService from "@/servieces/ShipService";
 import SiteShipElement from "@/components/main_site/siteShipElement";
 
 export default {
   name: "site-cottage-list",
   components: {SiteShipElement},
   mounted() {
-    shipServce.getShips().then(
+    shipService.getAllShips().then(
         (response) => {
           this.cottages = response.data;
         }

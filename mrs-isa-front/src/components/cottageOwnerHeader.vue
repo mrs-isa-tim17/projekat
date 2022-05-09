@@ -10,14 +10,14 @@
           <div style="display:inline-block;vertical-align:bottom;">ENJOY</div>
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" id="first" style="color:white;font-size: 20px;" aria-current="page" :href="myOffers">Moje ponude</a>
+          <li class="nav-item active">
+            <a class="nav-link" id="first" style="color:white;font-size: 20px;" aria-current="page" :href="myOffers">Moje ponude</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  " style="color:white;font-size: 20px;" :href="calendar" >Kalendar</a>
+            <a class="nav-link" style="color:white;font-size: 20px;" :href="calendar" >Kalendar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="historyReservations">Istorija rezervacija </a>
+            <a class="nav-link" style="color:white;font-size: 20px;" :href="historyReservations">Istorija rezervacija </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>

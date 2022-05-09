@@ -1,36 +1,37 @@
 <template>
 
-  <div >
-    <div class="d-flex justify-content-center mw-90" >
-      <div class="card mb-3 mw-90" style="width: 80%;">
-
-        <div class="row g-0" style="background-color: #8FC1E3;color:#F7F9FB;">
-
-          <div class="col-md-4">
-
-          </div>
-
-
-          <div class="col-md-8">
-            <div class="card-body">
-
-              <div class="card-title text-black d-flex justify-content-lg-start" style="color:#F7F9FB" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</div>
-
-              <div class="card-title text-black d-flex justify-content-lg-start" style="color:#F7F9FB" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">adresa</div>
-
-              <div class="card-text">
-                <div class="row">
-                  <div class="col-5 " @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
-                    <b>Opis:</b>{{cottage.description}}<br><b>Cena:</b> {{cottage.price}} din
-                  </div>
-
-                  <div class="col-7">
-                    <button id="deleteShip" @click="deleteShip">Obriši brod</button><br>
-                    <br>
-                    <button @click="updateDataPage">Izmeni podatke</button>
-                  </div>
-
+  <div class="d-flex justify-content-center mw-90" >
+    <div class="card mb-3 mw-90" style="width: 90%;">
+      <div class="row g-0" style="background-color: #31708E;color:#F7F9FB;">
+        <div class="col-4">
+          <img :src="require('@/assets/' + image)" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+        </div>
+        <div class="col-8">
+          <div class="row">
+            <div class="col-4">
+              <div class="card-body">
+                <h5 class="card-title" style="border:1px solid #687864;background-color:#687864">{{ship.name}}</h5>
+                <div class="card-text" style="text-align: left;">
+                  <b>Kapacitet: </b>{{ship.capacity}} osoba<br>
+                  <b>Cena: </b>{{ship.price}} din.<br>
+                  {{ship.description}}
                 </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card-body">
+
+                <bird-vue-map :index="ship.id" style="width: 280px; height: 200px;" :lon="ship.longitude" :lat="ship.latitude"></bird-vue-map>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card-body">
+                <button id="deleteCottage" @click="deleteShip">Obriši brod</button>
+                <br>
+                <br>
+                <button @click="updateDataPage">Izmeni podatke</button>
               </div>
             </div>
           </div>
@@ -38,18 +39,28 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import $ from "jquery";
+import BirdVueMap from "@/components/main_site/birdVueMap";
 import ShipService from "@/servieces/ShipService";
 export default {
   name: "shipElement",
   props: ["ship"],
+  components:{BirdVueMap},
   data(){
     return{
+      image:"",
 
-
+    }
+  },
+  created() {
+    if (this.ship.images[0] != null) {
+      this.image = this.ship.images[0];
+    }else {
+      this.image = "icons/ship.png";
     }
   },
   methods:{

@@ -2,6 +2,8 @@ package com.project.mrsisa.service;
 
 import java.util.List;
 
+
+import com.project.mrsisa.domain.ShipOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,9 @@ public class ShipService {
 	
 	public void remove(Long id) {
 		shipRepository.deleteById(id);
+	}
+
+	public List<Ship> getShipsByOwner(ShipOwner owner){
+		return shipRepository.findByOwner(owner);
 	}
 }

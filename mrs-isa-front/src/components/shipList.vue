@@ -30,7 +30,7 @@ export default {
     ShipService.getShipByOwner(this.coID)
         .then((response)=>{
           this.allShips = response.data;
-          console.log(this.allCottages);
+          console.log(this.allShips);
         })
   },
   methods:{

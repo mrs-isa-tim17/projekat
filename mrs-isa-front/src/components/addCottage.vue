@@ -1,4 +1,6 @@
 <template>
+  <div class="container">
+    <cottageOwnerHeader></cottageOwnerHeader>
   <div id="dataForm" class="row">
     <div class="column">
     <label>Naziv vikendice</label><br>
@@ -99,6 +101,10 @@
       </div>
     </div>
         </div>
+      <button id="addButton" style="margin-top:50px;" @click="addCottage">Dodaj</button><br>
+      <br>
+      <button id="cancelButton" @click="back">Odustani</button><br>
+
       </div>
 
     <div class="column">
@@ -128,8 +134,7 @@
     </div>
     <br>
 
-    <button id="cancelButton" @click="back">Odustani</button>
-    <button id="addButton" @click="addCottage">Dodaj</button>
+</div>
   </div>
 
 </template>
@@ -137,10 +142,11 @@
 <script>
 import OpenMaps from "@/components/VueMaps";
 import CottageService from "@/servieces/CottageService";
+import cottageOwnerHeader from "@/components/cottageOwnerHeader"
 export default {
   name: "addCottage",
   components:{
-    OpenMaps
+    OpenMaps, cottageOwnerHeader
   },
   methods:{
       updateCoordinats(lon, lat){
@@ -198,10 +204,10 @@ export default {
   font-size: 17px;
   padding: 20px;
   width: 90%;
-  height: 90%;
+  height: 80%;
   position: absolute;
   left: 37%;
-  top: 50%;
+  top: 55%;
   transform: translate(-35%, -50%);
   color: #5F9F9F;
 }
@@ -212,12 +218,12 @@ export default {
 }
 #addButton{
   width:200px;
-  margin-left:50px;
+
 
 }
 #cancelButton{
   width:200px;
-  margin-left: 400px;
+
 }
 #behaviorRules{
 

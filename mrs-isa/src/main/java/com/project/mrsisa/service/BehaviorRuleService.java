@@ -28,7 +28,7 @@ public class BehaviorRuleService {
 		return behaviorRuleRepository.findOneById(id);
 	}
 	
-	public List<BehaviorRule> findAllByAdventureId(Long id){
+	public List<BehaviorRule> findAllByOfferId(Long id){
 		return behaviorRuleRepository.findAllByOfferId(id);
 	}
 

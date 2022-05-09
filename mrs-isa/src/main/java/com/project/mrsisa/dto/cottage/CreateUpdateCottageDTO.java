@@ -140,13 +140,17 @@ public class CreateUpdateCottageDTO {
 
 	public CreateUpdateCottageDTO(Cottage cottage) {
 		this.roomQuantity=cottage.getRoomQuantity();
-		this.ownersEmail=cottage.getOwner().getEmail();
+		//this.ownersEmail=cottage.getOwner().getEmail();
 		this.bedQuantity=cottage.getBedQuantity();
 		//this.addressSerialNumber=cottage.getAddress().getSerialNumber();
 		this.name=cottage.getName();
 		this.description=cottage.getDescription();
 		this.deleted=cottage.isDeleted();
 		this.id=cottage.getId();
+	}
+
+	public CreateUpdateCottageDTO(){
+
 	}
 
 	public int getRoomQuantity() {

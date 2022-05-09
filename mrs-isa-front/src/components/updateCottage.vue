@@ -1,23 +1,32 @@
 <template>
+  <div>
+    <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      Uspesno izmenjeno!
+    </div>
   <div id="dataForm" class="row">
+
     <div class="column">
       <label>Naziv vikendice</label><br>
       <input id="name" name="name" type="text" style="width: 250px;margin-left:0px;" v-model="cottage.name" ><br>
       <br>
       <label>Adresa vikendice</label><br>
-      <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 250px; height: 250px; margin-left:30px;"></open-maps>
+      <open-maps :index="cottage.id" style="width: 280px; height: 200px;" :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats"></open-maps>
       <br>
+
       <label>Opis vikendice</label><br>
       <textarea id="description" name="description" type="text" rows="5" cols="26" v-model="cottage.description"></textarea> <br>
-      <br>
+
     </div>
     <div class="column">
+
       <label>Broj soba:  </label>
       <input id="roomsNumber" name="roomsNumber" type="number" size="6" style="width:100px;margin-left: 10px;" v-model="cottage.roomQuantity"><br><br>
       <label>Kapacitet:  </label>
       <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="cottage.bedQuantity"><br><br>
       <label style="margin-left: 27px;">Cena:  </label>
-      <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="cottage.price"><br>
+      <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="cottage.price">
+
     </div>
 
     <div class="column" >
@@ -99,6 +108,12 @@
           </div>
         </div>
       </div>
+
+    <br>
+     <button id="addButton"  style="margin-top:50px;" @click="updateCottage">Potvrdi izmene</button>
+      <br><br>
+      <button id="cancelButton" @click="back">Odustani</button><br>
+      <br>
     </div>
 
     <div class="column">
@@ -108,19 +123,19 @@
       <div class="p-2" style="border-style: solid; border-width: medium;">
 
         <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[0]"
+                                                                                     v-model="cottage.p1"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
-                                                                                    v-model="cottage.percentage[1]"
+                                                                                    v-model="cottage.p2"
                                                                                     size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[2]"
+                                                                                     v-model="cottage.p3"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[3]"
+                                                                                     v-model="cottage.p4"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
 
@@ -128,15 +143,15 @@
     </div>
     <br>
 
-    <button id="cancelButton" @click="back">Odustani</button>
-    <button id="addButton" @click="addCottage">Dodaj</button>
-  </div>
 
+  </div>
+  </div>
 </template>
 
 <script>
-import OpenMaps from "@/components/VueMaps";
+
 import CottageService from "@/servieces/CottageService";
+import OpenMaps from "@/components/VueMaps";
 export default {
   name: "addCottage",
   components:{
@@ -147,6 +162,7 @@ export default {
     let id = this.$route.params.id
     CottageService.getCottage(id).then((response) => {
       this.cottage = response.data;
+      console.log(this.cottage);
     })
   },
 
@@ -156,8 +172,12 @@ export default {
       this.cottage.latitude = lat;
       console.log(lon, lat)
     },
-    addCottage(){
-      CottageService.saveCottage(this.cottage);
+    updateCottage(){
+      CottageService.updateCottage(this.cottage).then((response)=>
+          {console.log(response.data);}
+      )
+      ;
+      document.getElementById("successChange").style.visibility = 'visible';
     },
     back(){
       this.$router.push('/owner/cottages');
@@ -189,7 +209,10 @@ export default {
         roomQuantity:"",
         additionalEquipment: [],
         days: ['5', '10', '15', '20'],
-        percentage: ['0', '0', '0', '0'],
+        p1:"",
+        p2:"",
+        p3:"",
+        p4:"",
         experienceReviews: [],
       }
     }
@@ -205,7 +228,7 @@ export default {
   font-size: 17px;
   padding: 20px;
   width: 90%;
-  height: 90%;
+  height: 80%;
   position: absolute;
   left: 37%;
   top: 50%;
@@ -219,12 +242,12 @@ export default {
 }
 #addButton{
   width:200px;
-  margin-left:50px;
+
 
 }
 #cancelButton{
   width:200px;
-  margin-left: 400px;
+
 }
 #behaviorRules{
 

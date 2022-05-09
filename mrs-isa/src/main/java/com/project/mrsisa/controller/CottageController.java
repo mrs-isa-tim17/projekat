@@ -27,6 +27,7 @@ import com.project.mrsisa.domain.BehaviorRule;
 import com.project.mrsisa.domain.CancelCondition;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
+import com.project.mrsisa.domain.Image;
 import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.CottageDTO;
 import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
@@ -141,7 +142,10 @@ public class CottageController {
 		List<Cottage> cottages = cottageService.findAll();
 		List<FindCottageDTO> cottageDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
-			cottageDTO.add(new FindCottageDTO(c));
+			 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(c.getId());
+			 List<Image> images = imageService.findAllByOfferId(c.getId());
+			 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(c.getId());
+			 cottageDTO.add(new FindCottageDTO(c,rules,images, cancelConditions));
 		}
 
 		return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
@@ -161,7 +165,10 @@ public class CottageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		FindCottageDTO cottageDTO = new FindCottageDTO(cottage);
+		 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(cottage.getId());
+		 List<Image> images = imageService.findAllByOfferId(cottage.getId());
+		 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(cottage.getId());
+		 FindCottageDTO cottageDTO = new FindCottageDTO(cottage,rules,images,cancelConditions);
 		
         return new ResponseEntity<FindCottageDTO>(cottageDTO, HttpStatus.OK);
 	}
@@ -173,8 +180,13 @@ public class CottageController {
 		List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
 
 		List<FindCottageDTO> cottagesDTO = new ArrayList<>();
+		
+		
 		for (Cottage c : cottages) {
-			cottagesDTO.add(new FindCottageDTO(c));
+			 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(c.getId());
+			 List<Image> images = imageService.findAllByOfferId(c.getId());
+			 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(c.getId());
+			 cottagesDTO.add(new FindCottageDTO(c,rules,images,cancelConditions));
 		}
 		return new ResponseEntity<>(cottagesDTO, HttpStatus.OK);
 	}
@@ -193,22 +205,22 @@ public class CottageController {
 		}
 	}
 	
-	@PutMapping(consumes = "application/json",value="/update")
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,value="/update")
 	public ResponseEntity<CreateUpdateCottageDTO> updateCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
 
-		// a student must exist
+
 		Cottage cottage = cottageService.findOne(cottageDTO.getId());
 
 		if (cottage == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		cottage.setId(cottageDTO.getId());
+
 		//cottage.setAddress(cottageDTO.getAddress());
 		//cottage.setOwner(cottageDTO.getOwner());
 		cottage.setBedQuantity(cottageDTO.getBedQuantity());
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
-		cottage.setDeleted(cottageDTO.isDeleted());
+
 	
 
 		cottage = cottageService.save(cottage);

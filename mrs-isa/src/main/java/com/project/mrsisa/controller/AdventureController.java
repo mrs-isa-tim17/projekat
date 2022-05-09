@@ -259,7 +259,7 @@ public class AdventureController {
 	
 	private AdventureDTO formAdventureDTO(Adventure adventure) {
 		Long adventureId = adventure.getId(); 
-		List<BehaviorRule> behaviorRules = behaviorRuleService.findAllByAdventureId(adventureId);
+		List<BehaviorRule> behaviorRules = behaviorRuleService.findAllByOfferId(adventureId);
 		List<Image> images = imageService.findAllByAdventureId(adventureId);
 		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
 		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(adventureId);

@@ -1,6 +1,6 @@
 
-insert into address (longitude, latitude) values (28, 45);
-insert into address (longitude, latitude) values (70, 80);
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
 insert into address (longitude, latitude) values (42, -30);
 insert into address (longitude, latitude) values (10, 30);
 insert into address (longitude, latitude) values (80, 10);
@@ -56,7 +56,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 
 
 insert into cottage (id, deleted,description, name, address_id, bed_quantity, room_quantity, owner) values
-	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 4, 2, 3);
+	(nextval('offer_seq'), false, ' Ponuda obuhvata restoran, vrt, terasu i smeštaj sa pogledom na planinu.', 'Meda na Tari', 1, 4, 2, 3);
 
 insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
@@ -114,39 +114,39 @@ insert into experience_review (rate, status, text, client_id, offer_id) values(5
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava', 'B myName', 3, 4, 2, 3);
+    values (nextval('offer_seq'), false, 'Idealno mesto za odmor', 'Šumske priče Divčibare', 1, 4, 2, 3);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 2', 'Z Next name', 4, 4, 2, 3);
+    values (nextval('offer_seq'), false, 'U objektu Kedar se služi kontinentalni doručak.', 'Kedar Goč', 4, 4, 2, 3);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 3' , 'A Neverovatno ime', 5, 4, 2, 3);
+    values (nextval('offer_seq'), false, 'Iz objekta se pruža pogled na vrt i planinu.' , 'Holiday Home Golija', 5, 4, 2, 3);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava 4', 'N Last name', 6, 4, 2, 3);
+    values (nextval('offer_seq'), false, 'Ova mala farma okružena je planinskom rekom i tipičnim srpskim seoskim krajolikom.', 'Bogut Bogutovac', 6, 4, 2, 3);
 
 insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'L Neverovatno ime', 7, 4,
-    'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
-
-
-insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
- length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'T Neverovatno ime', 8, 4,
-    'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
+    values (nextval('offer_seq'), false, 'Svakog gosta dočekaće piće dobrodošlice i snekovi.', 'Nimbus 3100', 7, 4,
+    'Volvo 3.6 l', 165, 100, 15, 1, 'tipppp', 4);
 
 
 insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'A Neverovatno ime', 9, 4,
-    'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
+    values (nextval('offer_seq'), false, 'Aluminijumski deplasmanski brod sa mahagoni enterijerom.', 'Dionis', 8, 7,
+    'Motor dizel Timray 50', 2222, 9, 10, 1, 'tipppp', 4);
 
 
 insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
  length, max_speed, navigation_equipment, type, owner)
-    values (nextval('offer_seq'), false, 'Najbolja zabava brod', 'B Neverovatno ime', 10, 4,
-    'engine destignation', 2222, 455, 122, 1, 'tipppp', 4);
+    values (nextval('offer_seq'), false, 'Brod za manje zabave.', 'Party', 9, 25,
+    'engine destignation', 2222, 15, 10, 1, 'tipppp', 4);
+
+
+insert into ship (id, deleted, description, name, address_id, capacity, engine_designation, engine_power,
+ length, max_speed, navigation_equipment, type, owner)
+    values (nextval('offer_seq'), false, 'Namenjen je turističkim obilascima duž Dunava.', 'Silver Star', 10, 200,
+    'engine destignation', 2222, 50, 20, 1, 'tipppp', 4);
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
@@ -175,14 +175,31 @@ insert into pricelist (end_date, price, start_date, offer_id) values (null, 1200
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 14);
 
 
-insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
+insert into image (path, offer_id) values ('img/cottage/meda/meda.jpg', 1);
+insert into image (path, offer_id) values ('img/cottage/meda/meda1.jpg', 1);
+insert into image (path, offer_id) values ('img/cottage/meda/meda2.jpg', 1);
 --insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 2);
-insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 5);
-insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
-insert into image (path, offer_id) values ('img/ship/4/41.jpg', 6);
---insert into image (path, offer_id) values ('img/ship/3/31.jpg', 6);
-insert into image (path, offer_id) values ('img/ship/2/21.jpg', 7);
-insert into image (path, offer_id) values ('img/ship/1/11.jpg', 8);
+insert into image (path, offer_id) values ('img/cottage/suma/suma.jpg', 3);
+insert into image (path, offer_id) values ('img/cottage/suma/suma1.jpg', 3);
+insert into image (path, offer_id) values ('img/cottage/kedar/kedar.jpg', 4);
+insert into image (path, offer_id) values ('img/cottage/kedar/kedar1.jpg', 4);
+insert into image (path, offer_id) values ('img/cottage/kedar/kedar2.jpg', 4);
+insert into image (path, offer_id) values ('img/cottage/holiday/holiday.jpg', 5);
+insert into image (path, offer_id) values ('img/cottage/holiday/holiday1.jpg', 5);
+insert into image (path, offer_id) values ('img/cottage/bogut/bogut.jpg', 6);
+insert into image (path, offer_id) values ('img/cottage/bogut/bogut1.jpg', 6);
+insert into image (path, offer_id) values ('img/cottage/bogut/bogut2.jpg', 6);
+
+insert into image (path, offer_id) values ('img/ship/nimbus/nimbus.jpg', 7);
+insert into image (path, offer_id) values ('img/ship/nimbus/nimbus1.jpg', 7);
+insert into image (path, offer_id) values ('img/ship/nimbus/nimbus2.jpg',7);
+insert into image (path, offer_id) values ('img/ship/dionis/dionis.jpg',8);
+insert into image (path, offer_id) values ('img/ship/dionis/dionis1.jpg',8);
+insert into image (path, offer_id) values ('img/ship/party/party',9);
+insert into image (path, offer_id) values ('img/ship/party/party2.jpg',9);
+insert into image (path, offer_id) values ('img/ship/party/party1.jpg',9);
+insert into image (path, offer_id) values ('img/ship/silverstar/silverstar1.jpg',10);
+insert into image (path, offer_id) values ('img/ship/silverstar/silverstar.jpg',10);
 
 insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 9);
 insert into image (path, offer_id) values ('img/instructor/images.jpg', 10);

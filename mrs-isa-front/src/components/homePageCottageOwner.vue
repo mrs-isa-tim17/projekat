@@ -1,6 +1,7 @@
 <template>
-<div>
+<div class="container">
   <ownerHeader></ownerHeader>
+
 </div>
 </template>
 
@@ -8,7 +9,7 @@
 import ownerHeader from "@/components/cottageOwnerHeader";
 export default {
   name: "cottageOwnerHome",
-  components:{ownerHeader}
+  components:{ ownerHeader}
 }
 </script>
 
