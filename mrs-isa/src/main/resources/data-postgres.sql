@@ -40,7 +40,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
-	('CO', nextval('user_seq'), false, 'mpetrovic764307@gmail.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+38177590', 'Samcovic', 0, 3, '2017-10-01 18:57:58.508-07',3,true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
@@ -154,10 +154,10 @@ insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 1
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 16);
 
 
-insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 17);
-insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 18);
-insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 19);
-insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 20);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 17);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 18);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 19);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 20);
 
 insert into image (path, offer_id) values('img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina2.jpg', 2);
@@ -204,23 +204,23 @@ insert into ship (id, deleted, description, name, address_id, capacity, engine_d
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 12, 8,
+	(nextval('offer_seq'), false, 'Best adventure ever', 'Pecanje na Dunavu', 12, 8,
 	'Im the best instructor ever', 2);
 
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Palić', 'Fishing on the Lake', 13, 10,
+	(nextval('offer_seq'), false, 'Palić', 'Palić', 13, 10,
 	'Humbalee humbalaa', 2);
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Sava', 'Fishing on the Lake', 14, 2,
+	(nextval('offer_seq'), false, 'Sava', 'Sava', 14, 2,
 	'Oxfort oxfort oxy foxy roxfort', 2);
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
-	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Fishing on the Lake', 15, 6,
+	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Comfy on the Tisa', 15, 6,
 	'Instruktor instruktor instruktor, najbolji na svetu', 2);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 11);

@@ -3,7 +3,7 @@
     <div class="ui left icon input big">
       <i class="fa fa-key icon"></i>
       <input
-          type="passwordAgain"
+          type="password"
           placeholder="Ponovi lozinku"
           autocomplete="off"
           v-model="input"

@@ -148,9 +148,11 @@ public class AdventureController {
 	
 		
 		adventure = adventureService.save(adventure);
-		System.out.println("update in database");
 		
-		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
+		System.out.println("update in database");
+		AdventureDTO newadvDTo = formAdventureDTO(adventure);
+		
+		return new ResponseEntity<>(newadvDTo, HttpStatus.OK);
 	}
 	
 	
@@ -292,6 +294,8 @@ public class AdventureController {
 		adventure.getAddress().setLatitude(adventureDTO.getLatitude());
 		adventure.getAddress().setLongitude(adventureDTO.getLongitude());
 		adventure.setCapacity(adventureDTO.getCapacity());
+		System.out.println("++++" +adventureDTO.getCapacity());
+		System.out.println("++++++++"+adventure.getCapacity());
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
 

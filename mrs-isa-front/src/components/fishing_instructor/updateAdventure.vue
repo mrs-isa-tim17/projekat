@@ -228,6 +228,7 @@ export default {
         this.adventure = response.data;
         console.log(this.adventure);
         console.log(this.adventure.behavioralRules);
+        console.log("capacity" + this.adventure.capacity)
       })
     }
   ,

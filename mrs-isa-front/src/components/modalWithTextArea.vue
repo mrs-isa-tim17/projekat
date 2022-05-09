@@ -14,7 +14,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              Razlog za brisanje naloga:
               <textarea class="my-4" rows="5" cols="50" name="text" v-model="text"></textarea>
           </div>
           <div class="modal-footer">

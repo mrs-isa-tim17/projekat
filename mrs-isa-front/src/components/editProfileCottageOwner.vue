@@ -1,9 +1,9 @@
 <template>
   <div class="container">
   <cottageOwnerHeader></cottageOwnerHeader>
-    <div class="alert alert-success alert-dismissible fade show" id="successChangePass" role="alert" style="visibility: hidden;">
+    <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Lozinka uspesno izmenjena!
+      Uspesno izmenjeno!
     </div>
     <div class="alert alert-danger alert-dismissible fade show" id="notSuccessChangePass" role="alert" style="visibility: hidden;">
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -166,6 +166,7 @@ export default {
     },
     updateProfile(){
       CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
+      document.getElementById("successChange").style.visibility = 'visible';
       this.backup[0] = this.owner.name;
       this.backup[1] = this.owner.surname;
       this.backup[2] = this.owner.phoneNumber;
@@ -188,7 +189,7 @@ export default {
       PasswordService.matchPassword(this.passwords,this.coID)
           .then((response)=>{
                 if(response.data){
-                  document.getElementById("successChangePass").style.visibility = 'visible';
+                  document.getElementById("successChange").style.visibility = 'visible';
                 }
                 else{
                   document.getElementById("notSuccessChangePass").style.visibility = 'visible';
