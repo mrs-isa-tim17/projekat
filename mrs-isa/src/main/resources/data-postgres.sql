@@ -14,7 +14,7 @@ insert into address (longitude, latitude) values (10, 30);
 insert into address (longitude, latitude) values (80, 10);
 insert into address (longitude, latitude) values (0, -30);
 insert into address (longitude, latitude) values (11, 70);
-
+insert into address (longitude, latitude) values (16, 16);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -36,7 +36,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
-	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	('CO', nextval('user_seq'), false, 'mpetrovic764307@gmail.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+38177590', 'Samcovic', 0, 3, '2017-10-01 18:57:58.508-07',3,true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
@@ -54,7 +54,15 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3817885', 'Milanovic', 0, 11, '2017-10-01 18:57:58.508-07',4, true);
 
+	
+	
+insert into users(type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled, init_login_changed) values
+	('AD', nextval('user_seq'), false, 'admin@email.com', 0, 'Žika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3853252', 'Žikić', 0, 16, '2017-10-01 18:57:58.508-07',2,true, true);
 
+	
+	
 insert into cottage (id, deleted,description, name, address_id, bed_quantity, room_quantity, owner) values
 	(nextval('offer_seq'), false, 'Best cottage ever', 'Cottage on the Lake', 1, 4, 2, 3);
 
@@ -93,10 +101,52 @@ insert into cancel_condition (days, precent) values (10, 10);
 insert into cancel_condition (days, precent) values (15, 0);
 insert into cancel_condition (days, precent) values (20, 0);
 
+
+insert into cancel_condition (days, precent) values (5, 3);
+insert into cancel_condition (days, precent) values (10, 7);
+insert into cancel_condition (days, precent) values (15, 8);
+insert into cancel_condition (days, precent) values (20, 9);
+
+insert into cancel_condition (days, precent) values (5, 13);
+insert into cancel_condition (days, precent) values (10, 17);
+insert into cancel_condition (days, precent) values (15, 18);
+insert into cancel_condition (days, precent) values (20, 19);
+
+insert into cancel_condition (days, precent) values (5, 5);
+insert into cancel_condition (days, precent) values (10, 0);
+insert into cancel_condition (days, precent) values (15, 0);
+insert into cancel_condition (days, precent) values (20, 0);
+
+insert into cancel_condition (days, precent) values (5, 0);
+insert into cancel_condition (days, precent) values (10, 0);
+insert into cancel_condition (days, precent) values (15, 0);
+insert into cancel_condition (days, precent) values (20, 0);
+
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 1);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 2);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 3);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 4);
+
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 5);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 6);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 7);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 8);
+
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (12, 9);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (12, 10);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (12, 11);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (12, 12);
+
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 13);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 14);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 15);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (13, 16);
+
+
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 17);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 18);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 19);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (15, 20);
 
 insert into image (path, offer_id) values('img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina2.jpg', 2);
@@ -206,4 +256,9 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10);
+    
+    
+insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
+ insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
 
+ 
