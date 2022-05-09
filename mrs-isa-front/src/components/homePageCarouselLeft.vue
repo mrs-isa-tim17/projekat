@@ -6,20 +6,18 @@
         <div class="carousel-inner px-2" >
 
           <div class="carousel-item active" @click="goToOffer(item)">
-            <img :src="offers[0].images[0]" class="d-block w-100" alt="...">
+            <img :src="genereteImgUrl(offers[0])" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">
 
                 <h5 class="text-black" style="opacity: 1;">{{offers[0].name}}</h5>
-                <h6 class="text-black" style="opacity: 1;">{{offers[0].address.country}}, {{offers[0].address.city}}</h6>
                 <p class="text-black" style="opacity: 1;">{{ offers[0].description }}</p>
               </div>
           </div>
 
           <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id" @click="goToOffer(item)">
-            <img :src="item.images[0]" class="d-block w-100" alt="..." >
+            <img :src="genereteImgUrl(item)" class="d-block w-100" alt="..." >
               <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">
                 <h5 class="text-black" style="opacity: 1;">{{item.name}}</h5>
-                <h6 class="text-black" style="opacity: 1;">{{item.address.country}}, {{item.address.city}}</h6>
                 <p class="text-black" style="opacity: 1;">{{ item.description }}</p>
               </div>
           </div>
@@ -40,9 +38,9 @@
     </div>
 
     <div class="col-6" >
-      <h3> {{ title }} </h3>
+      <h3 class="text-black"> {{ title }} </h3>
       <br>
-      <p>{{ description }}</p>
+      <p class="text-black">{{ description }}</p>
 
     </div>
 
@@ -60,6 +58,11 @@ export default {
       }
   ,
   methods: {
+    genereteImgUrl(offer){
+      if (offer !== undefined && offer.images !== undefined && offer.images[0] !== undefined)
+        return require('@/assets/' + offer.images[0]);
+      return require('@/assets/icons/adventurer.png');
+    },
     filterOffers(){
       if (this.offers.length > 1){
         return this.offers.slice(1);

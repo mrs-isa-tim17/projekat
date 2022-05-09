@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
+import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,6 +60,18 @@ public class CottageController {
 			cottagesDTO.add(dto);
 		}
 		System.out.println("Number of cottagesDTO: " + cottagesDTO.size());
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@GetMapping(value = "/site/short")
+	public ResponseEntity<List<OfferForHomePageViewDTO>> getCottagesForHomePage(){
+		List<Cottage> cottages = cottageService.findAll();
+		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		for (Cottage c : cottages) {
+			c.setImages(imageService.findAllByOfferId(c.getId()));
+			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
+			cottagesDTO.add(dto);
+		}
 		return ResponseEntity.ok(cottagesDTO);
 	}
 

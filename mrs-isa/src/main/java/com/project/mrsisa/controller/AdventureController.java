@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
+import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.ImageService;
@@ -95,6 +96,18 @@ public class AdventureController {
 			shipsDTO.add(dto);
 		}
 		return ResponseEntity.ok(shipsDTO);
+	}
+
+	@GetMapping(value = "/site/short")
+	public ResponseEntity<List<OfferForHomePageViewDTO>> getAdventuresForHomePage(){
+		List<Adventure> adventures = adventureService.findAll();
+		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		for (Adventure c : adventures) {
+			c.setImages(imageService.findAllByOfferId(c.getId()));
+			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
+			cottagesDTO.add(dto);
+		}
+		return ResponseEntity.ok(cottagesDTO);
 	}
 
 	public AdventureController(AdventureService adventureService2) {

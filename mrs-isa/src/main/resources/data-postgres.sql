@@ -169,16 +169,18 @@ insert into pricelist (end_date, price, start_date, offer_id) values (null, 1200
 
 
 insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
---insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 2);
-insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 5);
+insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 3);
 insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
-insert into image (path, offer_id) values ('img/ship/4/41.jpg', 6);
---insert into image (path, offer_id) values ('img/ship/3/31.jpg', 6);
-insert into image (path, offer_id) values ('img/ship/2/21.jpg', 7);
+insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 5);
+insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 6);
+
+insert into image (path, offer_id) values ('img/ship/4/41.jpg', 7);
+insert into image (path, offer_id) values ('img/ship/3/31.jpg', 10);
+insert into image (path, offer_id) values ('img/ship/2/21.jpg', 9);
 insert into image (path, offer_id) values ('img/ship/1/11.jpg', 8);
 
-insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 9);
-insert into image (path, offer_id) values ('img/instructor/images.jpg', 10);
+insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 13);
+insert into image (path, offer_id) values ('img/instructor/images.jpg', 14);
 insert into image (path, offer_id) values ('img/instructor/906z513_PECANJE2310pog.jpg', 11);
 insert into image (path, offer_id) values ('img/instructor/maxresdefault.jpg', 12);
 
