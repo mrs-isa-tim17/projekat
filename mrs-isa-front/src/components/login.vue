@@ -55,7 +55,7 @@ export default {
           this.$router.push("/client/home");
         }
         else if (response.roleID === 2){
-          this.$router.push("/client/home");//admin
+          this.$router.push("/admin/home");//admin
         }
         else if (response.roleID === 3){
           this.$router.push("/cottageOwner/home");
