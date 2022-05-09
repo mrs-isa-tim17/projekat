@@ -1,8 +1,12 @@
 <template>
-  <div id="client-home-page" v-cloak>
+  <div id="client-home-page" >
     <!--<client-header></client-header>-->
     <clientHeader></clientHeader>
     <div class="container">
+      <div class="alert alert-danger" role="alert" v-if="deleteRequestMade">
+        {{deleteRequestMadeMessage}}
+      </div>
+
       <div class="alert alert-danger" role="alert" v-if="penalties == 3">
         {{textThreePanelty}}
       </div>
@@ -56,8 +60,9 @@
       <div class="row justify-content-center ">
         <clientHomePageOption :image_path="complaintImgPath" :option_link="complaintLink" :text="complaintText"></clientHomePageOption>
 
-        <clientHomePageOption :image_path="deleteAccImgPath" :option_link="deleteAccLink"
-                       :text="deleteAccText"></clientHomePageOption>
+        <request-for-deleting-account-modal v-show="!deleteRequestMade" :image_path="deleteAccImgPath" :option_link="deleteAccLink"
+                       :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"
+                      ></request-for-deleting-account-modal>
 
         <clientHomePageOption :image_path="profileImgPath" :option_link="profileLink" :text="profileText"></clientHomePageOption>
       </div>
@@ -75,16 +80,42 @@
 <script>
 import clientHomePageOption from "@/components/clientHomePageOption";
 import clientHeader from "@/components/clientHeader";
+import ClientServce from "@/servieces/ClientServce";
+import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
 //import clientServce from "@/servieces/ClientServce";
 export default {
   name: "client-home",
   components: {
+    RequestForDeletingAccountModal,
     clientHomePageOption,
     clientHeader
   },
+  methods:{
+  },
+  created:
+      function () {
+        try {
+          this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+          ClientServce.getClientPenalties(this.clientID)
+              .then((response) => {
+                console.log("Response" + response);
+                this.penalties = response.data.penalties;
+                this.deleteRequestMade = response.data.deleteRequestMade;
+                if (this.deleteRequestMade)
+                  localStorage.user = null;
+              })
+        }catch(error){
+          console.log(error);
+          this.penalties = 0;
+          this.deleteRequestMade = true;
+        }
+      },
   data() {
     return {
       penalties: 3,
+      deleteRequestMade: false,
+      deleteRequestMadeMessage: "Napravili ste zahtev za brisanje dok zahtev nije odbijen ne možete više koristiti aplikaciju",
+
       textOnePanelty: "Ups, imate jedan penal.\nAko sakupite 3 panele, ne možete više da rezervišete u tom mesecu.",
       textTwoPanelty: "Budite oprezni imate 2 panele. \nAko dobijete treći panel, ne možete da koristite sajt do kraja meseca.",
       textThreePanelty: "Imate 3 panele, do kraja meseca ne možete da rezervišete entitete.",
@@ -123,10 +154,12 @@ export default {
       deleteAccImgPath: require("@/assets/icons/deleteAcc.png"),
       deleteAccLink:"...",
       deleteAccText: "Brisanje naloga",
+      deleteAccHeader: "Razlog za brisanje",
+      deleteAccModal: "modalId",
 
       profileImgPath: require("@/assets/icons/profile.png"),
       profileLink: "/client/profile",
-      profileText: "Profil"
+      profileText: "Profil",
 
     }
   }

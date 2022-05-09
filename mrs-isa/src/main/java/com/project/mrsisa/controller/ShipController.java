@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.domain.Cottage;
+import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +45,12 @@ public class ShipController {
 	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
 		List<Ship> ships = shipService.findAll();
 		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
-		for (Ship ship : ships) {
+		System.out.println("Ships number: " + ships.size());
+;		for (Ship ship : ships) {
 			ship.setImages(imageService.findAllByOfferId(ship.getId()));
 			ShipForListViewDTO dto = new ShipForListViewDTO(ship);
 			dto.setPrice(pricelistService.getCurrentPriceOfOffer(ship.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP));
 			shipsDTO.add(dto);
 		}
 		return ResponseEntity.ok(shipsDTO);
@@ -69,6 +73,18 @@ public class ShipController {
         }
         return new ResponseEntity<>(shipsDTO, HttpStatus.OK);
     }
+	@GetMapping(value = "/site/short")
+	public ResponseEntity<List<OfferForHomePageViewDTO>> getShipsForHomePage(){
+		List<Ship> ships = shipService.findAll();
+		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		for (Ship c : ships) {
+			c.setImages(imageService.findAllByOfferId(c.getId()));
+			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
+			cottagesDTO.add(dto);
+		}
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<ShipDTO> saveShip(@RequestBody ShipDTO shipDTO) {
 

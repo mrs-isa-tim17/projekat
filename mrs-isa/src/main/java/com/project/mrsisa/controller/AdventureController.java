@@ -5,8 +5,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
+import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.ImageService;
@@ -24,15 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Address;
-import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.ExperienceReview;
-import com.project.mrsisa.domain.FishingEquipment;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.AdventureDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
@@ -100,10 +92,22 @@ public class AdventureController {
 			adventure.setImages(imageService.findAllByOfferId(adventure.getId()));
 			AdventureForListViewDTO dto = new AdventureForListViewDTO(adventure);
 			dto.setPrice(pricelistService.getCurrentPriceOfOffer(adventure.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE));
 			shipsDTO.add(dto);
 		}
 		return ResponseEntity.ok(shipsDTO);
+	}
+
+	@GetMapping(value = "/site/short")
+	public ResponseEntity<List<OfferForHomePageViewDTO>> getAdventuresForHomePage(){
+		List<Adventure> adventures = adventureService.findAll();
+		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		for (Adventure c : adventures) {
+			c.setImages(imageService.findAllByOfferId(c.getId()));
+			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
+			cottagesDTO.add(dto);
+		}
+		return ResponseEntity.ok(cottagesDTO);
 	}
 
 	public AdventureController(AdventureService adventureService2) {

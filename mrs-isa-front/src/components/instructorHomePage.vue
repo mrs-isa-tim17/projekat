@@ -37,8 +37,8 @@
         <instructorHomePageOption :image_path="profileImgPath" :option_link="profileLink"
                                   :text="profileText"></instructorHomePageOption>
 
-        <instructorHomePageOption :image_path="deleteAccImgPath" :option_link="deleteAccLink"
-                                  :text="deleteAccText"></instructorHomePageOption>
+        <request-for-deleting-account-modal :image_path="deleteAccImgPath" :option_link="deleteAccLink"
+                                            :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"></request-for-deleting-account-modal>
 
       </div>
     </div>
@@ -48,10 +48,12 @@
 <script>
 import instructorHomePageOption from "@/components/instructorHomePageOption";
 import instructorHeader from "@/components/insrtuctorHeader";
+import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
 
 export default {
   name: "instructor-home",
   components: {
+    RequestForDeletingAccountModal,
     instructorHomePageOption,
     instructorHeader
   },
@@ -94,6 +96,8 @@ export default {
       deleteAccImgPath: require("@/assets/icons/deleteAcc.png"),
       deleteAccLink: "...",
       deleteAccText: "Brisanje naloga",
+      deleteAccHeader: "Razlog za brisanje",
+      deleteAccModal: "modalId",
 
       profileImgPath: require("@/assets/icons/profile.png"),
       profileLink: "...",

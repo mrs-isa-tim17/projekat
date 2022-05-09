@@ -65,7 +65,7 @@ export default {
       clientServce.getPastShipReservations(JSON.parse(localStorage.user).id)
           .then(response =>{
             this.cottageReservationHistory = response.data;
-
+            console.log("Ship number " + this.cottageReservationHistory.length);
           })
     else if (this.type == "cottage")
       clientServce.getPastCottageReservations(JSON.parse(localStorage.user).id)

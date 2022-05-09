@@ -14,6 +14,7 @@ insert into address (longitude, latitude) values (10, 30);
 insert into address (longitude, latitude) values (80, 10);
 insert into address (longitude, latitude) values (0, -30);
 insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (11, 70);
 
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
@@ -56,7 +57,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 
 
 insert into cottage (id, deleted,description, name, address_id, bed_quantity, room_quantity, owner) values
-	(nextval('offer_seq'), false, ' Ponuda obuhvata restoran, vrt, terasu i smeštaj sa pogledom na planinu.', 'Meda na Tari', 1, 4, 2, 3);
+	(nextval('offer_seq'), false, ' Ponuda obuhvata restoran, vrt, terasu i smeštaj sa pogledom na planinu.', 'Meda na Tari', 16, 4, 2, 3);
 
 insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
@@ -109,7 +110,7 @@ insert into image (path, offer_id) values('img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina2.jpg', 2);
 insert into image (path, offer_id) values('img/adventure/Drina3.jpg', 2);
 
-insert into experience_review (rate, status, text, client_id, offer_id) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 
@@ -195,14 +196,24 @@ insert into image (path, offer_id) values ('img/ship/nimbus/nimbus1.jpg', 7);
 insert into image (path, offer_id) values ('img/ship/nimbus/nimbus2.jpg',7);
 insert into image (path, offer_id) values ('img/ship/dionis/dionis.jpg',8);
 insert into image (path, offer_id) values ('img/ship/dionis/dionis1.jpg',8);
-insert into image (path, offer_id) values ('img/ship/party/party',9);
+insert into image (path, offer_id) values ('img/ship/party/party.jpg',9);
 insert into image (path, offer_id) values ('img/ship/party/party2.jpg',9);
 insert into image (path, offer_id) values ('img/ship/party/party1.jpg',9);
 insert into image (path, offer_id) values ('img/ship/silverstar/silverstar1.jpg',10);
 insert into image (path, offer_id) values ('img/ship/silverstar/silverstar.jpg',10);
+insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
+insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 3);
+insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
+insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 5);
+insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 6);
 
-insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 9);
-insert into image (path, offer_id) values ('img/instructor/images.jpg', 10);
+insert into image (path, offer_id) values ('img/ship/4/41.jpg', 7);
+insert into image (path, offer_id) values ('img/ship/3/31.jpg', 10);
+insert into image (path, offer_id) values ('img/ship/2/21.jpg', 9);
+insert into image (path, offer_id) values ('img/ship/1/11.jpg', 8);
+
+insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 13);
+insert into image (path, offer_id) values ('img/instructor/images.jpg', 14);
 insert into image (path, offer_id) values ('img/instructor/906z513_PECANJE2310pog.jpg', 11);
 insert into image (path, offer_id) values ('img/instructor/maxresdefault.jpg', 12);
 

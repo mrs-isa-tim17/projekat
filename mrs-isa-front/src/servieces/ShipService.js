@@ -7,7 +7,7 @@ const SHIP_OWNER_API_BASE_URL = Config.BASE_URL + '/ship/';
 
 class ShipService{
     getAllShips(){
-        return axios.get(SHIP_OWNER_API_BASE_URL+'all',{
+        return axios.get(SHIP_OWNER_API_BASE_URL+'site/all',{
             headers:authHeader()
         });
     }

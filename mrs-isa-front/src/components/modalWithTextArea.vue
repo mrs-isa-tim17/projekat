@@ -69,7 +69,7 @@ export default {
       }
 
       //$('#'+this.modalId).modal('hide');
-      this.$emit('input-text-rating', this.text, this.rating);
+      //this.$emit('input-text-rating', this.text, this.rating);
 
       const modal = document.getElementById(this.index);
 

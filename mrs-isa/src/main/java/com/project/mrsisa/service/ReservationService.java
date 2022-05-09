@@ -20,4 +20,12 @@ public class ReservationService {
     public List<Reservation> getShipHistoryReservation(Long id){
         return reservationRepository.findCottageReservationHistory(id, OfferType.SHIP.getValue());
     }
+
+    public Reservation getReservationById(Long id){
+        return reservationRepository.findById(id).orElse(null);
+    }
+
+    public Reservation save(Reservation r){
+        return reservationRepository.save(r);
+    }
 }

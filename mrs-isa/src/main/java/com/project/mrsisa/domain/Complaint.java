@@ -29,6 +29,9 @@ public class Complaint {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
+
+	@Column
+	private OfferType offerType;
 	
 	public String getText() {
 		return text;
@@ -60,7 +63,14 @@ public class Complaint {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
 	
 
 }

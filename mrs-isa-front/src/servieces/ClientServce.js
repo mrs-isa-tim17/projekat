@@ -12,6 +12,11 @@ class ClientServce{
             headers: authHeader()
         });
     }
+    getClientPenalties(clientId){
+        return axios.get(CLIENT_API_BASE_URL+'/penalties/'+clientId, {
+            headers: authHeader()
+        });
+    }
     updateClient(clientID, client){
         return axios.post(CLIENT_API_BASE_URL + "/profile/" + clientID, client, {
             headers: authHeader()

@@ -60,6 +60,8 @@
 <script>
 import modalWithTextArea from "@/components/modalWithTextArea";
 import modalWithTextAreaAndRating from "@/components/modalWithTextAreaAndRating";
+import reviewServce from "@/servieces/ReviewServce";
+import complaintServce from "@/servieces/ComplaintServce";
 export default {
   name: "clientReservationHistoryElement",
   components: {
@@ -79,20 +81,35 @@ export default {
       console.log('/'+this.cottage.id);
       this.$router.push('/'+this.cottage.id);
     },
-    sendReview(value, rating){
-      console.log(value);
-      console.log(rating);
-      //this.cottage.reviewed = true; NE MOZE DA SE MENJA ZATO STO JE DOSAO PREKO PROPS?
-      //axios
-      //review
-      //this.cottage.reviewed = true;
-      console.log(this.cottage.id);
-      this.$emit('reviewed', this.cottage.id);
+    sendReview(text, rating){
+      if (rating == "*")
+        rating = "";
+      let review = {
+        cottageId : this.cottage.id,
+        clientID : JSON.parse(localStorage.user).id,
+        rating : rating,
+        text : text,
+        reservationId : this.cottage.reservationId,
+        offerType : this.cottage.offerType
+      }
+      console.log(review);
+      reviewServce.offerReviewed(review).then(() => {
+
+        this.$emit('reviewed', this.cottage.id);
+      })
     },
     sendComplaint(value){
-      console.log(value);
-      //axios
-      //complaint
+      let complaint = {
+        offerId : this.cottage.id,
+        clientID : JSON.parse(localStorage.user).id,
+        text : value,
+        offerType : this.cottage.offerType
+      }
+      console.log(complaint);
+      console.log(complaint);
+      complaintServce.complaintOnOffer(complaint).then(() => {
+
+      })
     }
   },
   data() {

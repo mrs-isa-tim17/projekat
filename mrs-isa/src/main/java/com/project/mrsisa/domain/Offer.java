@@ -50,18 +50,18 @@ public abstract class Offer {
 	protected List<ExperienceReview> experienceReviews;
 
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "additionalServices_offer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "additional_service_id", referencedColumnName = "id"))
 	protected List<AdditionalServices> additionalServices;
-	
-	@ManyToMany
+
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="behaviorRulesOffer", joinColumns=@JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "behavior_rule_id", referencedColumnName = "id"))
 	protected List<BehaviorRule> behaviorRules;
 	
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Image> images;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "cancel_condition_offer", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "cancel_condition_id", referencedColumnName = "id"))
 	protected List<CancelCondition> cancelCondition;
 	

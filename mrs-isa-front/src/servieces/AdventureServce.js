@@ -7,6 +7,9 @@ class AdventureServce{
     getAdventures(){
         return axios.get(ADVENTURES_API_BASE_URL + "/all");
     }
+    getAdventuresForHomePageView(){
+        return axios.get(ADVENTURES_API_BASE_URL + "/short");
+    }
 }
 
 export default new AdventureServce();

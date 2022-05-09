@@ -30,10 +30,21 @@ public class ExperienceReview {
 	@Enumerated
 	private ProcessingStatus status;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
-	
+
+	@Column
+	private OfferType offerType;
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
+
 	public String getText() {
 		return text;
 	}
