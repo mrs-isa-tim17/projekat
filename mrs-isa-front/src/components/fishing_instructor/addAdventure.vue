@@ -197,7 +197,7 @@
       </div>
     </div>
     <div align="right">
-      <botton class="col-1 btn btn-primary  btn-md  me-md-2" @click="addAdventure">Dodaj</botton>
+      <botton id="add" class="col-1 btn btn-primary  btn-md  me-md-2"  @click="addAdventure">Dodaj</botton>
       <botton class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</botton>
     </div>
   </div>
@@ -231,6 +231,8 @@ export default {
           this.adventure = response.data;
           document.getElementById("message").innerText = this.successMessage;
           console.log(this.adventure)
+          this.disable = true;
+
         })
             .catch(function (error) {
               console.log(error.toJSON());
@@ -252,6 +254,7 @@ export default {
               console.log(error.config);
 
             });
+        document.getElementById("add").style.visibility = "hidden";
       }
 
     },

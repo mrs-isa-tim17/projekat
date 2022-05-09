@@ -10,12 +10,12 @@ const router = createRouter({
         { path: '/client/verify/:code', component: () => import("./components/clientVerified.vue") },
         { path: '/client/site/home', component: () => import("./components/homePageClient.vue")},
 
-        { path: '/instructor/adventures', component: () => import("./components/allInstructorsAdventures")},
+        { path: '/instructor/adventures', component: () => import("./components/fishing_instructor/allInstructorsAdventures")},
 
-        {path: '/adventures/detail/:type', name: 'adventureForFishingInstructor', component: () => import("./components/adventureForFishingInstructor"),},
-        { path: '/instructor/home', component: ()=> import("./components/instructorHomePage")},
-        { path: '/adventure/add', component: ()=> import("./components/addAdventure")},
-        { path: '/adventure/update/:type', component: ()=> import("./components/updateAdventure.vue")},
+        {path: '/adventures/detail/:type', name: 'adventureForFishingInstructor', component: () => import("./components/fishing_instructor/adventureForFishingInstructor"),},
+        { path: '/instructor/home', component: ()=> import("./components/fishing_instructor/instructorHomePage")},
+        { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
+        { path: '/adventure/update/:type', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
 
         { path: '/book/site/home', component: () => import("./components/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
@@ -33,8 +33,11 @@ const router = createRouter({
         {path:'/cottage/add',component:() => import("./components/addCottage.vue")},
         {path:'/ship/add',component:() => import("./components/addShip.vue")},
         { path: '/cottage/update/:id',component:()=>import("./components/updateCottage")},
-        { path: '/ship/update/:id',component:()=>import("./components/updateShip")}
+        { path: '/ship/update/:id',component:()=>import("./components/updateShip")},
 
+
+        {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
+        {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")}
     ]
 });
 

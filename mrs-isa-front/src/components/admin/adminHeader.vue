@@ -6,16 +6,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" :href="homeLink" style="color:white;margin-right:150px;font-weight:bold;">
-          <img src="../assets/icons/logo_new.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
+          <img src="../../assets/icons/logo_new.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
           <div style="display:inline-block;vertical-align:bottom;">ENJOY</div>
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" :href="instructorHome">Home</a>
+            <a class="nav-link active" aria-current="page" :href="adminHome">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link  text-dark" :href="this.adventures">Avanture</a>
+            <a class="nav-link  text-dark" href="">Izvestaji</a>
           </li>
         </ul>
         <button class="btn btn-outline-dark" @click="logOut">Odjava</button>
@@ -39,10 +39,7 @@ export default {
   },
   data() {
     return {
-      instructorHome:"/instructor/home",
-      adventures:"/instructor/adventures"
-
-
+      adminHome:"/admin/home"
     }
   }
 }

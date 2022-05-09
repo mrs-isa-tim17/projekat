@@ -198,7 +198,7 @@
       </div>
     </div>
     <div align="right">
-      <botton class="col-1 btn btn-primary  btn-md  me-md-2" @click="updateAdventure">Izmeni</botton>
+      <botton id="update" class="col-1 btn btn-primary  btn-md  me-md-2" @click="updateAdventure">Izmeni</botton>
       <botton class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</botton>
     </div>
   </div>
@@ -247,10 +247,9 @@ export default {
           this.adventure = response.data;
           document.getElementById("message").innerText = this.successMessage;
           console.log(this.adventure);
-      //    this.$router.push('/instructor/adventures/')
-
-        })
-            .catch(function (error) {
+          //    this.$router.push('/instructor/adventures/')
+          this.disable=false;
+        }).catch(function (error) {
               console.log(error.toJSON());
               if (error.response) {
                 // The request was made and the server responded with a status code
@@ -271,12 +270,13 @@ export default {
             });
 
 
+
         /*  this.backup[0] = this.adventure.name;
           this.backup[1] = this.adventure.description;
           this.backup[2] = this.adventure.instructorBiography;
           this.backup[3] = this.adventure.capacity;
           this.backup[4] = this.adventure.price; */
-        document.getElementById("message").innerText = this.successMessage;
+    //    document.getElementById("message").innerText = this.successMessage;
       }
 
     },/* cancel() {
@@ -299,6 +299,8 @@ export default {
 
   data() {
     return {
+      disable : false,
+
       message: "Obavezno polje",
       errorMessage: "Obavezno polje",
       successMessage: "Uspešno izmenjena avantura",
@@ -353,10 +355,10 @@ export default {
         instructorBiography: "",
         additionalServices: [],
         days: ['5', '10', '15', '20'],
-        p1:"",
-        p2:"",
-        p3:"",
-        p4:"",
+        p1:0,
+        p2:0,
+        p3:0,
+        p4:0,
         experienceReviews: [],
       },
     }

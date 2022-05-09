@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import instructorHomePageOption from "@/components/instructorHomePageOption";
+import instructorHomePageOption from "@/components/homePageOption";
 import instructorHeader from "@/components/insrtuctorHeader";
 import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
 
