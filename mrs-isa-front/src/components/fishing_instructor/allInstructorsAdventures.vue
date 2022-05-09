@@ -42,7 +42,7 @@
 
 <script>
 import instructorHeader from "@/components/insrtuctorHeader"
-import simpleAdventure from "@/components/simpleAdventure";
+import simpleAdventure from "@/components/fishing_instructor/simpleAdventure";
 import AdventureService from "@/services/AdventureService";
 
 export default {
@@ -63,6 +63,7 @@ export default {
   ,
   methods: {
     forceRerendering(){
+      window.location.reload()
       this.myKey += 1;
     },
     goToAddAdventure() {
