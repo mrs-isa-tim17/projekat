@@ -10,10 +10,10 @@ jobs:
           command: mvn -f mrs-isa/pom.xml -B -DskipTests clean package
       - run:
           name: Test
-          command: mvn test
+          command: mvn -f mrs-isa/pom.xml test
       - run:
           name: Analyze on SonarCloud
-          command: mvn sonar:sonar -Dsonar.projectKey=$PROJECT_KEY 
+          command: mvn -f mrs-isa/pom.xml sonar:sonar -Dsonar.projectKey=$PROJECT_KEY 
 
 orbs:
   heroku: circleci/heroku@1.2.6
