@@ -5,12 +5,9 @@ jobs:
       - image: cimg/openjdk:11.0
     steps:
       - checkout
-      - run: 
-          name: CD
-          command: cd mrs-isa
       - run:
           name: Build
-          command: mvn -B -DskipTests clean package
+          command: mvn -f mrs-isa/pom.xml -B -DskipTests clean package
       - run:
           name: Test
           command: mvn test
