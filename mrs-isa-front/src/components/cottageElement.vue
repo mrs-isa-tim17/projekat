@@ -31,7 +31,16 @@
               <button id="deleteCottage" @click="deleteCottage">Obriši vikendicu</button>
               <br>
                 <br>
-              <button @click="updateDataPage">Izmeni podatke</button>
+              <button @click="updateDataPage">Izmeni podatke</button><br><br>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Istorija rezervacija
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" @click="pastHistoryReservationsPage">Realizovane</button>
+                    <button class="dropdown-item" @click="futureHistoryReservationsPage">Nerealizovane</button>
+                  </div>
+                </div>
             </div>
         </div>
 
@@ -76,6 +85,12 @@ export default {
     },
     updateDataPage(){
       this.$router.push('/cottage/update/' + this.cottage.id);
+    },
+    pastHistoryReservationsPage(){
+      this.$router.push('/cottage/reservations/past/' + this.cottage.id);
+    },
+    futureHistoryReservationsPage(){
+      this.$router.push('/cottage/reservations/future/' + this.cottage.id);
     }
   }
 }
@@ -83,7 +98,7 @@ export default {
 
 <style scoped>
 button{
-  width:150px;
+  width:165px;
   background-color: #687864;
 }
 

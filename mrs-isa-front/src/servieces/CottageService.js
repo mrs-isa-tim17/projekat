@@ -41,6 +41,8 @@ class CottageService{
             headers: authHeader()
         });
     }
+
+
 }
 
 export default new CottageService();

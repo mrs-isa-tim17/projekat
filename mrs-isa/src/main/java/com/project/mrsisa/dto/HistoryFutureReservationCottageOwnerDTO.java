@@ -1,5 +1,5 @@
-package com.project.mrsisa.dto.client;
-
+package com.project.mrsisa.dto;
+import java.util.List;
 import com.project.mrsisa.converter.DateToStringConverter;
 import com.project.mrsisa.converter.StringToDateConverter;
 import com.project.mrsisa.domain.Reservation;
@@ -7,10 +7,9 @@ import com.project.mrsisa.domain.Reservation;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
-public class OfferHistoryReservationDTO {
-    private long reservationId;
+public class HistoryFutureReservationCottageOwnerDTO {
+    private Long reservationId;
     private Long id;
     private int offerType;
     private String startDate;
@@ -19,13 +18,20 @@ public class OfferHistoryReservationDTO {
     private boolean canceled;
     private double price;
     private String name;
+    //private int guestsNumber;
+    private Long clientId;
     private double longitude;
     private double latitude;
     private String description;
     private List<String> images;
-    private boolean reviewed;
 
-    public OfferHistoryReservationDTO() {
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
+    }
+
+
+
+    public HistoryFutureReservationCottageOwnerDTO() {
     }
     public long getReservationId() {
         return reservationId;
@@ -42,6 +48,14 @@ public class OfferHistoryReservationDTO {
     public void setOfferType(int offerType) {
         this.offerType = offerType;
     }
+
+   /* public int getGuestsNumber(){return guestsNumber;}
+
+    public void setGuestsNumber(int guestsNumber){this.guestsNumber=guestsNumber;}*/
+
+    public Long getClientId(){return clientId;}
+
+    public void setClientId(Long clientId){this.clientId=clientId;}
 
     public Long getId() {
         return id;
@@ -94,6 +108,7 @@ public class OfferHistoryReservationDTO {
     public boolean isCanceled() {
         return canceled;
     }
+
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
     }
@@ -146,15 +161,8 @@ public class OfferHistoryReservationDTO {
         this.images = images;
     }
 
-    public boolean isReviewed() {
-        return reviewed;
-    }
 
-    public void setReviewed(boolean reviewed) {
-        this.reviewed = reviewed;
-    }
-
-    public OfferHistoryReservationDTO(Reservation r) {
+    public HistoryFutureReservationCottageOwnerDTO(Reservation r) {
         this.reservationId = r.getId();
         this.id = r.getOffer().getId();
         DateToStringConverter converter = new DateToStringConverter();
@@ -163,6 +171,8 @@ public class OfferHistoryReservationDTO {
         this.quickReservation = r.isQuick();
         this.canceled = r.isCanceled();
         this.price = r.getPrice();
+        this.clientId = r.getClient().getId();
+       // this.guestsNumber = r.getGuestsNumber();
         this.name = r.getOffer().getName();
         this.longitude = r.getOffer().getAddress().getLongitude();
         this.latitude = r.getOffer().getAddress().getLatitude();
@@ -171,8 +181,8 @@ public class OfferHistoryReservationDTO {
         if (r.getOffer().getImages().size() != 0){
             images.add(r.getOffer().getImages().get(0).getPath());
         }
-        this.reviewed = r.isReviewed();
         this.offerType = r.getOfferType().getValue();
 
     }
+
 }
