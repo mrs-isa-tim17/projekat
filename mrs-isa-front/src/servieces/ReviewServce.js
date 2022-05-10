@@ -3,7 +3,7 @@ import authHeader from "@/servieces/authHeader";
 
 import Config from "../config.json";
 
-const REVIEW_API_BASE_URL = Config.BASE_URL + '/complaint';
+const REVIEW_API_BASE_URL = Config.BASE_URL + '/review';
 
 class ReviewServce{
     offerReviewed(complaint) {

@@ -95,7 +95,7 @@ export default {
       console.log(review);
       reviewServce.offerReviewed(review).then(() => {
 
-        this.$emit('reviewed', this.cottage.id);
+        this.$emit('reviewed', this.cottage.reservationId);
       })
     },
     sendComplaint(value){

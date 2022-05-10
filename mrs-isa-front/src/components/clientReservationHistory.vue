@@ -76,7 +76,7 @@ export default {
       console.log(itemID);
       for (let offer of this.cottageReservationHistory){
         console.log(offer);
-        if (offer.id == itemID){
+        if (offer.reservationId == itemID){
           offer.reviewed = true;
         }
       }

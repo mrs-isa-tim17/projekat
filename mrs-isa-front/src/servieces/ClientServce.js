@@ -22,57 +22,7 @@ class ClientServce{
             headers: authHeader()
         });
     }
-    getPastCottageReservations(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/" + clientID, {
-            headers : authHeader()
-        });
-    }
 
-    getPastShipReservations(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByName(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/name/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByDate(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/date/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByPrice(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/price/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByDuration(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/duration/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByName(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/name/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByDate(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/date/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByPrice(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/price/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByDuration(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/duration/" + clientID, {
-            headers : authHeader()
-        });
-    }
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{
