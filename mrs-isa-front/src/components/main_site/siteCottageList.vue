@@ -8,7 +8,7 @@
   </div>
 
 
-  <pagination-component :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement"
+  <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement"
                         :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
 
 
@@ -55,6 +55,7 @@ export default {
     forceRemounting(){
       this.clientHeaderKey += 1;
       this.basicHeaderKey += 1;
+      this.paginationKey += 1;
     },
     filterOffers(){
       this.resultingOffers = [];
@@ -83,7 +84,8 @@ export default {
       numberOfElementsForDisplay : 4,
       fromElement: 0,
       basicHeaderKey: 0,
-      clientHeaderKey: 0
+      clientHeaderKey: 0,
+      paginationKey: 0
     }
   }
 }

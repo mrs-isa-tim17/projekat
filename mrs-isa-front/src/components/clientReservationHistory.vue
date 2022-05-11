@@ -21,7 +21,7 @@
       <clientReservationHistoryList @reviewed="itemReviewed" :key="myKey" :numToDisplay="numberOfElementsForDisplay" :from="fromElement" :cottagesHistory="cottageReservationHistory"> </clientReservationHistoryList>
     </div>
 
-    <pagination-component :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement" :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
+    <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement" :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
 
 
   </div>
@@ -83,6 +83,7 @@ export default {
     },
     forceRemounting(){
       this.myKey -= 1;
+      this.paginationKey += 1;
     },
     sortList(){
       //axios
@@ -180,7 +181,8 @@ export default {
       myKey: 0,
       fromElement: 0,
       cottageReservationHistory: [],
-      numberOfElementsForDisplay: 3
+      numberOfElementsForDisplay: 3,
+      paginationKey: 0
     }
   }
 }

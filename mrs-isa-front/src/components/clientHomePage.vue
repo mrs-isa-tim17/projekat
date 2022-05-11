@@ -48,7 +48,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
               <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" href="#">Avanture</a></li>
+              <li><a class="dropdown-item" :href="historyOfAdventureReservationsLink">Avanture</a></li>
             </ul>
           </div>
         </div>
@@ -141,6 +141,7 @@ export default {
       historyOfReservationText: "Istorija rezervacija",
       historyOfCottageReservationsLink: "/client/history/cottage",
       historyOfShipReservationsLink: "/client/history/ship",
+      historyOfAdventureReservationsLink: "/client/history/adventure",
 
 
       subscriptionImgPath: require("@/assets/icons/subscription.png"),
