@@ -25,6 +25,8 @@ const router = createRouter({
         { path:  '/book/adventure/site', component: () => import("./components/main_site/siteAdventureListView.vue")},
 
         { path: '/cottageOwner/profile', component: () => import("./components/editProfileCottageOwner")},
+        {path:'/cottage/reservations/future/:id',component:() => import("./components/cottageOwnerFutureReservationsList")},
+        {path:'/cottage/reservations/past/:id',component:()=>import("./components/cottageOwnerPastReservationsList")},
         { path: '/shipOwner/profile', component: () => import("./components/editProfileShipOwner")},
         { path: '/cottageOwner/home', component: () => import("./components/homePageCottageOwner")},
         { path: '/shipOwner/home', component: () => import("./components/homePageShipOwner")},
@@ -38,6 +40,8 @@ const router = createRouter({
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
         {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")}
+
+
     ]
 });
 

@@ -28,4 +28,12 @@ public class ReservationService {
     public Reservation save(Reservation r){
         return reservationRepository.save(r);
     }
+
+    public List<Reservation> getPastHistoryReservation(Long offer_id){
+        return reservationRepository.findPastReservationHistory(offer_id);
+    }
+
+    public List<Reservation> getFutureHistoryReservation(Long offer_id){
+        return reservationRepository.findFutureReservationHistory(offer_id);
+    }
 }
