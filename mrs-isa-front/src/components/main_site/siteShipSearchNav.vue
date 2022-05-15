@@ -34,7 +34,7 @@
               <option value="2">&lt;=</option>
               <option value="3">&lt;</option>
               <option value="4">&gt;=</option>
-              <option value="4">&gt;</option>
+              <option value="5">&gt;</option>
             </select>
           </div>
           <div class="col-4">
@@ -44,7 +44,7 @@
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
-              <option value="4">5</option>
+              <option value="5">5</option>
             </select>
           </div>
         </div>
@@ -63,7 +63,7 @@
               <option value="2">&lt;=</option>
               <option value="3">&lt;</option>
               <option value="4">&gt;=</option>
-              <option value="4">&gt;</option>
+              <option value="5">&gt;</option>
             </select>
           </div>
           <div class="col-4">
@@ -86,7 +86,7 @@
               <option value="2">&lt;=</option>
               <option value="3">&lt;</option>
               <option value="4">&gt;=</option>
-              <option value="4">&gt;</option>
+              <option value="5">&gt;</option>
             </select>
           </div>
           <div class="col-4">
@@ -109,7 +109,7 @@
               <option value="2">&lt;=</option>
               <option value="3">&lt;</option>
               <option value="4">&gt;=</option>
-              <option value="4">&gt;</option>
+              <option value="5">&gt;</option>
             </select>
           </div>
           <div class="col-4">

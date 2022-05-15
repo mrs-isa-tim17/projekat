@@ -1,16 +1,17 @@
 package com.project.mrsisa.controller;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
-import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.OfferType;
-import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
-import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
+import com.project.mrsisa.dto.simple_user.*;
+import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,18 +42,21 @@ public class ShipController {
 	@Autowired
 	private ExperienceReviewService experienceReviewService;
 
+	@Autowired
+	private PeriodUnavailabilityService periodUnavailabilityService;
+
+	@Autowired
+	private PeriodAvailabilitySerivce periodAvailabilitySerivce;
+
+	@Autowired
+	private ReservationService reservationService;
+
+	private OfferProcessing offerProcessing = new OfferProcessing();
+
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
 		List<Ship> ships = shipService.findAll();
-		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
-		System.out.println("Ships number: " + ships.size());
-;		for (Ship ship : ships) {
-			ship.setImages(imageService.findAllByOfferId(ship.getId()));
-			ShipForListViewDTO dto = new ShipForListViewDTO(ship);
-			dto.setPrice(pricelistService.getCurrentPriceOfOffer(ship.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP));
-			shipsDTO.add(dto);
-		}
+		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 		return ResponseEntity.ok(shipsDTO);
 	}
 
@@ -147,6 +151,59 @@ public class ShipController {
 
 		ship =  shipService.save(ship);
 		return new ResponseEntity<>(new ShipDTO(ship), HttpStatus.OK);
+	}
+
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
+	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
+		List<Ship> ships = shipService.findAll();
+
+		System.out.println("CONTROLLLERRRR");
+		System.out.println(ships.size());
+
+		//lokacija
+		ships = offerProcessing.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
+		System.out.println(ships.size());
+
+		//kapacitet
+		ships = offerProcessing.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
+		System.out.println(ships.size());
+
+		//broj kreveta
+		ships = offerProcessing.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
+		System.out.println(ships.size());
+
+
+		//interval
+		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
+			for (Ship ship : ships) {
+				ship.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				ship.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+			}
+			ships = offerProcessing.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
+		}
+		System.out.println(ships.size());
+
+		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
+
+		//rating
+		shipsDTO = offerProcessing.filterShipsByRating(shipsDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
+
+		//cena
+		shipsDTO = offerProcessing.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
+
+		return new ResponseEntity(shipsDTO, HttpStatus.OK);
+	}
+	private List<ShipForListViewDTO> getShipsForListViewDTO(List<Ship> ships){
+		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
+		for (Ship ship : ships) {
+			ship.setImages(imageService.findAllByOfferId(ship.getId()));
+			ShipForListViewDTO dto = new ShipForListViewDTO(ship);
+			dto.setPrice(pricelistService.getCurrentPriceOfOffer(ship.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP));
+			shipsDTO.add(dto);
+		}
+		return shipsDTO;
 	}
 
 }

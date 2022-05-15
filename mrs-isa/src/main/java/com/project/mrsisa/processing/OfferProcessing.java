@@ -1,10 +1,8 @@
 package com.project.mrsisa.processing;
 
-import com.project.mrsisa.domain.Cottage;
-import com.project.mrsisa.domain.PeriodAvailability;
-import com.project.mrsisa.domain.PeriodUnavailability;
-import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
+import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -74,7 +72,33 @@ public class OfferProcessing {
             return cottagesDTO;
         List<CottageForListViewDTO> result = new ArrayList<CottageForListViewDTO>();
         for (CottageForListViewDTO c : cottagesDTO){
-            if (checkWhetherBelongsToGroup(c.getMark(), price, priceRelOp))
+            if (checkWhetherBelongsToGroup(c.getPrice(), price, priceRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Ship> filterBySpeed(List<Ship> ships, double speed, String speedRelOp) {
+        if (speed == 0)
+            return ships;
+        if (speedRelOp.equals(""))
+            return ships;
+        List<Ship> result = new ArrayList<Ship>();
+        for (Ship c : ships){
+            if (checkWhetherBelongsToGroup(c.getMaxSpeed(), speed, speedRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Ship> filterByCapacity(List<Ship> ships, double capacity, String capacityRelOp) {
+        if (capacity == 0)
+            return ships;
+        if (capacityRelOp.equals(""))
+            return ships;
+        List<Ship> result = new ArrayList<Ship>();
+        for (Ship c : ships){
+            if (checkWhetherBelongsToGroup(c.getCapacity(), capacity, capacityRelOp))
                 result.add(c);
         }
         return result;
@@ -92,8 +116,21 @@ public class OfferProcessing {
         }
         return result;
     }
+    public List<Ship> filterByShipLocation(List<Ship> ships, double longitude, double latitude) {
+        if (longitude == 0)
+            return ships;
+        if (latitude == 0)
+            return ships;
+        List<Ship> result = new ArrayList<Ship>();
+        for (Ship c : ships){
+            if (checkWhetherBelongsToGroupByDistance(c, longitude, latitude))
+                result.add(c);
+        }
+        return result;
+    }
 
-    private boolean checkWhetherBelongsToGroupByDistance(Cottage c, double longitude, double latitude){
+
+    private boolean checkWhetherBelongsToGroupByDistance(Offer c, double longitude, double latitude){
         if (countEuclideanDistance(c.getAddress().getLongitude(), c.getAddress().getLatitude(), longitude, latitude) < 1)
             return true;
         return false;
@@ -113,7 +150,17 @@ public class OfferProcessing {
         return result;
     }
 
-    public boolean isGloballyFree(Cottage c, LocalDateTime fromDate, LocalDateTime untilDate){
+    public List<Ship> filterShipByInterval(List<Ship> ships, LocalDateTime fromDate, LocalDateTime untilDate) {
+        List<Ship> result = new ArrayList<Ship>();
+        for (Ship c : ships){
+            if (isGloballyFree(c, fromDate, untilDate)){
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
+    public boolean isGloballyFree(Offer c, LocalDateTime fromDate, LocalDateTime untilDate){
         if (c.getPeriodAvailabilities() == null)
             return false;
         if (!isDefinedAvailabilePeriod(c, fromDate, untilDate))
@@ -125,7 +172,7 @@ public class OfferProcessing {
         return true;
     }
 
-    private boolean isDefinedReservation(Cottage c, LocalDateTime fromDate, LocalDateTime untilDate) {
+    private boolean isDefinedReservation(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
         for (Reservation pa : c.getReservations()){
             //before - less than zero				after - more than zero
             if (pa.getStartDate().compareTo(fromDate.toLocalDate()) > 0)
@@ -147,7 +194,7 @@ public class OfferProcessing {
         return false;
     }
 
-    private boolean isDefinedUnvailabilePeriod(Cottage c, LocalDateTime fromDate, LocalDateTime untilDate) {
+    private boolean isDefinedUnvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
         for (PeriodUnavailability pa : c.getPeriodUnavailabilities()){
             //before - less than zero				after - more than zero
             // un: od - do
@@ -172,16 +219,40 @@ public class OfferProcessing {
         return false;
     }
 
-    private boolean isDefinedAvailabilePeriod(Cottage c, LocalDateTime fromDate, LocalDateTime untilDate) {
+    private boolean isDefinedAvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
         for (PeriodAvailability pa : c.getPeriodAvailabilities()){
             //before - less than zero				after - more than zero
             if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) <= 0)
                 if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) >= 0) {
-                    System.out.println("TRUEEEEEE AVA");
-
                     return true;
                 }
         }
         return false;
+    }
+
+    public List<ShipForListViewDTO> filterShipsByRating(List<ShipForListViewDTO> ships, int rating, String ratingRelOp) {
+        if (rating == 0)
+            return ships;
+        if (ratingRelOp.equals(""))
+            return ships;
+        List<ShipForListViewDTO> result = new ArrayList<ShipForListViewDTO>();
+        for (ShipForListViewDTO c : ships){
+            if (checkWhetherBelongsToGroup(c.getMark(), rating, ratingRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<ShipForListViewDTO> filterShipsByPrice(List<ShipForListViewDTO> cottagesDTO, double price, String priceRelOp) {
+        if (price == 0)
+            return cottagesDTO;
+        if (priceRelOp.equals(""))
+            return cottagesDTO;
+        List<ShipForListViewDTO> result = new ArrayList<ShipForListViewDTO>();
+        for (ShipForListViewDTO c : cottagesDTO){
+            if (checkWhetherBelongsToGroup(c.getPrice(), price, priceRelOp))
+                result.add(c);
+        }
+        return result;
     }
 }

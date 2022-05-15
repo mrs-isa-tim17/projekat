@@ -1,13 +1,11 @@
 package com.project.mrsisa.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.OfferType;
-import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
@@ -18,15 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.domain.AdditionalServices;
@@ -37,7 +32,6 @@ import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.Image;
 import com.project.mrsisa.domain.Pricelist;
-import com.project.mrsisa.dto.CottageDTO;
 import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.cottage.FindCottageDTO;
 
@@ -280,7 +274,7 @@ public class CottageController {
 			System.out.println("DATEEEEEEEEEEEEEEEEEEEEE");
 			System.out.println(cottageFilterParamsDTO.getDateFrom());
 			for (Cottage c : cottages) {
-				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
 				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
 				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
 			}

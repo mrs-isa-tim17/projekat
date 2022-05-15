@@ -15,7 +15,7 @@ public class PeriodAvailabilitySerivce {
     @Autowired
     private PeriodAvailabilityRepository periodAvailabilityRepository;
 
-    public List<PeriodAvailability> getListOfUnavailability(long offerId, LocalDate fromDate, LocalDate untilDate){
+    public List<PeriodAvailability> getListOfAvailability(long offerId, LocalDate fromDate, LocalDate untilDate){
         return periodAvailabilityRepository.findCurrentPeriodsOfAvailability(offerId, fromDate, untilDate);
     }
 
