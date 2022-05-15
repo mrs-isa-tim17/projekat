@@ -301,6 +301,6 @@ insert into registration_request (registration_type, status, user_id) values (1,
 
  
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
-insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
 

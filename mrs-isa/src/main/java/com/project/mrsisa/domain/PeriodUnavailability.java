@@ -1,5 +1,7 @@
 package com.project.mrsisa.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,25 +18,25 @@ public class PeriodUnavailability {
 	private Long id;
 	
 	@Column(nullable=false)
-	private String startDate;
+	private LocalDate startDate;
 	
 	@Column(nullable=false)
-	private String endDate;
+	private LocalDate endDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	
-	public String getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 	public Long getId() {
