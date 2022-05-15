@@ -6,13 +6,19 @@
 
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
-      <div class="modal-content" style="background-color:#687864">
+      <div class="modal-content" style="background-color:#687864;width:400px;">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" >{{header}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" >
-
+        <div class="modal-body" style="text-align: left;" >
+          <b>Ime: </b>{{clientPr.name}}<br>
+          <b>Prezime: </b>{{clientPr.surname}}<br>
+          <b>Email: </b>{{clientPr.email}}<br>
+          <b>Broj telefona: </b>{{clientPr.phoneNumber}}<br>
+          <b>Kategorija: </b>{{clientPr.userType}}<br>
+          <b>Broj loyality poena: </b>{{clientPr.loyalityPoints}}<br>
+          <b>Penali: </b>{{clientPr.penaltyNumber}}<br>
         </div>
         <div class="modal-footer">
 
@@ -28,7 +34,7 @@ import $ from "jquery";
 
 export default {
   name: "clientProfile",
-  props:["index","header"],
+  props:["index","header","clientPr"],
   created:
       function () {
         console.log(this.index);

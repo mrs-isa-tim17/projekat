@@ -24,13 +24,13 @@ class ShipService{
         });
     }
     saveShip(ship){
-        return axios.post(SHIP_OWNER_API_BASE_URL + 'save/', ship,{
+        return axios.post(SHIP_OWNER_API_BASE_URL + 'save', ship,{
             headers:authHeader()
         });
     }
 
     updateShip(ship){
-        return axios.post(SHIP_OWNER_API_BASE_URL + 'update/', ship,{
+        return axios.post(SHIP_OWNER_API_BASE_URL + 'update', ship,{
             headers: authHeader()
         });
 

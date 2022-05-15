@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class HistoryFutureReservationCottageOwnerDTO {
+public class HistoryFutureReservationOwnerDTO {
     private Long reservationId;
     private Long id;
     private int offerType;
@@ -31,7 +31,7 @@ public class HistoryFutureReservationCottageOwnerDTO {
 
 
 
-    public HistoryFutureReservationCottageOwnerDTO() {
+    public HistoryFutureReservationOwnerDTO() {
     }
     public long getReservationId() {
         return reservationId;
@@ -162,7 +162,7 @@ public class HistoryFutureReservationCottageOwnerDTO {
     }
 
 
-    public HistoryFutureReservationCottageOwnerDTO(Reservation r) {
+    public HistoryFutureReservationOwnerDTO(Reservation r) {
         this.reservationId = r.getId();
         this.id = r.getOffer().getId();
         DateToStringConverter converter = new DateToStringConverter();

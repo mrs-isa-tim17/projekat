@@ -259,7 +259,7 @@ public class ClientController {
     }
 
     @GetMapping("/profile/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<ClientProfileResponseDTO> getClient(@PathVariable Long id){
         
         Client client = null;

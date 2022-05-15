@@ -1,11 +1,13 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.domain.Reservation;
-import com.project.mrsisa.dto.HistoryFutureReservationCottageOwnerDTO;
-import com.project.mrsisa.dto.HistoryPastReservationCottageOwnerDTO;
+import com.project.mrsisa.dto.HistoryFutureReservationOwnerDTO;
+import com.project.mrsisa.dto.HistoryPastReservationOwnerDTO;
 import com.project.mrsisa.service.CottageService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.ReservationService;
+import com.project.mrsisa.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,31 +27,49 @@ public class ReservationController {
     private CottageService cottageService;
 
     @Autowired
+    private ShipService shipService;
+    @Autowired
     private ImageService imageService;
     @RequestMapping(value = "/reservations/future/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
-    public ResponseEntity<List<HistoryFutureReservationCottageOwnerDTO>> getAllFutureReservationForOffer(@PathVariable Long id){
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<HistoryFutureReservationOwnerDTO>> getAllFutureReservationForOffer(@PathVariable Long id){
 
-        List<HistoryFutureReservationCottageOwnerDTO> reservationsDTO = new ArrayList<HistoryFutureReservationCottageOwnerDTO>();
+        List<HistoryFutureReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryFutureReservationOwnerDTO>();
         List<Reservation> futureReservations = reservationService.getFutureHistoryReservation(id);
         for(Reservation r : futureReservations){
-            r.setOffer(cottageService.findOne(id));
+            if(r.getOfferType() == OfferType.COTTAGE){
+                r.setOffer(cottageService.findOne(id));
+            }
+            else if(r.getOfferType() == OfferType.ADVENTURE){
+                //poziv adventureService.findOne
+            }
+            else { //ship
+                r.setOffer(shipService.findOne(id));
+            }
             r.getOffer().setImages(imageService.findAllByOfferId(id));
-            reservationsDTO.add(new HistoryFutureReservationCottageOwnerDTO(r));
+            reservationsDTO.add(new HistoryFutureReservationOwnerDTO(r));
         }
         return ResponseEntity.ok(reservationsDTO);
     }
 
     @RequestMapping(value = "/reservations/past/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
-    public ResponseEntity<List<HistoryPastReservationCottageOwnerDTO>> getAllPastReservationForOffer(@PathVariable Long id){
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<HistoryPastReservationOwnerDTO>> getAllPastReservationForOffer(@PathVariable Long id){
 
-        List<HistoryPastReservationCottageOwnerDTO> reservationsDTO = new ArrayList<HistoryPastReservationCottageOwnerDTO>();
+        List<HistoryPastReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryPastReservationOwnerDTO>();
         List<Reservation> pastReservations = reservationService.getPastHistoryReservation(id);
         for(Reservation r : pastReservations){
-            r.setOffer(cottageService.findOne(id));
+            if(r.getOfferType() == OfferType.COTTAGE){
+                r.setOffer(cottageService.findOne(id));
+            }
+            else if(r.getOfferType() == OfferType.ADVENTURE){
+                //poziv adventureService.findOne
+            }
+            else { //ship
+                r.setOffer(shipService.findOne(id));
+            }
             r.getOffer().setImages(imageService.findAllByOfferId(id));
-            reservationsDTO.add(new HistoryPastReservationCottageOwnerDTO(r));
+            reservationsDTO.add(new HistoryPastReservationOwnerDTO(r));
         }
         return ResponseEntity.ok(reservationsDTO);
     }

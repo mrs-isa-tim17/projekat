@@ -6,6 +6,7 @@ import java.util.List;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.dto.cottage.FindCottageDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.service.*;
@@ -41,6 +42,11 @@ public class ShipController {
 	@Autowired
 	private ExperienceReviewService experienceReviewService;
 
+	@Autowired
+	private BehaviorRuleService behaviorRuleService;
+	@Autowired
+	private CancelConditionService cancelConditionService;
+
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
 		List<Ship> ships = shipService.findAll();
@@ -66,10 +72,10 @@ public class ShipController {
 
 
         for (Ship s : ships) {
-           //List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(c.getId());
+            List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(s.getId());
             List<Image> images = imageService.findAllByOfferId(s.getId());
-            //List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(c.getId());*/
-            shipsDTO.add(new FindShipDTO(s,images));
+            List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(s.getId());
+            shipsDTO.add(new FindShipDTO(s,images,rules,cancelConditions));
         }
         return new ResponseEntity<>(shipsDTO, HttpStatus.OK);
     }
@@ -114,7 +120,7 @@ public class ShipController {
 	}
 	
 	
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Void> deleteShip(@PathVariable Long id) {
 
 		Ship ship = shipService.findOne(id);
@@ -128,10 +134,9 @@ public class ShipController {
 	}
 	
 	
-	@PutMapping(consumes = "application/json")
+	@PutMapping(value="/update",consumes = "application/json")
 	public ResponseEntity<ShipDTO> updateShip(@RequestBody ShipDTO shipDTO) {
 
-		// a student must exist
 		Ship ship = shipService.findOne(shipDTO.getId());
 
 		if (ship == null) {
@@ -144,9 +149,29 @@ public class ShipController {
 		ship.setDescription(shipDTO.getDescription());
 		ship.setDeleted(shipDTO.isDeleted());
 	
-
+		//jos promena, slike, pravila..
 		ship =  shipService.save(ship);
 		return new ResponseEntity<>(new ShipDTO(ship), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/detail/{id}")
+	@PreAuthorize("hasRole('SHIP_OWNER')")
+	public ResponseEntity<FindShipDTO> getShip(@PathVariable Long id) {
+		Ship ship = null;
+		try {
+			ship = shipService.findOne(id);
+			if(ship == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(ship.getId());
+		List<Image> images = imageService.findAllByOfferId(ship.getId());
+		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(ship.getId());
+		FindShipDTO shipDTO = new FindShipDTO(ship,images,rules,cancelConditions);
+
+		return new ResponseEntity<FindShipDTO>(shipDTO, HttpStatus.OK);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.project.mrsisa.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
@@ -208,9 +209,9 @@ public class CottageController {
 	@DeleteMapping(value = "/delete/{id}")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Boolean> deleteCottage(@PathVariable Long id) {
-
+		System.out.println("tu sam, brisanje");
 		Cottage cottage = cottageService.findOne(id);
-
+		System.out.println(cottage.getName());
 		if (cottage != null) {
 			cottageService.remove(id);
 			return new ResponseEntity<Boolean>(true,HttpStatus.OK);

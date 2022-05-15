@@ -28,10 +28,19 @@
 
             <div class="col-4">
               <div class="card-body">
-                <button id="deleteCottage" @click="deleteShip">Obriši brod</button>
+                <deleteShipModal :header="deleteHeader" :ship="ship" :index="deleteId"></deleteShipModal>
                 <br>
                 <br>
-                <button @click="updateDataPage">Izmeni podatke</button>
+                <button @click="updateDataPage">Izmeni podatke</button><br><br>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Istorija rezervacija
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" @click="pastHistoryReservationsPage">Realizovane</button>
+                    <button class="dropdown-item" @click="futureHistoryReservationsPage">Nerealizovane</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -46,13 +55,16 @@
 import $ from "jquery";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import ShipService from "@/servieces/ShipService";
+import deleteShipModal from "@/components/deleteShipModal";
 export default {
   name: "shipElement",
   props: ["ship"],
-  components:{BirdVueMap},
+  components:{BirdVueMap,deleteShipModal},
   data(){
     return{
       image:"",
+      deleteId:"deleteShip",
+      deleteHeader:"Brisanje broda"
 
     }
   },
@@ -73,6 +85,12 @@ export default {
     },
     updateDataPage(){
       this.$router.push('/ship/update/' + this.ship.id);
+    },
+    pastHistoryReservationsPage(){
+      this.$router.push('/ship/reservations/past/' + this.ship.id);
+    },
+    futureHistoryReservationsPage(){
+      this.$router.push('/ship/reservations/future/' + this.ship.id);
     }
   }
 }
@@ -80,7 +98,7 @@ export default {
 
 <style scoped>
 button{
-  width:150px;
+  width:165px;
   background-color: #687864;
 }
 

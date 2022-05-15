@@ -284,7 +284,7 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '28.01.2022', 1, 4000, false, false, '24.01.2022.', 1, 7);
+    (false, '28.06.2022', 1, 4000, false, false, '24.06.2022.', 1, 7);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 8);

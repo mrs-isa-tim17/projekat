@@ -12,10 +12,8 @@
       <br>
     </div>
     <div class="column">
-      <label>Broj soba:  </label>
-      <input id="roomsNumber" name="roomsNumber" type="number" size="6" style="width:100px;margin-left: 10px;" v-model="ship.roomQuantity"><br><br>
       <label>Kapacitet:  </label>
-      <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="ship.bedQuantity"><br><br>
+      <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="ship.capacity"><br><br>
       <label style="margin-left: 27px;">Cena:  </label>
       <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="ship.price"><br>
     </div>
@@ -108,19 +106,19 @@
       <div class="p-2" style="border-style: solid; border-width: medium;">
 
         <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[0]"
+                                                                                     v-model="ship.p1"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
-                                                                                    v-model="cottage.percentage[1]"
+                                                                                    v-model="ship.p2"
                                                                                     size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[2]"
+                                                                                     v-model="ship.p3"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
         <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
-                                                                                     v-model="cottage.percentage[3]"
+                                                                                     v-model="ship.p4"
                                                                                      size="15"/> %
           ukupnog iznosa</p>
 
@@ -141,6 +139,14 @@ export default {
   components:{
   OpenMaps
   },
+created:
+    function() {
+      let id = this.$route.params.id
+      ShipService.getShip(id).then((response) => {
+        this.ship = response.data;
+        console.log(this.ship);
+      })
+    },
   methods:{
   updateCoordinats(lon, lat){
   this.ship.longitude = lon;
@@ -179,7 +185,10 @@ export default {
   roomQuantity:"",
   additionalEquipment: [],
   days: ['5', '10', '15', '20'],
-  percentage: ['0', '0', '0', '0'],
+  p1:"",
+    p2:"",
+    p3:"",
+    p4:"",
   experienceReviews: [],
   }
   }

@@ -22,7 +22,6 @@
 
             <div class="col-4">
               <div class="card-body">
-                <b>Klijent: </b>{{client.name}} {{client.surname}}
                 <p v-if="reservation.cancelled" style="color:red;font-weight: bold;">Otkazano</p>
                 <p v-if="reservation.quickReservation" style="color:red;font-weight: bold;">Brza rezervacija</p>
               </div>
@@ -30,8 +29,7 @@
 
             <div class="col-4">
               <div class="card-body">
-                <clientProfile :header="clientProfileHeader" :index="clientProfileId" :clientPr="client"></clientProfile><br>
-                <reservationReport :header="reportHeader" :reservation="reservation" :client="client" :index="reportId"></reservationReport>
+                <clientProfile></clientProfile>
               </div>
             </div>
 
@@ -45,51 +43,22 @@
 
 <script>
 import clientProfile from "@/components/clientProfile";
-import reservationReport from "@/components/reservationReport";
-import ClientServce from "@/servieces/ClientServce";
 export default {
-  name: "cottageOwnerPastReservationsElement",
-  components:{clientProfile,
-    reservationReport},
-  props:["reservation"],
-  created() {
-
-    if (this.reservation.images[0] != null) {
-      this.image = this.reservation.images[0];
-    } else {
-      this.image = "icons/ship.png";
-    }
-
-    ClientServce.getClient(this.reservation.clientId).then((response)=>
-    {
-      this.client = response.data;
-      console.log(this.client);
-    }
-    );
-  },
-
-  data(){
-    return{
-      image:"",
-      clientProfileHeader:"Profil klijenta",
-      clientProfileId:"clientProfile",
-      reportHeader:"Izveštaj o rezervaciji",
-      reportId:"reportReservation",
-      client:{
-        name: "",
-        surname: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        userType: "",
-        loyaltyPoints: "",
-        penaltyNumber: "",
-        benefits: "",
-        longitude: "",
-        latitude: ""
-      }
-    }
-    }
+  name: "shipOwnerFutureReservationsElement",
+  props: ["reservation"],
+  components:{clientProfile},
+data() {
+  return {
+    image: ""
+  }
+},
+created() {
+  if (this.reservation.images[0] != null) {
+    this.image = this.reservation.images[0];
+  } else {
+    this.image = "icons/ship.png";
+  }
+}
 }
 </script>
 

@@ -28,7 +28,7 @@
 
             <div class="col-4">
               <div class="card-body">
-              <button id="deleteCottage" @click="deleteCottage">Obriši vikendicu</button>
+              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :cottage="cottage"></deleteCottageModal>
               <br>
                 <br>
               <button @click="updateDataPage">Izmeni podatke</button><br><br>
@@ -56,15 +56,17 @@
 <script>
 import $ from "jquery";
 import BirdVueMap from "@/components/main_site/birdVueMap";
-import CottageService from "@/servieces/CottageService";
+import deleteCottageModal from "@/components/deleteCottageModal"
 export default {
   name: "cottageElement",
   props: ["cottage"],
-  components:{BirdVueMap},
+  components:{BirdVueMap,deleteCottageModal},
   data(){
     return{
       updateId:"updateCottage",
-      image:""
+      image:"",
+      DeleteHeader:"Brisanje vikendice",
+      deleteId:"deleteCottage"
 
     }
   },
@@ -79,9 +81,6 @@ export default {
     openModel() {
 
       $('#' + this.index).modal('show');
-    },
-    deleteCottage(){
-      CottageService.deleteCottage(this.cottage.id);
     },
     updateDataPage(){
       this.$router.push('/cottage/update/' + this.cottage.id);
