@@ -53,6 +53,9 @@ public class Reservation {
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Complaint> complaints;
+	
 	public boolean isReviewed() {
 		return reviewed;
 	}

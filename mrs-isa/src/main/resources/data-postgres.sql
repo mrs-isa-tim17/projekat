@@ -295,8 +295,12 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10);
     
-    
+     
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
- insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
+insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
 
  
+insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+
+
