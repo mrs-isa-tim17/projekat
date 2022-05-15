@@ -1,6 +1,6 @@
 <template>
   <button :id="btnId" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target="modalId">
-    Odbij
+    {{btnText}}
   </button>
 
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -11,13 +11,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
+          <p> {{complaintText}}</p>
+          <h6 style="text-align:left"> Vaš odgovor: </h6>
           <textarea id="text" class="my-4" rows="4" cols="20" name="text" v-model="text"></textarea>
           <h6 id="message"></h6>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-          <button type="button" class="btn btn-primary" @click="Reject">Pošalji</button>
+          <button type="button" class="btn btn-primary" @click="Answer">Pošalji</button>
         </div>
       </div>
     </div>
@@ -28,28 +29,28 @@
 import $ from "jquery";
 
 export default {
-  name: "inputTextModal",
-  props:["index","header", "requestId", "btnId"],
+  name: "complaintModal",
+  props:["index","header", "complaintId", "btnId", "btnText", "complaintText"],
   created:
       function () {
         this.modalId = "#"+this.index;
         console.log(this.index);
         console.log(this.modalId);
-        console.log(this.requestId);
+        console.log(this.complaintId);
       },
   methods:{
     openForm(){
       console.log("forma");
-  //    $('#'+this.index).modal('show');
+      //    $('#'+this.index).modal('show');
       var modalToggle = document.getElementById(this.index);
       ///myModal.show(modalToggle)
       $('#'+this.index).show(modalToggle);
       $('#'+this.index).focus(modalToggle);
     },
 
-    Reject(){
+    Answer(){
       if(this.text===""){
-        alert("Unesite obrazloženje.");
+        alert("Unesite odgovor.");
       }else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');
@@ -60,16 +61,17 @@ export default {
         document.body.removeChild(modalBackdrops[0]);
         document.body.style.overflow = 'auto';
 
-        this.$emit('reject-text', this.requestId, this.text);
+
+        this.$emit('answer-text', this.complaintId, this.text);
+
       }
     },
-
   },
   data(){
     return{
       modalId:"",
       text:"",
-      errorMessage:"Unesite obrazloženje."
+      errorMessage:"Unesite odgovor na žalbu."
     }
   }
 }

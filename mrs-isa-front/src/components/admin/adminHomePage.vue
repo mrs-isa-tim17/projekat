@@ -101,7 +101,7 @@ export default {
 
       complaintImgPath: require("@/assets/icons/angry.png"),
       complaintText: "Žalbe",
-      complaintLink: "...",
+      complaintLink: "/admin/complaints",
 
 
       percentageImgPath: require("@/assets/icons/percentage.png"),
