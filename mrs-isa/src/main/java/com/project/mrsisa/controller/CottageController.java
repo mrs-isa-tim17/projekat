@@ -1,11 +1,14 @@
 package com.project.mrsisa.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
+import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,11 +65,26 @@ public class CottageController {
 	@Autowired
 	private CancelConditionService cancelConditionService;
 
+	@Autowired
+	private PeriodAvailabilitySerivce periodAvailabilitySerivce;
+
+	@Autowired
+	private PeriodUnavailabilityService periodUnavailabilityService;
+
+	@Autowired
+	private ReservationService reservationService;
+
+	private OfferProcessing offerProcessing = new OfferProcessing();
+
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<CottageForListViewDTO>> getCottages(){
 		List<Cottage> cottages = cottageService.findAll();
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	private List<CottageForListViewDTO> getCottagesForListViewDTO(List<Cottage> cottages){
 		List<CottageForListViewDTO> cottagesDTO = new ArrayList<>();
-		System.out.println("Number of cottages: " + cottages.size());
 		for (Cottage c : cottages) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			CottageForListViewDTO dto = new CottageForListViewDTO(c);
@@ -74,8 +92,7 @@ public class CottageController {
 			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
 			cottagesDTO.add(dto);
 		}
-		System.out.println("Number of cottagesDTO: " + cottagesDTO.size());
-		return ResponseEntity.ok(cottagesDTO);
+		return cottagesDTO;
 	}
 
 	@GetMapping(value = "/site/short")
@@ -241,5 +258,50 @@ public class CottageController {
 		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.OK);
 	}
 	
-	
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
+	public ResponseEntity<CottageForListViewDTO> getFilteredCottages(@RequestBody CottageFilterParamsDTO cottageFilterParamsDTO){
+		List<Cottage> cottages = cottageService.findAll();
+
+		//lokacija
+		cottages = offerProcessing.filterByLocation(cottages, cottageFilterParamsDTO.getLongitude(), cottageFilterParamsDTO.getLatitude());
+
+		//broj soba
+		cottages = offerProcessing.filterByRoomQuntity(cottages, cottageFilterParamsDTO.getNumberOfRooms(), cottageFilterParamsDTO.getRoomsRelOp());
+
+		//broj kreveta
+		cottages = offerProcessing.filterByBedQuntity(cottages, cottageFilterParamsDTO.getNumberOfBed(), cottageFilterParamsDTO.getBedsRelOp());
+
+
+		//interval
+		if (cottageFilterParamsDTO.getDateFrom() != null && cottageFilterParamsDTO.getDateUntil() != null) {
+			System.out.println("DATEEEEEEEEEEEEEEEEEEEEE");
+			System.out.println(cottageFilterParamsDTO.getDateFrom());
+			for (Cottage c : cottages) {
+				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				System.out.println("PERIOOOOD AVA");
+				System.out.println(c.getPeriodAvailabilities().size());
+
+				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				System.out.println("PERIOOOOD");
+				System.out.println(c.getPeriodUnavailabilities().size());
+				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				System.out.println("RESERVAAAAAAAtion");
+				System.out.println(c.getReservations().size());
+			}
+			cottages = offerProcessing.filterByInterval(cottages, cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil());
+
+		}
+
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+
+		//rating
+		cottagesDTO = offerProcessing.filterByRating(cottagesDTO, cottageFilterParamsDTO.getRating(), cottageFilterParamsDTO.getRatingRelOp());
+
+		//cena
+		cottagesDTO = offerProcessing.filterByPrice(cottagesDTO, cottageFilterParamsDTO.getPrice(), cottageFilterParamsDTO.getPriceRelOp());
+
+
+
+		return new ResponseEntity(cottagesDTO, HttpStatus.OK);
+	}
 }

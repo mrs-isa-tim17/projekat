@@ -277,7 +277,7 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
     (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '17.01.2022', 0, 100, true, false, '11.01.2022.', 1, 5);
+    (false, '17.01.2022', 0, 100, false, false, '11.01.2022.', 1, 5);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 6);
@@ -300,4 +300,23 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
  insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
 
- 
+
+
+ insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',1);
+ insert into period_unavailability (start_date, end_date, offer_id) values ('15.05.2022','25.05.2022',1);
+
+
+ insert into period_availability (start_date,end_date,  offer_id) values ('20.01.2022','01.12.2022',3);
+--insert into period_unavailability (start_date,end_date,  offer_id) values ('20.05.2022','30.05.2022',3);
+
+insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id) values
+    (false, '20.05.2022', 0, 4000, false, false, '25.05.2022.', 1, 3);
+
+
+insert into period_availability ( start_date,end_date, offer_id) values ('20.01.2022','01.12.2022',4);
+insert into period_unavailability (start_date,end_date,  offer_id) values ('10.05.2022','30.05.2022',4);
+
+
+insert into period_availability (start_date, end_date,  offer_id) values ('20.01.2022','01.12.2022',5);
+--insert into period_unavailability (start_date, end_date, offer_id) values ('20.06.2022','22.06.2022',5);
+--insert into period_unavailability (start_date, end_date, offer_id) values ('20.05.2022','22.05.2022',5);
