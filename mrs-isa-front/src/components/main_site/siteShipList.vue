@@ -14,29 +14,17 @@
 </template>
 
 <script>
-import shipService from "@/servieces/ShipService";
 import SiteShipElement from "@/components/main_site/siteShipElement";
 import PaginationComponent from "@/components/paginationComponent";
-import shipServce from "@/servieces/ShipServce";
 
 export default {
   name: "site-cottage-list",
   components: {PaginationComponent, SiteShipElement},
+  props: ["cottages", "listLength"],
   mounted() {
-    shipService.getAllShips().then(
-        (response) => {
-          this.cottages = response.data;
-        }
-    )
   },
   created:
       function () {
-        shipServce.getShips().then(
-            (response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-            }
-        )
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -85,7 +73,6 @@ export default {
   data() {
     return {
       verifiedClient: false,
-      cottages : [],
       numberOfElementsForDisplay : 3,
       fromElement: 0,
       basicHeaderKey: 0,

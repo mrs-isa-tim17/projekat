@@ -267,7 +267,7 @@ export default {
       this.checkBeds();
       this.checkPrice();
       if (this.message !== "")
-        this.showToast()
+        this.showToast();
       let filterDto = {
         longitude: this.lon,
         latitude: this.lat,

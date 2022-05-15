@@ -10,6 +10,10 @@ class CottageServce{
     getShipsForHomePageView(){
         return axios.get(SHIP_API_BASE_URL + "/short");
     }
+
+    filterShips(filterParams) {
+        return axios.post(SHIP_API_BASE_URL + "/filter", filterParams);
+    }
 }
 
 export default new CottageServce();
