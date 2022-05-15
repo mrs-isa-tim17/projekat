@@ -60,7 +60,12 @@ export default {
   methods : {
     openModel(){
 
-      $('#'+this.index).modal('show');
+      //$('#'+this.index).modal('show');
+      //$('#'+this.index).modal('show');
+      var modalToggle = document.getElementById(this.index);
+      ///myModal.show(modalToggle)
+      $('#'+this.index).show(modalToggle);
+      $('#'+this.index).focus(modalToggle);
     },
     emitValue(){
       if (this.text == "" && this.rating=="*"){
