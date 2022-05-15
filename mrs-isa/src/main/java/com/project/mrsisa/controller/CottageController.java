@@ -271,8 +271,6 @@ public class CottageController {
 
 		//interval
 		if (cottageFilterParamsDTO.getDateFrom() != null && cottageFilterParamsDTO.getDateUntil() != null) {
-			System.out.println("DATEEEEEEEEEEEEEEEEEEEEE");
-			System.out.println(cottageFilterParamsDTO.getDateFrom());
 			for (Cottage c : cottages) {
 				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
 				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));

@@ -10,8 +10,8 @@
         <option value="2">Location</option>
         <option value="3">Ocena</option>
         <option value="4">Cena</option>
-        <option value="5">Broj kreveta</option>
-        <option value="6">Broj soba</option>
+        <option value="5">Brzina</option>
+        <option value="6">Kapacitet</option>
       </select>
     </div>
     <br>
@@ -61,6 +61,46 @@ export default {
 
       },
   methods: {
+    sortList(){
+      let sortBy = document.getElementById("sortBy").value;
+      if (sortBy == 1){
+        shipServce.sortShipListByName(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      } else if (sortBy == 2){
+        shipServce.sortShipListByLocation(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 3){
+        shipServce.sortShipListByRating(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 4){
+        shipServce.sortShipListByPrice(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 5){
+        shipServce.sortShipListBySpeed(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 6){
+        shipServce.sortShipListByCapacity(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }
+    },
     filterShips(filterDto){
       shipServce.filterShips(filterDto)
           .then((response) => {
