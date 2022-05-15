@@ -78,8 +78,8 @@
 }
 </style>
 <script>
-import clientHomePageOption from "@/components/clientHomePageOption";
-import clientHeader from "@/components/clientHeader";
+import clientHomePageOption from "@/components/client/clientHomePageOption";
+import clientHeader from "@/components/client/clientHeader";
 import ClientServce from "@/servieces/ClientServce";
 import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
 //import clientServce from "@/servieces/ClientServce";

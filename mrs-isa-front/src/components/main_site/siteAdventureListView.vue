@@ -16,8 +16,8 @@
 
 <script>
 import siteAdventureList from "@/components/main_site/siteAdventureList";
-import BasicHeader from "@/components/basicHeader";
-import ClientHeader from "@/components/clientHeader";
+import BasicHeader from "@/components/main_site/basicHeader";
+import ClientHeader from "@/components/client/clientHeader";
 import SiteAdventureSearchNav from "@/components/main_site/siteAdventureSearchNav";
 export default {
   name: "siteAdventureListView",

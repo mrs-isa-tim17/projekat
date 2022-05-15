@@ -15,23 +15,17 @@
 </template>
 
 <script>
-import cottageServce from "@/servieces/CottageServce";
 import SiteCottageElement from "@/components/main_site/siteCottageElement";
 import PaginationComponent from "@/components/paginationComponent";
 
 export default {
   name: "site-cottage-list",
   components: {PaginationComponent, SiteCottageElement},
+  props: ["cottages", "listLength"],
   mounted() {
   },
   created:
     function () {
-      cottageServce.getCottages().then(
-          (response) => {
-            this.cottages = response.data;
-            this.listLength = this.cottages.length;
-          }
-      )
       try{
 
         if (JSON.parse(localStorage.user) == null) {
@@ -80,7 +74,6 @@ export default {
   data() {
     return {
       verifiedClient: false,
-      cottages : [],
       numberOfElementsForDisplay : 4,
       fromElement: 0,
       basicHeaderKey: 0,

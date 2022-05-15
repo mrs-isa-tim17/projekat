@@ -16,8 +16,8 @@
 
 <script>
 import SiteShipList from "@/components/main_site/siteShipList";
-import BasicHeader from "@/components/basicHeader";
-import ClientHeader from "@/components/clientHeader";
+import BasicHeader from "@/components/main_site/basicHeader";
+import ClientHeader from "@/components/client/clientHeader";
 import SiteShipSearchNav from "@/components/main_site/siteShipSearchNav";
 export default {
   name: "siteShipListView",

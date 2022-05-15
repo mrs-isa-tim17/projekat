@@ -11,6 +11,9 @@ class CottageServce{
     async getCottagesForHomePageView(){
         return axios.get(COTTAGE_API_BASE_URL + "/short");
     }
+    filterCottages(filterParams){
+        return axios.post(COTTAGE_API_BASE_URL + "/filter", filterParams);
+    }
 }
 
 export default new CottageServce();

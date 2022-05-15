@@ -35,10 +35,10 @@
             <select id="ratingBy" class="form-select" style="width: 70px"  aria-label="Default select1">
               <option selected=""></option>
               <option value="1">==</option>
-              <option value="2">&#60;=</option>
-              <option value="3">&#60;</option>
-              <option value="4">&#62;=</option>
-              <option value="4">&#62;</option>
+              <option value="2">&lt;=</option>
+              <option value="3">&lt;</option>
+              <option value="4">&gt;=</option>
+              <option value="4">&gt;</option>
             </select>
           </div>
           <div class="col-4">
