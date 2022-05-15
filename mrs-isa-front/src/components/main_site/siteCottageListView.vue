@@ -3,6 +3,19 @@
   <basic-header :key="basicHeaderKey" v-show="!verifiedClient"></basic-header>
   <client-header :key="clientHeaderKey" v-show="verifiedClient"></client-header>
   <div>
+    <div>
+      <select style="right: 10%; width: 200px; position: absolute;" id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
+        <option selected>Sortiraj po</option>
+        <option value="1">Naziv</option>
+        <option value="2">Location</option>
+        <option value="3">Ocena</option>
+        <option value="4">Cena</option>
+        <option value="5">Broj kreveta</option>
+        <option value="6">Broj soba</option>
+      </select>
+    </div>
+    <br>
+    <br>
 
   <div class="row">
     <div class="col-3" style="width: 240px;">
@@ -49,6 +62,46 @@ export default {
 
       },
   methods: {
+    sortList(){
+      let sortBy = document.getElementById("sortBy").value;
+      if (sortBy == 1){
+        cottageServce.sortCottageListByName(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      } else if (sortBy == 2){
+        cottageServce.sortCottageListByLocation(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 3){
+        cottageServce.sortCottageListByRating(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 4){
+        cottageServce.sortCottageListByPrice(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 5){
+        cottageServce.sortCottageListByNumberOfBeds(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }else if (sortBy == 6){
+        cottageServce.sortCottageListByNumberOfRooms(this.cottages)
+            .then(response =>{
+              this.cottages = response.data;
+              this.forceRemounting();
+            })
+      }
+    },
     filterCottages(filterDto){
       console.log(filterDto);
       cottageServce.filterCottages(filterDto)
@@ -63,6 +116,7 @@ export default {
     forceRemounting() {
       this.clientHeaderKey += 1;
       this.basicHeaderKey += 1;
+      this.cottagesKey += 1;
     },
   },
   data() {

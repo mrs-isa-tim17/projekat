@@ -214,10 +214,10 @@ export default {
     },
     checkDates(){
       if (this.dateFrom !== "" && this.dateUntil === ""){
-        this.addMessage("Dato je početni datum, ali krajnji datum nije dato.");
+        this.addMessage("Dat je početni datum, ali krajnji datum nije dat.");
       }
       if (this.dateFrom === "" && this.dateUntil !== ""){
-        this.addMessage("Dato je krajnji datum, ali početni datum nije dato.");
+        this.addMessage("Dat je krajnji datum, ali početni datum nije dat.");
       }
       if (this.dateFrom !== null && this.dateUntil !== null && this.dateFrom > this.dateUntil){
         this.addMessage("Početni datum je veći od krajnjeg datuma");
@@ -227,7 +227,7 @@ export default {
     },
     checkRating(){
       if (this.rating !== "" && this.ratingRelOp === ""){
-        this.addMessage("Niste dali relacijoni operator za ocenu");
+        this.addMessage("Niste dali relacioni operator za ocenu.");
       }
       if (this.rating === "" && this.ratingRelOp !== ""){
         this.addMessage("Krenuli ste da date opciju za ocenu, pritom niste završili.");
@@ -235,7 +235,7 @@ export default {
     },
     checkRoom(){
       if (this.numberOfRooms !== "" && this.roomsRelOp === ""){
-        this.addMessage("Niste dali relacijoni operator za sobe.");
+        this.addMessage("Niste dali relacioni operator za broj soba.");
       }
       if (this.numberOfRooms === "" && this.roomsRelOp !== ""){
         this.addMessage("Krenuli ste da date opciju za broj soba, pritom niste završili.");
@@ -244,7 +244,7 @@ export default {
     },
     checkBeds(){
       if (this.numberOfBeds !== "" && this.bedsRelOp === ""){
-        this.addMessage("Niste dali relacijoni operator za kreveta.");
+        this.addMessage("Niste dali relacioni operator za broj kreveta.");
       }
       if (this.numberOfBeds === "" && this.bedsRelOp !== ""){
         this.addMessage("Krenuli ste da date opciju za broj kreveta, pritom niste završili.");
@@ -253,10 +253,10 @@ export default {
     },
     checkPrice(){
       if (this.price !== "" && this.priceRelOp === ""){
-        this.addMessage("Niste dali relacijoni operator za cenu.");
+        this.addMessage("Niste dali relacioni operator za cenu.");
       }
       if (this.price === "" && this.priceRelOp !== ""){
-        this.addMessage("Krenuli ste da date opciju za cenu, pritom niste završili. ");
+        this.addMessage("Krenuli ste da date opciju za cenu, pritom niste završili.");
       }
 
     },
