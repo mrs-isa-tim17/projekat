@@ -220,17 +220,17 @@ export default {
   },
 
   created:
-    function() {
-      console.log("bar je usao u funkciju");
+      function () {
+        console.log("bar je usao u funkciju");
 
-      let type = this.$route.params.type
-      AdventureService.getAdventure(type).then((response) => {
-        this.adventure = response.data;
-        console.log(this.adventure);
-        console.log(this.adventure.behavioralRules);
-        console.log("capacity" + this.adventure.capacity)
-      })
-    }
+        let type = this.$route.params.type
+        AdventureService.getAdventure(type).then((response) => {
+          this.adventure = response.data;
+          console.log(this.adventure);
+          console.log(this.adventure.behavioralRules);
+          console.log("capacity" + this.adventure.capacity)
+        })
+      }
   ,
   methods: {
     updateCoordinats(lon, lat) {
@@ -249,27 +249,26 @@ export default {
           document.getElementById("message").innerText = this.successMessage;
           console.log(this.adventure);
           //    this.$router.push('/instructor/adventures/')
-          this.disable=false;
+          this.disable = false;
         }).catch(function (error) {
-              console.log(error.toJSON());
-              if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-              } else if (error.request) {
-                // The request was made but no response was received
-                // error.request is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
-              } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-              }
-              console.log(error.config);
-            });
-
+          console.log(error.toJSON());
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // error.request is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
+        });
 
 
         /*  this.backup[0] = this.adventure.name;
@@ -277,7 +276,7 @@ export default {
           this.backup[2] = this.adventure.instructorBiography;
           this.backup[3] = this.adventure.capacity;
           this.backup[4] = this.adventure.price; */
-    //    document.getElementById("message").innerText = this.successMessage;
+        //    document.getElementById("message").innerText = this.successMessage;
       }
 
     },/* cancel() {
@@ -288,82 +287,86 @@ export default {
       this.adventure.price = this.backup[4];
 
     },*/
-    back(){
-      this.$router.push('/instructor/adventures');
+    back() {
+      if (this.$route.params.pre === "1") {
+        this.$router.push('/instructor/adventures');
+      } else if (this.$route.params.pre === "2") {
+        let id = this.$route.params.type
+        this.$router.push('/adventures/detail/:' + id);
+      }
     }
-
-    /* }
+      /* }
      , mounted() {
        this.backup = [this.adventure.name, this.adventure.description, this.adventure.instructorBiography, this.adventure.capacity,
          this.adventure.price];*/
+
   },
+    data() {
+      return {
+        disable: false,
 
-  data() {
-    return {
-      disable : false,
+        message: "Obavezno polje",
+        errorMessage: "Obavezno polje",
+        successMessage: "Uspešno izmenjena avantura",
 
-      message: "Obavezno polje",
-      errorMessage: "Obavezno polje",
-      successMessage: "Uspešno izmenjena avantura",
+        adventureNameLabel: "Naziv avanture*",
+        addressLabel: "Adresa*",
 
-      adventureNameLabel: "Naziv avanture*",
-      addressLabel: "Adresa*",
+        descriptionLabel: "Opis avanture*",
+        imgLabel: "Fotografije",
+        priceLabel: "Cena*",
+        capacityLabel: "Kapacitet*",
+        biographyLabel: "Biografija instruktora*",
 
-      descriptionLabel: "Opis avanture*",
-      imgLabel: "Fotografije",
-      priceLabel: "Cena*",
-      capacityLabel: "Kapacitet*",
-      biographyLabel: "Biografija instruktora*",
-
-      ruleLabel: "Pravila ponašanja*",
-      fishingEquipmentLabel: "Pecaroška oprema*",
-      additionalEquipmentLabel: "Dodatna oprema*",
-      cancelConditionsLabel: "Uslovi otkaza*",
+        ruleLabel: "Pravila ponašanja*",
+        fishingEquipmentLabel: "Pecaroška oprema*",
+        additionalEquipmentLabel: "Dodatna oprema*",
+        cancelConditionsLabel: "Uslovi otkaza*",
 
 
-      rule1: "dozvoljeno pecanje",
-      rule2: "zabranjeno pecanje",
-      rule3: "dozvoljeno kupanje",
-      rule4: "zabranjeno kupanje",
-      rule5: "volimo ljubimce",
+        rule1: "dozvoljeno pecanje",
+        rule2: "zabranjeno pecanje",
+        rule3: "dozvoljeno kupanje",
+        rule4: "zabranjeno kupanje",
+        rule5: "volimo ljubimce",
 
-      fishingEquipment1: "štapovi",
-      fishingEquipment2: "mamac",
-      fishingEquipment3: "udice",
-      fishingEquipment4: "čamac",
+        fishingEquipment1: "štapovi",
+        fishingEquipment2: "mamac",
+        fishingEquipment3: "udice",
+        fishingEquipment4: "čamac",
 
-      additionalEquipment1: "kabanica",
-      additionalEquipment2: "baterijska lampa",
+        additionalEquipment1: "kabanica",
+        additionalEquipment2: "baterijska lampa",
 
-      cancelRule1: "od manje 5",
-      cancelRule2: "od više 5",
-      cancelRule3: "od više 10",
-      cancelRule4: "od više 15",
-      cancelRule5: "od više 20",
+        cancelRule1: "od manje 5",
+        cancelRule2: "od više 5",
+        cancelRule3: "od više 10",
+        cancelRule4: "od više 15",
+        cancelRule5: "od više 20",
 
-      adventure: {
-        id:2,
-        name: "",
-        latitude:"",
-        longitude:"",
-        description: "",
-        behaviorRules: [],
-        images: [],
-        fishingEquipment: [],
-        cancelConditions: [],
-        price: "",
-        capacity: "",
-        instructorBiography: "",
-        additionalServices: [],
-        days: ['5', '10', '15', '20'],
-        p1:0,
-        p2:0,
-        p3:0,
-        p4:0,
-        experienceReviews: [],
-      },
+        adventure: {
+          id: 2,
+          name: "",
+          latitude: "",
+          longitude: "",
+          description: "",
+          behaviorRules: [],
+          images: [],
+          fishingEquipment: [],
+          cancelConditions: [],
+          price: "",
+          capacity: "",
+          instructorBiography: "",
+          additionalServices: [],
+          days: ['5', '10', '15', '20'],
+          p1: 0,
+          p2: 0,
+          p3: 0,
+          p4: 0,
+          experienceReviews: [],
+        }
+      }
     }
-  }
 }
 </script>
 

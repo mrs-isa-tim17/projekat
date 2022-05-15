@@ -34,6 +34,19 @@ class AdventureService{
             headers: authHeader()
         });
     }
+    defineAvailability(adventureId, period){
+        console.log(period)
+        return axios.post(ADVENTURE_API_BASE_URL + 'period/availability/' + adventureId, period, {
+            headers: authHeader()
+        });
+    }
+    defineUnavailability(adventureId, period){
+        console.log(period)
+        return axios.post(ADVENTURE_API_BASE_URL + 'period/unavailability/' + adventureId, period, {
+            headers: authHeader()
+        });
+
+    }
 }
 
 export default new AdventureService();

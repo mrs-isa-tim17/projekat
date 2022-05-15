@@ -3,7 +3,7 @@
     <instructor-header></instructor-header>
 
     <div class="row">
-      <div class="col-8">
+      <div class="col-7">
 
         <h1 align="left">{{ adventure.name }}</h1>
 
@@ -53,17 +53,50 @@
         </div>
 
         <div align="left" class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button class="btn btn-secondary me-md-2" type="button">Izmeni</button>
+          <button class="btn btn-secondary me-md-2" type="button" @click="goToUpdateAdventure">Izmeni</button>
         </div>
 
       </div>
 
       <div class="col">
-        <p>ovde kalendar</p> -->
+        <p>ovde kalendar</p>
+        <calendar></calendar>
+        <br>
+        <div class="row p-3">
+          <div class="col-4">
+              <label>{{this.labelStartDate}}</label>
+              <Datepicker v-model="availabilityDate.startDate"></Datepicker>
+          </div>
+            <div class="col-4">
+              <label>{{this.labelEndDate}}</label>
+              <Datepicker v-model="availabilityDate.endDate"></Datepicker>
+            </div>
+              <div class="col-4">
+              <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodAvailability">Definiši period dostupnosti</button>
+              </div>
+            </div>
+
+        <div class="row p-3">
+          <div class="col-4">
+            <label>{{this.labelStartDate}}</label>
+            <Datepicker v-model="unavailabilityDate.startDate"></Datepicker>
+          </div>
+          <div class="col-4">
+            <label>{{this.labelEndDate}}</label>
+            <Datepicker v-model="unavailabilityDate.endDate"></Datepicker>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodUnavailability">Definiši period nedostupnosti</button>
+          </div>
+
+        </div>
+
+
+          </div>
+        </div>
+
       </div>
 
-    </div>
-  </div>
 
 </template>
 
@@ -72,18 +105,22 @@ import instructorHeader from "@/components/insrtuctorHeader"
 import imagesCarousel from "@/components/imagesCarousel";
 import AdventureService from "@/services/AdventureService";
 import openLayers from "@/components/VueMaps";
-
+import Calendar from "@/components/calendar";
+import Datepicker from "@vuepic/vue-datepicker";
 
 export default {
   name: "adventure-instructor",
   components: {
+    Calendar,
     instructorHeader,
     imagesCarousel,
     openLayers,
+    Datepicker,
   },
   created:
       function () {
         let type = this.$route.params.type
+        this.currentId = type
         AdventureService.getAdventure(type).then((response) => {
           this.adventure = response.data;
           console.log(this.adventure)
@@ -109,14 +146,89 @@ export default {
             });
       },
   methods: {
+
+    goToUpdateAdventure() {
+      console.log(this.adventure.id);
+      this.$router.push('/adventure/update/' + this.adventure.id + '/2');
+    },
+
     updateCoordinats(lon, lat) {
       this.adventure.longitude = lon;
       this.adventure.latitude = lat;
       console.log(lon, lat)
+    },
+    DefinePeriodAvailability(){
+      AdventureService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
+        this.availDateAns = response.data;
+        console.log(this.availDateAns)
+
+        if (this.availDateAns === true){
+          alert("Uspešno ste dodali period dostupnosti.");
+        }else{
+          alert("Niste uspeli da dodate period dostupnosti.");
+        }
+
+      }) .catch(function (error) {
+        console.log(error.toJSON());
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // error.request is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+
+    },
+
+    DefinePeriodUnavailability(){
+
+      AdventureService.defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
+        this.unavailDateAns = response.data;
+        console.log("UNavail" + this.unavailDateAns);
+
+        if (this.unavailDateAns === true){
+          alert("Uspešno ste dodali period nedostupnosti.");
+        }else{
+          alert("Niste uspeli da dodate period nedostupnosti.");
+        }
+
+      }) .catch(function (error) {
+        console.log(error.toJSON());
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // error.request is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
     }
+
+
+
   },
   data() {
     return {
+      currentId: 0,
       adventure: {
         id: 2,
         name: "",
@@ -135,6 +247,21 @@ export default {
         percentage: ['0', '0', '0', '0'],
         experienceReviews: [],
       },
+      availabilityDate:{
+        startDate:"",
+        endDate:"",
+      },
+
+      unavailabilityDate:{
+        startDate:"",
+        endDate:"",
+      },
+
+      labelStartDate:"Početni datum",
+      labelEndDate:"Krajnji datum",
+
+      unavailDateAns:false,
+      availDateAns: false,
     }
   }
 }

@@ -15,7 +15,7 @@ const router = createRouter({
         {path: '/adventures/detail/:type', name: 'adventureForFishingInstructor', component: () => import("./components/fishing_instructor/adventureForFishingInstructor"),},
         { path: '/instructor/home', component: ()=> import("./components/fishing_instructor/instructorHomePage")},
         { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
-        { path: '/adventure/update/:type', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
+        { path: '/adventure/update/:type/:pre', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
 
         { path: '/book/site/home', component: () => import("./components/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
