@@ -78,7 +78,6 @@ export default {
   methods: {
     searchCottages(){
       let searchByInput = document.getElementById("searchInput").value;
-      console.log(searchByInput);
       let searchParam = {
         searchBy: searchByInput
       }

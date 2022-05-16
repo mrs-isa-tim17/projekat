@@ -264,4 +264,11 @@ public class ShipController {
 		return ResponseEntity.ok(cottagesDTO);
 	}
 
+	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ShipForListViewDTO>> getShipsSearchedBy(@RequestBody SearchParam searchBy){
+		List<Ship> ships = shipService.findAll();
+		ships = offerProcessing.searchShipsBy(ships, searchBy.getSearchBy());
+		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
+		return new ResponseEntity<List<ShipForListViewDTO>>(shipsDTO, HttpStatus.OK);
+	}
 }

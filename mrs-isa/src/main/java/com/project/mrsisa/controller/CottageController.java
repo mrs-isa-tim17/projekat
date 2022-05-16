@@ -361,11 +361,7 @@ public class CottageController {
 	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CottageForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
 		List<Cottage> cottages = cottageService.findAll();
-		System.out.println("SEAAAAARCH");
-		System.out.println(searchBy.getSearchBy());
-		System.out.println(cottages.size());
 		cottages = offerProcessing.searchCottagesBy(cottages, searchBy.getSearchBy());
-		System.out.println(cottages.size());
 		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
 		return new ResponseEntity<List<CottageForListViewDTO>>(cottagesDTO, HttpStatus.OK);
 	}

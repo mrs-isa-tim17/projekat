@@ -38,6 +38,10 @@ class ShipServce{
     sortShipListByCapacity(ships) {
         return axios.post(SHIP_API_BASE_URL + "/sort/capacity", ships);
     }
+
+    search(searchParam) {
+        return axios.post(SHIP_API_BASE_URL + "/search", searchParam);
+    }
 }
 
 export default new ShipServce();

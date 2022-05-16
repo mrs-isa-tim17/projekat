@@ -337,4 +337,26 @@ public class OfferProcessing {
             return true;
         return false;
     }
+
+    public List<Ship> searchShipsBy(List<Ship> ships, String searchBy) {
+        if (searchBy.equals(""))
+            return ships;
+        List<Ship> result = new ArrayList<>();
+        for (Ship c : ships){
+            if (containsText(c, searchBy))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Adventure> searchAdventuresBy(List<Adventure> adventure, String searchBy) {
+        if (searchBy.equals(""))
+            return adventure;
+        List<Adventure> result = new ArrayList<>();
+        for (Adventure c : adventure){
+            if (containsText(c, searchBy))
+                result.add(c);
+        }
+        return result;
+    }
 }
