@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import ClientHeader from "@/components/clientHeader";
-import HomePageOffers from "@/components/homePageOffers";
+import ClientHeader from "@/components/client/clientHeader";
+import HomePageOffers from "@/components/main_site/homePageOffers";
 export default {
   name: "homePageClient",
   components: {HomePageOffers, ClientHeader}

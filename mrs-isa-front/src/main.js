@@ -11,6 +11,8 @@ import 'jquery/src/jquery';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import './assets/basicCSS.css'
 
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
-createApp(App).use(OpenLayersMap).use(router).mount('#app');
+createApp(App).use(Datepicker).use(OpenLayersMap).use(router).mount('#app');
 

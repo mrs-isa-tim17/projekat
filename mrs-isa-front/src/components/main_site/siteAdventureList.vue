@@ -13,34 +13,17 @@
 </template>
 
 <script>
-import adventureServce from "@/servieces/AdventureServce";
 import SiteAdventureElement from "@/components/main_site/siteAdventureElement";
 import PaginationComponent from "@/components/paginationComponent";
 
 export default {
   name: "site-adventure-list",
   components: {PaginationComponent, SiteAdventureElement},
+  props: ["cottages", "listLength"],
   mounted() {
   },
   created:
       function () {
-        adventureServce.getAdventures().then(
-            (response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-            }
-        )
-        try{
-
-          if (JSON.parse(localStorage.user) == null) {
-            this.verifiedClient = false;
-          } else {
-            this.verifiedClient = true;
-          }
-        }catch (error){
-          this.verifiedClient = false;
-
-        }
         this.forceRemounting();
 
 
@@ -51,8 +34,6 @@ export default {
       this.forceRemounting();
     },
     forceRemounting(){
-      this.clientHeaderKey += 1;
-      this.basicHeaderKey += 1;
       this.paginationKey += 1;
     },
     filterOffers(){
@@ -77,12 +58,8 @@ export default {
 
   data() {
     return {
-      verifiedClient: false,
-      cottages : [],
       numberOfElementsForDisplay : 4,
       fromElement: 0,
-      basicHeaderKey: 0,
-      clientHeaderKey: 0,
       paginationKey:0
     }
   }

@@ -4,11 +4,11 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
 
     routes:[
-        { path: '/client/home', component: () => import("./components/clientHomePage.vue")},
-        { path: '/client/profile', component: () => import("./components/clientProfileChange.vue")},
-        { path: '/client/history/:type', component: () => import("./components/clientReservationHistory.vue")},
-        { path: '/client/verify/:code', component: () => import("./components/clientVerified.vue") },
-        { path: '/client/site/home', component: () => import("./components/homePageClient.vue")},
+        { path: '/client/home', component: () => import("./components/client/clientHomePage.vue")},
+        { path: '/client/profile', component: () => import("./components/client/clientProfileChange.vue")},
+        { path: '/client/history/:type', component: () => import("./components/client/clientReservationHistory.vue")},
+        { path: '/client/verify/:code', component: () => import("./components/client/clientVerified.vue") },
+        { path: '/client/site/home', component: () => import("./components/main_site/homePageClient.vue")},
 
         { path: '/instructor/adventures', component: () => import("./components/fishing_instructor/allInstructorsAdventures")},
 
@@ -17,7 +17,7 @@ const router = createRouter({
         { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
         { path: '/adventure/update/:type', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
 
-        { path: '/book/site/home', component: () => import("./components/homePage.vue")},
+        { path: '/book/site/home', component: () => import("./components/main_site/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
         { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageListView.vue")},

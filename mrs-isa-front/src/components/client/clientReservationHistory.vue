@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import clientReservationHistoryList from "@/components/clientReservationHistoryList";
-import clientHeader from "@/components/clientHeader";
+import clientReservationHistoryList from "@/components/client/clientReservationHistoryList";
+import clientHeader from "@/components/client/clientHeader";
 //import clientServce from "@/servieces/ClientServce";
 import PaginationComponent from "@/components/paginationComponent";
 import reservationServce from "@/servieces/ReservationServce";

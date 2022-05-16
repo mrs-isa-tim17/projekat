@@ -25,7 +25,7 @@
 </template>
 <script>
 import loginServce from "@/servieces/LoginServce";
-import basicHeader from "@/components/basicHeader";
+import basicHeader from "@/components/main_site/basicHeader";
 export default {
   name: "loginUsers",
   components: {

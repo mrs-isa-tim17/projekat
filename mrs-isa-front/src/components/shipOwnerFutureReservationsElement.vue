@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import clientProfile from "@/components/clientProfile";
+import clientProfile from "@/components/client/clientProfile";
 export default {
   name: "shipOwnerFutureReservationsElement",
   props: ["reservation"],
