@@ -60,16 +60,16 @@
 
       <div class="col">
         <p>ovde kalendar</p>
-        <calendar></calendar>
+        <calendar :key="calendarKey" :availability-period="this.availabilityPeriod" :unavailability-period="this.unavailabilityPeriod" :my-events="this.myEvents"></calendar>  <!--  Ovde posalji u props events  -->
         <br>
         <div class="row p-3">
           <div class="col-4">
               <label>{{this.labelStartDate}}</label>
-              <Datepicker v-model="availabilityDate.startDate"></Datepicker>
+              <Datepicker v-model="availabilityDate.start"></Datepicker>
           </div>
             <div class="col-4">
               <label>{{this.labelEndDate}}</label>
-              <Datepicker v-model="availabilityDate.endDate"></Datepicker>
+              <Datepicker v-model="availabilityDate.end"></Datepicker>
             </div>
               <div class="col-4">
               <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodAvailability">Definiši period dostupnosti</button>
@@ -79,11 +79,11 @@
         <div class="row p-3">
           <div class="col-4">
             <label>{{this.labelStartDate}}</label>
-            <Datepicker v-model="unavailabilityDate.startDate"></Datepicker>
+            <Datepicker v-model="unavailabilityDate.start"></Datepicker>
           </div>
           <div class="col-4">
             <label>{{this.labelEndDate}}</label>
-            <Datepicker v-model="unavailabilityDate.endDate"></Datepicker>
+            <Datepicker v-model="unavailabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
             <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodUnavailability">Definiši period nedostupnosti</button>
@@ -107,6 +107,8 @@ import AdventureService from "@/services/AdventureService";
 import openLayers from "@/components/VueMaps";
 import Calendar from "@/components/calendar";
 import Datepicker from "@vuepic/vue-datepicker";
+import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
+
 
 export default {
   name: "adventure-instructor",
@@ -123,8 +125,12 @@ export default {
         this.currentId = type
         AdventureService.getAdventure(type).then((response) => {
           this.adventure = response.data;
-          console.log(this.adventure)
+          console.log(this.adventure);
+
         })
+
+
+
             .catch(function (error) {
               console.log(error.toJSON());
               if (error.response) {
@@ -145,6 +151,27 @@ export default {
               console.log(error.config);
             });
       },
+  mounted() {
+
+    PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.currentId).then((response) => {
+      this.availabilityPeriod = response.data;
+      console.log("dostupno iy fish");
+      console.log(this.availabilityPeriod);
+      console.log(response.data);
+
+      this.calendarKey++;
+    });
+
+    PeriodAvailabilityUnavailabilityService.getUnavailabilityPeriods(this.currentId).then((response) => {
+      this.unavailabilityPeriod = response.data;
+      console.log("nedostupno iz fish");
+      console.log(this.unavailabilityPeriod);
+      console.log(response.data);
+      this.calendarKey--;
+    })
+
+  },
+
   methods: {
 
     goToUpdateAdventure() {
@@ -158,7 +185,7 @@ export default {
       console.log(lon, lat)
     },
     DefinePeriodAvailability(){
-      AdventureService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
+      PeriodAvailabilityUnavailabilityService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
         this.availDateAns = response.data;
         console.log(this.availDateAns)
 
@@ -192,7 +219,7 @@ export default {
 
     DefinePeriodUnavailability(){
 
-      AdventureService.defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
+      PeriodAvailabilityUnavailabilityService.defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
         this.unavailDateAns = response.data;
         console.log("UNavail" + this.unavailDateAns);
 
@@ -248,20 +275,29 @@ export default {
         experienceReviews: [],
       },
       availabilityDate:{
-        startDate:"",
-        endDate:"",
+        start:"",
+        end:"",
       },
-
       unavailabilityDate:{
-        startDate:"",
-        endDate:"",
+        start:"",
+        end:"",
       },
-
       labelStartDate:"Početni datum",
       labelEndDate:"Krajnji datum",
 
       unavailDateAns:false,
       availDateAns: false,
+
+      availabilityPeriod:[],
+      unavailabilityPeriod:[],
+      myEvents:[],
+      calendarKey: 1,
+      period:{
+        start:"",
+        end:"",
+        color: "",
+        title: "",
+      }
     }
   }
 }
