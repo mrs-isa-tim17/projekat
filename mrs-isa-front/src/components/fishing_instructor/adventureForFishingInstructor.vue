@@ -60,7 +60,7 @@
 
       <div class="col">
         <p>ovde kalendar</p>
-        <calendar :key="calendarKey" :availability-period="this.availabilityPeriod" :unavailability-period="this.unavailabilityPeriod" :my-events="this.myEvents"></calendar>  <!--  Ovde posalji u props events  -->
+        <calendar :key="calendarKey" :availability-period="this.availabilityPeriod" :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></calendar>  <!--  Ovde posalji u props events  -->
         <br>
         <div class="row p-3">
           <div class="col-4">
@@ -168,6 +168,11 @@ export default {
       console.log(this.unavailabilityPeriod);
       console.log(response.data);
       this.calendarKey--;
+    })
+
+    AdventureService.getReservationPeriods(this.currentId).then((response) => {
+      this.reservations = response.data;
+      this.calendarKey++;
     })
 
   },
@@ -290,7 +295,7 @@ export default {
 
       availabilityPeriod:[],
       unavailabilityPeriod:[],
-      myEvents:[],
+      reservations:[],
       calendarKey: 1,
       period:{
         start:"",

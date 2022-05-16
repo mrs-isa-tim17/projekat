@@ -23,17 +23,9 @@ export default {
       period.color = '#2593F5';
       this.calendarOptions.events.push(period);
     }
-
-    for(let e of this.myEvents){
-      console.log("dogadjaji " + e);
-    }
-
-    console.log(this.events);
+    console.log(this.myEvents);
   },
 
-  mounted() {
-
-  },
   data() {
     return {
       calendarOptions: {

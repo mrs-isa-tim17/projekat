@@ -39,6 +39,7 @@ import com.project.mrsisa.service.BehaviorRuleService;
 import com.project.mrsisa.service.CancelConditionService;
 import com.project.mrsisa.service.FishingEquipmentService;
 import com.project.mrsisa.service.PricelistService;
+import com.project.mrsisa.service.ReservationService;
 
 @RestController
 @RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,6 +68,9 @@ public class AdventureController {
 	
 	@Autowired
 	private PricelistService pricelistService;
+	
+	@Autowired
+	private ReservationService reservationService;
 	
 
 	
@@ -190,6 +194,22 @@ public class AdventureController {
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping(value="/detail/reservation/periods/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate(), r.getEndDate(), adventure.getName());
+			reservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+	}
+
 	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		

@@ -18,4 +18,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             nativeQuery = true)
     //@Query("SELECT rs FROM reservation r LEFT JOIN FETCH ")
     List<Reservation> findCottageReservationHistory(Long clientId, int offerType);
+    
+    @Transactional
+    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1", nativeQuery = true)
+    List<Reservation> findAllReservationsForAdventure(Long id);
 }
