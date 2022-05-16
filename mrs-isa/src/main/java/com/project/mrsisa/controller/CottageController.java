@@ -9,6 +9,7 @@ import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
+import com.project.mrsisa.dto.simple_user.SearchParam;
 import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -355,5 +356,17 @@ public class CottageController {
 			}
 		});
 		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
+		List<Cottage> cottages = cottageService.findAll();
+		System.out.println("SEAAAAARCH");
+		System.out.println(searchBy.getSearchBy());
+		System.out.println(cottages.size());
+		cottages = offerProcessing.searchCottagesBy(cottages, searchBy.getSearchBy());
+		System.out.println(cottages.size());
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+		return new ResponseEntity<List<CottageForListViewDTO>>(cottagesDTO, HttpStatus.OK);
 	}
 }

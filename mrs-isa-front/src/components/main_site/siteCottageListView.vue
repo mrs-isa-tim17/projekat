@@ -3,6 +3,20 @@
   <basic-header :key="basicHeaderKey" v-show="!verifiedClient"></basic-header>
   <client-header :key="clientHeaderKey" v-show="verifiedClient"></client-header>
   <div>
+    <div  style="left: 2%; position: absolute;">
+      <div class="input-group rounded">
+        <input id="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <button style="border-width: 0;" @click="searchCottages">
+        <span class="input-group-text border-0" id="search-addon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </span>
+        </button>
+      </div>
+
+    </div>
+
     <div>
       <select style="right: 10%; width: 200px; position: absolute;" id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
         <option selected>Sortiraj po</option>
@@ -62,6 +76,19 @@ export default {
 
       },
   methods: {
+    searchCottages(){
+      let searchByInput = document.getElementById("searchInput").value;
+      console.log(searchByInput);
+      let searchParam = {
+        searchBy: searchByInput
+      }
+      cottageServce.search(searchParam)
+          .then(response =>{
+            this.cottages = response.data;
+            this.listLength = this.cottages.length;
+            this.forceRemounting();
+          })
+    },
     sortList(){
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 1){

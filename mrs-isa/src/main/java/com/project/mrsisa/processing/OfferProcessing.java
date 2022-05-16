@@ -318,4 +318,23 @@ public class OfferProcessing {
         }
         return result;
     }
+
+    public List<Cottage> searchCottagesBy(List<Cottage> cottages, String searchBy) {
+        if (searchBy.equals(""))
+            return cottages;
+        List<Cottage> result = new ArrayList<>();
+        for (Cottage c : cottages){
+            if (containsText(c, searchBy))
+                result.add(c);
+        }
+        return result;
+    }
+
+    private boolean containsText(Offer offer, String searchBy) {
+        if (offer.getName().toLowerCase().contains(searchBy.toLowerCase()))
+            return true;
+        if (offer.getDescription().toLowerCase().contains(searchBy.toLowerCase()))
+            return true;
+        return false;
+    }
 }

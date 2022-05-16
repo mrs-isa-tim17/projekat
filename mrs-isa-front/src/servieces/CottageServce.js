@@ -37,6 +37,11 @@ class CottageServce{
     sortCottageListByNumberOfBeds(cottages) {
         return axios.post(COTTAGE_API_BASE_URL + "/sort/beds", cottages);
     }
+
+    search(searchBy) {
+        return axios.post(COTTAGE_API_BASE_URL + "/search", searchBy);
+
+    }
 }
 
 export default new CottageServce();
