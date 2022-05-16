@@ -3,6 +3,8 @@ package com.project.mrsisa.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -407,5 +409,58 @@ public class AdventureController {
 			adventureDTO.add(dto);
 		}
 		return adventureDTO;
+	}
+
+	@PostMapping(value = "/site/sort/name", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByName(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
+	}
+
+	@PostMapping(value = "/site/sort/location", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByLocation(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getLatitude() - c2.getLatitude());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
+	}
+	@PostMapping(value = "/site/sort/rating", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByRating(@RequestBody List<AdventureForListViewDTO> adventuresDTO){
+		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getMark() - c2.getMark());
+			}
+		});
+		return ResponseEntity.ok(adventuresDTO);
+	}
+	@PostMapping(value = "/site/sort/price", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByPrice(@RequestBody List<AdventureForListViewDTO> adventuresDTO){
+		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getPrice() - c2.getPrice());
+			}
+		});
+		return ResponseEntity.ok(adventuresDTO);
+	}
+
+	@PostMapping(value = "/site/sort/capacity", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByCapacity(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getCapacity() - c2.getCapacity());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
 	}
 }

@@ -14,6 +14,30 @@ class AdventureServce{
     filterAdventures(filterParams) {
         return axios.post(ADVENTURES_API_BASE_URL + "/filter", filterParams);
     }
+
+    sortAdventureListByName(adventures) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/sort/name", adventures);
+    }
+
+    sortAdventureListByLocation(adventures) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/sort/location", adventures);
+
+    }
+
+    sortAdventureListByRating(adventures) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/sort/rating", adventures);
+
+    }
+
+    sortAdventureListByPrice(adventures) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/sort/price", adventures);
+
+    }
+
+    sortAdventureListByCapacity(adventures) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/sort/capacity", adventures);
+
+    }
 }
 
 export default new AdventureServce();
