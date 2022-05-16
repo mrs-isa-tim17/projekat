@@ -68,11 +68,7 @@ public class AdventureController {
 	@Autowired
 	private PricelistService pricelistService;
 	
-	@Autowired
-	private PeriodAvailabilitySerivce periodAvailabilityService;
-	
-	@Autowired
-	private PeriodUnavailabilityService periodUnavailabilityService;
+
 	
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -192,54 +188,6 @@ public class AdventureController {
 		}
 
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
-	}
-	
-	
-	@PostMapping(value = "/detail/period/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateDTO startEndDateDTO){
-		
-		
-		PeriodAvailability periodAvailability = new PeriodAvailability();
-		Adventure adventure = adventureService.findOneById(id);
-		periodAvailability.setOffer(adventure);
-		periodAvailability.setStartDate(startEndDateDTO.getStartDate());
-		periodAvailability.setEndDate(startEndDateDTO.getEndDate());
-		
-		periodAvailabilityService.save(periodAvailability);
-		
-		return new ResponseEntity<>(true , HttpStatus.CREATED);	
-	}
-	
-	
-	@PostMapping(value = "/detail/period/unavailability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateDTO startEndDateDTO){
-		
-		PeriodUnavailability periodUnavailability = new PeriodUnavailability();
-		
-		Adventure adventure = adventureService.findOneById(id);
-		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(adventure.getId());
-		System.out.println("OK-"+availabilityPeriods.size());
-		
-		boolean isCorect = false;
-		for(PeriodAvailability pa : availabilityPeriods) {
-			if(pa.getStartDate().isBefore(startEndDateDTO.getStartDate()) && pa.getEndDate().isAfter(startEndDateDTO.getEndDate()))
-			{
-				isCorect = true;
-				break;
-			}
-		}
-		if (isCorect==false) {	
-			return new ResponseEntity<>(false , HttpStatus.CREATED);	
-		}
-		else {
-			periodUnavailability.setOffer(adventure);
-			periodUnavailability.setStartDate(startEndDateDTO.getStartDate());
-			periodUnavailability.setEndDate(startEndDateDTO.getEndDate());
-			periodUnavailabilityService.save(periodUnavailability);
-			return new ResponseEntity<>(true , HttpStatus.CREATED);	
-		}
 	}
 	
 	

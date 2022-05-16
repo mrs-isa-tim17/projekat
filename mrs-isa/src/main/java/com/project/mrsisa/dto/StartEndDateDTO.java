@@ -3,35 +3,52 @@ package com.project.mrsisa.dto;
 import java.time.LocalDate;
 
 public class StartEndDateDTO {
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDate start;
+	private LocalDate end;
+	private String title;
+	private String color;
 	
 	
 	public StartEndDateDTO() {
 		
 	}
 	
-	public StartEndDateDTO(LocalDate startDate, LocalDate endDate) {
+	public StartEndDateDTO(LocalDate startDate, LocalDate endDate, String eventName) {
 		super();
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.start = startDate;
+		this.end = endDate;
+		this.color = "";
+		this.title = eventName;
+		
 	}
 	
-	public LocalDate getStartDate() {
-		return startDate;
+	public LocalDate getStart() {
+		return start;
 	}
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+	public void setStart(LocalDate startDate) {
+		this.start = startDate;
 	}
-	public LocalDate getEndDate() {
-		return endDate;
+	public LocalDate getEnd() {
+		return end;
 	}
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+	public void setEnd(LocalDate endDate) {
+		this.end = endDate;
 	}
-	
-	
-	
-	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String eventName) {
+		this.title = eventName;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 }
