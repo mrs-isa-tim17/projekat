@@ -31,39 +31,39 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id,
 	penalty_number, enabled) values
 	('CL', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3815828', 'Markovic', 0,1, to_timestamp('2017-10-01 21:58:58', 'yyyy-MM-DD HH:mm:SS'), 1,
+	'+3815828', 'Markovic', 0,1, to_timestamp('2017-10-01 21:58:58', 'YYYY-MM-DD HH:MI:SS'), 1,
 	0, true);
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 2, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),5, true);
+	'+3817885', 'Milanovic', 0, 2, to_timestamp('2017-10-01 18:57:58', 'YYYY-MM-DD HH:MI:SS'),5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+38177590', 'Samcovic', 0, 3, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),3,true);
+	'+38177590', 'Samcovic', 0, 3, to_timestamp('2017-10-01 18:57:58', 'YYYY-MM-DD HH:MI:SS'),3,true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('SO', nextval('user_seq'), false, 'bogi@email.com', 0, 'Bogdan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3853252', 'Radojevic', 0, 4, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),4,true);
+	'+3853252', 'Radojevic', 0, 4, to_timestamp('2017-10-01 18:57:58', 'YYYY-MM-DD HH:MI:SS'),4,true);
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'm.m@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),3, true);
+	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'YYYY-MM-DD HH:MI:SS'),3, true);
 
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),4, true);
+	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'YYYY-MM-DD HH:MI:SS'),4, true);
 
 	
 	
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled, init_login_changed) values
 	('AD', nextval('user_seq'), false, 'admin@email.com', 0, 'Žika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3853252', 'Žikić', 0, 17, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),2,true, true);
+	'+3853252', 'Žikić', 0, 17, to_timestamp('2017-10-01 18:57:58.508-07', 'YYYY-MM-DD HH:MI:SS'),2,true, true);
 
 	
 	
@@ -165,7 +165,7 @@ insert into image (path, offer_id) values('img/adventure/Drina3.jpg', 2);
 
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
-insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.yyyy'), 2);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.YYYY'), 2);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
     values (nextval('offer_seq'), false, 'Idealno mesto za odmor', 'Šumske priče Divčibare', 1, 4, 2, 3);
@@ -223,10 +223,10 @@ insert into adventure (id, deleted, description, name, address_id, capacity,
 	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Comfy on the Tisa', 15, 6,
 	'Instruktor instruktor instruktor, najbolji na svetu', 2);
 
-insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.yyyy'), 11);
-insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.yyyy'), 12);
-insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.yyyy'), 13);
-insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.yyyy'), 14);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.YYYY'), 11);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.YYYY'), 12);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.YYYY'), 13);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, to_date('29.04.2022.', 'DD.MM.YYYY'), 14);
 
 
 insert into image (path, offer_id) values ('img/cottage/meda/meda.jpg', 1);
@@ -271,29 +271,29 @@ insert into image (path, offer_id) values ('img/instructor/906z513_PECANJE2310po
 insert into image (path, offer_id) values ('img/instructor/maxresdefault.jpg', 12);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('28.01.2022', 'DD.MM.yyyy'), 0, 4000, false, false, to_date('24.01.2022.', 'DD.MM.yyyy'), 1, 1);
+    (false, to_date('28.01.2022', 'DD.MM.YYYY'), 0, 4000, false, false, to_date('24.01.2022.', 'DD.MM.YYYY'), 1, 1);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (true, to_date('17.02.2022', 'DD.MM.yyyy'), 0, 50000, false, false, to_date('14.02.2022.', 'DD.MM.yyyy'), 1, 4);
+    (true, to_date('17.02.2022', 'DD.MM.YYYY'), 0, 50000, false, false, to_date('14.02.2022.', 'DD.MM.YYYY'), 1, 4);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('17.01.2022', 'DD.MM.yyyy'), 0, 100, true, false, to_date('11.01.2022.', 'DD.MM.yyyy'), 1, 5);
+    (false, to_date('17.01.2022', 'DD.MM.YYYY'), 0, 100, true, false, to_date('11.01.2022.', 'DD.MM.YYYY'), 1, 5);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('14.04.2022', 'DD.MM.yyyy'), 0, 42542, false, true, to_date('12.04.2022.', 'DD.MM.yyyy'), 1, 6);
+    (false, to_date('14.04.2022', 'DD.MM.YYYY'), 0, 42542, false, true, to_date('12.04.2022.', 'DD.MM.YYYY'), 1, 6);
 
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('28.01.2022', 'DD.MM.yyyy'), 1, 4000, false, false, to_date('24.01.2022.', 'DD.MM.yyyy'), 1, 7);
+    (false, to_date('28.01.2022', 'DD.MM.YYYY'), 1, 4000, false, false, to_date('24.01.2022.', 'DD.MM.YYYY'), 1, 7);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (true, to_date('17.02.2022', 'DD.MM.yyyy'), 1, 50000, false, false, to_date('14.02.2022.', 'DD.MM.yyyy'), 1, 8);
+    (true, to_date('17.02.2022', 'DD.MM.YYYY'), 1, 50000, false, false, to_date('14.02.2022.', 'DD.MM.YYYY'), 1, 8);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('17.01.2022', 'DD.MM.yyyy'), 1, 100, true, false, to_date('11.01.2022.', 'DD.MM.yyyy'), 1, 9);
+    (false, to_date('17.01.2022', 'DD.MM.YYYY'), 1, 100, true, false, to_date('11.01.2022.', 'DD.MM.YYYY'), 1, 9);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, to_date('14.04.2022', 'DD.MM.yyyy'), 1, 42542, false, true, to_date('12.04.2022.', 'DD.MM.yyyy'), 1, 10);
+    (false, to_date('14.04.2022', 'DD.MM.YYYY'), 1, 42542, false, true, to_date('12.04.2022.', 'DD.MM.YYYY'), 1, 10);
     
     
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
