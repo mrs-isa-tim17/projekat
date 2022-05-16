@@ -88,6 +88,7 @@ import disabledInputField from "@/components/disabledInputField";
 import deleteAccountModal from "@/components/deleteAccountModal"
 import CottageOwnerService from "@/servieces/CottageOwnerService";
 import PasswordService from "@/servieces/PasswordService";
+import swal from "sweetalert2";
 export default {
   name: "edit-profile-owner",
   components:{changePasswordModal,
@@ -166,7 +167,7 @@ export default {
     },
     updateProfile(){
       CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
-      document.getElementById("successChange").style.visibility = 'visible';
+      swal.fire({title:'Uspešno izmenjeno!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       this.backup[0] = this.owner.name;
       this.backup[1] = this.owner.surname;
       this.backup[2] = this.owner.phoneNumber;
@@ -189,10 +190,10 @@ export default {
       PasswordService.matchPassword(this.passwords,this.coID)
           .then((response)=>{
                 if(response.data){
-                  document.getElementById("successChange").style.visibility = 'visible';
+                  swal.fire({title:'Uspešno izmenjeno!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
                 }
                 else{
-                  document.getElementById("notSuccessChangePass").style.visibility = 'visible';
+                  swal.fire({title:'Neuspešne izmene!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
                 }
               }
           )

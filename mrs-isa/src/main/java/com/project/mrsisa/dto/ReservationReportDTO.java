@@ -1,36 +1,55 @@
 package com.project.mrsisa.dto;
 
+import com.project.mrsisa.domain.ReservationReport;
+
 public class ReservationReportDTO {
-    private int reservationId;
-    private String report;
-    private boolean suggestedPenalty;
+    private Long reservationId;
+    private Long clientId;
+    private String reportText;
+    private boolean suggestedPenallty;
     private boolean unarrivedClient;
 
-    public ReservationReportDTO() {
+    public ReservationReportDTO(){
+
+    }
+    public ReservationReportDTO(ReservationReport report) {
+        clientId = report.getClientId();
+        reservationId = report.getReservationId();
+        suggestedPenallty = report.isPenallty();
+        unarrivedClient = report.isUnarrivedClient();
+        reportText = report.getReportText();
     }
 
-    public int getReservationId() {
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public Long getReservationId() {
         return reservationId;
     }
 
-    public void setReservationId(int reservationId) {
+    public void setReservationId(Long reservationId) {
         this.reservationId = reservationId;
     }
 
     public String getReport() {
-        return report;
+        return reportText;
     }
 
     public void setReport(String report) {
-        this.report = report;
+        this.reportText = report;
     }
 
-    public boolean isSuggestedPenalty() {
-        return suggestedPenalty;
+    public boolean isSuggestedPenallty() {
+        return suggestedPenallty;
     }
 
-    public void setSuggestedPenalty(boolean suggestedPenalty) {
-        this.suggestedPenalty = suggestedPenalty;
+    public void setSuggestedPenallty(boolean suggestedPenallty) {
+        this.suggestedPenallty = suggestedPenallty;
     }
 
     public boolean isUnarrivedClient() {

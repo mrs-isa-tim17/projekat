@@ -73,11 +73,14 @@ public class ReservationController {
         for (Reservation r : pastReservations) {
             if (r.getOfferType() == OfferType.COTTAGE) {
                 r.setOffer(cottageService.findOne(id));
+
             } else if (r.getOfferType() == OfferType.ADVENTURE) {
                 //poziv adventureService.findOne
             } else { //ship
                 r.setOffer(shipService.findOne(id));
             }
+            r.getOffer().setImages(imageService.findAllByOfferId(id));
+            reservationsDTO.add(new HistoryPastReservationOwnerDTO(r));
 
 
         }

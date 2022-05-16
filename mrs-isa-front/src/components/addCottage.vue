@@ -1,152 +1,179 @@
 <template>
-  <div class="container">
-    <cottageOwnerHeader></cottageOwnerHeader>
-  <div id="dataForm" class="row">
-    <div class="column">
-    <label>Naziv vikendice</label><br>
-    <input id="name" name="name" type="text" style="width: 250px;margin-left:0px;" v-model="cottage.name" ><br>
-      <br>
-      <label>Adresa vikendice</label><br>
-      <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 250px; height: 250px; margin-left:30px;"></open-maps>
-    <br>
-      <label>Opis vikendice</label><br>
-      <textarea id="description" name="description" type="text" rows="5" cols="26" v-model="cottage.description"></textarea> <br>
-      <br>
-      </div>
-    <div class="column">
-    <label>Broj soba:  </label>
-    <input id="roomsNumber" name="roomsNumber" type="number" size="6" style="width:100px;margin-left: 10px;" v-model="cottage.roomQuantity"><br><br>
-      <label>Kapacitet:  </label>
-      <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="cottage.bedQuantity"><br><br>
-    <label style="margin-left: 27px;">Cena:  </label>
-    <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="cottage.price"><br>
-      </div>
 
-    <div class="column" >
-      <label for="formFile" class="form-label">Slike vikendice</label><br>
-      <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
-      <br>
-      <div id="equipment">
-        Dodatne usluge
-        <div align="left" class="checkBox">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq1 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq1>{{eq1}}</label>
-          </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq2 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq2>
-              {{eq2}}
-            </label>
-            </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq3 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq3>
-              {{eq3}}
-            </label>
-          </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq4 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq4>
-              {{eq4}}
-            </label>
-          </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq5 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq5>
-              {{eq5}}
-            </label>
-          </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq6 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq6>
-              {{eq6}}
-            </label>
-          </div>
-          <div align="left" class="form-check">
-            <input class="form-check-input" type="checkbox" :value=eq7 id="flexCheckDefault"
-                   v-model="cottage.additionalEquipment">
-            <label class="form-check-label" :for=eq7>
-              {{eq7}}
-            </label>
-          </div>
-        </div>
-      </div>
-      <br>
+   <!-- <cottageOwnerHeader></cottageOwnerHeader>-->
+
+    <form-wizard>
+      <tab-content title="About You" :selected="true">
+        This is content of Tab 1
+      </tab-content>
+      <tab-content title="About your Company">
+        <p>Can contains</p>
+        <p>Multiple Elements</p>
+      </tab-content>
+      <tab-content title="Finishing Up">
+        <p>Or an image .. or any thing</p>
+
+      </tab-content>
+    </form-wizard>
+    <!-- <div id="dataForm" class="row">
+       <div class="column">
+       <label>Naziv vikendice</label><br>
+       <input id="name" name="name" type="text" style="width: 250px;margin-left:0px;" v-model="cottage.name" ><br>
+         <br>
+         <label>Adresa vikendice</label><br>
+         <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 250px; height: 250px; margin-left:30px;"></open-maps>
+       <br>
+         <label>Opis vikendice</label><br>
+         <textarea id="description" name="description" type="text" rows="5" cols="26" v-model="cottage.description"></textarea> <br>
+         <br>
+         </div>
+       <div class="column">
+       <label>Broj soba:  </label>
+       <input id="roomsNumber" name="roomsNumber" type="number" size="6" style="width:100px;margin-left: 10px;" v-model="cottage.roomQuantity"><br><br>
+         <label>Kapacitet:  </label>
+         <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="cottage.bedQuantity"><br><br>
+       <label style="margin-left: 27px;">Cena:  </label>
+       <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="cottage.price"><br>
+         </div>
+
+       <div class="column" >
+         <label for="formFile" class="form-label">Slike vikendice</label><br>
+         <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
+         <br>
+         <div id="equipment">
+           Dodatne usluge
+           <div align="left" class="checkBox">
+             <div class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq1 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq1>{{eq1}}</label>
+             </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq2 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq2>
+                 {{eq2}}
+               </label>
+               </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq3 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq3>
+                 {{eq3}}
+               </label>
+             </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq4 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq4>
+                 {{eq4}}
+               </label>
+             </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq5 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq5>
+                 {{eq5}}
+               </label>
+             </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq6 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq6>
+                 {{eq6}}
+               </label>
+             </div>
+             <div align="left" class="form-check">
+               <input class="form-check-input" type="checkbox" :value=eq7 id="flexCheckDefault"
+                      v-model="cottage.additionalEquipment">
+               <label class="form-check-label" :for=eq7>
+                 {{eq7}}
+               </label>
+             </div>
+           </div>
+         </div>
+         <br>
 
 
-      <div id="behaviorRules">
-      <br>
-      Pravila ponašanja<br>
-        <div class="checkBox">
-      <div align="left" class="form-check">
-        <input class="form-check-input" type="checkbox" :value=br1 id="flexCheckDefault"
-               v-model="cottage.behavioralRules">
-        <label class="form-check-label" :for=br1>
-          {{br1}}
-        </label>
-      </div>
-      <div align="left" class="form-check">
-        <input class="form-check-input" type="checkbox" :value=br2 id="flexCheckDefault"
-               v-model="cottage.behavioralRules">
-        <label class="form-check-label" :for=br2>
-          {{br2}}
-        </label>
-      </div>
-    </div>
-        </div>
-      <button id="addButton" style="margin-top:50px;" @click="addCottage">Dodaj</button><br>
-      <br>
-      <button id="cancelButton" @click="back">Odustani</button><br>
+         <div id="behaviorRules">
+         <br>
+         Pravila ponašanja<br>
+           <div class="checkBox">
+         <div align="left" class="form-check">
+           <input class="form-check-input" type="checkbox" :value=br1 id="flexCheckDefault"
+                  v-model="cottage.behavioralRules">
+           <label class="form-check-label" :for=br1>
+             {{br1}}
+           </label>
+         </div>
+         <div align="left" class="form-check">
+           <input class="form-check-input" type="checkbox" :value=br2 id="flexCheckDefault"
+                  v-model="cottage.behavioralRules">
+           <label class="form-check-label" :for=br2>
+             {{br2}}
+           </label>
+         </div>
+       </div>
+           </div>
+         <button id="addButton" style="margin-top:50px;" @click="addCottage">Dodaj</button><br>
+         <br>
+         <button id="cancelButton" @click="back">Odustani</button><br>
 
-      </div>
+         </div>
 
-    <div class="column">
-      <label> Uslovi otkazivanja rezervacije</label>
-      <br>
+       <div class="column">
+         <label> Uslovi otkazivanja rezervacije</label>
+         <br>
 
-      <div class="p-2" style="border-style: solid; border-width: medium;">
+         <div class="p-2" style="border-style: solid; border-width: medium;">
 
-        <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
-                                                                                            v-model="cottage.percentage[0]"
-                                                                                            size="15"/> %
-          ukupnog iznosa</p>
-        <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
-                                                                                            v-model="cottage.percentage[1]"
-                                                                                            size="15"/> %
-          ukupnog iznosa</p>
-        <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
-                                                                                            v-model="cottage.percentage[2]"
-                                                                                            size="15"/> %
-          ukupnog iznosa</p>
-        <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
-                                                                                            v-model="cottage.percentage[3]"
-                                                                                            size="15"/> %
-          ukupnog iznosa</p>
+           <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
+                                                                                               v-model="cottage.percentage[0]"
+                                                                                               size="15"/> %
+             ukupnog iznosa</p>
+           <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
+                                                                                               v-model="cottage.percentage[1]"
+                                                                                               size="15"/> %
+             ukupnog iznosa</p>
+           <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
+                                                                                               v-model="cottage.percentage[2]"
+                                                                                               size="15"/> %
+             ukupnog iznosa</p>
+           <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
+                                                                                               v-model="cottage.percentage[3]"
+                                                                                               size="15"/> %
+             ukupnog iznosa</p>
 
-      </div>
-    </div>
-    <br>
+         </div>
+       </div>
+       <br>
 
-</div>
-  </div>
+   </div>-->
+
 
 </template>
 
 <script>
-import OpenMaps from "@/components/VueMaps";
+//import OpenMaps from "@/components/VueMaps";
+
+//import firstDataCottage from "@/components/addCottage/firstDataCottage";
+//import secondDataCottage from "@/components/addCottage/secondDataCottage";
+
+import FormWizard from 'vue-step-wizard';
+import TabContent from 'vue-step-wizard';
+import "vue-step-wizard/dist/vue-step-wizard.css";
+
+
 import CottageService from "@/servieces/CottageService";
-import cottageOwnerHeader from "@/components/cottageOwnerHeader"
+//import cottageOwnerHeader from "@/components/cottageOwnerHeader"
 export default {
   name: "addCottage",
   components:{
-    OpenMaps, cottageOwnerHeader
+
+    //OpenMaps,
+    //cottageOwnerHeader,
+   // firstDataCottage,secondDataCottage,
+    FormWizard,TabContent
   },
   methods:{
       updateCoordinats(lon, lat){
