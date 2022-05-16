@@ -10,6 +10,10 @@ class AdventureServce{
     getAdventuresForHomePageView(){
         return axios.get(ADVENTURES_API_BASE_URL + "/short");
     }
+
+    filterAdventures(filterParams) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/filter", filterParams);
+    }
 }
 
 export default new AdventureServce();

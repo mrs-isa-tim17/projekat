@@ -159,21 +159,14 @@ public class ShipController {
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
 		List<Ship> ships = shipService.findAll();
 
-		System.out.println("CONTROLLLERRRR");
-		System.out.println(ships.size());
-
 		//lokacija
 		ships = offerProcessing.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
-		System.out.println(ships.size());
 
 		//kapacitet
 		ships = offerProcessing.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
-		System.out.println(ships.size());
 
 		//broj kreveta
 		ships = offerProcessing.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
-		System.out.println(ships.size());
-
 
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
@@ -184,7 +177,6 @@ public class ShipController {
 			}
 			ships = offerProcessing.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}
-		System.out.println(ships.size());
 
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 

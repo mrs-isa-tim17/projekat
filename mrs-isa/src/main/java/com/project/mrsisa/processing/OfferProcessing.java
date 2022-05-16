@@ -1,6 +1,7 @@
 package com.project.mrsisa.processing;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 
@@ -250,6 +251,68 @@ public class OfferProcessing {
             return cottagesDTO;
         List<ShipForListViewDTO> result = new ArrayList<ShipForListViewDTO>();
         for (ShipForListViewDTO c : cottagesDTO){
+            if (checkWhetherBelongsToGroup(c.getPrice(), price, priceRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Adventure> filterByAdventureLocation(List<Adventure> adventures, double longitude, double latitude) {
+        if (longitude == 0)
+            return adventures;
+        if (latitude == 0)
+            return adventures;
+        List<Adventure> result = new ArrayList<Adventure>();
+        for (Adventure c : adventures){
+            if (checkWhetherBelongsToGroupByDistance(c, longitude, latitude))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Adventure> filterAdventuresByCapacity(List<Adventure> adventures, double capacity, String capacityRelOp) {
+        if (capacity == 0)
+            return adventures;
+        if (capacityRelOp.equals(""))
+            return adventures;
+        List<Adventure> result = new ArrayList<Adventure>();
+        for (Adventure c : adventures){
+            if (checkWhetherBelongsToGroup(c.getCapacity(), capacity, capacityRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<Adventure> filterAdventureByInterval(List<Adventure> adventures, LocalDateTime dateFrom, LocalDateTime dateUntil) {
+        List<Adventure> result = new ArrayList<Adventure>();
+        for (Adventure c : adventures){
+            if (isGloballyFree(c, dateFrom, dateUntil)){
+                result.add(c);
+            }
+        }
+        return result;
+    }
+
+    public List<AdventureForListViewDTO> filterAdventuresByRating(List<AdventureForListViewDTO> adventuresDTO, int rating, String ratingRelOp) {
+        if (rating == 0)
+            return adventuresDTO;
+        if (ratingRelOp.equals(""))
+            return adventuresDTO;
+        List<AdventureForListViewDTO> result = new ArrayList<AdventureForListViewDTO>();
+        for (AdventureForListViewDTO c : adventuresDTO){
+            if (checkWhetherBelongsToGroup(c.getMark(), rating, ratingRelOp))
+                result.add(c);
+        }
+        return result;
+    }
+
+    public List<AdventureForListViewDTO> filterAdventuresByPrice(List<AdventureForListViewDTO> adventuresDTO, double price, String priceRelOp) {
+        if (price == 0)
+            return adventuresDTO;
+        if (priceRelOp.equals(""))
+            return adventuresDTO;
+        List<AdventureForListViewDTO> result = new ArrayList<AdventureForListViewDTO>();
+        for (AdventureForListViewDTO c : adventuresDTO){
             if (checkWhetherBelongsToGroup(c.getPrice(), price, priceRelOp))
                 result.add(c);
         }

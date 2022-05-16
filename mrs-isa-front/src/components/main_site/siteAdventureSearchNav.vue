@@ -252,8 +252,8 @@ export default {
   },
   data(){
     return{
-      lon: 2,
-      lat: 9,
+      lon: 0,
+      lat: 0,
       dateFrom: null,
       dateUntil: null,
 

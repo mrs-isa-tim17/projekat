@@ -13,23 +13,17 @@
 </template>
 
 <script>
-import adventureServce from "@/servieces/AdventureServce";
 import SiteAdventureElement from "@/components/main_site/siteAdventureElement";
 import PaginationComponent from "@/components/paginationComponent";
 
 export default {
   name: "site-adventure-list",
   components: {PaginationComponent, SiteAdventureElement},
+  props: ["cottages", "listLength"],
   mounted() {
   },
   created:
       function () {
-        adventureServce.getAdventures().then(
-            (response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-            }
-        )
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -78,7 +72,6 @@ export default {
   data() {
     return {
       verifiedClient: false,
-      cottages : [],
       numberOfElementsForDisplay : 4,
       fromElement: 0,
       basicHeaderKey: 0,
