@@ -37,33 +37,33 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 2, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:mm:SS'),5, true);
+	'+3817885', 'Milanovic', 0, 2, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+38177590', 'Samcovic', 0, 3, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:mm:SS'),3,true);
+	'+38177590', 'Samcovic', 0, 3, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),3,true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('SO', nextval('user_seq'), false, 'bogi@email.com', 0, 'Bogdan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3853252', 'Radojevic', 0, 4, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:mm:SS'),4,true);
+	'+3853252', 'Radojevic', 0, 4, to_timestamp('2017-10-01 18:57:58', 'yyyy-MM-DD HH:MI:SS'),4,true);
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'm.m@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:mm:SS'),3, true);
+	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),3, true);
 
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:mm:SS'),4, true);
+	'+3817885', 'Milanovic', 0, 11, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),4, true);
 
 	
 	
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled, init_login_changed) values
 	('AD', nextval('user_seq'), false, 'admin@email.com', 0, 'Žika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3853252', 'Žikić', 0, 17, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:mm:SS'),2,true, true);
+	'+3853252', 'Žikić', 0, 17, to_timestamp('2017-10-01 18:57:58.508-07', 'yyyy-MM-DD HH:MI:SS'),2,true, true);
 
 	
 	
