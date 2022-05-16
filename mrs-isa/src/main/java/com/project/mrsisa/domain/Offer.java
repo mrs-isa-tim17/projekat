@@ -2,6 +2,7 @@ package com.project.mrsisa.domain;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -172,7 +173,38 @@ public abstract class Offer {
 	public void setSubscribers(List<Client> subscribers) {
 		this.subscribers = subscribers;
 	}
-	
-	
-	
+
+	public List<PeriodAvailability> getPeriodAvailabilities() {
+		return periodAvailabilities;
+	}
+
+	public void setPeriodAvailabilities(List<PeriodAvailability> periodAvailabilities) {
+		this.periodAvailabilities = periodAvailabilities;
+	}
+
+	public List<PeriodUnavailability> getPeriodUnavailabilities() {
+		return periodUnavailabilities;
+	}
+
+	public void setPeriodUnavailabilities(List<PeriodUnavailability> periodUnavailabilities) {
+		this.periodUnavailabilities = periodUnavailabilities;
+	}
+
+	public List<SaleAppointment> getSaleAppointments() {
+		return saleAppointments;
+	}
+
+	public void setSaleAppointments(List<SaleAppointment> saleAppointments) {
+		this.saleAppointments = saleAppointments;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+
 }

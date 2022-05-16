@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import homePageCarouselLeft from "@/components/homePageCarouselLeft";
-import homePageCarouselRight from "@/components/homePageCarouselRight";
+import homePageCarouselLeft from "@/components/main_site/homePageCarouselLeft";
+import homePageCarouselRight from "@/components/main_site/homePageCarouselRight";
 import AdventureServce from "@/servieces/AdventureServce";
 import ShipServce from "@/servieces/ShipServce";
 import CottageServce from "@/servieces/CottageServce";

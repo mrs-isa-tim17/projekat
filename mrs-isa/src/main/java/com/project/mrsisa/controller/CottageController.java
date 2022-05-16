@@ -1,27 +1,29 @@
 package com.project.mrsisa.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
+import com.project.mrsisa.dto.simple_user.SearchParam;
+import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.domain.AdditionalServices;
@@ -32,7 +34,6 @@ import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.Image;
 import com.project.mrsisa.domain.Pricelist;
-import com.project.mrsisa.dto.CottageDTO;
 import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.cottage.FindCottageDTO;
 
@@ -63,11 +64,26 @@ public class CottageController {
 	@Autowired
 	private CancelConditionService cancelConditionService;
 
+	@Autowired
+	private PeriodAvailabilitySerivce periodAvailabilitySerivce;
+
+	@Autowired
+	private PeriodUnavailabilityService periodUnavailabilityService;
+
+	@Autowired
+	private ReservationService reservationService;
+
+	private OfferProcessing offerProcessing = new OfferProcessing();
+
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<CottageForListViewDTO>> getCottages(){
 		List<Cottage> cottages = cottageService.findAll();
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	private List<CottageForListViewDTO> getCottagesForListViewDTO(List<Cottage> cottages){
 		List<CottageForListViewDTO> cottagesDTO = new ArrayList<>();
-		System.out.println("Number of cottages: " + cottages.size());
 		for (Cottage c : cottages) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			CottageForListViewDTO dto = new CottageForListViewDTO(c);
@@ -75,8 +91,7 @@ public class CottageController {
 			dto.setMark(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
 			cottagesDTO.add(dto);
 		}
-		System.out.println("Number of cottagesDTO: " + cottagesDTO.size());
-		return ResponseEntity.ok(cottagesDTO);
+		return cottagesDTO;
 	}
 
 	@GetMapping(value = "/site/short")
@@ -242,5 +257,113 @@ public class CottageController {
 		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.OK);
 	}
 	
-	
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
+	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody CottageFilterParamsDTO cottageFilterParamsDTO){
+		List<Cottage> cottages = cottageService.findAll();
+
+		//lokacija
+		cottages = offerProcessing.filterByLocation(cottages, cottageFilterParamsDTO.getLongitude(), cottageFilterParamsDTO.getLatitude());
+
+		//broj soba
+		cottages = offerProcessing.filterByRoomQuntity(cottages, cottageFilterParamsDTO.getNumberOfRooms(), cottageFilterParamsDTO.getRoomsRelOp());
+
+		//broj kreveta
+		cottages = offerProcessing.filterByBedQuntity(cottages, cottageFilterParamsDTO.getNumberOfBed(), cottageFilterParamsDTO.getBedsRelOp());
+
+
+		//interval
+		if (cottageFilterParamsDTO.getDateFrom() != null && cottageFilterParamsDTO.getDateUntil() != null) {
+			for (Cottage c : cottages) {
+				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+			}
+			cottages = offerProcessing.filterByInterval(cottages, cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil());
+
+		}
+
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+
+		//rating
+		cottagesDTO = offerProcessing.filterByRating(cottagesDTO, cottageFilterParamsDTO.getRating(), cottageFilterParamsDTO.getRatingRelOp());
+
+		//cena
+		cottagesDTO = offerProcessing.filterByPrice(cottagesDTO, cottageFilterParamsDTO.getPrice(), cottageFilterParamsDTO.getPriceRelOp());
+
+
+
+		return new ResponseEntity(cottagesDTO, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/site/sort/name", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByName(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@PostMapping(value = "/site/sort/location", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByLocation(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return (int) (c1.getLatitude() - c2.getLatitude());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+	@PostMapping(value = "/site/sort/rating", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByRating(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return (int) (c1.getMark() - c2.getMark());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+	@PostMapping(value = "/site/sort/price", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByPrice(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return (int) (c1.getPrice() - c2.getPrice());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@PostMapping(value = "/site/sort/rooms", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByRooms(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return (int) (c1.getRoomQuantity() - c2.getRoomQuantity());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@PostMapping(value = "/site/sort/beds", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getSortedCottageListByBeds(@RequestBody List<CottageForListViewDTO> cottagesDTO){
+		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
+			@Override
+			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
+				return (int) (c1.getBedQuantity() - c2.getBedQuantity());
+			}
+		});
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CottageForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
+		List<Cottage> cottages = cottageService.findAll();
+		cottages = offerProcessing.searchCottagesBy(cottages, searchBy.getSearchBy());
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
+		return new ResponseEntity<List<CottageForListViewDTO>>(cottagesDTO, HttpStatus.OK);
+	}
 }

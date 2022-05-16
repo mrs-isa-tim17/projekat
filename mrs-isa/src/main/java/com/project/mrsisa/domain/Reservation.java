@@ -1,6 +1,7 @@
 package com.project.mrsisa.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class Reservation {
 	private Long id;
 	
 	@Column(nullable=false)
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 	
 	@Column(nullable=false)
-	private LocalDate endDate;
+	private LocalDateTime endDate;
 	
 	@Column(nullable=false)
 	private double price;
@@ -78,16 +79,16 @@ public class Reservation {
 	}
 
 	public LocalDate getStartDate() {
-		return startDate;
+		return startDate.toLocalDate();
 	}
 	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+		this.startDate = startDate.atStartOfDay();
 	}
 	public LocalDate getEndDate() {
-		return endDate;
+		return endDate.toLocalDate();
 	}
 	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
+		this.endDate = endDate.atStartOfDay();
 	}
 	public double getPrice() {
 		return price;

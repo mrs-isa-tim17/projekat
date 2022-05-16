@@ -16,6 +16,10 @@ import swal from 'sweetalert2';
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
-createApp(App).use(OpenLayersMap,VueStepWizard,swal).use(router).mount('#app');
+
+createApp(App).use(Datepicker).use(OpenLayersMap,VueStepWizard,swal).use(router).mount('#app');
+
 

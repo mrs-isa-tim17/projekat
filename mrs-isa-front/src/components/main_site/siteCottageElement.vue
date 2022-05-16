@@ -21,7 +21,7 @@
                   <br>
                   Broj soba: {{cottage.roomQuantity}}
                   <br>
-                  Brod kreveta: {{cottage.bedQuantity}}
+                  Broj kreveta: {{cottage.bedQuantity}}
                   <br>
                   Cena: {{cottage.price}}
                   <br>

@@ -1,11 +1,13 @@
 package com.project.mrsisa.service;
 
 import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.domain.PeriodUnavailability;
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,4 +42,9 @@ public class ReservationService {
     public List<Reservation> getFutureHistoryReservation(Long offer_id){
         return reservationRepository.findFutureReservationHistory(offer_id);
     }
+
+    public List<Reservation> getListOfReservationByOfferInInterval(long offerId, LocalDate fromDate, LocalDate untilDate){
+        return reservationRepository.findCurrentReservationInInterval(offerId, fromDate, untilDate);
+    }
+
 }

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import clientReservationHistoryElement from "@/components/clientReservationHistoryElement";
+import clientReservationHistoryElement from "@/components/client/clientReservationHistoryElement";
 export default {
   props: ['from', 'cottagesHistory', 'numToDisplay'],
   name: "clientReservationHistoryList",

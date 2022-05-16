@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import clientProfile from "@/components/clientProfile";
+import clientProfile from "@/components/client/clientProfile";
 import reservationReport from "@/components/reservationReport";
 import ClientServce from "@/servieces/ClientServce";
 export default {

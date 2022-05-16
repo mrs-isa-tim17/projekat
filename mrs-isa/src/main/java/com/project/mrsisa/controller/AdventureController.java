@@ -3,18 +3,18 @@ package com.project.mrsisa.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
 import com.project.mrsisa.domain.*;
-import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
-import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
-import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
+import com.project.mrsisa.dto.simple_user.*;
 
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
-import com.project.mrsisa.service.ExperienceReviewService;
-import com.project.mrsisa.service.ImageService;
+import com.project.mrsisa.processing.OfferProcessing;
+import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,12 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.dto.AdventureDTO;
-import com.project.mrsisa.service.AdditionalServicesService;
-import com.project.mrsisa.service.AdventureService;
-import com.project.mrsisa.service.BehaviorRuleService;
-import com.project.mrsisa.service.CancelConditionService;
-import com.project.mrsisa.service.FishingEquipmentService;
-import com.project.mrsisa.service.PricelistService;
 
 @RestController
 @RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,6 +57,14 @@ public class AdventureController {
 	
 	@Autowired
 	private PricelistService pricelistService;
+
+	private OfferProcessing offerProcessing = new OfferProcessing();
+	@Autowired
+	private PeriodAvailabilitySerivce periodAvailabilitySerivce;
+	@Autowired
+	private PeriodUnavailabilityService periodUnavailabilityService;
+	@Autowired
+	private ReservationService reservationService;
 	
 	
 	@GetMapping(value = "/detail/{id}")
@@ -88,15 +90,8 @@ public class AdventureController {
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<AdventureForListViewDTO>> getAdventures(){
 		List<Adventure> adventures = adventureService.findAll();
-		List<AdventureForListViewDTO> shipsDTO = new ArrayList<>();
-		for (Adventure adventure : adventures) {
-			adventure.setImages(imageService.findAllByOfferId(adventure.getId()));
-			AdventureForListViewDTO dto = new AdventureForListViewDTO(adventure);
-			dto.setPrice(pricelistService.getCurrentPriceOfOffer(adventure.getId()));
-			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE));
-			shipsDTO.add(dto);
-		}
-		return ResponseEntity.ok(shipsDTO);
+		List<AdventureForListViewDTO> adventureDTO = getAdventuresForListViewDTO(adventures);
+		return ResponseEntity.ok(adventureDTO);
 	}
 
 	@GetMapping(value = "/site/short")
@@ -364,5 +359,116 @@ public class AdventureController {
 		adventure.setImages(adventureDTO.getImagesAdventure());  // kasnije
 		
 	return adventure;
+	}
+
+
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
+	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
+		List<Adventure> adventures = adventureService.findAll();
+
+		System.out.println("CONTROLLLERRRR");
+		System.out.println(adventures.size());
+
+		//lokacija
+		adventures = offerProcessing.filterByAdventureLocation(adventures, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
+		System.out.println(adventures.size());
+
+		//kapacitet
+		adventures = offerProcessing.filterAdventuresByCapacity(adventures, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
+		System.out.println(adventures.size());
+
+		//interval
+		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
+			for (Adventure adventure : adventures) {
+				adventure.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(adventure.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				adventure.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(adventure.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				adventure.setReservations(reservationService.getListOfReservationByOfferInInterval(adventure.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+			}
+			adventures = offerProcessing.filterAdventureByInterval(adventures, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
+		}
+		System.out.println(adventures.size());
+
+		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventures);
+
+		//rating
+		adventuresDTO = offerProcessing.filterAdventuresByRating(adventuresDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
+
+		//cena
+		adventuresDTO = offerProcessing.filterAdventuresByPrice(adventuresDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
+
+		return new ResponseEntity(adventuresDTO, HttpStatus.OK);
+	}
+
+	private List<AdventureForListViewDTO> getAdventuresForListViewDTO(List<Adventure> adventures){
+		List<AdventureForListViewDTO> adventureDTO = new ArrayList<>();
+		for (Adventure adventure : adventures) {
+			adventure.setImages(imageService.findAllByOfferId(adventure.getId()));
+			AdventureForListViewDTO dto = new AdventureForListViewDTO(adventure);
+			dto.setPrice(pricelistService.getCurrentPriceOfOffer(adventure.getId()));
+			dto.setMark(experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE));
+			adventureDTO.add(dto);
+		}
+		return adventureDTO;
+	}
+
+	@PostMapping(value = "/site/sort/name", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByName(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
+	}
+
+	@PostMapping(value = "/site/sort/location", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByLocation(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getLatitude() - c2.getLatitude());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
+	}
+	@PostMapping(value = "/site/sort/rating", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByRating(@RequestBody List<AdventureForListViewDTO> adventuresDTO){
+		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getMark() - c2.getMark());
+			}
+		});
+		return ResponseEntity.ok(adventuresDTO);
+	}
+	@PostMapping(value = "/site/sort/price", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByPrice(@RequestBody List<AdventureForListViewDTO> adventuresDTO){
+		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getPrice() - c2.getPrice());
+			}
+		});
+		return ResponseEntity.ok(adventuresDTO);
+	}
+
+	@PostMapping(value = "/site/sort/capacity", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getSortedAdventureListByCapacity(@RequestBody List<AdventureForListViewDTO> adventureDTO){
+		Collections.sort(adventureDTO, new Comparator<AdventureForListViewDTO>() {
+			@Override
+			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
+				return (int) (c1.getCapacity() - c2.getCapacity());
+			}
+		});
+		return ResponseEntity.ok(adventureDTO);
+	}
+
+	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
+		List<Adventure> adventure = adventureService.findAll();
+		adventure = offerProcessing.searchAdventuresBy(adventure, searchBy.getSearchBy());
+		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventure);
+		return new ResponseEntity<List<AdventureForListViewDTO>>(adventuresDTO, HttpStatus.OK);
 	}
 }

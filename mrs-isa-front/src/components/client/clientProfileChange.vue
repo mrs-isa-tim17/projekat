@@ -26,8 +26,8 @@
                 <br>
                 <input type="text" ref="input" v-model="client.name" size="25" required>
                 <br>
-                <p id="nameEmpty" v-if="this.client.name == ''" style="color: red;"> Ime mora da postoji </p>
-                <p v-if="this.client.name[0] == this.client.name[0].toLowerCase()" style="color: red;"> Ime mora da počinje velikom slovom </p>
+                <p id="nameEmpty" v-if="this.client.name === ''" style="color: red;"> Ime mora da postoji </p>
+                <p v-if="this.client.name[0] === this.client.name[0].toLowerCase()" style="color: red;"> Ime mora da počinje velikom slovom </p>
 
               </div>
 
@@ -35,8 +35,8 @@
                 <label >{{surnameLabel}}</label>
                 <br>
                 <input type="text" ref="input" v-model="client.surname" size="25" required>
-                <p v-if="this.client.surname == ''" style="color: red;"> Prezime mora da postoji</p>
-                <p  v-if="this.client.surname[0] == this.client.surname[0].toLowerCase()" style="color: red;"> Prezime mora da počinje velikom slovom </p>
+                <p v-if="this.client.surname === ''" style="color: red;"> Prezime mora da postoji</p>
+                <p  v-if="this.client.surname[0] === this.client.surname[0].toLowerCase()" style="color: red;"> Prezime mora da počinje velikom slovom </p>
               </div>
 
 
@@ -46,7 +46,7 @@
                 <label >{{phoneNumberLabel}}</label>
                 <br>
                 <input type="text" ref="input" v-model="client.phoneNumber" size="25" required>
-                <p v-if="this.client.surname == ''" style="color: red;"> Broj telefona mora da postoji</p>
+                <p v-if="this.client.surname === ''" style="color: red;"> Broj telefona mora da postoji</p>
               </div>
 
 
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import clientHeader from "@/components/clientHeader";
+import clientHeader from "@/components/client/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
 import ClientServce from "@/servieces/ClientServce";
 import vueOpenLayerMap from "@/components/VueMaps";
@@ -126,17 +126,17 @@ export default {
       console.log(lon, lat)
     },
     applyChanges(){
-      if (this.client.name == "" || this.client.name[0] == this.client.name[0].toLowerCase()){
+      if (this.client.name === "" || this.client.name[0] === this.client.name[0].toLowerCase()){
         this.message = this.errorMessage;
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
       }
-      else if (this.client.surname == "" || this.client.surname[0] == this.client.surname[0].toLowerCase()){
+      else if (this.client.surname === "" || this.client.surname[0] === this.client.surname[0].toLowerCase()){
         this.message = this.errorMessage;
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
       }
-      else if (this.client.phoneNumber == ""){
+      else if (this.client.phoneNumber === ""){
         this.message = this.errorMessage;
         document.getElementById("emptyError").style.color = "red";
         document.getElementById("emptyError").style.visibility = "visible";
