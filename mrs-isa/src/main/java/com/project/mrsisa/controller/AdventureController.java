@@ -463,4 +463,12 @@ public class AdventureController {
 		});
 		return ResponseEntity.ok(adventureDTO);
 	}
+
+	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AdventureForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
+		List<Adventure> adventure = adventureService.findAll();
+		adventure = offerProcessing.searchAdventuresBy(adventure, searchBy.getSearchBy());
+		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventure);
+		return new ResponseEntity<List<AdventureForListViewDTO>>(adventuresDTO, HttpStatus.OK);
+	}
 }

@@ -38,6 +38,10 @@ class AdventureServce{
         return axios.post(ADVENTURES_API_BASE_URL + "/sort/capacity", adventures);
 
     }
+
+    search(searchParam) {
+        return axios.post(ADVENTURES_API_BASE_URL + "/search", searchParam);
+    }
 }
 
 export default new AdventureServce();

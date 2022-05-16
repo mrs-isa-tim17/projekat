@@ -24,17 +24,6 @@ export default {
   },
   created:
       function () {
-        try{
-
-          if (JSON.parse(localStorage.user) == null) {
-            this.verifiedClient = false;
-          } else {
-            this.verifiedClient = true;
-          }
-        }catch (error){
-          this.verifiedClient = false;
-
-        }
         this.forceRemounting();
 
 
@@ -45,8 +34,6 @@ export default {
       this.forceRemounting();
     },
     forceRemounting(){
-      this.clientHeaderKey += 1;
-      this.basicHeaderKey += 1;
       this.paginationKey += 1;
     },
     filterOffers(){
@@ -71,11 +58,8 @@ export default {
 
   data() {
     return {
-      verifiedClient: false,
       numberOfElementsForDisplay : 4,
       fromElement: 0,
-      basicHeaderKey: 0,
-      clientHeaderKey: 0,
       paginationKey:0
     }
   }
