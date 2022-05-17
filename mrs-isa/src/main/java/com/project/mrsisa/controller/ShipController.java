@@ -185,6 +185,8 @@ public class ShipController {
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
 		List<Ship> ships = shipService.findAll();
 
+		ships = offerProcessing.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
+
 		//lokacija
 		ships = offerProcessing.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
 

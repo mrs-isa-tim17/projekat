@@ -366,16 +366,13 @@ public class AdventureController {
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
 		List<Adventure> adventures = adventureService.findAll();
 
-		System.out.println("CONTROLLLERRRR");
-		System.out.println(adventures.size());
+		adventures = offerProcessing.searchAdventuresBy(adventures, shipFilterParamsDTO.getSearchBy());
 
 		//lokacija
 		adventures = offerProcessing.filterByAdventureLocation(adventures, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
-		System.out.println(adventures.size());
 
 		//kapacitet
 		adventures = offerProcessing.filterAdventuresByCapacity(adventures, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
-		System.out.println(adventures.size());
 
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
@@ -386,7 +383,6 @@ public class AdventureController {
 			}
 			adventures = offerProcessing.filterAdventureByInterval(adventures, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}
-		System.out.println(adventures.size());
 
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventures);
 

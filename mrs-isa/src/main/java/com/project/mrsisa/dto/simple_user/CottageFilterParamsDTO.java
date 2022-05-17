@@ -16,6 +16,7 @@ public class CottageFilterParamsDTO {
     private double numberOfBed;
     private String priceRelOp;
     private double price;
+    private String searchBy;
 
     public CottageFilterParamsDTO() {
     }
@@ -114,5 +115,13 @@ public class CottageFilterParamsDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getSearchBy() {
+        return searchBy;
+    }
+
+    public void setSearchBy(String searchBy) {
+        this.searchBy = searchBy;
     }
 }

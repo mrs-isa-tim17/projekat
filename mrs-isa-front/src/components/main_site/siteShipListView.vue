@@ -5,7 +5,7 @@
   <div>
     <div  style="left: 2%; position: absolute;">
       <div class="input-group rounded">
-        <input id="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <input v-model="searchBy" id="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <button style="border-width: 0;" @click="searchShips">
         <span class="input-group-text border-0" id="search-addon">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -127,6 +127,7 @@ export default {
       }
     },
     filterShips(filterDto){
+      filterDto.searchBy = this.searchBy;
       shipServce.filterShips(filterDto)
           .then((response) => {
                 this.cottages = response.data;
@@ -149,7 +150,8 @@ export default {
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
-      shipsKey: 1
+      shipsKey: 1,
+      searchBy: ""
     }
   }
 }

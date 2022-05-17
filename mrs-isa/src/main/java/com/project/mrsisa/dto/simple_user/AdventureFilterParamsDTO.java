@@ -13,6 +13,7 @@ public class AdventureFilterParamsDTO {
     private double capacity;
     private String priceRelOp;
     private double price;
+    private String searchBy;
 
     public AdventureFilterParamsDTO() {
     }
@@ -95,5 +96,13 @@ public class AdventureFilterParamsDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getSearchBy() {
+        return searchBy;
+    }
+
+    public void setSearchBy(String searchBy) {
+        this.searchBy = searchBy;
     }
 }
