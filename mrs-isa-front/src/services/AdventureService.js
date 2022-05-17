@@ -40,6 +40,12 @@ class AdventureService{
             headers: authHeader()
         });
     }
+    getReservationsForAdventure(adventureId){
+        console.log(adventureId);
+        return axios.get(ADVENTURE_API_BASE_URL + 'reservation/' + adventureId, {
+            headers: authHeader()
+        });
+    }
 
 
 }

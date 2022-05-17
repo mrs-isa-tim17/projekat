@@ -89,6 +89,17 @@
             <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodUnavailability">Definiši period nedostupnosti</button>
           </div>
 
+          <div class="row p-3">
+            <div class="col-4">
+            </div>
+            <div class="col-4">
+
+            </div>
+            <div class="col-4">
+              <button class="btn btn-primary me-md-2" type="button" @click="ShowReservations">Prikaži rezervacije</button>
+            </div>
+
+
         </div>
 
 
@@ -96,6 +107,7 @@
         </div>
 
       </div>
+  </div>
 
 
 </template>
@@ -253,8 +265,12 @@ export default {
         }
         console.log(error.config);
       });
-    }
+    },
 
+    ShowReservations(){
+      console.log(this.currentId5);
+      this.$router.push('/adventure/reservations/' + this.currentId);
+    }
 
 
   },

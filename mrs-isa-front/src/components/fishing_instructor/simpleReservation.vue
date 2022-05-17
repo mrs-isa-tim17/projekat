@@ -1,0 +1,89 @@
+<template>
+  <div class="container">
+<!--
+  <div class="card">
+    <div class="card-header">
+      Featured
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{clientNameSurnameLabel}} {{reservation.clientName}} {{reservation.clientSurname}}</h5>
+      <p class="card-text">{{startDateLabel}} {{reservation.startDate}}</p>
+      <p class="card-text">{{endDateLabel}} {{reservation.endDate}}</p>
+      <p class="card-text">{{quickLabel}} {{reservation.quick}}</p>
+      <a href="#" class="btn btn-primary">Pogledaj profil  klijenta</a>
+    </div>
+  </div>
+
+-->
+  <!--
+
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{clientNameSurnameLabel}} {{reservation.clientName}} {{reservation.clientSurname}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{startDateLabel}} {{reservation.startDate}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{endDateLabel}} {{reservation.endDate}}</h6>
+        <p class="card-text">{{quickLabel}} {{reservation.quick}}</p>
+        <a href="#" class="card-link">Profil klijenta</a>
+      </div>
+    </div>
+-->
+    <div class="d-flex justify-content-center">
+
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Redni broj</th>
+          <th scope="col">Ime klijenta</th>
+          <th scope="col">Prezime klijenta</th>
+          <th scope="col">Početni datum</th>
+          <th scope="col">Krajnji datum</th>
+          <th scope="col">Brza rezervacija</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(reservation, index) in reservations" :key="index">
+          <th scope="row">{{index+1}}</th>
+          <td>{{reservation.clientName}}</td>
+          <td>{{reservation.clientSurname}}</td>
+          <td>{{getDateFormat(reservation.startDate)}}</td>
+          <td>{{getDateFormat(reservation.endDate)}}</td>
+          <td> <input type="checkbox" v-bind:checked="reservation.quick" disabled="disabled"> </td>
+          <td><button class="btn btn-primary me-md-2">Profil klijenta</button></td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+  </div>
+</template>
+
+<script>
+export default {
+  name: "simpleReservation",
+  props: ["reservations"],
+
+  methods:{
+    getDateFormat(date) {
+      let d = date[2] +"-" +date[1]+"-" + date[0]
+        return d;
+    }
+  },
+
+
+  data() {
+    return {
+      clientNameSurnameLabel: "Ime i prezime klijenta: ",
+      startDateLabel: "Početni datum: ",
+      endDateLabel: "Krajnji datum: ",
+      quickLabel: "Brza rezervacija: "
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

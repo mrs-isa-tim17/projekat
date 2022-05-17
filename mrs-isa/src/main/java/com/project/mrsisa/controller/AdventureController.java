@@ -9,14 +9,9 @@ import java.util.List;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
-import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
-
-import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
 import com.project.mrsisa.service.ExperienceReviewService;
 import com.project.mrsisa.service.ImageService;
-import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.PeriodUnavailabilityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.dto.AdventureDTO;
+import com.project.mrsisa.dto.ReservationForOwnerDTO;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
@@ -40,6 +36,7 @@ import com.project.mrsisa.service.CancelConditionService;
 import com.project.mrsisa.service.FishingEquipmentService;
 import com.project.mrsisa.service.PricelistService;
 import com.project.mrsisa.service.ReservationService;
+import com.project.mrsisa.service.UserService;
 
 @RestController
 @RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,6 +68,9 @@ public class AdventureController {
 	
 	@Autowired
 	private ReservationService reservationService;
+	
+	@Autowired
+	private UserService userService;
 	
 
 	
@@ -209,7 +209,23 @@ public class AdventureController {
 		
 		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
 	}
-
+	
+	@GetMapping(value="/detail/reservation/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long id){
+		
+		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
+		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		for(Reservation reservation: reservations) {
+			Client client = (Client) userService.findById(reservation.getClient().getId());
+			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
+					reservation.getStartDate(), reservation.getEndDate(), reservation.isQuick());
+			
+			reservationsForOwner.add(reservationForOwner);
+		}
+		
+		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
+	}
 	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
