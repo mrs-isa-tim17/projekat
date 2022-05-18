@@ -14,4 +14,8 @@ public interface PeriodUnavailabilityRepository extends JpaRepository<PeriodUnav
     @Query(value="SELECT * FROM period_unavailability r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE", nativeQuery = true)
     List<PeriodUnavailability> findCurrentPeriodsOfUnavailability(Long offer_id, LocalDate fromDate, LocalDate untilDate);
 
+    @Transactional
+    @Query(value="SELECT * FROM period_unavailability r WHERE r.offer_id=?1", nativeQuery = true)
+	List<PeriodUnavailability> getListOfUnavailbilityForOffer(Long id);
+
 }

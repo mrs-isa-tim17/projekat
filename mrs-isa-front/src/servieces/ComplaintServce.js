@@ -11,6 +11,17 @@ class ComplaintServce{
             headers: authHeader()
         });
     }
+
+    getUnprocessedComplaints(){
+        return axios.get(COMPLAINT_API_BASE_URL+'/unprocessed', {
+            headers: authHeader()
+        });
+    }
+    answerComplaint(id, text){
+        return axios.post(COMPLAINT_API_BASE_URL+'/answer/'+id, text,{
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ComplaintServce();

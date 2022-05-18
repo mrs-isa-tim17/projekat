@@ -15,7 +15,8 @@ const router = createRouter({
         {path: '/adventures/detail/:type', name: 'adventureForFishingInstructor', component: () => import("./components/fishing_instructor/adventureForFishingInstructor"),},
         { path: '/instructor/home', component: ()=> import("./components/fishing_instructor/instructorHomePage")},
         { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
-        { path: '/adventure/update/:type', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
+        { path: '/adventure/update/:type/:pre', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
+        { path: '/adventure/reservations/:type', component: ()=> import("./components/fishing_instructor/reservationsForOwner")},
 
         { path: '/book/site/home', component: () => import("./components/main_site/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
@@ -41,8 +42,8 @@ const router = createRouter({
 
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
-        {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")}
-
+        {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")},
+        {path: '/admin/complaints', component:()=> import("./components/admin/complaints")}
 
     ]
 });

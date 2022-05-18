@@ -17,4 +17,12 @@ public class PeriodUnavailabilityService {
     public List<PeriodUnavailability> getListOfUnavailability(long offerId, LocalDate fromDate, LocalDate untilDate){
         return periodUnavailabilityRepository.findCurrentPeriodsOfUnavailability(offerId, fromDate, untilDate);
     }
+
+	public PeriodUnavailability save(PeriodUnavailability periodUnavailability) {
+		return periodUnavailabilityRepository.save(periodUnavailability);
+	}
+	
+	public List<PeriodUnavailability>  getListOfUnavailbilityForOffer(Long offerId){
+		return periodUnavailabilityRepository.getListOfUnavailbilityForOffer(offerId);
+	}
 }

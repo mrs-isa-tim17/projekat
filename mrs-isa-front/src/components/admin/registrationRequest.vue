@@ -21,7 +21,7 @@
         <td>{{this.showRegistrationType(request.registrationType)}}</td>
         <td>{{request.email}}</td>
         <td> <button :id="generateApproveId(request.id)" class="btn btn-primary" @click="ApproveRegistration(request.id)"> Prihvati
-        </button> <inputTextModal :index="generateRejectId(request.id)" :header="this.modalHeader" :requestId="request.id" :btnId="generateModalId(request.id)" @reject-text="RejectRegistration"> </inputTextModal> </td>
+        </button> <registrationRequestModal :index="generateRejectId(request.id)" :header="this.modalHeader" :requestId="request.id" :btnId="generateModalId(request.id)" btnText="Odbij" @reject-text="RejectRegistration"> </registrationRequestModal> </td>
         <td><h6 :id="request.id"></h6></td>
       </tr>
       </tbody>
@@ -32,11 +32,11 @@
 
 <script>
 import RegistrationRequestService from "@/servieces/RegistrationRequestService";
-import inputTextModal from "@/components/admin/inputTextModal";
+import RegistrationRequestModal from "@/components/admin/registrationRequestModal";
 export default {
   name: "registrationRequest.vue",
   components:{
-    inputTextModal
+    RegistrationRequestModal
   },
   props: ['requests'],
   methods: {

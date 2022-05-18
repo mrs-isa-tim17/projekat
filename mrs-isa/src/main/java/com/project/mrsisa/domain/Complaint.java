@@ -24,7 +24,7 @@ public class Complaint {
 	private Client client;
 	
 	@Enumerated
-	private ProcessingStatus status;
+	private ComplaintStatus status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
@@ -32,6 +32,10 @@ public class Complaint {
 
 	@Column
 	private OfferType offerType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="reservationId")
+	private Reservation reservation;
 	
 	public String getText() {
 		return text;
@@ -45,10 +49,10 @@ public class Complaint {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	public ProcessingStatus getStatus() {
+	public ComplaintStatus getStatus() {
 		return status;
 	}
-	public void setStatus(ProcessingStatus status) {
+	public void setStatus(ComplaintStatus status) {
 		this.status = status;
 	}
 	public Long getId() {
@@ -70,6 +74,12 @@ public class Complaint {
 
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
+	}
+	public Reservation getReservation() {
+		return reservation;
+	}
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 	
 
