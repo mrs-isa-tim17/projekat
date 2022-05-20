@@ -15,8 +15,8 @@
 
 
 import clientServce from "@/servieces/ClientServce";
-import HomePageClient from "@/components/main_site/homePageClient";
-import HomePage from "@/components/main_site/homePage";
+import HomePageClient from "@/components/main_site/main_home_page/homePageClient";
+import HomePage from "@/components/main_site/main_home_page/homePage";
 export default {
   name: "clientVerified",
   components: {HomePage, HomePageClient},

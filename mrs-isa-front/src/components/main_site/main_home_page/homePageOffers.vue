@@ -3,15 +3,15 @@
   <div class="px-5">
     <homePageCarouselLeft :type="cottageType" :key="cottageKey" :text="cottageTextBgColor" :offers="cottages" :carouselId="adventureId" :title="cottageTitle" :description="cottageDescription"></homePageCarouselLeft>
 
-    <homePageCarouselRight :key="adventureKey" :text="adventureTextBgColor" :offers="adventures" :title="adventureTitle" :description="adventureDescription"></homePageCarouselRight>
+    <homePageCarouselRight :type="adventureType" :key="adventureKey" :text="adventureTextBgColor" :offers="adventures" :title="adventureTitle" :description="adventureDescription"></homePageCarouselRight>
 
     <homePageCarouselLeft :type="shipType" :key="shipKey" :text="shipTextBgColor" :offers="ships" :carousel-id="shipId" :title="shipTitle" :description="shipDescription"></homePageCarouselLeft>
   </div>
 </template>
 
 <script>
-import homePageCarouselLeft from "@/components/main_site/homePageCarouselLeft";
-import homePageCarouselRight from "@/components/main_site/homePageCarouselRight";
+import homePageCarouselLeft from "@/components/main_site/main_home_page/homePageCarouselLeft";
+import homePageCarouselRight from "@/components/main_site/main_home_page/homePageCarouselRight";
 import AdventureServce from "@/servieces/AdventureServce";
 import ShipServce from "@/servieces/ShipServce";
 import CottageServce from "@/servieces/CottageServce";
@@ -107,7 +107,8 @@ export default {
       shipKey: 1,
       adventureKey: 1,
       cottageType: "cottage",
-      shipType: "ship"
+      shipType: "ship",
+      adventureType: "adventure"
     }
   }
 }

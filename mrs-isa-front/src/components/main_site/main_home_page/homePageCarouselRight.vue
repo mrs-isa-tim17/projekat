@@ -15,16 +15,16 @@
 
         <div class="carousel-inner px-2" >
 
-          <div class="carousel-item active" @click="goToOffer(item)">
-            <img :src="genereteImgUrl(offers[0])"   class="d-block w-100" alt="...">
+          <div class="carousel-item active" @click="goToOffer(offers[0].id)">
+            <img :src="genereteImgUrl(offers[0])"   class="d-block w-100" alt="img">
             <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">>
               <h5 class="text-black" style="opacity: 1;">{{offers[0].name}}</h5>
               <p class="text-black" style="opacity: 1;">{{ offers[0].description }}</p>
             </div>
           </div>
 
-          <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id" @click="goToOffer(item)">
-            <img :src="genereteImgUrl(item)" class="d-block w-100" alt="img">
+          <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id">
+            <img :src="genereteImgUrl(item)" @click="goToOffer(item.id)" class="d-block w-100" alt="img">
             <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">>
               <h5 class="text-black" style="opacity: 1;">{{item.name}}</h5>
               <p class="text-black" style="opacity: 1;">{{ item.description }}</p>
@@ -53,7 +53,7 @@
 <script>
 export default {
   name: "homePageCarouselRight",
-  props: ["offers", "title", "description", "text"],
+  props: ["offers", "title", "description", "text", "type"],
   methods: {
     genereteImgUrl(offer){
       if (offer !== undefined && offer.images !== undefined && offer.images[0] !== undefined)
@@ -66,8 +66,8 @@ export default {
       }
     },
     goToOffer(offer){
-      this.$router.push("...");
-      console.log(offer.id);
+      this.$router.push("/book/"+ this.type +"/site/" + offer);
+      //console.log(offer);
     }
   }
 }

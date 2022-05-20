@@ -1,17 +1,21 @@
 <template>
-  <div>
+  <div v-if="reviews.length > 0">
     <div v-for="(review, index) of filterReviews()" :key="index">
       <client-comment :key="myKey" :review="review"></client-comment>
     </div>
 
     <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numToDisplay" :fromElement="fromEl" :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
   </div>
+  <div v-else>
+    <p id="noReviews" style="visibility: hidden">Nema još recenzije na entitet</p>
+  </div>
 </template>
 
 <script>
 import cottageServce from "@/servieces/CottageServce";
 import PaginationComponent from "@/components/paginationComponent";
-import ClientComment from "@/components/main_site/comment";
+import ClientComment from "@/components/main_site/offer_profile/comment";
+import adventureServce from "@/servieces/AdventureServce";
 
 export default {
   name: "experienceReviewView",
@@ -25,6 +29,20 @@ export default {
           .then((response) => {
             this.reviews = response.data;
             this.listLength = this.reviews.length;
+            this.paginationKey++;
+            if (this.listLength === 0){
+              document.getElementById("noReviews").style.visibility = "visible"
+            }
+          })
+    }else if (this.offerType === "adventure"){
+      adventureServce.getAdventureReviews(this.id)
+          .then((response) => {
+            this.reviews = response.data;
+            this.listLength = this.reviews.length;
+            this.paginationKey++;
+            if (this.listLength === 0){
+              document.getElementById("noReviews").style.visibility = "visible"
+            }
           })
     }
   },
@@ -72,7 +90,7 @@ export default {
       myKey: 0,
       fromEl: 0,
       paginationKey: 0,
-      listLength: 4
+      listLength: 0
     }
   }
 }

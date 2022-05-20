@@ -3,32 +3,31 @@
 
   <div>
     <div class="p-2" v-for="(item) in filterOffers()"  :key="item.name">
-      <site-cottage-element :cottage="item"></site-cottage-element>
+      <site-adventure-element :cottage="item"></site-adventure-element>
     </div>
   </div>
-
 
   <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement"
                         :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
 
-
 </template>
 
 <script>
-import SiteCottageElement from "@/components/main_site/siteCottageElement";
+import SiteAdventureElement from "@/components/main_site/list_of_adventure/siteAdventureElement";
 import PaginationComponent from "@/components/paginationComponent";
 
 export default {
-  name: "site-cottage-list",
-  components: {PaginationComponent, SiteCottageElement},
+  name: "site-adventure-list",
+  components: {PaginationComponent, SiteAdventureElement},
   props: ["cottages", "listLength"],
   mounted() {
-
   },
   created:
-    function () {
-      this.forceRemounting();
-    },
+      function () {
+        this.forceRemounting();
+
+
+      },
   methods: {
     fromUntilElement(from){
       this.fromElement = from;
@@ -62,7 +61,7 @@ export default {
     return {
       numberOfElementsForDisplay : 4,
       fromElement: 0,
-      paginationKey: 0
+      paginationKey:0
     }
   }
 }

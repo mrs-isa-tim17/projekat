@@ -8,7 +8,7 @@
 
 <script>
 import ClientHeader from "@/components/client/clientHeader";
-import HomePageOffers from "@/components/main_site/homePageOffers";
+import HomePageOffers from "@/components/main_site/main_home_page/homePageOffers";
 export default {
   name: "homePageClient",
   components: {HomePageOffers, ClientHeader}

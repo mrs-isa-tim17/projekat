@@ -34,7 +34,10 @@
           </tr>
           <tr>
             <td>Ocena: </td>
-            <td v-show="offer.rating > 0">{{ offer.rating }}</td>
+            <td v-show="offer.rating > 0">
+              {{ offer.rating }}
+              <img class="mb-2" style="width: 20px;height: 18px;" src="/Star_icon_stylized.svg.png">
+            </td>
             <td v-show="offer.rating <= 0">nema ocenu</td>
           </tr>
           </tbody>
@@ -50,11 +53,13 @@
           </tr>
           </thead>
           <tbody class="table-borderless">
-          <ul>
-            <div v-for="(text,index) of offer.behavioralRules" :key="index">
-                <li>{{text}}</li>
-            </div>
-          </ul>
+              <ul v-if="offer.behavioralRules.length > 0">
+                <div v-for="(text,index) of offer.behavioralRules" :key="index">
+                    <li>{{text}}</li>
+                </div>
+              </ul>
+              <p v-else class="m-1">Nema dodatih pravila ponašanja</p>
+
           </tbody>
         </table>
       </div>
@@ -64,11 +69,12 @@
       <div class="col m-2" style="background-color: #E9E9E9; max-width: 45%;">
         <p>Dodatne usluge</p>
         <hr style="">
-        <ul>
-          <div v-for="(text,index) of offer.additionalServices" :key="index">
-            <li>{{text}}</li>
-          </div>
-        </ul>
+            <ul v-if="offer.additionalServices.length > 0">
+              <div v-for="(text,index) of offer.additionalServices" :key="index">
+                <li>{{text}}</li>
+              </div>
+            </ul>
+            <p v-else class="m-1">Nema dodatih dodatne usluge</p>
       </div>
     </div>
     <div align="left" class="row m-2">
@@ -80,7 +86,7 @@
 <script>
 import swal from "sweetalert2";
 
-import ExperienceReviewView from "@/components/main_site/experienceReviewView";
+import ExperienceReviewView from "@/components/main_site/offer_profile/experienceReviewView";
 export default {
   name: "cottageInfoDisplay",
   components: {ExperienceReviewView},

@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/ship/site/sort/*").permitAll()
                 .antMatchers("/adventure/site/*").permitAll()
                 .antMatchers("/adventure/site/sort/*").permitAll()
+                .antMatchers("/adventure/site/review/*").permitAll()
                 .antMatchers("/client/verify/*").permitAll()
                 .antMatchers("/api/foo").permitAll()
                 //for all of other urls have to be authenticated

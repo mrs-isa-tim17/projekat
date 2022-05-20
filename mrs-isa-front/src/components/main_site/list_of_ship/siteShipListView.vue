@@ -6,7 +6,7 @@
     <div  style="left: 2%; position: absolute;">
       <div class="input-group rounded">
         <input id="searchInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <button style="border-width: 0;" @click="searchCottages">
+        <button style="border-width: 0;" @click="searchShips">
         <span class="input-group-text border-0" id="search-addon">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -16,7 +16,6 @@
       </div>
 
     </div>
-
     <div>
       <select style="right: 10%; width: 200px; position: absolute;" id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
         <option selected>Sortiraj po</option>
@@ -24,37 +23,36 @@
         <option value="2">Location</option>
         <option value="3">Ocena</option>
         <option value="4">Cena</option>
-        <option value="5">Broj kreveta</option>
-        <option value="6">Broj soba</option>
+        <option value="5">Brzina</option>
+        <option value="6">Kapacitet</option>
       </select>
     </div>
     <br>
     <br>
 
-  <div class="row">
-    <div class="col-3" style="width: 240px;">
-      <site-cottage-search-nav @filter="filterCottages"></site-cottage-search-nav>
+    <div class="row">
+      <div class="col-3" style="width: 240px;">
+        <site-ship-search-nav @filter="filterShips"></site-ship-search-nav>
+      </div>
+      <div class="col">
+        <site-ship-list :cottages="cottages" :listLength="listLength" :key="shipsKey"></site-ship-list>
+      </div>
     </div>
-    <div class="col">
-      <site-cottage-list :cottages="cottages" :listLength="listLength" :key="cottagesKey"></site-cottage-list>
-    </div>
-  </div>
-
   </div>
 </template>
 
 <script>
-import SiteCottageSearchNav from "@/components/main_site/siteCottageSearchNav";
-import SiteCottageList from "@/components/main_site/siteCottageList";
-import BasicHeader from "@/components/main_site/basicHeader";
+import SiteShipList from "@/components/main_site/list_of_ship/siteShipList";
+import BasicHeader from "@/components/main_site/main_home_page/basicHeader";
 import ClientHeader from "@/components/client/clientHeader";
-import cottageServce from "@/servieces/CottageServce";
+import SiteShipSearchNav from "@/components/main_site/list_of_ship/siteShipSearchNav";
+import shipServce from "@/servieces/ShipServce";
 export default {
-  name: "siteCottageListView",
-  components: {ClientHeader, BasicHeader, SiteCottageList, SiteCottageSearchNav},
+  name: "siteShipListView",
+  components: {SiteShipSearchNav, ClientHeader, BasicHeader, SiteShipList},
   created:
       function () {
-        cottageServce.getCottages().then(
+        shipServce.getShips().then(
             (response) => {
               this.cottages = response.data;
               this.listLength = this.cottages.length;
@@ -76,12 +74,12 @@ export default {
 
       },
   methods: {
-    searchCottages(){
+    searchShips(){
       let searchByInput = document.getElementById("searchInput").value;
       let searchParam = {
         searchBy: searchByInput
       }
-      cottageServce.search(searchParam)
+      shipServce.search(searchParam)
           .then(response =>{
             this.cottages = response.data;
             this.listLength = this.cottages.length;
@@ -91,58 +89,57 @@ export default {
     sortList(){
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 1){
-        cottageServce.sortCottageListByName(this.cottages)
+        shipServce.sortShipListByName(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       } else if (sortBy == 2){
-        cottageServce.sortCottageListByLocation(this.cottages)
+        shipServce.sortShipListByLocation(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 3){
-        cottageServce.sortCottageListByRating(this.cottages)
+        shipServce.sortShipListByRating(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 4){
-        cottageServce.sortCottageListByPrice(this.cottages)
+        shipServce.sortShipListByPrice(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 5){
-        cottageServce.sortCottageListByNumberOfBeds(this.cottages)
+        shipServce.sortShipListBySpeed(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       }else if (sortBy == 6){
-        cottageServce.sortCottageListByNumberOfRooms(this.cottages)
+        shipServce.sortShipListByCapacity(this.cottages)
             .then(response =>{
               this.cottages = response.data;
               this.forceRemounting();
             })
       }
     },
-    filterCottages(filterDto){
-      console.log(filterDto);
-      cottageServce.filterCottages(filterDto)
+    filterShips(filterDto){
+      shipServce.filterShips(filterDto)
           .then((response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-              this.cottagesKey++;
-              console.log(this.listLength);
+                this.cottages = response.data;
+                this.listLength = this.cottages.length;
+                this.shipsKey++;
+                console.log(this.listLength);
               }
           )
     },
     forceRemounting() {
       this.clientHeaderKey += 1;
       this.basicHeaderKey += 1;
-      this.cottagesKey += 1;
+      this.shipsKey += 1;
     },
   },
   data() {
@@ -152,7 +149,7 @@ export default {
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
-      cottagesKey: 1
+      shipsKey: 1
     }
   }
 }

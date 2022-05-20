@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import SiteShipElement from "@/components/main_site/siteShipElement";
+import SiteShipElement from "@/components/main_site/list_of_ship/siteShipElement";
 import PaginationComponent from "@/components/paginationComponent";
 
 export default {

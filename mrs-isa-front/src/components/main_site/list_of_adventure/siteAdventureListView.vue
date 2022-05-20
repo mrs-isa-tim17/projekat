@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import siteAdventureList from "@/components/main_site/siteAdventureList";
-import BasicHeader from "@/components/main_site/basicHeader";
+import siteAdventureList from "@/components/main_site/list_of_adventure/siteAdventureList";
+import BasicHeader from "@/components/main_site/main_home_page/basicHeader";
 import ClientHeader from "@/components/client/clientHeader";
-import SiteAdventureSearchNav from "@/components/main_site/siteAdventureSearchNav";
+import SiteAdventureSearchNav from "@/components/main_site/list_of_adventure/siteAdventureSearchNav";
 import adventureServce from "@/servieces/AdventureServce";
 export default {
   name: "siteAdventureListView",

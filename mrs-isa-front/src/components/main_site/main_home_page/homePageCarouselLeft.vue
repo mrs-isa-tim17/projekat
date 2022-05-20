@@ -5,7 +5,7 @@
 
         <div class="carousel-inner px-2" >
 
-          <div class="carousel-item active" @click="goToOffer(offers[0])">
+          <div class="carousel-item active" @click="goToOffer(offers[0].id)">
             <img :src="genereteImgUrl(offers[0])" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">
 

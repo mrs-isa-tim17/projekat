@@ -17,13 +17,13 @@
 
           <div class="col-md-8">
             <div class="card-body">
-              <cottage-info-display :offer="offer"></cottage-info-display>
+              <adventure-info-display :offer="offer"></adventure-info-display>
             </div>
           </div>
 
-      </div>
+        </div>
 
-    </div>
+      </div>
 
 
       <div class="row g-0">
@@ -33,25 +33,27 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
-import OfferCarousel from "@/components/main_site/offerCarousel";
-import BasicHeader from "@/components/main_site/basicHeader";
+import BasicHeader from "@/components/main_site/main_home_page/basicHeader";
 import ClientHeader from "@/components/client/clientHeader";
-import cottageServce from "@/servieces/CottageServce";
+import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 import BirdVueMap from "@/components/main_site/birdVueMap";
-import CottageInfoDisplay from "@/components/main_site/cottageInfoDisplay";
+import adventureServce from "@/servieces/AdventureServce";
+import AdventureInfoDisplay from "@/components/main_site/adventure_profile/adventureInfoDisplay";
+
 export default {
-  name: "cottageProfile",
-  components: {CottageInfoDisplay, BirdVueMap, ClientHeader, BasicHeader, OfferCarousel},
+  name: "shipProfile",
+  components: {AdventureInfoDisplay, BirdVueMap, OfferCarousel, ClientHeader, BasicHeader},
   created:
       function () {
         this.offerId = this.$route.params.id;
-          cottageServce.getCottage(this.offerId).then((response) => {
-            this.offer = response.data;
-            console.log(this.offer);
-          })
+        adventureServce.getAdvanture(this.offerId).then((response) => {
+          this.offer = response.data;
+          console.log(this.offer);
+        })
 
         try{
 
@@ -90,12 +92,14 @@ export default {
         images: [""],
         additionalServices: ["", "", ""],
         price: "",
-        numberOfRooms: "",
-        numberOfBeds: "",
-        rating: ""
+        rating: "",
+        biography: "",
+        instructorBiography: [""],
+        fishingEquipments: [""]
       }
     }
   }
+
 }
 </script>
 

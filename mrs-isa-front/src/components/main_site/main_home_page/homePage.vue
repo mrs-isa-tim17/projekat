@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import HomePageOffers from "@/components/main_site/homePageOffers";
-import BasicHeader from "@/components/main_site/basicHeader";
+import HomePageOffers from "@/components/main_site/main_home_page/homePageOffers";
+import BasicHeader from "@/components/main_site/main_home_page/basicHeader";
 export default {
   components: {BasicHeader, HomePageOffers},
   methods: {

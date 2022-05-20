@@ -65,7 +65,9 @@ public class AdventureController {
 	private PeriodUnavailabilityService periodUnavailabilityService;
 	@Autowired
 	private ReservationService reservationService;
-	
+
+	@Autowired
+	private ClientService clientService;
 	
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -266,7 +268,7 @@ public class AdventureController {
 		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
 		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(adventureId);
 		List<ExperienceReview> experience =  experienceReviewService.findAllByOfferId(adventureId);
-		List<AdditionalServices> additionalServices = additionalServicesService.findAllByAdventureId(adventureId);
+		List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(adventureId);
 		Pricelist pricelist = pricelistService.findOffersCurrentPriceById(adventureId);
 		double price = pricelist.getPrice();
 
@@ -289,8 +291,6 @@ public class AdventureController {
 		adventure.getAddress().setLatitude(adventureDTO.getLatitude());
 		adventure.getAddress().setLongitude(adventureDTO.getLongitude());
 		adventure.setCapacity(adventureDTO.getCapacity());
-		System.out.println("++++" +adventureDTO.getCapacity());
-		System.out.println("++++++++"+adventure.getCapacity());
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
 
@@ -471,4 +471,30 @@ public class AdventureController {
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventure);
 		return new ResponseEntity<List<AdventureForListViewDTO>>(adventuresDTO, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "/site/{id}")
+	public ResponseEntity<AdventureProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
+		Adventure c = adventureService.findOneById(id);
+		AdventureProfileInfoDTO adventuresDTO = new AdventureProfileInfoDTO(c);
+		adventuresDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+		adventuresDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+		adventuresDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+		adventuresDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+		adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		adventuresDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
+		return new ResponseEntity<AdventureProfileInfoDTO>(adventuresDTO, HttpStatus.OK);
+	}
+
+
+	@GetMapping(value = "/site/review/{id}")
+	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromAdvanture(@PathVariable long id) {
+		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReviewDTO> dto = new ArrayList<>();
+		for (ExperienceReview e : er) {
+			e.setClient(clientService.findOne(e.getClient().getId()));
+			dto.add(new ExperienceReviewDTO(e));
+		}
+		return ResponseEntity.ok(dto);
+	}
+
 }

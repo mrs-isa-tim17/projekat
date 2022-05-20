@@ -6,7 +6,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <a class="navbar-brand" :href="siteHomePage" style="color:white;margin-right:150px;font-weight:bold;">
-          <img src="../../assets/icons/logo_new.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
+          <img src="../../../assets/icons/logo_new.png" alt="" width="30" height="30" class="d-inline-block align-text-top">
           <div class="text-black" style="display:inline-block;vertical-align:bottom;">ENJOY</div>
         </a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
