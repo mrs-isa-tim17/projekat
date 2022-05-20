@@ -19,7 +19,7 @@
                   {{cottage.description}}
                 </div>
 
-                <div class="col-4">
+                <div class="col">
                   Od: {{cottage.startDate}}
                   <br>
                   Do: {{cottage.endDate}}
@@ -34,7 +34,7 @@
                   </p>
                 </div>
 
-                <div class="col-3">
+                <div class="col">
 
                   <modalWithTextAreaAndRating :buttonText="firstButtonText" v-show="!cottage.reviewed && !cottage.canceled"
                                                   :buttonColor="firstButtonColor" :header="firstButtonHeader" @input-text-rating="sendReview"

@@ -11,7 +11,7 @@
           <span aria-hidden="true">&lt;</span>
         </button>
       </li>
-      <li class="page-item"><p class="text-secondary pt-2 px-3" :key="textKey"> {{currentlyOn}} od {{numberOfElements}}</p></li>
+      <li class="page-item"><p class="text-secondary pt-2 px-3" :key="textKey"> {{currentlyOn}}/{{numberOfElements}}</p></li>
       <li class="page-item">
         <button class="page-link" @click="makeNext" aria-label="Next">
           <span aria-hidden="true">&gt;</span>

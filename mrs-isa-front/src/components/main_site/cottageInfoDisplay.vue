@@ -1,0 +1,137 @@
+<template>
+    <div align="left">
+      <div class="row">
+        <div class="col-9">
+          <p>{{offer.description}}</p>
+        </div>
+        <div class="col">
+          <div class="row p-1"><button @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button></div>
+          <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
+          <div class="row p-1"><button @click="viewQuickReservation" class="btn btn-secondary"> Brze rezervacije </button></div>
+        </div>
+      </div>
+    </div>
+    <div align="left" class="row">
+      <div class="col m-2" >
+        <table class="table" style="background-color: #E9E9E9;">
+          <thead>
+          <tr>
+            <th scope="col">Osnovne informacije</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Broj soba: </td>
+            <td>{{offer.numberOfRooms}}</td>
+          </tr>
+          <tr>
+            <td>Broj kreveta: </td>
+            <td>{{offer.numberOfBeds}}</td>
+          </tr>
+          <tr>
+            <td>Cena: </td>
+            <td>{{offer.price}}</td>
+          </tr>
+          <tr>
+            <td>Ocena: </td>
+            <td v-show="offer.rating > 0">{{ offer.rating }}</td>
+            <td v-show="offer.rating <= 0">nema ocenu</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="col m-2">
+        <table class="table" style="background-color: #E9E9E9;">
+          <thead>
+          <tr>
+            <th scope="col">Pravila ponašanja</th>
+          </tr>
+          </thead>
+          <tbody class="table-borderless">
+          <ul>
+            <div v-for="(text,index) of offer.behavioralRules" :key="index">
+                <li>{{text}}</li>
+            </div>
+          </ul>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div align="left" class="row m-2">
+      <div class="col m-2" style="background-color: #E9E9E9; max-width: 45%;">
+        <p>Dodatne usluge</p>
+        <hr style="">
+        <ul>
+          <div v-for="(text,index) of offer.additionalServices" :key="index">
+            <li>{{text}}</li>
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div align="left" class="row m-2">
+      <button @click="toggleExperienceReview" class="btn btn-outline-secondary mb-4" style="max-width: 400px;">Pročitaj mišljenje klijenata</button>
+      <experience-review-view :ket="reviewsKey" @remountReviews="remountReviews" :id="offerId" :offer-type="offerType" :key="commentsKey" v-show="showExperienceReview"></experience-review-view>
+    </div>
+</template>
+
+<script>
+import swal from "sweetalert2";
+
+import ExperienceReviewView from "@/components/main_site/experienceReviewView";
+export default {
+  name: "cottageInfoDisplay",
+  components: {ExperienceReviewView},
+  props: ["offer"],
+  mounted() {
+  },
+  methods: {
+    reserveOffer(){
+      if (localStorage.user == null)
+        this.fireAlertOn('Morate da se prijavite da biste se mogli da rezervišete entitete!')
+    },
+    fireAlertOn(eventText){
+      swal.fire({
+        title: "Upozerenje",
+        text: eventText,
+        background:'white',
+        color:'black',
+        confirmButtonColor:'#FECDA6'});
+    },
+    subscribeToTheOffer(){
+      if (localStorage.user == null)
+        this.fireAlertOn('Morate da se prijavite da biste se mogli pretplatiti na obavaštenje za brze rezervacije!');
+        //this.$router.push("/book/site/login");
+    },
+    viewQuickReservation(){
+      if (localStorage.user == null)
+        this.fireAlertOn('Morate da se prijavite da biste se mogli da izvršete brze rezervacije!')
+    },
+    remountReviews(){
+      console.log("Remount - cottage display");
+      this.reviewsKey++;
+    },
+    toggleExperienceReview(){
+      console.log(this.offer.id);
+      this.offerId = this.offer.id;
+      this.showExperienceReview = !this.showExperienceReview;
+      this.commentsKey++;
+    }
+  },
+  data(){
+    return {
+      showExperienceReview: false,
+      commentsKey: 0,
+      offerType: "cottage",
+      reviewsKey: 0,
+      offerId: 0
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

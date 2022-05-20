@@ -39,6 +39,7 @@ export default {
     },
     filterOffers(){
       this.resultingOffers = [];
+      this.paginationKey += 1;
       let index = 0;
       for (let offer of this.cottages){
         if (this.checkIfNeedsToBeDisplayed(index)) {

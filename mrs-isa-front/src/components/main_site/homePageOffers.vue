@@ -1,11 +1,11 @@
 <template>
 
   <div class="px-5">
-    <homePageCarouselLeft :key="cottageKey" :text="cottageTextBgColor" :offers="cottages" :carouselId="adventureId" :title="cottageTitle" :description="cottageDescription"></homePageCarouselLeft>
+    <homePageCarouselLeft :type="cottageType" :key="cottageKey" :text="cottageTextBgColor" :offers="cottages" :carouselId="adventureId" :title="cottageTitle" :description="cottageDescription"></homePageCarouselLeft>
 
     <homePageCarouselRight :key="adventureKey" :text="adventureTextBgColor" :offers="adventures" :title="adventureTitle" :description="adventureDescription"></homePageCarouselRight>
 
-    <homePageCarouselLeft :key="shipKey" :text="shipTextBgColor" :offers="ships" :carousel-id="shipId" :title="shipTitle" :description="shipDescription"></homePageCarouselLeft>
+    <homePageCarouselLeft :type="shipType" :key="shipKey" :text="shipTextBgColor" :offers="ships" :carousel-id="shipId" :title="shipTitle" :description="shipDescription"></homePageCarouselLeft>
   </div>
 </template>
 
@@ -105,7 +105,9 @@ export default {
       shipTextBgColor: "background-color: #31708E;",
       cottageKey: 1,
       shipKey: 1,
-      adventureKey: 1
+      adventureKey: 1,
+      cottageType: "cottage",
+      shipType: "ship"
     }
   }
 }

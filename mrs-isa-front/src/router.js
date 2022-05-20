@@ -23,6 +23,9 @@ const router = createRouter({
         { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageListView.vue")},
         { path:  '/book/ship/site', component: () => import("./components/main_site/siteShipListView.vue")},
         { path:  '/book/adventure/site', component: () => import("./components/main_site/siteAdventureListView.vue")},
+        { path:  '/book/cottage/site/:id', component: () => import("./components/main_site/cottageProfile")},
+        { path:  '/book/adventure/site/:id', component: () => import("./components/main_site/adventureProfile")},
+
 
         { path: '/cottageOwner/profile', component: () => import("./components/editProfileCottageOwner")},
         {path:'/cottage/reservations/future/:id',component:() => import("./components/cottageOwnerFutureReservationsList")},
@@ -53,6 +56,9 @@ router.beforeEach((to, from, next) => {
         '/book/ship/site', '/book/adventure/site'];
     let authRequired = !publicPages.includes(to.path);
     if (to.path.includes('/client/verify/')){
+        authRequired = false;
+    }
+    if (to.path.includes('/site/')){
         authRequired = false;
     }
     const loggedIn = localStorage.getItem('user');

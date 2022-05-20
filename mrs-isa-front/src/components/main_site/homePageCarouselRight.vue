@@ -2,7 +2,7 @@
   <div class="row" :style="text">
 
 
-    <div class="col-6">
+    <div class="col g-0">
       <h3 class="text-black"> {{ title }} </h3>
       <br>
       <p class="text-black">{{ description }}</p>
@@ -10,8 +10,8 @@
 
     </div>
 
-    <div class="col-6">
-      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="col">
+      <div style="min-width: 100px;" id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 
         <div class="carousel-inner px-2" >
 
@@ -24,7 +24,7 @@
           </div>
 
           <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id" @click="goToOffer(item)">
-            <img :src="genereteImgUrl(item)" class="d-block w-100" alt="...">
+            <img :src="genereteImgUrl(item)" class="d-block w-100" alt="img">
             <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">>
               <h5 class="text-black" style="opacity: 1;">{{item.name}}</h5>
               <p class="text-black" style="opacity: 1;">{{ item.description }}</p>
@@ -58,7 +58,7 @@ export default {
     genereteImgUrl(offer){
       if (offer !== undefined && offer.images !== undefined && offer.images[0] !== undefined)
         return require('@/assets/' + offer.images[0]);
-      return require('@/assets/icons/adventurer.png');
+      //return require('@/assets/icons/adventurer.png');
     },
     filterOffers(){
       if (this.offers.length > 1){

@@ -30,7 +30,7 @@ public class AdditionalServicesService {
 		return additionalServicesRepository.findOneByName(name);
 	}
 	
-	public List<AdditionalServices> findAllByAdventureId(Long id){
+	public List<AdditionalServices> findAllByOfferId(Long id){
 		return additionalServicesRepository.findAllByOfferId(id);
 	}
 }

@@ -1,11 +1,11 @@
 <template>
   <div class="row" :style="text">
-    <div class="col-6">
-      <div :id=carouselId class="carousel slide" data-bs-ride="carousel">
+    <div class="col  g-0">
+      <div style="min-width: 100px;" :id=carouselId class="carousel slide" data-bs-ride="carousel">
 
         <div class="carousel-inner px-2" >
 
-          <div class="carousel-item active" @click="goToOffer(item)">
+          <div class="carousel-item active" @click="goToOffer(offers[0])">
             <img :src="genereteImgUrl(offers[0])" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">
 
@@ -14,8 +14,8 @@
               </div>
           </div>
 
-          <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id" @click="goToOffer(item)">
-            <img :src="genereteImgUrl(item)" class="d-block w-100" alt="..." >
+          <div class="carousel-item" v-for="(item) in filterOffers()" :key="item.id" >
+            <img :src="genereteImgUrl(item)" @click="goToOffer(item.id)" class="d-block w-100" alt="img" >
               <div class="carousel-caption d-none d-md-block" style="background-color: #E9E9E9; opacity: 0.5;">
                 <h5 class="text-black" style="opacity: 1;">{{item.name}}</h5>
                 <p class="text-black" style="opacity: 1;">{{ item.description }}</p>
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="col-6" >
+    <div class="col">
       <h3 class="text-black"> {{ title }} </h3>
       <br>
       <p class="text-black">{{ description }}</p>
@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "homePageCarouselLeft",
-  props: ["offers", "carouselId", "title", "description", "text"],
+  props: ["offers", "carouselId", "title", "description", "text", "type"],
   created:
       function () {
         this.carouselHash = "#"+this.carouselId;
@@ -61,7 +61,7 @@ export default {
     genereteImgUrl(offer){
       if (offer !== undefined && offer.images !== undefined && offer.images[0] !== undefined)
         return require('@/assets/' + offer.images[0]);
-      return require('@/assets/icons/adventurer.png');
+      //return require('/');
     },
     filterOffers(){
       if (this.offers.length > 1){
@@ -69,8 +69,12 @@ export default {
       }
     },
     goToOffer(offer){
-      this.$router.push("...");
-      console.log(offer.id);
+      console.log("id: " + offer);
+      this.$router.push("/book/"+ this.type +"/site/" + offer);
+    }
+  },
+  data(){
+    return {
     }
   }
 }

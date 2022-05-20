@@ -4,18 +4,18 @@
 
       <div class="row g-0" style="background-color: #E9E9E9;">
 
-        <div class="col-md-4">
-          <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu" :alt="defaultImage">
+        <div class="col-md-4"  @click="goToOffer">
+          <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" data-toggle="tooltip" data-placement="right" title="Poseti stranicu" :alt="defaultImage">
         </div>
 
         <div class="col-md-8">
           <div class="card-body text-black ">
 
-            <h5 class="card-title d-flex justify-content-lg-center" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
+            <h5  class="card-title d-flex justify-content-lg-center" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">{{cottage.name}}</h5>
 
             <div class="card-text ">
               <div class="row">
-                <div class="col-5  d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+                <div class="col  d-flex justify-content-lg-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
                   {{cottage.description}}
                   <br>
                   <br>
@@ -28,7 +28,7 @@
                   Ocena: {{cottage.mark}}
                 </div>
 
-                <div class="col-4">
+                <div class="col">
                   <bird-vue-map :index="cottage.id" style="width: 280px; height: 200px;" :lon="cottage.longitude" :lat="cottage.latitude"></bird-vue-map>
                 </div>
               </div>
@@ -46,6 +46,12 @@ export default {
   name: "siteCottageElement",
   components: {BirdVueMap},
   props: ["cottage"],
+  methods:{
+    goToOffer(){
+      console.log('/'+this.cottage.id);
+      this.$router.push('/book/cottage/site/'+this.cottage.id);
+    },
+  },
   created() {
     if (this.cottage.image != null) {
       this.image = this.cottage.image;
