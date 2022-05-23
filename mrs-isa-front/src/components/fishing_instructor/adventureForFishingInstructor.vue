@@ -268,7 +268,7 @@ export default {
     },
 
     ShowReservations(){
-      console.log(this.currentId5);
+      console.log(this.currentId);
       this.$router.push('/adventure/reservations/' + this.currentId);
     }
 

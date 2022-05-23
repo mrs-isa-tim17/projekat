@@ -11,14 +11,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p> {{complaintText}}</p>
+          <p> {{deleteRequestText}}</p>
           <h6 style="text-align:left"> Vaš odgovor: </h6>
           <textarea id="text" class="my-4" rows="4" cols="40" name="text" v-model="textDTO.text"></textarea>
           <h6 id="message"></h6>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-          <button type="button" class="btn btn-primary" @click="Answer">Pošalji</button>
+          <button type="button" class="btn btn-primary" @click="Accept">Prihvati</button>
+          <button type="button" class="btn btn-primary" @click="Reject">Odbij</button>
         </div>
       </div>
     </div>
@@ -29,29 +30,23 @@
 import $ from "jquery";
 
 export default {
-  name: "complaintModal",
-  props:["index","header", "complaintId", "btnId", "btnText", "complaintText"],
-  created:
-      function () {
-        this.modalId = "#"+this.index;
-        console.log(this.index);
-        console.log(this.modalId);
-        console.log(this.complaintId);
-      },
-  methods:{
-    openForm(){
-      console.log("forma");
-      //    $('#'+this.index).modal('show');
+  name: "deleteRequestModal",
+  props:["index","header", "deleteRequestId", "btnId", "btnText", "deleteRequestText"],
+  created: function (){
+    this.modalId = "#"+this.index;
+  },
+  methods: {
+    openForm() {
       var modalToggle = document.getElementById(this.index);
-      ///myModal.show(modalToggle)
-      $('#'+this.index).show(modalToggle);
-      $('#'+this.index).focus(modalToggle);
+      $('#' + this.index).show(modalToggle);
+      $('#' + this.index).focus(modalToggle);
     },
 
-    Answer(){
-      if(this.text===""){
-        alert("Unesite odgovor.");
-      }else {
+    Accept() {
+      if (this.text === "") {
+        alert("Unesiteeee");
+      }         // zameniti tosterom ili ....
+      else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');
         modal.setAttribute('aria-hidden', 'true');
@@ -61,24 +56,40 @@ export default {
         document.body.removeChild(modalBackdrops[0]);
         document.body.style.overflow = 'auto';
 
-
-        this.$emit('answer-text', this.complaintId, this.textDTO);
-
+        this.$emit('delete-accept-text', this.deleteRequestId, this.textDTO);
       }
     },
-  },
-  data(){
-    return{
-      modalId:"",
-      textDTO:{
-        text:""
-      },
-      errorMessage:"Unesite odgovor na žalbu."
-    }
-  }
-}
 
+    Reject() {
+      if (this.textDTO.text === "") {
+        alert("Unesiteeee");
+      }                 // zameniti tosterom ili ...
+      else {
+        const modal = document.getElementById(this.index);
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('style', 'display: none');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+        // remove opened modal backdrop
+        document.body.removeChild(modalBackdrops[0]);
+        document.body.style.overflow = 'auto';
+
+        this.$emit('delete-reject-text', this.deleteRequestId, this.textDTO);
+      }
+    }
+  },
+    data() {
+      return {
+        modalId:"",
+        textDTO:{
+          text:""
+        }
+
+      }
+    }
+}
 </script>
 
 <style scoped>
+
 </style>

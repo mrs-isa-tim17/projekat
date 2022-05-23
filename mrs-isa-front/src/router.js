@@ -43,8 +43,8 @@ const router = createRouter({
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
         {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")},
-        {path: '/admin/complaints', component:()=> import("./components/admin/complaints")}
-
+        {path: '/admin/complaints', component:()=> import("./components/admin/complaints")},
+        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")}
     ]
 });
 

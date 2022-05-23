@@ -12,7 +12,7 @@
         </div>
         <div class="modal-body">
 
-          <textarea id="text" class="my-4" rows="4" cols="20" name="text" v-model="text"></textarea>
+          <textarea id="text" class="my-4" rows="4" cols="40" name="text" v-model="textDTO.text"></textarea>
           <h6 id="message"></h6>
         </div>
         <div class="modal-footer">
@@ -61,7 +61,7 @@ export default {
         document.body.style.overflow = 'auto';
 
 
-        this.$emit('reject-text', this.requestId, this.text);
+        this.$emit('reject-text', this.requestId, this.textDTO);
 
       }
     },
@@ -70,7 +70,9 @@ export default {
   data(){
     return{
       modalId:"",
-      text:"",
+      textDTO: {
+        text: ""
+      },
       errorMessage:"Unesite obrazloženje."
     }
   }
