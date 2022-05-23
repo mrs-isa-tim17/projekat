@@ -1,5 +1,6 @@
 package com.project.mrsisa.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.PeriodAvailability;
 import com.project.mrsisa.domain.PeriodUnavailability;
+import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
 import com.project.mrsisa.service.PeriodUnavailabilityService;
+import com.project.mrsisa.service.ReservationService;
 
 
 
@@ -37,7 +40,9 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	@Autowired
 	private AdventureService adventureService;
-
+	@Autowired
+	private ReservationService reservationService;
+	
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -90,16 +95,38 @@ public class AvailabilityUnavailabilityPeriodController {
 	@GetMapping(value="/availability/all/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
-
-		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
-		List<StartEndDateDTO> startEndDateDTOs = new ArrayList<StartEndDateDTO>();
-		for(PeriodAvailability p : availabilityPeriods) {
-			StartEndDateDTO period = new StartEndDateDTO(p.getStartDate(), p.getEndDate(), "");
-			startEndDateDTOs.add(period);
-		}
+		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
+		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
 		
+		List<StartEndDateDTO> availabilityIntersectionUnavailability = new ArrayList<StartEndDateDTO>();
+				
+		LocalDateTime current = null;
 
-		return new ResponseEntity<>(startEndDateDTOs, HttpStatus.OK);
+		for(PeriodAvailability avail : availability) {
+			current = avail.getStartDate();
+			for(PeriodUnavailability unavail : unavailability) {
+				if(current.isBefore(unavail.getStartDate()) && avail.getEndDate().isAfter(unavail.getEndDate())) {
+					availabilityIntersectionUnavailability.add(new StartEndDateDTO(current, unavail.getStartDate(), "  "));
+					current = unavail.getEndDate();
+				}
+			}
+			availabilityIntersectionUnavailability.add(new StartEndDateDTO(current, avail.getEndDate(), "  "));
+		}
+		System.out.println("Milica " +availabilityIntersectionUnavailability.size() );
+		
+		List<StartEndDateDTO> intersectionAll = new ArrayList<StartEndDateDTO>();
+		for(StartEndDateDTO period : availabilityIntersectionUnavailability) {
+			current = period.getStart();
+			for(Reservation r: reservations) {
+				if(current.isBefore(r.getStartDate().atStartOfDay()) && period.getEnd().isAfter(r.getEndDate().atStartOfDay())) {
+					intersectionAll.add(new StartEndDateDTO(current, r.getStartDate().atStartOfDay(), "  "));
+					current = r.getEndDate().atStartOfDay();
+				}
+			}
+			intersectionAll.add(new StartEndDateDTO(current, period.getEnd(), "  "));
+		}	
+		return new ResponseEntity<>(intersectionAll, HttpStatus.OK);
 	}
 	
 	

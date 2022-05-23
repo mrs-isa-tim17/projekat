@@ -51,4 +51,12 @@ public class StartEndDateDTO {
 		this.color = color;
 	}
 
+	@Override
+	public String toString() {
+		return "StartEndDateDTO [start=" + start + ", end=" + end + ", title=" + title + ", color=" + color + "]";
+	}
+
+	
+	
+	
 }

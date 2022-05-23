@@ -1,12 +1,13 @@
 package com.project.mrsisa.service;
 
 import com.project.mrsisa.domain.PeriodAvailability;
-
 import com.project.mrsisa.repository.PeriodAvailabilityRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class PeriodAvailabilitySerivce {
 		return periodAvailabilityRepository.save(periodAvailability);
 	}
 
-	public List<PeriodAvailability> getListOfAvailbilityForOffer(Long offerId){
+	public List<PeriodAvailability> getListOfAvailbilityForOffer(Long offerId){	
 		return periodAvailabilityRepository.getListOfAvailbilityForOffer(offerId);
 		
 	}

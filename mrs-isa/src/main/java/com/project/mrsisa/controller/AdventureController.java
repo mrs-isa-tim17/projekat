@@ -209,7 +209,7 @@ public class AdventureController {
 		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
 		for(Reservation r : reservations) {
 			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay(), r.getEndDate().atStartOfDay(), adventure.getName());
 			reservationPeriods.add(period);

@@ -22,4 +22,8 @@ public class RoleService {
         List<Role> roles = this.roleRepository.findByName(name);
         return roles;
     }
+    
+    public Role findOneById(Long id) {
+    	return roleRepository.findOneById(id);
+    }
 }
