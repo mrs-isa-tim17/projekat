@@ -1,9 +1,12 @@
 package com.project.mrsisa.service;
 
 import com.project.mrsisa.domain.Complaint;
+import com.project.mrsisa.domain.Image;
 import com.project.mrsisa.repository.ComplaintRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ComplaintService {
@@ -13,5 +16,8 @@ public class ComplaintService {
 
     public Complaint save(Complaint complaint){
         return complaintRepository.save(complaint);
+    }
+    public List<Complaint> findAllByOfferId(Long id){
+        return complaintRepository.findAllByOfferId(id);
     }
 }

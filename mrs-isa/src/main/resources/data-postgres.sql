@@ -85,6 +85,8 @@ insert into additional_services (name, reservation_id, sale_appointment_id) valu
 insert into additional_services (name, reservation_id, sale_appointment_id) values ('bicikli', null, null);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 1);
+insert into additional_services_offer (offer_id, additional_service_id) values (1, 4);
+insert into additional_services_offer (offer_id, additional_service_id) values (1, 9);
 insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
 
 insert into behavior_rule (text) values ('zabranjeno pecanje');
@@ -133,10 +135,20 @@ insert into cancel_condition (days, precent) values (10, 0);
 insert into cancel_condition (days, precent) values (15, 0);
 insert into cancel_condition (days, precent) values (20, 0);
 
+insert into cancel_condition (days, precent) values (5, 13);
+insert into cancel_condition (days, precent) values (10, 17);
+insert into cancel_condition (days, precent) values (15, 18);
+insert into cancel_condition (days, precent) values (20, 19);
+
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 1);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 2);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 3);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (2, 4);
+
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (1, 21);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (1, 22);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (1, 23);
+insert into cancel_condition_offer (offer_id, cancel_condition_id) values (1, 24);
 
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 5);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (11, 6);
@@ -165,7 +177,13 @@ insert into image (path, offer_id) values('img/adventure/Drina3.jpg', 2);
 
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 1, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 1, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 1, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 1, 1);
+
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 3000, '29.04.2022.', 1);
 
 insert into cottage (id, deleted, description, name, address_id, bed_quantity, room_quantity, owner)
     values (nextval('offer_seq'), false, 'Idealno mesto za odmor', 'Šumske priče Divčibare', 1, 8, 2, 3);

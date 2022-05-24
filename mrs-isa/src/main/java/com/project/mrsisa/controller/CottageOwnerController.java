@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.LoyaltyScale;
-import com.project.mrsisa.dto.CottageOwnerProfileResponseDTO;
+import com.project.mrsisa.dto.owner.CottageOwnerProfileResponseDTO;
 import com.project.mrsisa.service.CottageOwnerService;
 import com.project.mrsisa.service.LoyaltyScaleService;
 

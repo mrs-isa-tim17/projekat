@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
-import com.project.mrsisa.domain.OfferType;
+import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
@@ -26,14 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Address;
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.Cottage;
-import com.project.mrsisa.domain.CottageOwner;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.cottage.FindCottageDTO;
 
@@ -72,6 +64,11 @@ public class CottageController {
 
 	@Autowired
 	private ReservationService reservationService;
+
+	@Autowired
+	private ComplaintService complaintService;
+
+
 
 	private OfferProcessing offerProcessing = new OfferProcessing();
 
@@ -167,15 +164,14 @@ public class CottageController {
 	
 	@GetMapping(value="/all")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<List<FindCottageDTO>> getAllCottages() {
+	public ResponseEntity<List<FindCottagesDTO>> getAllCottages() {
 
 		List<Cottage> cottages = cottageService.findAll();
-		List<FindCottageDTO> cottageDTO = new ArrayList<>();
+		List<FindCottagesDTO> cottageDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
-			 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(c.getId());
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(c.getId());
-			 cottageDTO.add(new FindCottageDTO(c,rules,images, cancelConditions));
+			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
+			 cottageDTO.add(new FindCottagesDTO(c,images, additionalServices));
 		}
 
 		return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
@@ -184,8 +180,6 @@ public class CottageController {
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<FindCottageDTO> getCottage(@PathVariable Long id) {
-		System.out.println("IN CONTROLLER");
-
 		Cottage cottage = null;
 		try {
 			cottage = cottageService.findOne(id);
@@ -198,25 +192,29 @@ public class CottageController {
 		 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(cottage.getId());
 		 List<Image> images = imageService.findAllByOfferId(cottage.getId());
 		 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(cottage.getId());
-		 FindCottageDTO cottageDTO = new FindCottageDTO(cottage,rules,images,cancelConditions);
+		 Pricelist pricelist = pricelistService.findOffersCurrentPriceById(cottage.getId());
+		 //List<Complaint> complaint = complaintService.findAllByOfferId(cottage.getId());
+		// List<ExperienceReview> experienceReviews = experienceReviewService.findAllByOfferId(cottage.getId());
+		 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(cottage.getId());
+		 FindCottageDTO cottageDTO = new FindCottageDTO(cottage,rules,images,cancelConditions,additionalServices,pricelist);
+
 		
         return new ResponseEntity<FindCottageDTO>(cottageDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<List<FindCottageDTO>> getCottagesByOwner(@PathVariable Long id) {
+	public ResponseEntity<List<FindCottagesDTO>> getCottagesByOwner(@PathVariable Long id) {
 		CottageOwner owner = cottageOwnerService.findOne(id);
 		List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
 
-		List<FindCottageDTO> cottagesDTO = new ArrayList<>();
+		List<FindCottagesDTO> cottagesDTO = new ArrayList<>();
 		
 		
 		for (Cottage c : cottages) {
-			 List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(c.getId());
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(c.getId());
-			 cottagesDTO.add(new FindCottageDTO(c,rules,images,cancelConditions));
+			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
+			 cottagesDTO.add(new FindCottagesDTO(c,images,additionalServices));
 		}
 		return new ResponseEntity<>(cottagesDTO, HttpStatus.OK);
 	}

@@ -266,7 +266,7 @@ public class AdventureController {
 		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
 		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(adventureId);
 		List<ExperienceReview> experience =  experienceReviewService.findAllByOfferId(adventureId);
-		List<AdditionalServices> additionalServices = additionalServicesService.findAllByAdventureId(adventureId);
+		List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(adventureId);
 		Pricelist pricelist = pricelistService.findOffersCurrentPriceById(adventureId);
 		double price = pricelist.getPrice();
 

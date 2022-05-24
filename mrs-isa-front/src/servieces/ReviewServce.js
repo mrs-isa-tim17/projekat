@@ -11,6 +11,18 @@ class ReviewServce{
             headers: authHeader()
         });
     }
+
+    getReviews(id){
+        return axios.get(REVIEW_API_BASE_URL+'/all/'+id, {
+            headers: authHeader()
+        });
+    }
+    getRating(id){
+        return axios.get(REVIEW_API_BASE_URL+'/rate/'+id, {
+            headers: authHeader()
+        });
+    }
+
 }
 
 export default new ReviewServce();

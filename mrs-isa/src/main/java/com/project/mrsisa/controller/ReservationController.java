@@ -2,8 +2,8 @@ package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.domain.Reservation;
-import com.project.mrsisa.dto.HistoryFutureReservationOwnerDTO;
-import com.project.mrsisa.dto.HistoryPastReservationOwnerDTO;
+import com.project.mrsisa.dto.owner.HistoryFutureReservationOwnerDTO;
+import com.project.mrsisa.dto.owner.HistoryPastReservationOwnerDTO;
 import com.project.mrsisa.service.CottageService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.ReservationService;
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/offer", produces = MediaType.APPLICATION_JSON_VALUE)

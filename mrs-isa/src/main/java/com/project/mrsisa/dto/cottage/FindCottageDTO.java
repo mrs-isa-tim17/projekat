@@ -1,14 +1,11 @@
 package com.project.mrsisa.dto.cottage;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.Cottage;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.service.BehaviorRuleService;
 import com.project.mrsisa.service.PricelistService;
 
@@ -32,16 +29,15 @@ public class FindCottageDTO implements Serializable{
 		private List<String> cancelConditions;
 		private List<String> experienceReviews;
 		private List<String> additionalServices;
+
 		private List<String> days;
-		private String p1;
-		private String p2;
-		private String p3;
-		private String p4;
+		private List<String> percents;
 		private double price;
+		private LocalDate priceStartDate;
 		public PricelistService pricelistService;
 		public BehaviorRuleService behaviorRuleService = new BehaviorRuleService();
 
-	    public FindCottageDTO(Cottage cottage, List<BehaviorRule> rules, List<Image> imagesCottages, List<CancelCondition> conditions) {
+	    public FindCottageDTO(Cottage cottage, List<BehaviorRule> rules, List<Image> imagesCottages, List<CancelCondition> conditions, List<AdditionalServices> addServices, Pricelist pricelist) {
 	        this.roomQuantity=cottage.getRoomQuantity();
 	        //this.ownersEmail=cottage.getOwner().getEmail();
 	       // this.ownersName=cottage.getOwner().getName();
@@ -65,33 +61,25 @@ public class FindCottageDTO implements Serializable{
 	        	images.add(i.getPath());
 	        }
 	        
-	        cancelConditions = new ArrayList<String>();
+	       	days = new ArrayList<String>();
+			percents = new ArrayList<String>();
 	        for(CancelCondition cc : conditions) {
+
 	        	this.days.add(String.valueOf(cc.getDays()));
-				switch (cc.getDays()) {
-				case 5:
-					this.p1 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "od ukupne cene rezervacije.");
-					break;
-				case 10:
-					this.p2 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "od ukupne cene rezervacije.");
-					break;
-				case 15:
-					this.p3 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "od ukupne cene rezervacije.");
-					break;
-				case 20:
-					this.p4 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "od ukupne cene rezervacije.");
-					break;
-				default:
-					break;
+				this.percents.add(String.valueOf(cc.getPrecent()));
+
 				}
-	        }
-	        
-	        
-	        
+			System.out.println(this.days);
+			System.out.println(this.percents);
+
+
+			additionalServices = new ArrayList<String>();
+			for(AdditionalServices as : addServices){
+				this.additionalServices.add(as.getName());
+			}
+
+			this.price = pricelist.getPrice();
+			this.priceStartDate = pricelist.getStartDate();
 	    }
 
 		public int getRoomQuantity() {
@@ -231,37 +219,6 @@ public class FindCottageDTO implements Serializable{
 			this.days = days;
 		}
 
-		public String getP1() {
-			return p1;
-		}
-
-		public void setP1(String p1) {
-			this.p1 = p1;
-		}
-
-		public String getP2() {
-			return p2;
-		}
-
-		public void setP2(String p2) {
-			this.p2 = p2;
-		}
-
-		public String getP3() {
-			return p3;
-		}
-
-		public void setP3(String p3) {
-			this.p3 = p3;
-		}
-
-		public String getP4() {
-			return p4;
-		}
-
-		public void setP4(String p4) {
-			this.p4 = p4;
-		}
 
 		public double getPrice() {
 			return price;
@@ -286,6 +243,20 @@ public class FindCottageDTO implements Serializable{
 		public void setBehaviorRuleService(BehaviorRuleService behaviorRuleService) {
 			this.behaviorRuleService = behaviorRuleService;
 		}
-	    
-	    
+
+	public List<String> getPercents() {
+		return percents;
+	}
+
+	public void setPercents(List<String> percents) {
+		this.percents = percents;
+	}
+
+	public LocalDate getPriceStartDate() {
+		return priceStartDate;
+	}
+
+	public void setPriceStartDate(LocalDate priceStartDate) {
+		this.priceStartDate = priceStartDate;
+	}
 }
