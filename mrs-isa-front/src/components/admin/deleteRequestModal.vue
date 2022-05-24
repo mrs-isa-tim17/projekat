@@ -28,6 +28,7 @@
 
 <script>
 import $ from "jquery";
+import swal from "sweetalert2";
 
 export default {
   name: "deleteRequestModal",
@@ -42,10 +43,18 @@ export default {
       $('#' + this.index).focus(modalToggle);
     },
 
+    fireAlertOn(eventText){
+      swal.fire({
+        title: "Upozerenje",
+        text: eventText,
+        background:'white',
+        color:'black',
+        confirmButtonColor:'#FECDA6'});
+    },
     Accept() {
       if (this.text === "") {
-        alert("Unesiteeee");
-      }         // zameniti tosterom ili ....
+        this.fireAlertOn("Unesite obrazloženje");
+      }
       else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');
@@ -62,8 +71,8 @@ export default {
 
     Reject() {
       if (this.textDTO.text === "") {
-        alert("Unesiteeee");
-      }                 // zameniti tosterom ili ...
+        this.fireAlertOn("Unesite obrazloženje");
+      }
       else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');

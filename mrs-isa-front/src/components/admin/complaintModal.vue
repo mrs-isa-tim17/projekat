@@ -27,6 +27,7 @@
 
 <script>
 import $ from "jquery";
+import swal from "sweetalert2";
 
 export default {
   name: "complaintModal",
@@ -48,9 +49,18 @@ export default {
       $('#'+this.index).focus(modalToggle);
     },
 
+    fireAlertOn(eventText){
+      swal.fire({
+        title: "Upozerenje",
+        text: eventText,
+        background:'white',
+        color:'black',
+        confirmButtonColor:'#FECDA6'});
+    },
+
     Answer(){
       if(this.text===""){
-        alert("Unesite odgovor.");
+        this.fireAlertOn("Unesite odgovor.");
       }else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');

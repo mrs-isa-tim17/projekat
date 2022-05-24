@@ -26,6 +26,7 @@
 
 <script>
 import $ from "jquery";
+import swal from "sweetalert2";
 
 export default {
   name: "inputTextModal",
@@ -47,9 +48,18 @@ export default {
       $('#'+this.index).focus(modalToggle);
     },
 
+    fireAlertOn(eventText){
+      swal.fire({
+        title: "Upozerenje",
+        text: eventText,
+        background:'white',
+        color:'black',
+        confirmButtonColor:'#FECDA6'});
+    },
+
     Reject(){
       if(this.text===""){
-        alert("Unesite obrazloženje.");
+        this.fireAlertOn("Unesite obrazloženje.");
       }else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');
