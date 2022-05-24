@@ -10,11 +10,17 @@ import java.util.List;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.*;
-
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
 import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
+import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
+import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
+
+import com.project.mrsisa.service.ExperienceReviewService;
+import com.project.mrsisa.service.ImageService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +35,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.dto.AdventureDTO;
+
+import com.project.mrsisa.dto.ReservationForOwnerDTO;
+import com.project.mrsisa.dto.StartEndDateDTO;
+import com.project.mrsisa.service.AdditionalServicesService;
+import com.project.mrsisa.service.AdventureService;
+import com.project.mrsisa.service.BehaviorRuleService;
+import com.project.mrsisa.service.CancelConditionService;
+import com.project.mrsisa.service.FishingEquipmentService;
+import com.project.mrsisa.service.PricelistService;
+import com.project.mrsisa.service.ReservationService;
+import com.project.mrsisa.service.UserService;
+
 
 @RestController
 @RequestMapping(value="/adventure", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,6 +84,10 @@ public class AdventureController {
 	@Autowired
 	private ReservationService reservationService;
 	
+	@Autowired
+	private UserService userService;
+	
+
 	
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -180,6 +202,38 @@ public class AdventureController {
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping(value="/detail/reservation/periods/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay(), r.getEndDate().atStartOfDay(), adventure.getName());
+			reservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/detail/reservation/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long id){
+		
+		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+		for(Reservation reservation: reservations) {
+			Client client = (Client) userService.findById(reservation.getClient().getId());
+			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
+					reservation.getStartDate(), reservation.getEndDate(), reservation.isQuick());
+			
+			reservationsForOwner.add(reservationForOwner);
+		}
+		
+		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
+	}
 	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
@@ -366,16 +420,13 @@ public class AdventureController {
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
 		List<Adventure> adventures = adventureService.findAll();
 
-		System.out.println("CONTROLLLERRRR");
-		System.out.println(adventures.size());
+		adventures = offerProcessing.searchAdventuresBy(adventures, shipFilterParamsDTO.getSearchBy());
 
 		//lokacija
 		adventures = offerProcessing.filterByAdventureLocation(adventures, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
-		System.out.println(adventures.size());
 
 		//kapacitet
 		adventures = offerProcessing.filterAdventuresByCapacity(adventures, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
-		System.out.println(adventures.size());
 
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
@@ -386,7 +437,6 @@ public class AdventureController {
 			}
 			adventures = offerProcessing.filterAdventureByInterval(adventures, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}
-		System.out.println(adventures.size());
 
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventures);
 

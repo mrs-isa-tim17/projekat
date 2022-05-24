@@ -15,6 +15,7 @@ public class ShipFilterParamsDTO {
     private double speed;
     private String priceRelOp;
     private double price;
+    private String searchBy;
 
     public ShipFilterParamsDTO() {
     }
@@ -113,5 +114,13 @@ public class ShipFilterParamsDTO {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getSearchBy() {
+        return searchBy;
+    }
+
+    public void setSearchBy(String searchBy) {
+        this.searchBy = searchBy;
     }
 }

@@ -18,6 +18,7 @@ insert into address (longitude, latitude) values (11, 70);
 insert into address (longitude, latitude) values (11, 70);
 
 insert into address (longitude, latitude) values (16, 16);
+insert into address (longitude, latitude) values (13, 13);
 
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
@@ -56,7 +57,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 11, '2017-10-01 18:57:58.508-07',4, true);
+	'+3817885', 'Milanovic', 0, 18, '2017-10-01 18:57:58.508-07',4, true);
 
 	
 	
@@ -315,8 +316,15 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
       (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1);
+    
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+	(false, '09.05.2022.', 2, 3000, false, false, '05.05.2022.', 1, 2);
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
+	(false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2); 
+
+	
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
- insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
+insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
 
 
 
@@ -338,3 +346,11 @@ insert into period_unavailability (start_date,end_date,  offer_id) values ('10.0
 insert into period_availability (start_date, end_date,  offer_id) values ('20.01.2022','01.12.2022',5);
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.06.2022','22.06.2022',5);
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.05.2022','22.05.2022',5);
+
+ 
+insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
+
+insert into period_availability (start_date, end_date, offer_id) values ('01.05.2022.', '30.06.2022.', 2);
+insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022.', '06.06.2022.', 2);
+

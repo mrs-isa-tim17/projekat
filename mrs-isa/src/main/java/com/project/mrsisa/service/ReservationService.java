@@ -47,4 +47,8 @@ public class ReservationService {
         return reservationRepository.findCurrentReservationInInterval(offerId, fromDate, untilDate);
     }
 
+	public List<Reservation> getAllReservationsForAdventure(Long id) {
+		return reservationRepository.findAllReservationsForAdventure(id);
+	}
+
 }

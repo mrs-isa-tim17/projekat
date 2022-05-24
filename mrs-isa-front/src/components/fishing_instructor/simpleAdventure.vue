@@ -41,7 +41,7 @@ export default {
 
     goToUpdateAdventure() {
       console.log(this.adventure.id);
-      this.$router.push('/adventure/update/' + this.adventure.id);
+      this.$router.push('/adventure/update/' + this.adventure.id + '/1');
     },
 
     deleteAdventure() {
