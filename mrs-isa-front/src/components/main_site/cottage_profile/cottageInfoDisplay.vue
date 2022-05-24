@@ -7,7 +7,8 @@
         <div class="col">
           <div class="row p-1">
             <span>
-            <button style="width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
+              <reservation-modal :verifiedClient="verifiedClient" :offer-type="'cottage'"></reservation-modal>
+            <button v-show="!verifiedClient" style="width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
               </span>
           </div>
           <div class="row p-1">
@@ -51,6 +52,13 @@
               <img class="mb-2" style="width: 20px;height: 18px;" src="/Star_icon_stylized.svg.png">
             </td>
             <td v-show="offer.rating <= 0">nema ocenu</td>
+          </tr>
+
+          <tr>
+            <td>Slobodni termini: </td>
+            <td>
+              <calendar-modal :availability-period="availabilityPeriod"></calendar-modal>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -113,11 +121,12 @@ import swal from "sweetalert2";
 
 import ExperienceReviewView from "@/components/main_site/offer_profile/experienceReviewView";
 import QuickReservationModal from "@/components/client/quickReservationModal";
-//import saleAppointmentService from "@/servieces/SaleAppointmentService";
-//import $ from "jquery";
+import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
+import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
+import ReservationModal from "@/components/client/reservationModal";
 export default {
   name: "cottageInfoDisplay",
-  components: {QuickReservationModal, ExperienceReviewView},
+  components: {ReservationModal, CalendarModal, QuickReservationModal, ExperienceReviewView},
   props: ["offer"],
   created:
       function () {
@@ -137,6 +146,13 @@ export default {
 
 
       },
+  mounted() {
+    if (this.offer.id !== "")
+      PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
+        this.availabilityPeriod = response.data;
+        //this.calendarKey++;
+      });
+  },
   methods: {
     rerender(){
       this.saleAppointmentKey++;
@@ -186,7 +202,8 @@ export default {
       reviewsKey: 0,
       offerId: 0,
       verifiedClient: false,
-      saleAppointmentKey: 0
+      saleAppointmentKey: 0,
+      availabilityPeriod: []
     }
   }
 }

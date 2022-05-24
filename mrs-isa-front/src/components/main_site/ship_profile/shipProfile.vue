@@ -14,12 +14,11 @@
             <offer-carousel  :images="offer.images"></offer-carousel>
             <bird-vue-map style="height: 300px; margin-top: 2%; " :lon="offer.longitude" :lat="offer.latitude"></bird-vue-map>
             <div align="left" class="mt-2" style="font-size: 20px;">Slobodni termini:</div>
-            <CalendarMrs id="calendar" style="width: 100%;" :key="calendarKey" :availability-period="availabilityPeriod" :unavailability-period="unavailabilityPeriod" :my-events="reservations"></CalendarMrs>  <!--  Ovde posalji u props events  -->
           </div>
 
           <div class="col-md-8">
             <div class="card-body">
-              <ship-info-display :offer="offer"></ship-info-display>
+              <ship-info-display :key="infoKey" :offer="offer"></ship-info-display>
             </div>
           </div>
 
@@ -46,25 +45,19 @@ import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import ShipInfoDisplay from "@/components/main_site/ship_profile/shipInfoDisplay";
 import shipServce from "@/servieces/ShipServce";
-import CalendarMrs from "@/components/calendar";
-import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 export default {
   name: "shipProfile",
-  components: {CalendarMrs, ShipInfoDisplay, BirdVueMap, OfferCarousel, ClientHeader, BasicHeader},
+  components: {ShipInfoDisplay, BirdVueMap, OfferCarousel, ClientHeader, BasicHeader},
   created:
       function () {
         this.offerId = this.$route.params.id;
         shipServce.getShip(this.offerId).then((response) => {
           this.offer = response.data;
+          this.infoKey++;
           console.log("SHIP:");
           console.log(this.offer);
         })
 
-        console.log("FREE MPERIOD MODAL");
-        PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offerId).then((response) => {
-          this.availabilityPeriod = response.data;
-          this.calendarKey++;
-        });
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -89,6 +82,7 @@ export default {
   },
   data(){
     return{
+      infoKey:0,
       offerId: 0,
       verifiedClient: false,
       basicHeaderKey: 0,

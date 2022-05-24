@@ -73,12 +73,10 @@ export default {
       let index = 0;
       for (let r of this.reviews){
         if (this.checkIfNeedsToBeDisplayed(index)) {
-          console.log(r.clientName);
           this.resultingReview.push(r);
         }
         index++;
       }
-      console.log(this.resultingReview);
       return this.resultingReview;
     },
     forceRemounting(){
@@ -87,7 +85,6 @@ export default {
 
     },
     fromUntilElement(from){
-      console.log("paginate called");
       this.fromEl = from;
       this.$emit("remountReviews");
       this.forceRemounting();

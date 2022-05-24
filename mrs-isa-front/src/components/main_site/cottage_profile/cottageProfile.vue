@@ -52,7 +52,6 @@ export default {
             this.offer = response.data;
             console.log(this.offer);
             this.infoDisplayKey++;
-
           })
 
         try{

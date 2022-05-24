@@ -37,6 +37,12 @@
             </td>
             <td v-show="offer.rating <= 0">nema ocenu</td>
           </tr>
+          <tr>
+            <td>Slobodni termini: </td>
+            <td>
+              <calendar-modal :availability-period="availabilityPeriod"></calendar-modal>
+            </td>
+          </tr>
           </tbody>
         </table>
 
@@ -176,10 +182,21 @@
 <script>
 import ExperienceReviewView from "@/components/main_site/offer_profile/experienceReviewView";
 import swal from "sweetalert2";
+import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
+import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
 export default {
   name: "shipInfoDisplay",
-  components: {ExperienceReviewView},
+  components: {CalendarModal, ExperienceReviewView},
   props: ["offer"],
+  created() {
+  },
+  mounted() {
+    if (this.offer.id !== "")
+      PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
+        this.availabilityPeriod = response.data;
+        this.calendarKey++;
+      });
+  },
   methods: {
     reserveOffer(){
       if (localStorage.user == null)

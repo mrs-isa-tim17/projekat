@@ -44,8 +44,6 @@ export default {
       if (this.images.length === 0){
         return [];
       }else{
-        console.log("Image slice:")
-        console.log(this.images.slice(1, this.images.length-1));
         return this.images.slice(1);
       }
     },
@@ -53,7 +51,6 @@ export default {
       if (this.images.length === 0){
         return require("@/assets/icons/img.jpg");
       }else{
-        //return require("@/assets/icons/img.jpg");
         return this.images[0];
       }
     }
