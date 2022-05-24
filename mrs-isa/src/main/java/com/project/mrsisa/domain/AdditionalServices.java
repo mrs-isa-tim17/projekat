@@ -27,13 +27,18 @@ public class AdditionalServices {
 	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "saleAppointmentId")
-	private SaleAppointment saleAppointment;
+	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<SaleAppointment> saleAppointment;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "reservationId")
 	private Reservation reservation;
+	
+	@Column(name="price", nullable=false)
+	private double price;
+	
+	@Column(name="deleted", nullable=false)
+	private boolean deleted;
 	
 
 	public AdditionalServices() {
@@ -70,11 +75,11 @@ public class AdditionalServices {
 		this.offer = offer;
 	}
 
-	public SaleAppointment getSaleAppointment() {
+	public List<SaleAppointment> getSaleAppointment() {
 		return saleAppointment;
 	}
 
-	public void setSaleAppointment(SaleAppointment saleAppointment) {
+	public void setSaleAppointment(List<SaleAppointment> saleAppointment) {
 		this.saleAppointment = saleAppointment;
 	}
 
@@ -84,6 +89,18 @@ public class AdditionalServices {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	
