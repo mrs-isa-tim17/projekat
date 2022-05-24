@@ -5,9 +5,21 @@
           <p>{{offer.description}}</p>
         </div>
         <div class="col">
-          <div class="row p-1"><button @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button></div>
-          <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
-          <div class="row p-1"><button @click="viewQuickReservation" class="btn btn-secondary"> Brze rezervacije </button></div>
+          <div class="row p-1">
+            <span>
+            <button style="width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
+              </span>
+          </div>
+          <div class="row p-1">
+            <span>
+            <button style="width: 150px; " @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button>
+              </span>
+          </div>
+          <div align="left" class="row p-1">
+              <quick-reservation-modal :quickReservations="quickReservations" :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offerId"></quick-reservation-modal>
+              <button v-show="!verifiedClient" style="width: 150px; margin-left: 12px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
+          </div>
+          <quick-reservation-modal></quick-reservation-modal>
         </div>
       </div>
     </div>
@@ -66,34 +78,69 @@
 
     </div>
     <div align="left" class="row m-2">
-      <div class="col m-2" style="background-color: #E9E9E9; max-width: 45%;">
-        <p>Dodatne usluge</p>
-        <hr style="">
-            <ul v-if="offer.additionalServices.length > 0">
-              <div v-for="(text,index) of offer.additionalServices" :key="index">
-                <li>{{text}}</li>
-              </div>
-            </ul>
-            <p v-else class="m-1">Nema dodatih dodatne usluge</p>
+
+      <div class="col" style="background-color: #E9E9E9; max-width: 45%;">
+        <div v-if="offer.additionalServices.length > 0">
+          <table class="table" style="background-color: #E9E9E9;">
+            <thead>
+            <tr>
+              <th scope="col">Dodatne usluge</th>
+              <th scope="col">Cena</th>
+            </tr>
+            </thead>
+            <tbody class="table-border">
+            <tr v-for="(text, index) of offer.additionalServices" :key="index">
+              <td scope="col">{{ text }} </td>
+              <td scope="col">{{offer.additionalServicesPrice[index]}}</td>
+            </tr>
+            </tbody>
+
+          </table>
+        </div>
+        <p v-else class="m-1">Nema dodatih dodatne usluge</p>
       </div>
     </div>
     <div align="left" class="row m-2">
       <button @click="toggleExperienceReview" class="btn btn-outline-secondary mb-4" style="max-width: 400px;">Pročitaj mišljenje klijenata</button>
       <experience-review-view :ket="reviewsKey" @remountReviews="remountReviews" :id="offerId" :offer-type="offerType" :key="commentsKey" v-show="showExperienceReview"></experience-review-view>
     </div>
+
+
 </template>
 
 <script>
 import swal from "sweetalert2";
 
 import ExperienceReviewView from "@/components/main_site/offer_profile/experienceReviewView";
+import QuickReservationModal from "@/components/client/quickReservationModal";
+//import saleAppointmentService from "@/servieces/SaleAppointmentService";
+//import $ from "jquery";
 export default {
   name: "cottageInfoDisplay",
-  components: {ExperienceReviewView},
+  components: {QuickReservationModal, ExperienceReviewView},
   props: ["offer"],
-  mounted() {
-  },
+  created:
+      function () {
+        this.offerId = this.offer.id;
+
+        try{
+
+          if (JSON.parse(localStorage.user) == null) {
+            this.verifiedClient = false;
+          } else {
+            this.verifiedClient = true;
+          }
+        }catch (error){
+          this.verifiedClient = false;
+
+        }
+
+
+      },
   methods: {
+    rerender(){
+      this.saleAppointmentKey++;
+    },
     reserveOffer(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli da rezervišete entitete!')
@@ -112,8 +159,12 @@ export default {
         //this.$router.push("/book/site/login");
     },
     viewQuickReservation(){
-      if (localStorage.user == null)
-        this.fireAlertOn('Morate da se prijavite da biste se mogli da izvršete brze rezervacije!')
+      if (localStorage.user == null) {
+        this.fireAlertOn('Morate da se prijavite da biste se mogli da izvršete brze rezervacije!');
+      }
+      else {
+        this.openModel();
+      }
     },
     remountReviews(){
       console.log("Remount - cottage display");
@@ -128,11 +179,14 @@ export default {
   },
   data(){
     return {
+      quickReservations: [],
       showExperienceReview: false,
       commentsKey: 0,
       offerType: "cottage",
       reviewsKey: 0,
-      offerId: 0
+      offerId: 0,
+      verifiedClient: false,
+      saleAppointmentKey: 0
     }
   }
 }

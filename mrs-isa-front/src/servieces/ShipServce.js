@@ -42,6 +42,19 @@ class ShipServce{
     search(searchParam) {
         return axios.post(SHIP_API_BASE_URL + "/search", searchParam);
     }
+
+    getShip(offerId) {
+        return axios.get(SHIP_API_BASE_URL + "/" + offerId);
+    }
+
+    getShipReviews(offerId) {
+        return axios.get(SHIP_API_BASE_URL + "/review/" + offerId);
+    }
+
+    getReservationsForShip(offerId){
+        console.log(offerId);
+        return axios.get(SHIP_API_BASE_URL + '/calendar/reservation/' + offerId);
+    }
 }
 
 export default new ShipServce();

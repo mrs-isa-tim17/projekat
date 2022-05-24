@@ -6,7 +6,7 @@
         <div class="row g-0" style="background-color: #E9E9E9;">
 
           <div class="col-md-4">
-            <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+            <img :src="image" class="img-fluid rounded-start" @click="goToOffer" data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
           </div>
 
           <div class="col-md-8">
@@ -49,8 +49,13 @@
         if (this.cottage.image != null) {
           this.image = this.cottage.image;
         }else {
-          this.image = "icons/fishing.png";
+          this.image = require("@/assets/icons/fishing.png");
         }
+      },
+      methods:{
+        goToOffer(){
+          this.$router.push('/book/adventure/site/'+this.cottage.id);
+        },
       },
       data(){
         return {

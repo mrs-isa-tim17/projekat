@@ -67,25 +67,28 @@
     </div>
   </div>
   <div align="left" class="row  m-1">
+
     <div class="col">
-      <table class="table" style="background-color: #E9E9E9;">
-      <thead>
-      <tr>
-        <th scope="col">Dodatne usluge</th>
-      </tr>
-      </thead>
-      <tbody class="table-borderless">
+      <div v-if="offer.additionalServices.length > 0">
+        <table class="table" style="background-color: #E9E9E9;">
+          <thead>
+          <tr>
+            <th scope="col">Dodatne usluge</th>
+            <th scope="col">Cena</th>
+          </tr>
+          </thead>
+          <tbody class="table-border">
+          <tr v-for="(text, index) of offer.additionalServices" :key="index">
+            <td>{{ text }} </td>
+            <td>{{offer.additionalServicesPrice[index]}}</td>
+          </tr>
+          </tbody>
 
-          <ul v-if="offer.additionalServices.length > 0">
-            <div v-for="(text,index) of offer.additionalServices" :key="index">
-              <li>{{text}}</li>
-            </div>
-          </ul>
-          <p v-else class="m-1">Nema dodatih dodatne usluge</p>
-
-      </tbody>
-    </table>
+        </table>
+      </div>
+      <p v-else class="m-1">Nema dodatih dodatne usluge</p>
     </div>
+
     <div class="col">
       <table class="table" style="background-color: #E9E9E9;">
         <thead>

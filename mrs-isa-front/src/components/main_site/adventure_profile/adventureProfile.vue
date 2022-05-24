@@ -91,6 +91,7 @@ export default {
         behavioralRules: ["", "", ""],
         images: [""],
         additionalServices: ["", "", ""],
+        additionalServicesPrice: ["", "", ""],
         price: "",
         rating: "",
         biography: "",

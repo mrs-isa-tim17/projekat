@@ -5,7 +5,7 @@
       <div class="row g-0" style="background-color: #E9E9E9;">
 
         <div class="col-md-4"  @click="goToOffer">
-          <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" data-toggle="tooltip" data-placement="right" title="Poseti stranicu" :alt="defaultImage">
+          <img :src="image" class="img-fluid rounded-start" data-toggle="tooltip" data-placement="right" title="Poseti stranicu" :alt="defaultImage">
         </div>
 
         <div class="col-md-8">
@@ -56,7 +56,7 @@ export default {
     if (this.cottage.image != null) {
       this.image = this.cottage.image;
     }else {
-      this.image = "icons/cottage.png";
+      this.image = require('@/assets/icons/cottage.png');
     }
   },
   data(){

@@ -16,6 +16,7 @@ import cottageServce from "@/servieces/CottageServce";
 import PaginationComponent from "@/components/paginationComponent";
 import ClientComment from "@/components/main_site/offer_profile/comment";
 import adventureServce from "@/servieces/AdventureServce";
+import shipServce from "@/servieces/ShipServce";
 
 export default {
   name: "experienceReviewView",
@@ -24,7 +25,7 @@ export default {
   mounted() {
 
     console.log(this.id);
-    if (this.offerType === "cottage"){
+    if (this.offerType === "cottage" && this.id !== "" ){
       cottageServce.getCottageReviews(this.id)
           .then((response) => {
             this.reviews = response.data;
@@ -34,13 +35,23 @@ export default {
               document.getElementById("noReviews").style.visibility = "visible"
             }
           })
-    }else if (this.offerType === "adventure"){
+    }else if (this.offerType === "adventure" && this.id !== "" ){
       adventureServce.getAdventureReviews(this.id)
           .then((response) => {
             this.reviews = response.data;
             this.listLength = this.reviews.length;
             this.paginationKey++;
             if (this.listLength === 0){
+              document.getElementById("noReviews").style.visibility = "visible"
+            }
+          })
+    }else if (this.offerType === "ship" && this.id !== "" ) {
+      shipServce.getShipReviews(this.id)
+          .then((response) => {
+            this.reviews = response.data;
+            this.listLength = this.reviews.length;
+            this.paginationKey++;
+            if (this.listLength === 0) {
               document.getElementById("noReviews").style.visibility = "visible"
             }
           })

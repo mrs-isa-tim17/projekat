@@ -20,10 +20,14 @@ const router = createRouter({
         { path: '/book/site/home', component: () => import("./components/main_site/main_home_page/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
+
         { path:  '/book/cottage/site', component: () => import("./components/main_site/list_of_cottage/siteCottageListView.vue")},
-        { path:  '/book/ship/site', component: () => import("./components/main_site/list_of_ship/siteShipListView.vue")},
-        { path:  '/book/adventure/site', component: () => import("./components/main_site/list_of_adventure/siteAdventureListView.vue")},
         { path:  '/book/cottage/site/:id', component: () => import("./components/main_site/cottage_profile/cottageProfile")},
+
+        { path:  '/book/ship/site', component: () => import("./components/main_site/list_of_ship/siteShipListView.vue")},
+        { path:  '/book/ship/site/:id', component: () => import("./components/main_site/ship_profile/shipProfile")},
+
+        { path:  '/book/adventure/site', component: () => import("./components/main_site/list_of_adventure/siteAdventureListView.vue")},
         { path:  '/book/adventure/site/:id', component: () => import("./components/main_site/adventure_profile/adventureProfile")},
 
 

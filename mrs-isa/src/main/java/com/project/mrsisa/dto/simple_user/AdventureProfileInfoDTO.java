@@ -18,6 +18,7 @@ public class AdventureProfileInfoDTO {
     private List<String> behavioralRules;
     private List<String> images;
     private List<String> additionalServices;
+    private List<Double> additionalServicesPrice;
 
     private double price;
     private double rating;
@@ -136,6 +137,10 @@ public class AdventureProfileInfoDTO {
         for (AdditionalServices i : additionalServices){
             this.additionalServices.add(i.getName());
         }
+        this.additionalServicesPrice = new ArrayList<Double>();
+        for (AdditionalServices i : additionalServices){
+            this.additionalServicesPrice.add(i.getPrice());
+        }
     }
 
     public void setAdditionalServicesFromFishingEquipmentObject(List<FishingEquipment> fishingEquipments) {
@@ -167,5 +172,13 @@ public class AdventureProfileInfoDTO {
 
     public void setFishingEquipments(List<String> fishingEquipments) {
         this.fishingEquipments = fishingEquipments;
+    }
+
+    public List<Double> getAdditionalServicesPrice() {
+        return additionalServicesPrice;
+    }
+
+    public void setAdditionalServicesPrice(List<Double> additionalServicesPrice) {
+        this.additionalServicesPrice = additionalServicesPrice;
     }
 }

@@ -21,6 +21,7 @@ public class CottageProfileInfoDTO {
     private List<String> behavioralRules;
     private List<String> images;
     private List<String> additionalServices;
+    private List<Double> additionalServicesPrice;
 
     private double price;
     private int numberOfRooms;
@@ -101,6 +102,10 @@ public class CottageProfileInfoDTO {
         for (AdditionalServices i : additionalServices){
             this.additionalServices.add(i.getName());
         }
+        this.additionalServicesPrice = new ArrayList<Double>();
+        for (AdditionalServices i : additionalServices){
+            this.additionalServicesPrice.add(i.getPrice());
+        }
     }
 
     public List<String> getImages() {
@@ -156,5 +161,13 @@ public class CottageProfileInfoDTO {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public List<Double> getAdditionalServicesPrice() {
+        return additionalServicesPrice;
+    }
+
+    public void setAdditionalServicesPrice(List<Double> additionalServicesPrice) {
+        this.additionalServicesPrice = additionalServicesPrice;
     }
 }

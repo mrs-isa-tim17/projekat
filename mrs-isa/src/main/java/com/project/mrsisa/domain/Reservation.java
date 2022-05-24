@@ -54,6 +54,9 @@ public class Reservation {
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 
+	@Column(nullable = true)
+	private boolean shipOwnerPresent;
+
 	public boolean isReviewed() {
 		return reviewed;
 	}
@@ -126,7 +129,12 @@ public class Reservation {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	
-	
+
+	public boolean isShipOwnerPresent() {
+		return shipOwnerPresent;
+	}
+
+	public void setShipOwnerPresent(boolean shipOwnerPresent) {
+		this.shipOwnerPresent = shipOwnerPresent;
+	}
 }

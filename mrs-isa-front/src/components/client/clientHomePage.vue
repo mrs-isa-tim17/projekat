@@ -58,7 +58,6 @@
       </div>
 
       <div class="row justify-content-center ">
-        <clientHomePageOption :image_path="complaintImgPath" :option_link="complaintLink" :text="complaintText"></clientHomePageOption>
 
         <request-for-deleting-account-modal style="min-width: 200px;" v-show="!deleteRequestMade" :image_path="deleteAccImgPath" :option_link="deleteAccLink"
                        :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"

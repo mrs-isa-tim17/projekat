@@ -57,7 +57,9 @@ export default {
   methods: {
     genereteImgUrl(offer){
       if (offer !== undefined && offer.images !== undefined && offer.images[0] !== undefined)
-        return require('@/assets/' + offer.images[0]);
+          return offer.images[0];
+      else
+        return require('@/assets/icons/img.jpg');
       //return require('@/assets/icons/adventurer.png');
     },
     filterOffers(){

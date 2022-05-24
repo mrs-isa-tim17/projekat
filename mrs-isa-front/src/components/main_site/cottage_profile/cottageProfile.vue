@@ -17,7 +17,7 @@
 
           <div class="col-md-8">
             <div class="card-body">
-              <cottage-info-display :offer="offer"></cottage-info-display>
+              <cottage-info-display :key="infoDisplayKey" :client="verifiedClient" :offer="offer"></cottage-info-display>
             </div>
           </div>
 
@@ -51,6 +51,8 @@ export default {
           cottageServce.getCottage(this.offerId).then((response) => {
             this.offer = response.data;
             console.log(this.offer);
+            this.infoDisplayKey++;
+
           })
 
         try{
@@ -77,6 +79,7 @@ export default {
   },
   data() {
     return {
+      infoDisplayKey: 0,
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
@@ -89,6 +92,7 @@ export default {
         behavioralRules: ["", "", ""],
         images: [""],
         additionalServices: ["", "", ""],
+        additionalServicesPrice: ["", "", ""],
         price: "",
         numberOfRooms: "",
         numberOfBeds: "",

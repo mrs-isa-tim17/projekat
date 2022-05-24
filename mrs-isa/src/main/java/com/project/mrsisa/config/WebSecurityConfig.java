@@ -62,11 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cottage/site/review/*").permitAll()
                 .antMatchers("/ship/site/*").permitAll()
                 .antMatchers("/ship/site/sort/*").permitAll()
+                .antMatchers("/ship/site/review/*").permitAll()
+                .antMatchers("/ship/site/calendar/reservation/*").permitAll()
                 .antMatchers("/adventure/site/*").permitAll()
                 .antMatchers("/adventure/site/sort/*").permitAll()
                 .antMatchers("/adventure/site/review/*").permitAll()
                 .antMatchers("/client/verify/*").permitAll()
                 .antMatchers("/api/foo").permitAll()
+                .antMatchers("/period/availability/all/*").permitAll()
+                .antMatchers("/period/unavailability/all/*").permitAll()
                 //for all of other urls have to be authenticated
                 .anyRequest().authenticated().and()
 
