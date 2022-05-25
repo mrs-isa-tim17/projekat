@@ -7,7 +7,10 @@
       <div class="col">
         <div class="row p-1"><button @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button></div>
         <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
-        <div class="row p-1"><button @click="viewQuickReservation" class="btn btn-secondary"> Brze rezervacije </button></div>
+        <div align="left" class="row p-1">
+          <quick-reservation-modal :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offer.id"></quick-reservation-modal>
+          <button v-show="!verifiedClient" style="min-width: 150px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
+        </div>
       </div>
     </div>
   </div>
@@ -124,17 +127,38 @@ import ExperienceReviewView from "@/components/main_site/offer_profile/experienc
 import swal from "sweetalert2";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
+import QuickReservationModal from "@/components/client/quickReservationModal";
 export default {
   name: "adventureInfoDisplay",
-  components: {CalendarModal, ExperienceReviewView},
+  components: {QuickReservationModal, CalendarModal, ExperienceReviewView},
   props: ["offer"],
+  created() {
+    this.offerId = this.offer.id;
+    console.log("addventure info display");
+    console.log(this.offer);
+    try{
+      if (JSON.parse(localStorage.user) == null) {
+        this.verifiedClient = false;
+      } else {
+        this.verifiedClient = true;
+      }
+    }catch (error){
+      this.verifiedClient = false;
+
+    }
+  },
   mounted() {
     if (this.offer.id !== "")
-      PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
+      this.offerId = this.offer.id;
+      this.rerender();
+      PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offerId).then((response) => {
         this.availabilityPeriod = response.data;
       });
   },
   methods: {
+    rerender(){
+      this.saleAppointmentKey++;
+    },
     reserveOffer(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli da rezervišete entitete!')
@@ -150,18 +174,15 @@ export default {
     subscribeToTheOffer(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli pretplatiti na obavaštenje za brze rezervacije!');
-      //this.$router.push("/book/site/login");
     },
     viewQuickReservation(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli da izvršete brze rezervacije!')
     },
     remountReviews(){
-      console.log("Remount - cottage display");
       this.reviewsKey++;
     },
     toggleExperienceReview(){
-      console.log(this.offer.id);
       this.offerId = this.offer.id;
       this.showExperienceReview = !this.showExperienceReview;
       this.commentsKey++;
@@ -174,7 +195,9 @@ export default {
       offerType: "adventure",
       reviewsKey: 0,
       offerId: 0,
-      availabilityPeriod: []
+      availabilityPeriod: [],
+      verifiedClient: false,
+      saleAppointmentKey: 0,
     }
   }
 

@@ -87,9 +87,6 @@ export default {
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
-      calendarKey: 0,
-      availabilityPeriod:[""],
-      unavailabilityPeriod:[""],
       reservations:[""],
       offer: {
         id: "",

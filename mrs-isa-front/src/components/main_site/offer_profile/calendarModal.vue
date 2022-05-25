@@ -6,12 +6,12 @@
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" style="max-width: 70%;">
+  <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" style="min-width: 70%;">
       <div class="modal-content" >
         <div class="modal-header" style="background-color: #31708E;">
-          <h5 class="modal-title text-white" id="exampleModalLabel">Slobodni termini</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title text-white" id="calendarModalLabel">Slobodni termini</h5>
+          <button data-bs-dismiss="modal" type="button" class="btn-close"></button>
         </div>
         <div class="modal-body" style="background-color: white; margin-left: 10px;margin-right: 10px;">
 
@@ -30,23 +30,54 @@
 
 <script>
 import CalendarMrs from "@/components/calendar";
-import $ from "jquery";
+//import $ from "jquery";
 export default {
   name: "calendarModal",
   components: {CalendarMrs},
   props: ["availabilityPeriod"],
   methods:{
     openModal(){
-      var modalToggle = document.getElementById("calendarModal");
-      ///myModal.show(modalToggle)
-      $('#exampleModal').show(modalToggle);
-      $('#exampleModal').focus(modalToggle);
-      setTimeout(this.rerenderCalendar, 200)
+      //var modalToggle = document.getElementById("calendarModal");
+      //$('#calendarModal').show(modalToggle);
+      //$('#calendarModal').focus(modalToggle);
+      const modal = document.getElementById("calendarModal");
+
+      // change state like in hidden modal
+      modal.classList.add('show');
+      modal.classList.remove('hide');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.setAttribute('style', 'display: inline');
+
+      // get modal backdrop
+      //const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+      // remove opened modal backdrop
+      //document.body.appendChild(modalBackdrops[0]);
+      //document.body.style.overflow = 'auto';
+      setTimeout(this.rerenderCalendar, 400);
     },
     rerenderCalendar(){
       console.log(this.availabilityPeriod);
       this.calendarKey++;
+    },
+  closeModal(){
+
+    const modal = document.getElementById("calendarModal");
+
+    // change state like in hidden modal
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('style', 'display: none');
+
+    // get modal backdrop
+    const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+    // remove opened modal backdrop
+    document.body.removeChild(modalBackdrops[0]);
+    document.body.style.overflow = 'auto';
+    this.calendarKey++;
     }
+
   },
   data(){
     return{

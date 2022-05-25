@@ -17,7 +17,7 @@
 
           <div class="col-md-8">
             <div class="card-body">
-              <adventure-info-display :offer="offer"></adventure-info-display>
+              <adventure-info-display :key="infoKey" :offer="offer"></adventure-info-display>
             </div>
           </div>
 
@@ -52,6 +52,7 @@ export default {
         this.offerId = this.$route.params.id;
         adventureServce.getAdvanture(this.offerId).then((response) => {
           this.offer = response.data;
+          this.infoKey++;
           console.log(this.offer);
         })
 
@@ -82,6 +83,7 @@ export default {
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
+      infoKey:0,
       offer: {
         id: "",
         name: "",

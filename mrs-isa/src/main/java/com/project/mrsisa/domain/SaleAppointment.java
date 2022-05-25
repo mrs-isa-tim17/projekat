@@ -1,20 +1,11 @@
 package com.project.mrsisa.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class SaleAppointment {
@@ -23,7 +14,7 @@ public class SaleAppointment {
 	private Long id;
 	
 	@Column(nullable=false)
-	private LocalDate startSaleDate;
+	private LocalDateTime startSaleDate;
 	
 	@Column(nullable=false)
 	private double duration;
@@ -35,21 +26,25 @@ public class SaleAppointment {
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	
-	@OneToMany(mappedBy = "saleAppointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//@OneToMany(mappedBy = "saleAppointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "additionalServices_saleAppointment", joinColumns=@JoinColumn(name = "sale_appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "additional_service_id", referencedColumnName = "id"))
 	private List<AdditionalServices> additionalServices;
 	
 	@Column(nullable=false)
 	private double discount;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	private Address address;
+
+	@Column(nullable = false)
+	private boolean reserved;
 	
-	
-	public LocalDate getStartSaleDate() {
+	public LocalDateTime getStartSaleDate() {
 		return startSaleDate;
 	}
-	public void setStartSaleDate(LocalDate startSaleDate) {
+	public void setStartSaleDate(LocalDateTime startSaleDate) {
 		this.startSaleDate = startSaleDate;
 	}
 	public double getDuration() {
@@ -94,6 +89,12 @@ public class SaleAppointment {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
+
+	public boolean isReserved() {
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved) {
+		this.reserved = reserved;
+	}
 }

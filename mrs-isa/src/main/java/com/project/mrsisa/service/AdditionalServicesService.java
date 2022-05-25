@@ -33,4 +33,8 @@ public class AdditionalServicesService {
 	public List<AdditionalServices> findAllByOfferId(Long id){
 		return additionalServicesRepository.findAllByOfferId(id);
 	}
+
+	public List<AdditionalServices> findBySaleAppointmentId(Long id){
+		return additionalServicesRepository.findAllBySaleAppointmentId(id);
+	}
 }

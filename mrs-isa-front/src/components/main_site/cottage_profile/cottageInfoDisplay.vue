@@ -6,19 +6,15 @@
         </div>
         <div class="col">
           <div class="row p-1">
-            <span>
-              <reservation-modal :verifiedClient="verifiedClient" :offer-type="'cottage'"></reservation-modal>
-            <button v-show="!verifiedClient" style="width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
-              </span>
+              <res-mod :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
+              <button v-show="!verifiedClient" style="min-width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
           </div>
           <div class="row p-1">
-            <span>
-            <button style="width: 150px; " @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button>
-              </span>
+            <button style="min-width: 150px; " @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button>
           </div>
           <div align="left" class="row p-1">
-              <quick-reservation-modal :quickReservations="quickReservations" :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offerId"></quick-reservation-modal>
-              <button v-show="!verifiedClient" style="width: 150px; margin-left: 12px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
+              <quick-reservation-modal :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offerId"></quick-reservation-modal>
+              <button v-show="!verifiedClient" style="min-width: 150px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
           </div>
           <quick-reservation-modal></quick-reservation-modal>
         </div>
@@ -123,10 +119,11 @@ import ExperienceReviewView from "@/components/main_site/offer_profile/experienc
 import QuickReservationModal from "@/components/client/quickReservationModal";
 import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
-import ReservationModal from "@/components/client/reservationModal";
+import ResMod from "@/components/client/resMod";
+//import ReservationModal from "@/components/client/reservationModal";
 export default {
   name: "cottageInfoDisplay",
-  components: {ReservationModal, CalendarModal, QuickReservationModal, ExperienceReviewView},
+  components: {ResMod, CalendarModal, QuickReservationModal, ExperienceReviewView},
   props: ["offer"],
   created:
       function () {
@@ -150,7 +147,6 @@ export default {
     if (this.offer.id !== "")
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
         this.availabilityPeriod = response.data;
-        //this.calendarKey++;
       });
   },
   methods: {
@@ -172,22 +168,16 @@ export default {
     subscribeToTheOffer(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli pretplatiti na obavaštenje za brze rezervacije!');
-        //this.$router.push("/book/site/login");
     },
     viewQuickReservation(){
       if (localStorage.user == null) {
         this.fireAlertOn('Morate da se prijavite da biste se mogli da izvršete brze rezervacije!');
       }
-      else {
-        this.openModel();
-      }
     },
     remountReviews(){
-      console.log("Remount - cottage display");
       this.reviewsKey++;
     },
     toggleExperienceReview(){
-      console.log(this.offer.id);
       this.offerId = this.offer.id;
       this.showExperienceReview = !this.showExperienceReview;
       this.commentsKey++;

@@ -8,7 +8,10 @@
         <div class="col">
           <div class="row p-1"><button @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button></div>
           <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
-          <div class="row p-1"><button @click="viewQuickReservation" class="btn btn-secondary"> Brze rezervacije </button></div>
+          <div align="left" class="row p-1">
+            <quick-reservation-modal :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offerId"></quick-reservation-modal>
+            <button v-show="!verifiedClient" style="min-width: 150px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
+          </div>
         </div>
       </div>
     </div>
@@ -156,27 +159,6 @@
 
   </div>
 
-
-
-
-<!--
-  <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="calendarModalLabel">Slobodni termini</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" style="height: 500px;">
-          <CalendarMrs style="width: 100%; height: 500px;" :key="calendarKey" :availability-period="this.availabilityPeriod" :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></CalendarMrs>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary">Zatvori</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
 </template>
 
 <script>
@@ -184,20 +166,35 @@ import ExperienceReviewView from "@/components/main_site/offer_profile/experienc
 import swal from "sweetalert2";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
+import QuickReservationModal from "@/components/client/quickReservationModal";
 export default {
   name: "shipInfoDisplay",
-  components: {CalendarModal, ExperienceReviewView},
+  components: {QuickReservationModal, CalendarModal, ExperienceReviewView},
   props: ["offer"],
   created() {
+    this.offerId = this.offer.id;
+    try{
+
+      if (JSON.parse(localStorage.user) == null) {
+        this.verifiedClient = false;
+      } else {
+        this.verifiedClient = true;
+      }
+    }catch (error){
+      this.verifiedClient = false;
+
+    }
   },
   mounted() {
     if (this.offer.id !== "")
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
         this.availabilityPeriod = response.data;
-        this.calendarKey++;
       });
   },
   methods: {
+    rerender(){
+      this.saleAppointmentKey++;
+    },
     reserveOffer(){
       if (localStorage.user == null)
         this.fireAlertOn('Morate da se prijavite da biste se mogli da rezervišete entitete!')
@@ -222,8 +219,6 @@ export default {
       this.reviewsKey++;
     },
     toggleExperienceReview(){
-      console.log("EXPERIENCE:");
-      console.log(this.offer.id);
       this.offerId = this.offer.id;
       this.showExperienceReview = !this.showExperienceReview;
       this.commentsKey++;
@@ -236,11 +231,9 @@ export default {
       offerType: "adventure",
       reviewsKey: 0,
       offerId: 0,
-      calendarKey: 1,
-
-      availabilityPeriod:[""],
-      unavailabilityPeriod:[""],
-      reservations:[""],
+      availabilityPeriod:[],
+      verifiedClient: false,
+      saleAppointmentKey: 0
     }
   }
 

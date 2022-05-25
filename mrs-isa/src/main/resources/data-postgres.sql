@@ -399,7 +399,7 @@ insert into period_unavailability (start_date, end_date, offer_id) values ('15.0
 
 insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
     ('27.05.2022', 5, 4, 1, 4500, 20, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+insert into sale    _appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
     ('01.06.2022', 3, 4, 1, 3500, 21, false);
 
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 2);
@@ -407,3 +407,24 @@ insert into additional_services_sale_appointment (sale_appointment_id, additiona
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 9);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 5);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
+
+
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('27.05.2022', 4, 4, 7, 4500, 22, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('01.06.2022', 5, 4, 7, 3500, 23, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('30.05.2022', 2, 4, 7, 1000, 24, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('03.06.2022', 3, 4, 7, 1200, 25, false);
+
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (3, 2);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (4, 4);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (6, 9);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (5, 5);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
+
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('30.05.2022', 2, 4, 2, 1000, 26, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('03.06.2022', 3, 4, 2, 1200, 27, false);
