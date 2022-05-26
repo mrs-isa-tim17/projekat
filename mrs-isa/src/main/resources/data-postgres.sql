@@ -1,4 +1,3 @@
-
 insert into address (longitude, latitude) values (19, 44);
 insert into address (longitude, latitude) values (19, 43);
 insert into address (longitude, latitude) values (42, -30);
@@ -14,9 +13,67 @@ insert into address (longitude, latitude) values (10, 30);
 insert into address (longitude, latitude) values (80, 10);
 insert into address (longitude, latitude) values (0, -30);
 insert into address (longitude, latitude) values (11, 70);
-
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
+insert into address (longitude, latitude) values (42, -30);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, 44);
+insert into address (longitude, latitude) values (20, 55);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
 insert into address (longitude, latitude) values (11, 70);
-
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
+insert into address (longitude, latitude) values (42, -30);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, 44);
+insert into address (longitude, latitude) values (20, 55);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
+insert into address (longitude, latitude) values (42, -30);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, 44);
+insert into address (longitude, latitude) values (20, 55);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
+insert into address (longitude, latitude) values (42, -30);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, 44);
+insert into address (longitude, latitude) values (20, 55);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
+insert into address (longitude, latitude) values (10, 30);
+insert into address (longitude, latitude) values (80, 10);
+insert into address (longitude, latitude) values (0, -30);
+insert into address (longitude, latitude) values (11, 70);
 insert into address (longitude, latitude) values (16, 16);
 insert into address (longitude, latitude) values (13, 13);
 
@@ -74,21 +131,27 @@ insert into cottage (id, deleted,description, name, address_id, bed_quantity, ro
 insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
 	
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('wifi', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('kabanica', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('baterijska lampa', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('bazen', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('parking', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('kablovska TV', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('WiFi', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('društvene igre', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('besplatne pešačke ture', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('bicikli', null, null);
+insert into additional_services (name, reservation_id, price, deleted) values ('wifi', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('kabanica', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('baterijska lampa', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('bazen', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('parking', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('kablovska TV', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('WiFi', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('društvene igre', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('besplatne pešačke ture', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('bicikli', null, 100, false);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 1);
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 4);
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 9);
 insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (3, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 9);
+
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 9);
 
 insert into behavior_rule (text) values ('zabranjeno pecanje');
 insert into behavior_rule (text) values ('zabranjeno pusenje');
@@ -100,6 +163,10 @@ insert into behavior_rule (text) values ('volimo ljubimce');
 insert into behavior_rules_offer (offer_id, behavior_rule_id) values (2, 1);
 insert into behavior_rules_offer (offer_id, behavior_rule_id) values (2, 2);
 insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 1);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 2);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 3);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 4);
+insert into behavior_rules_offer (offer_id, behavior_rule_id) values (1, 5);
 
 insert into fishing_equipment (name, ship_id) values('štapovi', null);
 insert into fishing_equipment (name, ship_id) values('udice', null);
@@ -172,9 +239,9 @@ insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 1
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 19);
 insert into cancel_condition_offer (offer_id, cancel_condition_id) values (14, 20);
 
-insert into image (path, offer_id) values('img/adventure/Drina1.jpg', 2);
-insert into image (path, offer_id) values('img/adventure/Drina2.jpg', 2);
-insert into image (path, offer_id) values('img/adventure/Drina3.jpg', 2);
+insert into image (path, offer_id) values('/img/adventure/Drina1.jpg', 2);
+insert into image (path, offer_id) values('/img/adventure/Drina2.jpg', 2);
+insert into image (path, offer_id) values('/img/adventure/Drina3.jpg', 2);
 
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
@@ -248,83 +315,103 @@ insert into pricelist (end_date, price, start_date, offer_id) values (null, 1200
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 14);
 
 
-insert into image (path, offer_id) values ('img/cottage/meda/meda.jpg', 1);
-insert into image (path, offer_id) values ('img/cottage/meda/meda1.jpg', 1);
-insert into image (path, offer_id) values ('img/cottage/meda/meda2.jpg', 1);
---insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 2);
-insert into image (path, offer_id) values ('img/cottage/suma/suma.jpg', 3);
-insert into image (path, offer_id) values ('img/cottage/suma/suma1.jpg', 3);
-insert into image (path, offer_id) values ('img/cottage/kedar/kedar.jpg', 4);
-insert into image (path, offer_id) values ('img/cottage/kedar/kedar1.jpg', 4);
-insert into image (path, offer_id) values ('img/cottage/kedar/kedar2.jpg', 4);
-insert into image (path, offer_id) values ('img/cottage/holiday/holiday.jpg', 5);
-insert into image (path, offer_id) values ('img/cottage/holiday/holiday1.jpg', 5);
-insert into image (path, offer_id) values ('img/cottage/bogut/bogut.jpg', 6);
-insert into image (path, offer_id) values ('img/cottage/bogut/bogut1.jpg', 6);
-insert into image (path, offer_id) values ('img/cottage/bogut/bogut2.jpg', 6);
+insert into image (path, offer_id) values ('/img/cottage/meda/meda.jpg', 1);
+--insert into image (path, offer_id) values ('/img/cottage/meda/meda1.jpg', 1);
+insert into image (path, offer_id) values ('/img/cottage/meda/meda2.jpg', 1);
+--insert into image (path, offer_id) values ('/img/cottage/3/132308681.jpg', 2);
+insert into image (path, offer_id) values ('/img/cottage/suma/suma.jpg', 3);
+insert into image (path, offer_id) values ('/img/cottage/suma/suma1.jpg', 3);
+insert into image (path, offer_id) values ('/img/cottage/kedar/kedar.jpg', 4);
+insert into image (path, offer_id) values ('/img/cottage/kedar/kedar1.jpg', 4);
+insert into image (path, offer_id) values ('/img/cottage/kedar/kedar2.jpg', 4);
+insert into image (path, offer_id) values ('/img/cottage/holiday/holiday.jpg', 5);
+insert into image (path, offer_id) values ('/img/cottage/holiday/holiday1.jpg', 5);
+insert into image (path, offer_id) values ('/img/cottage/bogut/bogut.jpg', 6);
+insert into image (path, offer_id) values ('/img/cottage/bogut/bogut1.jpg', 6);
+insert into image (path, offer_id) values ('/img/cottage/bogut/bogut2.jpg', 6);
 
-insert into image (path, offer_id) values ('img/ship/nimbus/nimbus.jpg', 7);
-insert into image (path, offer_id) values ('img/ship/nimbus/nimbus1.jpg', 7);
-insert into image (path, offer_id) values ('img/ship/nimbus/nimbus2.jpg',7);
-insert into image (path, offer_id) values ('img/ship/dionis/dionis.jpg',8);
-insert into image (path, offer_id) values ('img/ship/dionis/dionis1.jpg',8);
-insert into image (path, offer_id) values ('img/ship/party/party.jpg',9);
-insert into image (path, offer_id) values ('img/ship/party/party2.jpg',9);
-insert into image (path, offer_id) values ('img/ship/party/party1.jpg',9);
-insert into image (path, offer_id) values ('img/ship/silverstar/silverstar1.jpg',10);
-insert into image (path, offer_id) values ('img/ship/silverstar/silverstar.jpg',10);
-insert into image (path, offer_id) values ('img/cottage/4/238068376.jpg', 1);
-insert into image (path, offer_id) values ('img/cottage/3/132308681.jpg', 3);
-insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 4);
-insert into image (path, offer_id) values ('img/cottage/2/169294777.jpg', 5);
-insert into image (path, offer_id) values ('img/cottage/1/331714665.jpg', 6);
+insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus.jpg', 7);
+insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus1.jpg', 7);
+insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus2.jpg',7);
+insert into image (path, offer_id) values ('/img/ship/dionis/dionis.jpg',8);
+insert into image (path, offer_id) values ('/img/ship/dionis/dionis1.jpg',8);
+insert into image (path, offer_id) values ('/img/ship/party/party.jpg',9);
+insert into image (path, offer_id) values ('/img/ship/party/party2.jpg',9);
+insert into image (path, offer_id) values ('/img/ship/party/party1.jpg',9);
+insert into image (path, offer_id) values ('/img/ship/silverstar/silverstar1.jpg',10);
+insert into image (path, offer_id) values ('/img/ship/silverstar/silverstar.jpg',10);
+insert into image (path, offer_id) values ('/img/cottage/4/238068376.jpg', 1);
+insert into image (path, offer_id) values ('/img/cottage/3/132308681.jpg', 3);
+insert into image (path, offer_id) values ('/img/cottage/1/331714665.jpg', 4);
+insert into image (path, offer_id) values ('/img/cottage/2/169294777.jpg', 5);
+insert into image (path, offer_id) values ('/img/cottage/1/331714665.jpg', 6);
 
-insert into image (path, offer_id) values ('img/ship/4/41.jpg', 7);
-insert into image (path, offer_id) values ('img/ship/3/31.jpg', 10);
-insert into image (path, offer_id) values ('img/ship/2/21.jpg', 9);
-insert into image (path, offer_id) values ('img/ship/1/11.jpg', 8);
+insert into image (path, offer_id) values ('/img/ship/4/41.jpg', 7);
+insert into image (path, offer_id) values ('/img/ship/3/31.jpg', 10);
+insert into image (path, offer_id) values ('/img/ship/2/21.jpg', 9);
+insert into image (path, offer_id) values ('/img/ship/1/11.jpg', 8);
 
-insert into image (path, offer_id) values ('img/instructor/206076_pecanje_zalazak_sunca.jpg', 13);
-insert into image (path, offer_id) values ('img/instructor/images.jpg', 14);
-insert into image (path, offer_id) values ('img/instructor/906z513_PECANJE2310pog.jpg', 11);
-insert into image (path, offer_id) values ('img/instructor/maxresdefault.jpg', 12);
+insert into image (path, offer_id) values ('/img/instructor/206076_pecanje_zalazak_sunca.jpg', 13);
+insert into image (path, offer_id) values ('/img/instructor/images.jpg', 14);
+insert into image (path, offer_id) values ('/img/instructor/906z513_PECANJE2310pog.jpg', 11);
+insert into image (path, offer_id) values ('/img/instructor/maxresdefault.jpg', 12);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '17.01.2022', 0, 100, false, false, '11.01.2022.', 1, 5);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '17.01.2022', 0, 100, false, false, '11.01.2022.', 1, 5,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 6);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 6,false);
 
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '28.06.2022', 1, 4000, false, false, '24.06.2022.', 1, 7);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '28.06.2022', 1, 4000, false, false, '24.06.2022.', 1, 7,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 8);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 8,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '17.01.2022', 1, 100, true, false, '11.01.2022.', 1, 9);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '17.01.2022', 1, 100, true, false, '11.01.2022.', 1, 9,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10,false);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1);
-    
-insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-	(false, '09.05.2022.', 2, 3000, false, false, '05.05.2022.', 1, 2);
-insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-	(false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2); 
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1,false);
+      
+      
+     insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '28.06.2022', 1, 4000, false, false, '24.06.2022.', 1, 7, false);
 
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 8, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '17.01.2022', 1, 100, true, false, '11.01.2022.', 1, 9, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1, false);
+
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '09.05.2022.', 2, 3000, false, false, '05.05.2022.', 1, 2, false);
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2, false); 
+     
+
+<<<<<<< HEAD
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
     (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1);
 	
+=======
+>>>>>>> 404ac234350fc036a00b38be5c8dfbef5d70fb16
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
 insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
 
@@ -337,8 +424,8 @@ insert into registration_request (registration_type, status, user_id) values (1,
  insert into period_availability (start_date,end_date,  offer_id) values ('20.01.2022','01.12.2022',3);
 --insert into period_unavailability (start_date,end_date,  offer_id) values ('20.05.2022','30.05.2022',3);
 
-insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id) values
-    (false, '20.05.2022', 0, 4000, false, false, '25.05.2022.', 1, 3);
+insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id, ship_owner_present) values
+    (false, '20.05.2022', 0, 4000, false, false, '25.05.2022.', 1, 3,false);
 
 
 insert into period_availability ( start_date,end_date, offer_id) values ('20.01.2022','01.12.2022',4);
@@ -349,10 +436,63 @@ insert into period_availability (start_date, end_date,  offer_id) values ('20.01
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.06.2022','22.06.2022',5);
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.05.2022','22.05.2022',5);
 
- 
+
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
-insert into period_availability (start_date, end_date, offer_id) values ('01.05.2022.', '30.06.2022.', 2);
-insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022.', '06.06.2022.', 2);
+insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
+
+
+insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+insert into delete_request (status, text, user_id) values (0, 'Zelim da obrisem nalog.', 3);
+insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog.', 5);
+
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'juhi.', 1, 1, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,1, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 1, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 1, 0);
+
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,7,1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 7, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 7, 1);
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
+insert into period_unavailability (start_date, end_date, offer_id) values ('15.05.2022','25.05.2022',7);
+
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('27.05.2022', 5, 4, 1, 4500, 20, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('01.06.2022', 3, 4, 1, 3500, 21, false);
+
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 2);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 4);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 9);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 5);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
+
+
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('27.05.2022', 4, 4, 7, 4500, 22, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('01.06.2022', 5, 4, 7, 3500, 23, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('30.05.2022', 2, 4, 7, 1000, 24, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('03.06.2022', 3, 4, 7, 1200, 25, false);
+
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (3, 2);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (4, 4);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (6, 9);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (5, 5);
+insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
+
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('30.05.2022', 2, 4, 2, 1000, 26, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+    ('03.06.2022', 3, 4, 2, 1200, 27, false);
+
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',2);
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
 

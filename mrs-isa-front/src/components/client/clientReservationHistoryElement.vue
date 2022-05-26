@@ -5,7 +5,7 @@
       <div class="row g-0" style="background-color: #E9E9E9;">
 
         <div class="col-md-4">
-          <img :src="require('@/assets/' + image)" class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src="image" class="img-fluid rounded-start" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
 
         <div class="col-md-8">
@@ -19,7 +19,7 @@
                   {{cottage.description}}
                 </div>
 
-                <div class="col-4">
+                <div class="col">
                   Od: {{cottage.startDate}}
                   <br>
                   Do: {{cottage.endDate}}
@@ -34,7 +34,7 @@
                   </p>
                 </div>
 
-                <div class="col-3">
+                <div class="col">
 
                   <modalWithTextAreaAndRating :buttonText="firstButtonText" v-show="!cottage.reviewed && !cottage.canceled"
                                                   :buttonColor="firstButtonColor" :header="firstButtonHeader" @input-text-rating="sendReview"
@@ -73,12 +73,11 @@ export default {
     if (this.cottage.images[0] != null) {
       this.image = this.cottage.images[0];
     }else {
-      this.image = "icons/ship.png";
+      this.image = require("@/assets/icons/ship.png");
     }
   },
   methods : {
     goToOffer(){
-      console.log('/'+this.cottage.id);
       this.$router.push('/'+this.cottage.id);
     },
     sendReview(text, rating){

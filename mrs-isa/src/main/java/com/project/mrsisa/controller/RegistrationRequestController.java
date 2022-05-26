@@ -26,6 +26,7 @@ import com.project.mrsisa.domain.ShipOwner;
 import com.project.mrsisa.domain.User;
 import com.project.mrsisa.dto.AdventureDTO;
 import com.project.mrsisa.dto.RegistrationRequestDTO;
+import com.project.mrsisa.dto.TextDTO;
 import com.project.mrsisa.service.ClientService;
 import com.project.mrsisa.service.CottageOwnerService;
 import com.project.mrsisa.service.FishingInstructorService;
@@ -101,9 +102,9 @@ public class RegistrationRequestController {
 	}
 	
 	
-	@PostMapping(value = "/reject/{id}", consumes = MediaType.ALL_VALUE)
+	@PostMapping(value = "/reject/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Boolean> rejectRequest(@PathVariable Long id, @RequestBody String text ) {
+	public ResponseEntity<Boolean> rejectRequest(@PathVariable Long id, @RequestBody TextDTO text ) {
 
 		System.out.println("@reject ");
 		
@@ -115,12 +116,12 @@ public class RegistrationRequestController {
 		}
 
 		System.out.println("ID: " + request.getId());
-		System.out.println("TEXT: " +text);
+		System.out.println("TEXT: " +text.getText());
 		
 		User u = userService.findById(request.getUserRef().getId());
 		request.setStatus(ProcessingStatus.REJECTED);
 		
-		request = registrationRequestService.save(request, u.getEmail(), text);
+		request = registrationRequestService.save(request, u.getEmail(), text.getText());
 		
 		return new ResponseEntity<>(true, HttpStatus.OK);
 	}

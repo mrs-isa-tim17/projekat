@@ -42,6 +42,14 @@ class AdventureServce{
     search(searchParam) {
         return axios.post(ADVENTURES_API_BASE_URL + "/search", searchParam);
     }
+
+    getAdvanture(offerId) {
+        return axios.get(ADVENTURES_API_BASE_URL + "/" + offerId);
+    }
+
+    getAdventureReviews(offerId) {
+        return axios.get(ADVENTURES_API_BASE_URL + "/review/" + offerId);
+    }
 }
 
 export default new AdventureServce();

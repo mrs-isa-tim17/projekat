@@ -56,7 +56,10 @@ public class Reservation {
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
-	
+
+	@Column(nullable = true)
+	private boolean shipOwnerPresent;
+
 	public boolean isReviewed() {
 		return reviewed;
 	}
@@ -80,19 +83,53 @@ public class Reservation {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
+	
+	public LocalDateTime getStartDateTime() {
+		return startDate;
+	}
 
+	public void setStartDateTime(LocalDateTime startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDateTime getEndDateTime() {
+		return endDate;
+	}
+
+	public void setEndDateTime(LocalDateTime endDate) {
+		this.endDate = endDate;
+	}
+
+	
 	public LocalDate getStartDate() {
 		return startDate.toLocalDate();
 	}
+
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate.atStartOfDay();
 	}
+
 	public LocalDate getEndDate() {
 		return endDate.toLocalDate();
 	}
+
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate.atStartOfDay();
 	}
+	
+	
+	
+	
+	
+	
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+
 	public double getPrice() {
 		return price;
 	}
@@ -129,7 +166,12 @@ public class Reservation {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	
-	
+
+	public boolean isShipOwnerPresent() {
+		return shipOwnerPresent;
+	}
+
+	public void setShipOwnerPresent(boolean shipOwnerPresent) {
+		this.shipOwnerPresent = shipOwnerPresent;
+	}
 }

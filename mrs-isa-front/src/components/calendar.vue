@@ -23,7 +23,6 @@ export default {
       period.color = '#2593F5';
       this.calendarOptions.events.push(period);
     }
-    console.log(this.myEvents);
   },
 
   data() {
@@ -33,26 +32,25 @@ export default {
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
         events: [
-        //  {title: '', start: '2022-04-01', end: '2022-04-30', color: '#4FC358'},
-          //{title: 'avantura', start:'2022-04-19', end:'2022-04-22', color:'#2593F5'},
+     //     {title: "  ", start: '2022-04-01 15:00', end: '2022-04-05 16:00', color: '#4FC358'},
+       //   {title: 'avantura', start:'2022-04-05 16:00', end:'2022-04-09 19:00', color:'#2593F5'},
           //{title: '', start: '2022-05-12', end: '2022-05-19', color:'#F86C53'}
         ],
-        period:{
-          start:"",
-          end:"",
-          color: "",
-          title: ""
-        }
+        timeFormat: 'hh:mm',
+        locale:'sr-ME',
+        firstDay:1,
+        buttonText:{today:"Danas"},
       },
+      period:{
+        start:"",
+        end:"",
+        color: "",
+        title: ""
+      }
     }
   },
-  methods: {
-    handleDateClick: function(arg) {
-      alert('date click! ' + arg.dateStr)
-    }
-  }
 }
 </script>
 <template>
-  <FullCalendar :options="calendarOptions" />
+  <FullCalendar :options="this.calendarOptions" />
 </template>

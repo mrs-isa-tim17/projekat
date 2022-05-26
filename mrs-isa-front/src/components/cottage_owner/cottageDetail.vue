@@ -4,7 +4,7 @@
     <div class="row mt-4" >
       <div class="col-sm-2 align-content-start">
         <br><br><br>
-        <star-rating :rating="4" :starWidth="20" :star-style="config "></star-rating><br><!--vidi za double vrednosti-->
+    <!--    <star-rating :rating="4" :starWidth="20" :star-style="config "></star-rating><br>    -->
        <experience-reviews-modal :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.cottage"></experience-reviews-modal><br><br>
 
       </div>
@@ -95,7 +95,8 @@
 
 import CottageService from "@/servieces/cottage_owner/CottageService";
 import ReviewServce from "@/servieces/ReviewServce";
-import StarRating from 'vue-dynamic-star-rating'
+
+//import StarRating from 'vue-dynamic-star-rating'
 
 //import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // import { Splide, SplideSlide } from '@splidejs/vue-splide';
@@ -127,7 +128,8 @@ export default {
     EditPriceModal,
     BirdVueMap,
     cottageOwnerHeader,
-    StarRating,
+=
+    //StarRating,
 
     //lightbox
     //FontAwesomeIcon

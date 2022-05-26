@@ -2,6 +2,7 @@ package com.project.mrsisa.controller;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,7 +87,10 @@ public class AdventureController {
 	@Autowired
 	private UserService userService;
 	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+	@Autowired
+	private ClientService clientService;
 	
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -208,9 +212,9 @@ public class AdventureController {
 		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
 		for(Reservation r : reservations) {
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay(), r.getEndDate().atStartOfDay(), adventure.getName());
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
 			reservationPeriods.add(period);
 		}
 		
@@ -342,8 +346,6 @@ public class AdventureController {
 		adventure.getAddress().setLatitude(adventureDTO.getLatitude());
 		adventure.getAddress().setLongitude(adventureDTO.getLongitude());
 		adventure.setCapacity(adventureDTO.getCapacity());
-		System.out.println("++++" +adventureDTO.getCapacity());
-		System.out.println("++++++++"+adventure.getCapacity());
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
 
@@ -520,4 +522,30 @@ public class AdventureController {
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventure);
 		return new ResponseEntity<List<AdventureForListViewDTO>>(adventuresDTO, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "/site/{id}")
+	public ResponseEntity<AdventureProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
+		Adventure c = adventureService.findOneById(id);
+		AdventureProfileInfoDTO adventuresDTO = new AdventureProfileInfoDTO(c);
+		adventuresDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+		adventuresDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+		adventuresDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+		adventuresDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+		adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		adventuresDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
+		return new ResponseEntity<AdventureProfileInfoDTO>(adventuresDTO, HttpStatus.OK);
+	}
+
+
+	@GetMapping(value = "/site/review/{id}")
+	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromAdvanture(@PathVariable long id) {
+		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReviewDTO> dto = new ArrayList<>();
+		for (ExperienceReview e : er) {
+			e.setClient(clientService.findOne(e.getClient().getId()));
+			dto.add(new ExperienceReviewDTO(e));
+		}
+		return ResponseEntity.ok(dto);
+	}
+
 }

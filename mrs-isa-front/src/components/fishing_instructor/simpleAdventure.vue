@@ -2,7 +2,7 @@
   <div class="card mb-3 d-flex justify-content-center" style="max-width: 800px;">
     <div class="row g-0">
       <div class="col-md-4">
-        <img :src="require('@/assets/' + path)" class="img-fluid rounded-start" alt="require('@/assets/logo.png')">
+        <img :src="path" class="img-fluid rounded-start" alt="require('@/assets/logo.png')">
       </div>
       <div class="col-md-8">
         <div class="card-body">

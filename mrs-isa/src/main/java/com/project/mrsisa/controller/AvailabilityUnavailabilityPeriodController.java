@@ -1,5 +1,6 @@
 package com.project.mrsisa.controller;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.PeriodAvailability;
 import com.project.mrsisa.domain.PeriodUnavailability;
+import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.StartEndDateDTO;
+import com.project.mrsisa.dto.StartEndDateTimeDefineDTO;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
 import com.project.mrsisa.service.PeriodUnavailabilityService;
+import com.project.mrsisa.service.ReservationService;
 
 
 
@@ -37,18 +41,21 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	@Autowired
 	private AdventureService adventureService;
+	@Autowired
+	private ReservationService reservationService;
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateDTO startEndDateDTO){
+	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		System.out.println("MILICAAA");
 		
 		PeriodAvailability periodAvailability = new PeriodAvailability();
 		Adventure adventure = adventureService.findOneById(id);
 		periodAvailability.setOffer(adventure);
-		periodAvailability.setStartDate(startEndDateDTO.getStart());
-		periodAvailability.setEndDate(startEndDateDTO.getEnd());
+		periodAvailability.setStartDate(startEndDateTimeDefineDTO.getStart().plusHours(2));
+		periodAvailability.setEndDate(startEndDateTimeDefineDTO.getEnd().plusHours(2));
 		
 		periodAvailabilityService.save(periodAvailability);
 		
@@ -58,7 +65,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	@PostMapping(value = "/unavailability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateDTO startEndDateDTO){
+	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		
 		PeriodUnavailability periodUnavailability = new PeriodUnavailability();
 		
@@ -68,7 +75,7 @@ public class AvailabilityUnavailabilityPeriodController {
 		
 		boolean isCorect = false;
 		for(PeriodAvailability pa : availabilityPeriods) {
-			if(pa.getStartDate().isBefore(startEndDateDTO.getStart()) && pa.getEndDate().isAfter(startEndDateDTO.getEnd()))
+			if((pa.getStartDate().isBefore(startEndDateTimeDefineDTO.getStart())) && (pa.getEndDate().isAfter(startEndDateTimeDefineDTO.getEnd())))
 			{
 				isCorect = true;
 				break;
@@ -79,8 +86,8 @@ public class AvailabilityUnavailabilityPeriodController {
 		}
 		else {
 			periodUnavailability.setOffer(adventure);
-			periodUnavailability.setStartDate(startEndDateDTO.getStart());
-			periodUnavailability.setEndDate(startEndDateDTO.getEnd());
+			periodUnavailability.setStartDate(startEndDateTimeDefineDTO.getStart().plusHours(2));
+			periodUnavailability.setEndDate(startEndDateTimeDefineDTO.getEnd().plusHours(2));
 			periodUnavailabilityService.save(periodUnavailability);
 			return new ResponseEntity<>(true , HttpStatus.CREATED);	
 		}
@@ -88,18 +95,14 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 
 	@GetMapping(value="/availability/all/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
-
-		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
-		List<StartEndDateDTO> startEndDateDTOs = new ArrayList<StartEndDateDTO>();
-		for(PeriodAvailability p : availabilityPeriods) {
-			StartEndDateDTO period = new StartEndDateDTO(p.getStartDate(), p.getEndDate(), "");
-			startEndDateDTOs.add(period);
-		}
+		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
+		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+	
+		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations);
 		
-
-		return new ResponseEntity<>(startEndDateDTOs, HttpStatus.OK);
+		return new ResponseEntity<>(intersectionAll, HttpStatus.OK);
 	}
 	
 	
@@ -111,7 +114,7 @@ public class AvailabilityUnavailabilityPeriodController {
 		List<PeriodUnavailability> unavailabilityPeriods = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
 		List<StartEndDateDTO> startEndDateDTOs = new ArrayList<StartEndDateDTO>();
 		for(PeriodUnavailability p : unavailabilityPeriods) {
-			StartEndDateDTO period = new StartEndDateDTO(p.getStartDate(), p.getEndDate(), "");
+			StartEndDateDTO period = new StartEndDateDTO(p.getStartDate().format(formatter), p.getEndDate().format(formatter), "  ");
 			startEndDateDTOs.add(period);
 		}
 		return new ResponseEntity<>(startEndDateDTOs, HttpStatus.OK);

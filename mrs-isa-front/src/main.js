@@ -18,12 +18,13 @@ import swal from 'sweetalert2';
 
 
 
+//import 'vue-ssr-carousel/index.css'
+
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-
 
 
 

@@ -2,6 +2,7 @@ package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.ComplaintDTO;
+import com.project.mrsisa.dto.TextDTO;
 import com.project.mrsisa.dto.client.ComplaintOnOfferDTO;
 import com.project.mrsisa.service.*;
 
@@ -105,10 +106,10 @@ public class ComplaintController {
     }
     
     
-    @PostMapping(value="/answer/{id}", consumes = MediaType.ALL_VALUE)
+    @PostMapping(value="/answer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> answerComplaint(@PathVariable Long id, @RequestBody String textAnswer ) {
+    public ResponseEntity<Boolean> answerComplaint(@PathVariable Long id, @RequestBody TextDTO textAnswer ) {
 
 		System.out.println("@reject ");
 		
@@ -120,7 +121,7 @@ public class ComplaintController {
 		}
 
 		System.out.println("ID: " + complaint.getId());
-		System.out.println("TEXT: " +textAnswer);
+		System.out.println("TEXT: " +textAnswer.getText());
 		
 		Client client = (Client) userService.findById(complaint.getClient().getId());
 		Cottage cottage;
@@ -142,7 +143,7 @@ public class ComplaintController {
         }
 		complaint.setStatus(ComplaintStatus.ANSWERED);
 		
-		complaint = complaintService.save(complaint, client.getEmail(), client.getName(), client.getSurname(), owner.getEmail(), textAnswer);
+		complaint = complaintService.save(complaint, client.getEmail(), client.getName(), client.getSurname(), owner.getEmail(), textAnswer.getText());
 		
 		return new ResponseEntity<>(true, HttpStatus.OK);
 	}

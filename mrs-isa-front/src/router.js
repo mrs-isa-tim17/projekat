@@ -8,7 +8,7 @@ const router = createRouter({
         { path: '/client/profile', component: () => import("./components/client/clientProfileChange.vue")},
         { path: '/client/history/:type', component: () => import("./components/client/clientReservationHistory.vue")},
         { path: '/client/verify/:code', component: () => import("./components/client/clientVerified.vue") },
-        { path: '/client/site/home', component: () => import("./components/main_site/homePageClient.vue")},
+        { path: '/client/site/home', component: () => import("./components/main_site/main_home_page/homePageClient.vue")},
 
         { path: '/instructor/adventures', component: () => import("./components/fishing_instructor/allInstructorsAdventures")},
 
@@ -18,12 +18,19 @@ const router = createRouter({
         { path: '/adventure/update/:type/:pre', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
         { path: '/adventure/reservations/:type', component: ()=> import("./components/fishing_instructor/reservationsForOwner")},
 
-        { path: '/book/site/home', component: () => import("./components/main_site/homePage.vue")},
+        { path: '/book/site/home', component: () => import("./components/main_site/main_home_page/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
         { path:  '/book/site/register', component: () => import("./components/registerUser.vue")},
-        { path:  '/book/cottage/site', component: () => import("./components/main_site/siteCottageListView.vue")},
-        { path:  '/book/ship/site', component: () => import("./components/main_site/siteShipListView.vue")},
-        { path:  '/book/adventure/site', component: () => import("./components/main_site/siteAdventureListView.vue")},
+
+        { path:  '/book/cottage/site', component: () => import("./components/main_site/list_of_cottage/siteCottageListView.vue")},
+        { path:  '/book/cottage/site/:id', component: () => import("./components/main_site/cottage_profile/cottageProfile")},
+
+        { path:  '/book/ship/site', component: () => import("./components/main_site/list_of_ship/siteShipListView.vue")},
+        { path:  '/book/ship/site/:id', component: () => import("./components/main_site/ship_profile/shipProfile")},
+
+        { path:  '/book/adventure/site', component: () => import("./components/main_site/list_of_adventure/siteAdventureListView.vue")},
+        { path:  '/book/adventure/site/:id', component: () => import("./components/main_site/adventure_profile/adventureProfile")},
+
 
         { path: '/cottageOwner/profile', component: () => import("./components/cottage_owner/editProfileCottageOwner")},
         {path:'/cottage/reservations/future/:id',component:() => import("./components/cottage_owner/cottageOwnerFutureReservationsList")},
@@ -44,8 +51,8 @@ const router = createRouter({
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
         {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")},
-        {path: '/admin/complaints', component:()=> import("./components/admin/complaints")}
-
+        {path: '/admin/complaints', component:()=> import("./components/admin/complaints")},
+        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")}
     ]
 });
 
@@ -55,6 +62,9 @@ router.beforeEach((to, from, next) => {
         '/book/ship/site', '/book/adventure/site'];
     let authRequired = !publicPages.includes(to.path);
     if (to.path.includes('/client/verify/')){
+        authRequired = false;
+    }
+    if (to.path.includes('/site/')){
         authRequired = false;
     }
     const loggedIn = localStorage.getItem('user');

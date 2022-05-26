@@ -13,7 +13,7 @@
         <div class="modal-body">
           <p> {{complaintText}}</p>
           <h6 style="text-align:left"> Vaš odgovor: </h6>
-          <textarea id="text" class="my-4" rows="4" cols="20" name="text" v-model="text"></textarea>
+          <textarea id="text" class="my-4" rows="4" cols="40" name="text" v-model="textDTO.text"></textarea>
           <h6 id="message"></h6>
         </div>
         <div class="modal-footer">
@@ -27,6 +27,7 @@
 
 <script>
 import $ from "jquery";
+import swal from "sweetalert2";
 
 export default {
   name: "complaintModal",
@@ -48,9 +49,18 @@ export default {
       $('#'+this.index).focus(modalToggle);
     },
 
+    fireAlertOn(eventText){
+      swal.fire({
+        title: "Upozerenje",
+        text: eventText,
+        background:'white',
+        color:'black',
+        confirmButtonColor:'#FECDA6'});
+    },
+
     Answer(){
       if(this.text===""){
-        alert("Unesite odgovor.");
+        this.fireAlertOn("Unesite odgovor.");
       }else {
         const modal = document.getElementById(this.index);
         modal.classList.remove('show');
@@ -62,7 +72,7 @@ export default {
         document.body.style.overflow = 'auto';
 
 
-        this.$emit('answer-text', this.complaintId, this.text);
+        this.$emit('answer-text', this.complaintId, this.textDTO);
 
       }
     },
@@ -70,7 +80,9 @@ export default {
   data(){
     return{
       modalId:"",
-      text:"",
+      textDTO:{
+        text:""
+      },
       errorMessage:"Unesite odgovor na žalbu."
     }
   }
