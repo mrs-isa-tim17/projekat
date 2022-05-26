@@ -108,7 +108,7 @@
           <div class="col-8">
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" type="button" @click="ShowReservations">Rezervacije
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="ShowReservations">Rezervacije
             </button>
           </div>
         </div>

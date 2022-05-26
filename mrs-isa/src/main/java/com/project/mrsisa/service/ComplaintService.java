@@ -32,11 +32,10 @@ public class ComplaintService {
     public Complaint save(Complaint complaint){
         return complaintRepository.save(complaint);
     }
-<<<<<<< HEAD
+
     public List<Complaint> findAllByOfferId(Long id){
         return complaintRepository.findAllByOfferId(id);
     }
-=======
     
     public List<Complaint>findUnprocessedComplaint(){
     	return complaintRepository.findUnprocessedComplaint();
@@ -105,6 +104,5 @@ public class ComplaintService {
     }
 
 
-    
->>>>>>> 7e610c1041778d3d68cb71499e24265595574d99
+   
 }

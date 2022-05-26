@@ -17,24 +17,13 @@ import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import swal from 'sweetalert2';
 
 
-import SsrCarousel from 'vue-ssr-carousel'
-import 'vue-ssr-carousel/index.css'
+//import 'vue-ssr-carousel/index.css'
 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-
-/* import specific icons */
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-/* add icons to the library */
-library.add(faUserSecret);
 
 
 createApp(App).use(Datepicker).use(OpenLayersMap,VueStepWizard,swal).use(router).mount('#app');

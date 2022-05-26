@@ -1,5 +1,5 @@
 <template>
-  <button :id="btnId" type="button" @click="openForm" class="btn btn-primary me-md-2" data-bs-toggle="modal"
+  <button :id="btnId" type="button" @click="openForm" style="min-width: 137px" class="btn btn-primary me-md-2" data-bs-toggle="modal"
           :data-bs-target="modalId">
     {{ btnText }}
   </button>
