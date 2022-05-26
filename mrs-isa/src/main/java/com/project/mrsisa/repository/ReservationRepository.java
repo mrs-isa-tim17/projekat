@@ -1,6 +1,5 @@
 package com.project.mrsisa.repository;
 
-import com.project.mrsisa.domain.PeriodAvailability;
 import com.project.mrsisa.domain.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,6 +30,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Query(value="SELECT * from reservation r WHERE r.offer_id=?1", nativeQuery = true)
-    List<Reservation> findAllReservationsForAdventure(Long id);
+    List<Reservation> findAllReservationsForOffer(Long id);
+
+    @Transactional
+    @Query(value="select * from reservation r where r.offer_id = ?1 and DATE(NOW()) between r.start_date and r.end_date;", nativeQuery = true)
+    List<Reservation> findCurrentReservationsForOffer(Long id);
 
 }

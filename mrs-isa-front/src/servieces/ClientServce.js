@@ -23,6 +23,12 @@ class ClientServce{
         });
     }
 
+    getCurrentClients(ownerId){
+        return axios.get(CLIENT_API_BASE_URL+'/current/'+ownerId, {
+            headers: authHeader()
+        });
+    }
+
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{
@@ -37,6 +43,7 @@ class ClientServce{
 
             })
     }
+
 }
 
 export default new ClientServce();

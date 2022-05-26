@@ -1,7 +1,8 @@
 package com.project.mrsisa.controller;
 
-import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.dto.client.CurrentClientDTO;
 import com.project.mrsisa.dto.client.HomePageInfoDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
 import com.project.mrsisa.service.*;
@@ -13,20 +14,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.mrsisa.domain.Client;
-import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.dto.ClientProfileResponseDTO;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class ClientController {
-	
+    @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
+    private CottageOwnerService cottageOwnerService;
+	@Autowired
+    private CottageService cottageService;
 	@Autowired
 	private ClientService clientService;
 	@Autowired
@@ -114,5 +116,26 @@ public class ClientController {
        }
 
        return new ResponseEntity<ClientProfileResponseDTO>(new ClientProfileResponseDTO(client, 5), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/current/{id}")
+    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
+        CottageOwner owner = cottageOwnerService.findOne(id);
+        List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
+        List<CurrentClientDTO> current = new ArrayList<>();
+        for(Cottage c : cottages){
+            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(c.getId());
+            for(Reservation r : reservations){
+                System.out.println("rez" + r.getId());
+                Client client = clientService.findOne(r.getClient().getId());
+                current.add(new CurrentClientDTO(client,c));
+            }
+        }
+        for(CurrentClientDTO currenttt : current){
+            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+        }
+
+        return new ResponseEntity<>(current,HttpStatus.OK);
     }
 }

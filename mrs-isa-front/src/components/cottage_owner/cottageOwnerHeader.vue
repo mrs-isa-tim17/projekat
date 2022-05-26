@@ -16,13 +16,13 @@
             <a class="nav-link" style="color:white;font-size: 20px;" :href="calendar" >Kalendar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="color:white;font-size: 20px;" :href="historyReservations">Istorija rezervacija </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Brze rezervacije</a>
+          </li>
+          <li class="nav-item">
+            <NewReservations :header="reservationsHeader" :index="reservationsIndex"></NewReservations>
           </li>
         </ul>
         <div class="dropdown" >
@@ -43,13 +43,17 @@
 
 <script>
 import loginServce from "@/servieces/LoginServce";
+import NewReservations from "@/components/cottage_owner/newReservations";
 
 export default {
   name: "client-header",
+  components: {NewReservations},
   data() {
     return {
       myOffers: "/owner/cottages",
       editProfile: "/cottageOwner/profile",
+      reservationsHeader:"Napravite novu rezervaciju",
+      reservationsIndex:"resId"
 
     }
   },

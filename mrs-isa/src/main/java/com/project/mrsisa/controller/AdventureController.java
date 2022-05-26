@@ -14,7 +14,6 @@ import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
 import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
-import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 
 import com.project.mrsisa.service.ExperienceReviewService;
@@ -223,7 +222,7 @@ public class AdventureController {
 	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long id){
 		
 		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
-		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 		for(Reservation reservation: reservations) {
 			Client client = (Client) userService.findById(reservation.getClient().getId());
 			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 

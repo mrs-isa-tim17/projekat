@@ -1,7 +1,6 @@
 package com.project.mrsisa.service;
 
 import com.project.mrsisa.domain.OfferType;
-import com.project.mrsisa.domain.PeriodUnavailability;
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +46,12 @@ public class ReservationService {
         return reservationRepository.findCurrentReservationInInterval(offerId, fromDate, untilDate);
     }
 
-	public List<Reservation> getAllReservationsForAdventure(Long id) {
-		return reservationRepository.findAllReservationsForAdventure(id);
+	public List<Reservation> getAllReservationsForOffer(Long id) {
+		return reservationRepository.findAllReservationsForOffer(id);
 	}
+
+    public List<Reservation> getCurrentReservationsForOffer(Long id) {
+        return reservationRepository.findCurrentReservationsForOffer(id);
+    }
 
 }

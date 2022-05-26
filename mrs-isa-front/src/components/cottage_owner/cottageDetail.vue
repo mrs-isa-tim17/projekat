@@ -19,6 +19,7 @@
             :images="images"
             title="Feed Gallery"
         ></lightbox>-->
+        <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>
       </div>
       <div class="row">
         <div class="col-5 mt-3" style="text-align: left">
@@ -95,6 +96,7 @@
 import CottageService from "@/servieces/cottage_owner/CottageService";
 import ReviewServce from "@/servieces/ReviewServce";
 import StarRating from 'vue-dynamic-star-rating'
+
 //import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import cottageOwnerHeader from "@/components/cottage_owner/cottageOwnerHeader";
@@ -108,11 +110,13 @@ import EditNumberModal from "@/components/cottage_owner/editNumberModal";
 import ExperienceReviewsModal from "@/components/cottage_owner/experienceReviewsModal";
 import EditPriceModal from "@/components/cottage_owner/editPriceModal"
 import EditCancelConditionsModal from "@/components/cottage_owner/editCancelConditionsModal";
+import UploadImagesModal from "@/components/cottage_owner/uploadImagesModal";
 //import lightbox from "vlightbox"
 // import VueGallerySlideshow from 'vue-gallery-slideshow'
 export default {
   name: "cottageDetail",
   components: {
+    UploadImagesModal,
     EditCancelConditionsModal,
     ExperienceReviewsModal,
     EditNumberModal,
@@ -124,6 +128,7 @@ export default {
     BirdVueMap,
     cottageOwnerHeader,
     StarRating,
+
     //lightbox
     //FontAwesomeIcon
     // VueGallerySlideshow
@@ -235,7 +240,9 @@ export default {
       experienceReviewsHeader:"Recenzije gostiju",
       experienceReviewsIndex:"experienceReviewsId",
       editCCHeader:"Izmena uslova otkazivanja rezervacije",
-      editCCIndex:"editCC"
+      editCCIndex:"editCC",
+      uploadHeader:"Upload slike",
+      uploadIndex:"uploadIndex"
 
     }
   },
