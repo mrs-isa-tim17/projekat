@@ -1,21 +1,15 @@
 package com.project.mrsisa.repository;
 
 import com.project.mrsisa.domain.Complaint;
-<<<<<<< HEAD
+
 
 import com.project.mrsisa.domain.Image;
 
-=======
-import com.project.mrsisa.domain.Image;
->>>>>>> 404ac234350fc036a00b38be5c8dfbef5d70fb16
 import com.project.mrsisa.domain.RegistrationRequest;
 
 import java.util.List;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 404ac234350fc036a00b38be5c8dfbef5d70fb16
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;

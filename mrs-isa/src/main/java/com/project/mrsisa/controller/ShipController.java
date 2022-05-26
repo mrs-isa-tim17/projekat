@@ -343,7 +343,7 @@ public class ShipController {
 		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
 
 		Ship ship = shipService.findOne(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 		for(Reservation r : reservations) {//////////////////STA je ovo
 			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), ship.getName());
 			reservationPeriods.add(period);

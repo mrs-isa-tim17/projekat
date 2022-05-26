@@ -128,7 +128,7 @@ export default {
     EditPriceModal,
     BirdVueMap,
     cottageOwnerHeader,
-=
+
     //StarRating,
 
     //lightbox

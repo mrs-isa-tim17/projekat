@@ -106,7 +106,7 @@ public class SaleAppointmentController {
 	private Boolean isInCorrectPeriod(Long id, LocalDateTime dateTime, double duration) {
 		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 	
 		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availabilityPeriods, unavailability, reservations);
 			

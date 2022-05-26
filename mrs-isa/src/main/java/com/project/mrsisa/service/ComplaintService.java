@@ -36,10 +36,7 @@ public class ComplaintService {
     public List<Complaint> findAllByOfferId(Long id){
         return complaintRepository.findAllByOfferId(id);
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 404ac234350fc036a00b38be5c8dfbef5d70fb16
     
     public List<Complaint>findUnprocessedComplaint(){
     	return complaintRepository.findUnprocessedComplaint();
@@ -107,11 +104,4 @@ public class ComplaintService {
         System.out.println("Poslat mail");
     }
 
-
-<<<<<<< HEAD
-    
-
-=======
-   
->>>>>>> 404ac234350fc036a00b38be5c8dfbef5d70fb16
 }
