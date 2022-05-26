@@ -51,6 +51,7 @@ public class ShipController {
 	@Autowired
 	private CancelConditionService cancelConditionService;
 
+	@Autowired
 	private PeriodUnavailabilityService periodUnavailabilityService;
 
 	@Autowired

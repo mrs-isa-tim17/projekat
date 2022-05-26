@@ -5,7 +5,10 @@
         <p>{{offer.description}}</p>
       </div>
       <div class="col">
-        <div class="row p-1"><button @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button></div>
+        <div class="row p-1">
+          <res-mod :additionalServicesPrice="offer.additionalServicesPrice" :price="offer.price" :offer-type="'adventure'" :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
+          <button v-show="!verifiedClient" style="min-width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
+        </div>
         <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
         <div align="left" class="row p-1">
           <quick-reservation-modal :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offer.id"></quick-reservation-modal>
@@ -128,9 +131,10 @@ import swal from "sweetalert2";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
 import QuickReservationModal from "@/components/client/quickReservationModal";
+import ResMod from "@/components/client/resMod";
 export default {
   name: "adventureInfoDisplay",
-  components: {QuickReservationModal, CalendarModal, ExperienceReviewView},
+  components: {ResMod, QuickReservationModal, CalendarModal, ExperienceReviewView},
   props: ["offer"],
   created() {
     this.offerId = this.offer.id;

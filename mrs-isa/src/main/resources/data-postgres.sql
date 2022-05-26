@@ -399,7 +399,7 @@ insert into period_unavailability (start_date, end_date, offer_id) values ('15.0
 
 insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
     ('27.05.2022', 5, 4, 1, 4500, 20, false);
-insert into sale    _appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
     ('01.06.2022', 3, 4, 1, 3500, 21, false);
 
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 2);
@@ -428,3 +428,10 @@ insert into sale_appointment (start_sale_date, duration, people_quantity, offer_
     ('30.05.2022', 2, 4, 2, 1000, 26, false);
 insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
     ('03.06.2022', 3, 4, 2, 1200, 27, false);
+
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',2);
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
+
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 1200, '29.04.2022.', 1);

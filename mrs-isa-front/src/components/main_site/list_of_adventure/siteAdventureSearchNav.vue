@@ -7,19 +7,21 @@
 
             Od datuma
           </div>
-          <div class="col-4">
-            <Datepicker v-model="dateFrom" style="width: 130px;"></Datepicker>
-          </div>
+        </div>
+        <div class="row" style="width: 240px;">
+          <Datepicker v-model="dateFrom"></Datepicker>
         </div>
       </li>
       <li class="nav-item  pb-2" style="width: 140px;">
         <div class="row">
           <div class="col-8">
             Do datuma
-          </div>
-          <div class="col-4">
-            <Datepicker v-model="dateUntil" style="width: 130px;"></Datepicker>
             </div>
+
+        </div>
+        <div class="row" style="width: 240px;">
+
+          <Datepicker v-model="dateUntil"></Datepicker>
         </div>
       </li>
       <li class="nav-item  py-2" style="display: inline; width: 250px;" >

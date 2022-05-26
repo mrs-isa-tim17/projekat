@@ -18,6 +18,7 @@
           </button>
         </div>
       </div>
+
       <div class="col d-flex justify-content-end mr-3 my-1" style="width: 200px;" >
         <select style="width: 200px; margin-right: 100px; margin-left: 25px;" id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
           <option selected>Sortiraj po</option>
@@ -125,13 +126,12 @@ export default {
     },
 
     filterAdventures(filterDto){
-      console.log(filterDto);
       adventureServce.filterAdventures(filterDto)
           .then((response) => {
                 this.cottages   = response.data;
                 this.listLength = this.cottages.length;
                 this.adventuresKey++;
-                console.log(this.listLength);
+                localStorage.adventure = JSON.stringify(filterDto);
               }
           )
     },

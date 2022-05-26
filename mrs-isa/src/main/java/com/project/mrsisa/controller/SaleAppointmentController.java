@@ -43,12 +43,8 @@ public class SaleAppointmentController {
 		List<SaleAppoinmentClientDTO> saleAppointmentDTOs = new ArrayList<>();
 		for (SaleAppointment sa : saleAppointments){
 			sa.setAdditionalServices(additionalServicesService.findBySaleAppointmentId(sa.getId()));
-			System.out.println("ADDitional service number: ");
-			System.out.println(sa.getAdditionalServices().size());
 			saleAppointmentDTOs.add(new SaleAppoinmentClientDTO(sa));
 		}
-		System.out.println("Number of sale appointments");
-		System.out.println(saleAppointmentDTOs.size());
 		return new ResponseEntity<List<SaleAppoinmentClientDTO>>(saleAppointmentDTOs, HttpStatus.OK);
 	}
 
