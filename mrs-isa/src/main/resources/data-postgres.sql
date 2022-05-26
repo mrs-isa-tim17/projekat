@@ -383,6 +383,28 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
       (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1,false);
+      
+      
+     insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '28.06.2022', 1, 4000, false, false, '24.06.2022.', 1, 7, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (true, '17.02.2022', 1, 50000, false, false, '14.02.2022.', 1, 8, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '17.01.2022', 1, 100, true, false, '11.01.2022.', 1, 9, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10, false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1, false);
+
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '09.05.2022.', 2, 3000, false, false, '05.05.2022.', 1, 2, false);
+insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2, false); 
+     
 
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
 insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
@@ -412,7 +434,6 @@ insert into period_availability (start_date, end_date,  offer_id) values ('20.01
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
-insert into period_availability (start_date, end_date, offer_id) values ('01.05.2022. 15:00', '30.06.2022. 15:00', 2);
 insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
 

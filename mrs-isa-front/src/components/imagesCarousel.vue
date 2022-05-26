@@ -2,11 +2,11 @@
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img :src="require('@/assets/' + activeImage)" class="d-block w-100" alt="...">
+        <img :src="activeImage" class="d-block w-100" alt="...">
       </div>
 
       <div class="carousel-item" v-for="path in filterInactiveImages()" :key="path">
-        <img :src="require('@/assets/' + path)" class="d-block w-100" alt="...">
+        <img :src="path" class="d-block w-100" alt="...">
       </div>
 
     </div>
@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      image: "img/adventure/Drina1.jpg",
+      image: "/img/adventure/Drina1.jpg",
       images: [],
       activeImage: "",
     }

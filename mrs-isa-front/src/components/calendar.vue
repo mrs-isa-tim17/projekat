@@ -32,8 +32,8 @@ export default {
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
         events: [
-          {title: "  ", start: '2022-04-01 15:00', end: '2022-04-05 16:00', color: '#4FC358'},
-          {title: 'avantura', start:'2022-04-05 16:00', end:'2022-04-09 19:00', color:'#2593F5'},
+     //     {title: "  ", start: '2022-04-01 15:00', end: '2022-04-05 16:00', color: '#4FC358'},
+       //   {title: 'avantura', start:'2022-04-05 16:00', end:'2022-04-09 19:00', color:'#2593F5'},
           //{title: '', start: '2022-05-12', end: '2022-05-19', color:'#F86C53'}
         ],
         timeFormat: 'hh:mm',
