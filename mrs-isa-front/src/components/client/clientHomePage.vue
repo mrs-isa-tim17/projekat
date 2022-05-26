@@ -32,10 +32,10 @@
       <div class="row justify-content-center ">
         <clientHomePageOption :image_path="upcomingImgPath" :option_link="upcomingLink" :text="upcomingText"></clientHomePageOption>
 
-        <div class="col-3 px-5" >
+        <div class="col-3 px-5" style="min-width: 200px;">
           <div class="dropdown">
             <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="card-lg">
+              <div class="card-lg" style="min-width: 200px;">
                 <div class="card-body">
                   <img :src=historyOfReservationImgPath height="150">
                 </div>
@@ -45,7 +45,7 @@
               </div>
             </a>
 
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="min-width: 200px;">
               <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
               <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
               <li><a class="dropdown-item" :href="historyOfAdventureReservationsLink">Avanture</a></li>
@@ -58,9 +58,8 @@
       </div>
 
       <div class="row justify-content-center ">
-        <clientHomePageOption :image_path="complaintImgPath" :option_link="complaintLink" :text="complaintText"></clientHomePageOption>
 
-        <request-for-deleting-account-modal v-show="!deleteRequestMade" :image_path="deleteAccImgPath" :option_link="deleteAccLink"
+        <request-for-deleting-account-modal style="min-width: 200px;" v-show="!deleteRequestMade" :image_path="deleteAccImgPath" :option_link="deleteAccLink"
                        :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"
                       ></request-for-deleting-account-modal>
 
@@ -112,7 +111,7 @@ export default {
       },
   data() {
     return {
-      penalties: 3,
+      penalties: 0,
       deleteRequestMade: false,
       deleteRequestMadeMessage: "Napravili ste zahtev za brisanje dok zahtev nije odbijen ne možete više koristiti aplikaciju",
 

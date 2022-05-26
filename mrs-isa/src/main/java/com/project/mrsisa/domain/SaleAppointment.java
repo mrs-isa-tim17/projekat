@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class SaleAppointment {
@@ -45,11 +46,13 @@ public class SaleAppointment {
 	@Column(nullable=false)
 	private double discount;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "addressId", referencedColumnName = "id")
 	private Address address;
-	
-	
+
+	@Column(nullable = false)
+	private boolean reserved;
+
 	public LocalDateTime getStartSaleDate() {
 		return startSaleDate;
 	}
@@ -98,6 +101,12 @@ public class SaleAppointment {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
+
+	public boolean isReserved() {
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved) {
+		this.reserved = reserved;
+	}
 }

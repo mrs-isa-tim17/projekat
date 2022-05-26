@@ -52,7 +52,7 @@ import PhoneField from "@/components/registration_components/PhoneField";
 import PasswordField from "@/components/registration_components/PasswordField";
 import LastNameField from "@/components/registration_components/LastNameField";
 import PasswordAgainField from "@/components/registration_components/PasswordAgainField";
-import basicHeader from "@/components/main_site/basicHeader";
+import basicHeader from "@/components/main_site/main_home_page/basicHeader";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
 

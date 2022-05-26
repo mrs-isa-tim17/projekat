@@ -25,4 +25,7 @@ public class SaleAppointmentService {
 	public SaleAppointment save(SaleAppointment saleAppointment) {
 		return saleAppointmentRepository.save(saleAppointment);
 	}
+	public List<SaleAppointment> findActiveByOfferId(Long offerId) {
+		return saleAppointmentRepository.findActiveFreeSaleAppoinments(offerId);
+	}
 }

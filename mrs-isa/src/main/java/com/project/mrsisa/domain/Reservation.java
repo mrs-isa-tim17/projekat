@@ -56,7 +56,10 @@ public class Reservation {
 
 	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Complaint> complaints;
-	
+
+	@Column(nullable = true)
+	private boolean shipOwnerPresent;
+
 	public boolean isReviewed() {
 		return reviewed;
 	}
@@ -163,7 +166,12 @@ public class Reservation {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	
-	
+
+	public boolean isShipOwnerPresent() {
+		return shipOwnerPresent;
+	}
+
+	public void setShipOwnerPresent(boolean shipOwnerPresent) {
+		this.shipOwnerPresent = shipOwnerPresent;
+	}
 }

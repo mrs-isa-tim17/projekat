@@ -1,6 +1,6 @@
 package com.project.mrsisa.controller;
 
-import java.sql.SQLOutput;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.domain.OfferType;
-import com.project.mrsisa.dto.cottage.FindCottageDTO;
+import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.dto.simple_user.*;
@@ -52,6 +52,7 @@ public class ShipController {
 	@Autowired
 	private CancelConditionService cancelConditionService;
 
+	@Autowired
 	private PeriodUnavailabilityService periodUnavailabilityService;
 
 	@Autowired
@@ -60,7 +61,18 @@ public class ShipController {
 	@Autowired
 	private ReservationService reservationService;
 
+	@Autowired
+	private AdditionalServicesService additionalServicesService;
+
+	@Autowired
+	private FishingEquipmentService fishingEquipmentService;
+
+	@Autowired
+	private ClientService clientService;
+
 	private OfferProcessing offerProcessing = new OfferProcessing();
+
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
@@ -298,5 +310,45 @@ public class ShipController {
 		ships = offerProcessing.searchShipsBy(ships, searchBy.getSearchBy());
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 		return new ResponseEntity<List<ShipForListViewDTO>>(shipsDTO, HttpStatus.OK);
+	}
+
+
+	@GetMapping(value = "/site/{id}")
+	public ResponseEntity<ShipProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
+		Ship c = shipService.findOne(id);
+		ShipProfileInfoDTO shipProfileInfoDTO = new ShipProfileInfoDTO(c);
+		shipProfileInfoDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+		shipProfileInfoDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+		shipProfileInfoDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+		shipProfileInfoDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		shipProfileInfoDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
+		return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/site/review/{id}")
+	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id) {
+		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReviewDTO> dto = new ArrayList<>();
+		for (ExperienceReview e : er) {
+			e.setClient(clientService.findOne(e.getClient().getId()));
+			dto.add(new ExperienceReviewDTO(e));
+		}
+		return ResponseEntity.ok(dto);
+	}
+
+
+	@GetMapping(value="/site/calendar/reservation/{id}")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+
+		Ship ship = shipService.findOne(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
+		for(Reservation r : reservations) {//////////////////STA je ovo
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), ship.getName());
+			reservationPeriods.add(period);
+		}
+
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
 	}
 }

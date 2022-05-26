@@ -3,7 +3,7 @@
 
     <clientHeader></clientHeader>
     <div class="row mt-2">
-      <div class="col-4  d-flex justify-content-center" style="border-style: solid; border-width: medium; background-color: #CDCDCD;">
+      <div class="col  d-flex justify-content-center" style="margin-left: 5%; border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div class=" mt-3">
           <disabledInputField :label="numLoyaltyPointsLabel" :info="client.loyaltyPoints"> </disabledInputField>
           <disabledInputField :label="userCategoryLabel" :info="client.userType"> </disabledInputField>
@@ -15,10 +15,7 @@
         </div>
       </div>
 
-      <div class="col-8" style="border-style: solid; border-width: medium;
-                                                background-color: #88BBD6;">
-        <div class="row" style="">
-          <div class="col-4 mt-3" style="margin-left: 10%;">
+          <div class="col mt-3" style="margin-left: 5%;">
             <div>
 
               <div class="p-2">
@@ -49,13 +46,19 @@
                 <p v-if="this.client.surname === ''" style="color: red;"> Broj telefona mora da postoji</p>
               </div>
 
+              <div class="p-2">
+
+                <changePasswordModal
+                    :index="buttonId" :header="changePassHeader" @input-new-password="changePassword"></changePasswordModal>
+              </div>
+
 
               <label id="emptyError" style="color: red; visibility: hidden; margin-top: 25%;"> {{message}}</label>
 
             </div>
           </div>
 
-          <div class="col-4  mt-3" style="margin-left: 10%;">
+          <div class="col mt-3" style="margin-left: 5%;">
             <div>
 
               <openLayers :lon="client.longitude" :lat="client.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 380px; visibility: visible"></openLayers>
@@ -66,8 +69,7 @@
               </div>
             </div>
         </div>
-        </div>
-      </div>
+
     </div>
   </div>
 </template>
@@ -77,9 +79,13 @@ import clientHeader from "@/components/client/clientHeader";
 import disabledInputField from "@/components/disabledInputField";
 import ClientServce from "@/servieces/ClientServce";
 import vueOpenLayerMap from "@/components/VueMaps";
+import PasswordService from "@/servieces/PasswordService";
+import changePasswordModal from "@/components/changePasswordModal";
+
 export default {
   name: "client-profile-change",
   components: {
+    changePasswordModal,
     clientHeader,
     disabledInputField,
     openLayers: vueOpenLayerMap
@@ -120,6 +126,22 @@ export default {
       }
   ,
   methods: {
+    changePassword(old_password, new_password){
+      this.coID = JSON.parse(localStorage.user).id;
+      this.passwords.old_password=old_password;
+      this.passwords.new_password = new_password;
+      PasswordService.matchPassword(this.passwords,this.coID)
+          .then((response)=>{
+                if(response.data){
+                  document.getElementById("successChange").style.visibility = 'visible';
+                }
+                else{
+                  document.getElementById("notSuccessChangePass").style.visibility = 'visible';
+                }
+              }
+          )
+      console.log(new_password);
+    },
     updateCoordinats(lon, lat){
       this.client.longitude = lon;
       this.client.latitude = lat;
@@ -177,8 +199,9 @@ export default {
   },
   data() {
     return {
+      buttonId : "changePass",
       changePass : "changePassword",
-      changePassHeader: "HEADER",
+      changePassHeader:"Promena lozinke",
 
       message: "Obavezne polje mora da postoje",
       errorMessage: "Obavezne polje mora da postoje",
@@ -210,8 +233,12 @@ export default {
         benefits: "",
         longitude: "",
         latitude: ""
-      }
+      },
 
+      passwords:{
+        old_password:"",
+        new_password:""
+      }
     }
   }
 }

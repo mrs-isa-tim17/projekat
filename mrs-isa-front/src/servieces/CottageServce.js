@@ -42,6 +42,13 @@ class CottageServce{
         return axios.post(COTTAGE_API_BASE_URL + "/search", searchBy);
 
     }
+    getCottage(cottageId){
+        return axios.get(COTTAGE_API_BASE_URL + "/" + cottageId);
+    }
+
+    getCottageReviews(offerId) {
+        return axios.get(COTTAGE_API_BASE_URL + "/review/" + offerId);
+    }
 }
 
 export default new CottageServce();

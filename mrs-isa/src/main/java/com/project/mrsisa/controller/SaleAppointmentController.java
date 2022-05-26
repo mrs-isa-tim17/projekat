@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aspectj.weaver.AnnotationNameValuePair;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.project.mrsisa.dto.client.SaleAppoinmentClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Address;
@@ -32,6 +37,11 @@ import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
 import com.project.mrsisa.service.PeriodUnavailabilityService;
 import com.project.mrsisa.service.ReservationService;
+import com.project.mrsisa.domain.SaleAppointment;
+import com.project.mrsisa.dto.SaleAppointmentDTO;
+import com.project.mrsisa.service.AdditionalServicesService;
+import com.project.mrsisa.service.AdventureService;
+import com.project.mrsisa.service.PeriodAvailabilitySerivce;
 import com.project.mrsisa.service.SaleAppointmentService;
 
 
@@ -124,5 +134,18 @@ public class SaleAppointmentController {
 		return false;
 		
 	}
-	
+
+
+	@GetMapping(value = "/quick/reservation/{id}")
+	@PreAuthorize("hasRole('CLIENT')")
+	public ResponseEntity<List<SaleAppoinmentClientDTO>> getSalesAppoinment(@PathVariable Long id){
+		List<SaleAppointment> saleAppointments = saleAppointmentService.findActiveByOfferId(id);
+		List<SaleAppoinmentClientDTO> saleAppointmentDTOs = new ArrayList<>();
+		for (SaleAppointment sa : saleAppointments){
+			sa.setAdditionalServices(additionalServicesService.findBySaleAppointmentId(sa.getId()));
+			saleAppointmentDTOs.add(new SaleAppoinmentClientDTO(sa));
+		}
+		return new ResponseEntity<List<SaleAppoinmentClientDTO>>(saleAppointmentDTOs, HttpStatus.OK);
+	}
+
 }

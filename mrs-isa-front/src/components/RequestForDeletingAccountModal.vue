@@ -3,7 +3,7 @@
   <div class="col-3 px-5" >
 
     <button id="delete" type="button" @click="openForm"  class="btn" data-bs-toggle="modal" :data-bs-target=modalId>
-      <div class="card-lg">
+      <div class="card-lg" style="min-width: 200px;">
         <div class="card-body">
           <img :src=image_path height="150">
         </div>
@@ -21,9 +21,10 @@
           </div>
           <div class="modal-body">
 
-            <textarea class="my-4" rows="4" cols="50" name="text" v-model="reason"></textarea>
+            <textarea class="my-4" style="width: 100%; min-height: 150px;" name="text" v-model="reason"></textarea>
           </div>
           <div class="modal-footer">
+            <p id="emptyError" style="visibility: hidden; color: red;">Ne može da se pošalje prazan zahtev</p>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
             <button type="button" class="btn btn-primary" @click="sendRequest">Pošalji</button>
           </div>
@@ -56,6 +57,11 @@ export default {
     },
     sendRequest(){
       this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+      if (this.reason === ""){
+        let p = document.getElementById('emptyError');
+        p.style.visibility= "visible";
+        return;
+      }
       let resObj = {
         reason: this.reason
       }

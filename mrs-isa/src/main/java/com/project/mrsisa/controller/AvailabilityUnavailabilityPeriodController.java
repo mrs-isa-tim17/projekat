@@ -95,7 +95,6 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 
 	@GetMapping(value="/availability/all/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
 		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);

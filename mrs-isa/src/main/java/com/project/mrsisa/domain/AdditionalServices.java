@@ -26,7 +26,7 @@ public class AdditionalServices {
 	
 	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
-	
+
 	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<SaleAppointment> saleAppointment;
 	
@@ -39,7 +39,6 @@ public class AdditionalServices {
 	
 	@Column(name="deleted", nullable=false)
 	private boolean deleted;
-	
 
 	public AdditionalServices() {
 		this.offer = new ArrayList<Offer>();
@@ -102,7 +101,6 @@ public class AdditionalServices {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
 	
 
 }
