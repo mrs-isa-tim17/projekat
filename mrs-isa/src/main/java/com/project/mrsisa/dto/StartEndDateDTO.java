@@ -3,8 +3,8 @@ package com.project.mrsisa.dto;
 import java.time.LocalDateTime;
 
 public class StartEndDateDTO {
-	private LocalDateTime start;
-	private LocalDateTime end;
+	private String start;
+	private String end;
 	private String title;
 	private String color;
 	
@@ -13,7 +13,7 @@ public class StartEndDateDTO {
 		
 	}
 	
-	public StartEndDateDTO(LocalDateTime startDate, LocalDateTime endDate, String eventName) {
+	public StartEndDateDTO(String startDate, String endDate, String eventName) {
 		super();
 		this.start = startDate;
 		this.end = endDate;
@@ -22,16 +22,16 @@ public class StartEndDateDTO {
 		
 	}
 	
-	public LocalDateTime getStart() {
+	public String getStart() {
 		return start;
 	}
-	public void setStart(LocalDateTime startDate) {
+	public void setStart(String startDate) {
 		this.start = startDate;
 	}
-	public LocalDateTime getEnd() {
+	public String getEnd() {
 		return end;
 	}
-	public void setEnd(LocalDateTime endDate) {
+	public void setEnd(String endDate) {
 		this.end = endDate;
 	}
 
@@ -51,4 +51,12 @@ public class StartEndDateDTO {
 		this.color = color;
 	}
 
+	@Override
+	public String toString() {
+		return "StartEndDateDTO [start=" + start + ", end=" + end + ", title=" + title + ", color=" + color + "]";
+	}
+
+	
+	
+	
 }

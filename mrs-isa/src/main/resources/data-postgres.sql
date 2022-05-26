@@ -74,21 +74,25 @@ insert into cottage (id, deleted,description, name, address_id, bed_quantity, ro
 insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
 	
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('wifi', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('kabanica', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('baterijska lampa', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('bazen', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('parking', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('kablovska TV', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('WiFi', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('društvene igre', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('besplatne pešačke ture', null, null);
-insert into additional_services (name, reservation_id, sale_appointment_id) values ('bicikli', null, null);
+insert into additional_services (name, reservation_id, price, deleted) values ('wifi', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('kabanica', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('baterijska lampa', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('bazen', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('parking', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('kablovska TV', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('WiFi', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('društvene igre', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('besplatne pešačke ture', null, 100, false);
+insert into additional_services (name, reservation_id, price, deleted) values ('bicikli', null, 100, false);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 1);
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 4);
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 9);
 insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (3, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 2);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 9);
+
 
 insert into behavior_rule (text) values ('zabranjeno pecanje');
 insert into behavior_rule (text) values ('zabranjeno pusenje');
@@ -351,6 +355,10 @@ insert into period_availability (start_date, end_date,  offer_id) values ('20.01
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
 insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
-insert into period_availability (start_date, end_date, offer_id) values ('01.05.2022.', '30.06.2022.', 2);
-insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022.', '06.06.2022.', 2);
+insert into period_availability (start_date, end_date, offer_id) values ('01.05.2022. 15:00', '30.06.2022. 15:00', 2);
+insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
+
+insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+insert into delete_request (status, text, user_id) values (0, 'Zelim da obrisem nalog.', 3);
+insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog.', 5);

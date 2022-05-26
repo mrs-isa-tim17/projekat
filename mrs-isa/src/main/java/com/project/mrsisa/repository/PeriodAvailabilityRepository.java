@@ -16,7 +16,7 @@ public interface PeriodAvailabilityRepository extends JpaRepository<PeriodAvaila
 
 
     @Transactional
-    @Query(value="SELECT * FROM period_availability p WHERE p.offer_id=?1", nativeQuery = true)
+    @Query(value="SELECT * FROM period_availability p WHERE p.offer_id=?1 order by start_date", nativeQuery = true)
     List<PeriodAvailability> getListOfAvailbilityForOffer(Long offer_id);
 
 }

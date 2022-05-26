@@ -138,7 +138,7 @@ export default {
       reportReservationText: "Popuni izveštaj o rezervacijama",
 
       requestForDeletingAccImgPath: require("@/assets/icons/requesForDelete.png"),
-      requestForDeletingAccAccLink: "...",
+      requestForDeletingAccAccLink: "/admin/delete/requests",
       requestForDeletingAccText: "Zahtevi za brisanje naloga",
 
       profileImgPath: require("@/assets/icons/profile.png"),

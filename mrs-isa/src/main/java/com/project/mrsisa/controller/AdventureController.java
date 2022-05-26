@@ -2,6 +2,7 @@ package com.project.mrsisa.controller;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,6 +87,9 @@ public class AdventureController {
 	
 	@Autowired
 	private UserService userService;
+	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 	
 
 	
@@ -209,9 +213,9 @@ public class AdventureController {
 		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.getAdventureHistoryReservation(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForAdventure(id);
 		for(Reservation r : reservations) {
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay(), r.getEndDate().atStartOfDay(), adventure.getName());
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
 			reservationPeriods.add(period);
 		}
 		

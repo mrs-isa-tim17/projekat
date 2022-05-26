@@ -88,7 +88,7 @@ public class RegistrationRequestService {
     private void sendMeesgeAboutRejectRegistration(String mail, String text) throws MessagingException, UnsupportedEncodingException {
         String subject = "Odobrenje registracije";
         String senderName = "BookerTeam";
-        String mailContent = "<p>Poštovani, odbijen je vaš zahtev za registraciju na Book sajtu.\n</p>" + " <p>Obrazloženje:/n</p>"
+        String mailContent = "<p>Poštovani, odbijen je vaš zahtev za registraciju na Book sajtu.\n</p>" + " <p>Obrazloženje:\n</p>"
          +text + "<br><br>" + senderName;
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
