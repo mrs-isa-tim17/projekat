@@ -18,7 +18,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-          <button type="button" class="btn btn-primary" @click="Accept">Prihvati</button>
+          <button type="button" class="btn btn-danger" @click="Accept">Prihvati</button>
           <button type="button" class="btn btn-primary" @click="Reject">Odbij</button>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default {
         confirmButtonColor:'#FECDA6'});
     },
     Accept() {
-      if (this.text === "") {
+      if (this.textDTO.text === "") {
         this.fireAlertOn("Unesite obrazloženje");
       }
       else {

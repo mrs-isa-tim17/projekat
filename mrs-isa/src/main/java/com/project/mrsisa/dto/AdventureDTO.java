@@ -94,19 +94,19 @@ public class AdventureDTO {
 			switch (cc.getDays()) {
 			case 5:
 				this.p1 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "% od ukupne cene rezervacije.");
 				break;
 			case 10:
 				this.p2 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "% od ukupne cene rezervacije.");
 				break;
 			case 15:
 				this.p3 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "% od ukupne cene rezervacije.");
 				break;
 			case 20:
 				this.p4 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "% od ukupne cene rezervacije.");
 				break;
 			default:
 				break;

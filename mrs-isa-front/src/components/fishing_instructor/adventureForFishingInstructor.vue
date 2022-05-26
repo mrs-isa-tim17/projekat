@@ -6,55 +6,57 @@
       <div class="col-7">
 
         <h1 align="left">{{ adventure.name }}</h1>
-
-        <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
-                    style="width: 300px; height: 380px; visibility: visible"></openLayers>
-
-        <h3 align="left" class="px-5"><em>{{ adventure.description }} </em></h3>
-
-        <div class="px-5">
+        <br>
+        <div class="row">
+          <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                      style="width: 750px; height: 380px;  visibility: visible"></openLayers>
+        </div>
+        <br>
+        <h3 align="left"><em>Opis: {{ adventure.description }} </em></h3>
+        <br>
+        <div>
           <images-carousel :image_paths=adventure.images></images-carousel>
         </div>
 
-
-        <h4 align="left" class="px-5"> cena: {{ adventure.price }} </h4>
-        <h4 align="left" class="px-5"> maksimalan broj osoba: {{ adventure.capacity }} </h4>
         <hr>
-        <h4 align="left" class="px-5"> Pravila ponašanja </h4>
-        <ul align="left" class="px-5">
+        <h4 align="left"> cena: {{ adventure.price }} </h4>
+        <h4 align="left"> maksimalan broj osoba: {{ adventure.capacity }} </h4>
+        <hr>
+        <h4 align="left"> Pravila ponašanja </h4>
+        <ul align="left">
           <li align="left" class="px-10" v-for="rule in adventure.behaviorRules" :key="rule">{{ rule }}</li>
         </ul>
         <hr>
 
-        <h4 align="left" class="px-5"> Pecaroška oprema </h4>
-        <ul align="left" class="px-5">
+        <h4 align="left"> Pecaroška oprema </h4>
+        <ul align="left">
           <li align="left" class="px-10" v-for="equipment in adventure.fishingEquipment" :key="equipment">
             {{ equipment }}
           </li>
         </ul>
         <hr>
 
-        <h4 align="left" class="px-5"> Dodatna oprema </h4>
-        <ul align="left" class="px-5">
+        <h4 align="left"> Dodatna oprema </h4>
+        <ul align="left">
           <li align="left" class="px-10" v-for="add in adventure.additionalServices" :key="add">
             {{ add }}
           </li>
         </ul>
         <hr>
 
-        <h4 align="left" class="px-5"> Uslovi otkaza </h4>
-        <ul align="left" class="px-5">
+        <h4 align="left"> Uslovi otkaza </h4>
+        <ul align="left">
           <li align="left" class="px-10" v-for="cancel in adventure.cancelConditions" :key="cancel">
             {{ cancel }}
           </li>
         </ul>
         <hr>
 
-        <h4 align="left" class="px-5">Biografija instruktora</h4>
-        <p align="left" class="px-5">{{ adventure.instructorBiography }}</p>
+        <h4 align="left">Biografija instruktora</h4>
+        <p align="left">{{ adventure.instructorBiography }}</p>
         <hr>
-        <h4 align="left" class="px-5"> Iskustva avanturista </h4>
-        <div align="left" class="px-5">
+        <h4 align="left"> Iskustva avanturista </h4>
+        <div align="left">
           <div align="left" border-style="solid" v-for="review in adventure.experienceReviews" :key="review">
             <em><p class="px-10">{{ review }}</p></em>
             <br/>
@@ -68,10 +70,8 @@
       </div>
 
       <div class="col">
-        <p>ovde kalendar</p>
         <calendar :key="calendarKey" :availability-period="this.availabilityPeriod"
                   :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></calendar>
-        <!--  Ovde posalji u props events  -->
         <br>
         <div class="row p-3">
           <div class="col-4">
@@ -103,37 +103,27 @@
               nedostupnosti
             </button>
           </div>
-
-          <div class="row p-3">
-            <div class="col-4">
-            </div>
-            <div class="col-4">
-
-            </div>
-            <div class="col-4">
-              <button class="btn btn-primary me-md-2" type="button" @click="ShowReservations">Prikaži rezervacije
-              </button>
-            </div>
+        </div>
+        <div class="row p-3">
+          <div class="col-8">
           </div>
-          <div class="row p-3">
-            <div class="col-4">
-            </div>
-            <div class="col-4">
-
-            </div>
-            <div class="col-4">
-              <actionModal :index="generateModalId(this.currentId)" :header="defineActionModalHeader"
-                           :adventure="this.adventure"
-                           :btnId="generateButtonId(this.currentId)" btnText="Definiši akciju"
-                           :key="this.key"></actionModal>
-
-            </div>
-
+          <div class="col-4">
+            <button class="btn btn-primary me-md-2" type="button" @click="ShowReservations">Rezervacije
+            </button>
           </div>
+        </div>
 
+        <div class="row p-3">
+          <div class="col-8">
+          </div>
+          <div class="col-4">
+            <actionModal :index="generateModalId(this.currentId)" :header="defineActionModalHeader"
+                         :adventure="this.adventure"
+                         :btnId="generateButtonId(this.currentId)" btnText="Definiši akciju"
+                         :key="this.key"></actionModal>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 
