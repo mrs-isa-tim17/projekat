@@ -3,8 +3,10 @@ package com.project.mrsisa.dto.cottage;
 import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.Image;
+import com.project.mrsisa.domain.Pricelist;
 import com.project.mrsisa.service.BehaviorRuleService;
 import com.project.mrsisa.service.PricelistService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,10 +23,11 @@ public class FindCottagesDTO {
     private String description;
     private boolean deleted;
     private List<String> images;
-    private List<String> additionalServices;
     private double price;
+    @Autowired
+    public PricelistService pricelistService;
 
-    public FindCottagesDTO(Cottage cottage, List<Image> imagesCottage, List<AdditionalServices> additionalServicesCottage) {
+    public FindCottagesDTO(Cottage cottage, List<Image> imagesCottage, double price) {
         this.roomQuantity=cottage.getRoomQuantity();
         this.bedQuantity=cottage.getBedQuantity();
         this.longitude = cottage.getAddress().getLongitude();
@@ -40,10 +43,9 @@ public class FindCottagesDTO {
             images.add(i.getPath());
         }
 
-        additionalServices = new ArrayList<String>();
-        for(AdditionalServices as : additionalServicesCottage){
-            this.additionalServices.add(as.getName());
-        }
+        this.price = price;
+
+
     }
 
     public int getRoomQuantity() {
@@ -126,13 +128,6 @@ public class FindCottagesDTO {
         this.images = images;
     }
 
-    public List<String> getAdditionalServices() {
-        return additionalServices;
-    }
-
-    public void setAdditionalServices(List<String> additionalServices) {
-        this.additionalServices = additionalServices;
-    }
 
     public double getPrice() {
         return price;

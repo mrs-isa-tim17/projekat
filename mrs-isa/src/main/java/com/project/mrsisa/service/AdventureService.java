@@ -2,6 +2,9 @@ package com.project.mrsisa.service;
 
 import java.util.List;
 
+import com.project.mrsisa.domain.Cottage;
+import com.project.mrsisa.domain.CottageOwner;
+import com.project.mrsisa.domain.FishingInstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +26,12 @@ public class AdventureService {
 	public List<Adventure> findAll(){
 		return adventureRepository.findAll();
 	}
-	
-	
+
+	public List<Adventure> getAdventuresByOwner(FishingInstructor owner){
+		return adventureRepository.findByOwnerId(owner.getId());
+	}
+
+
 	public Adventure findOneById(Long id) {
 		return adventureRepository.findOneById(id);
 	}

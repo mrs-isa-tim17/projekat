@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
@@ -63,7 +64,8 @@ public class AdventureController {
 	
 	@Autowired
 	private FishingEquipmentService fishingEquipmentService;
-	
+	@Autowired
+	private FishingInstructorService fishingInstructorService;
 	@Autowired
 	private CancelConditionService cancelConditionService;
 	
@@ -202,6 +204,21 @@ public class AdventureController {
 			adventureDTO.add(formAdventureDTO(adventure));
 		}
 
+		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/detail/all/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<AdventureDTO>> getAdventuresByOwner(@PathVariable Long id) {
+		FishingInstructor instructor = fishingInstructorService.findOne(id);
+		List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+
+		List<AdventureDTO> adventureDTO = new ArrayList<>();
+		System.out.println("avanture" + adventures.size());
+		for (Adventure adventure : adventures) {
+			adventureDTO.add(formAdventureDTO(adventure));
+			System.out.println("avanturaaaaaa" + adventure.getId() + adventure.getName());
+		}
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
 	

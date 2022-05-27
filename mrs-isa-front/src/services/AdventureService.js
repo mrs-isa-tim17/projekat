@@ -46,6 +46,11 @@ class AdventureService{
             headers: authHeader()
         });
     }
+    getAdventuresByOwner(ownerId){
+        return axios.get(ADVENTURE_API_BASE_URL+'all/' + ownerId,{
+            headers:authHeader()
+        });
+    }
 
 
 }

@@ -2,7 +2,7 @@
   <div  style="background-color: #31708E;color:white;">
     <div class="container ">
         <div style="text-align: left; font-size:30px;font-weight: bold;padding-left:1%;" >ENJOY.com</div>
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg navbar-light" aria-current="page" >
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -13,7 +13,7 @@
             <a class="nav-link" id="first" style="color:white;font-size: 20px;" aria-current="page" :href="myOffers">Moje ponude</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" style="color:white;font-size: 20px;" :href="calendar" >Kalendar</a>
+            <a class="nav-link" style="color:white;font-size: 20px;" :href="calendar" aria-current="page" >Kalendar</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>
@@ -22,7 +22,7 @@
             <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Brze rezervacije</a>
           </li>
           <li class="nav-item">
-            <NewReservations :header="reservationsHeader" :index="reservationsIndex"></NewReservations>
+            <NewReservations :header="reservationsHeader" :index="reservationsIndex" :key="newResKey"></NewReservations>
           </li>
         </ul>
         <div class="dropdown" >
@@ -48,12 +48,17 @@ import NewReservations from "@/components/cottage_owner/newReservations";
 export default {
   name: "client-header",
   components: {NewReservations},
+  created:
+    function (){
+    this.newResKey++;
+  },
   data() {
     return {
-      myOffers: "/owner/cottages",
+      myOffers: "/cottageOwner/home",
       editProfile: "/cottageOwner/profile",
       reservationsHeader:"Napravite novu rezervaciju",
-      reservationsIndex:"resId"
+      reservationsIndex:"resId",
+      newResKey:0
 
     }
   },
@@ -78,7 +83,5 @@ a{
   color: red;
 }
 
-.active{
-  border: 1px solid white;
-}
+
 </style>

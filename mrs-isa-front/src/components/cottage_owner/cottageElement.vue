@@ -1,67 +1,85 @@
 <template>
 
   <div class="d-flex justify-content-center mw-90" >
-    <div class="card mb-3 mw-90" style="width: 90%;">
-      <div class="row g-0" style="background-color: #31708E;color:#F7F9FB;">
+    <div class="card mb-3 mw-90" style="width: 80%;">
+      <div class="row g-0" style="background-color: whitesmoke;color:#31708E;border:2px solid #31708E;">
+
         <div class="col-4" style="float:left">
-          <img :src="require('@/assets/' + image)" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src="image" class="img-fluid p-2" @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
         <div class="col-8">
           <div class="row">
-          <div class="col-4">
-              <div class="card-body">
-                <h5 class="card-title" style="border:1px solid #687864;background-color:#687864">{{cottage.name}}</h5>
-                <div class="card-text" style="text-align: left;">
-                  <b>Kapacitet: </b>{{cottage.bedQuantity}} osoba<br>
-                  <b>Cena: </b>{{cottage.price}} din.<br>
-                  {{cottage.description}}
-                </div>
+            <div class="col-8">
+              <div style="font-size:26px;text-align:left;font-weight: bold;">{{cottage.name}}</div>
+            </div>
+            <div class="col-4">
+              zvezdice
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="col-6">
+            <div style="text-align:left;">
+              Adresa
+
+            </div>
+          </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8" style="text-align:left;">
+              {{cottage.description}}<br><br>
               </div>
-        </div>
-
+            <div class="col-4">
+              <b>Cena: </b>{{cottage.price}} din.
+            </div>
+          </div>
+        <br>
+          <div class="row">
+            <div class="col-4">
+              <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
+            </div>
+            <div class="col-4">
+              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :cottage="cottage"></deleteCottageModal>
+            </div>
           <div class="col-4">
-            <div class="card-body">
-
-              <bird-vue-map :index="cottage.id" style="width: 280px; height: 200px;" :lon="cottage.longitude" :lat="cottage.latitude"></bird-vue-map>
+            <div class="dropdown">
+              <button style="background-color: #687864;" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Istorija rezervacija
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button style="color:white" class="dropdown-item" @click="pastHistoryReservationsPage">Realizovane</button>
+                <button style="color:white" class="dropdown-item" @click="futureHistoryReservationsPage">Nerealizovane</button>
               </div>
             </div>
+          </div>
+            </div>
 
-            <div class="col-4">
-              <div class="card-body">
-              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :cottage="cottage"></deleteCottageModal>
-              <br>
-                <br>
-              <button @click="updateDataPage">Izmeni podatke</button><br><br>
-                <button @click="detailPage">Detalji</button>
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Istorija rezervacija
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item" @click="pastHistoryReservationsPage">Realizovane</button>
-                    <button class="dropdown-item" @click="futureHistoryReservationsPage">Nerealizovane</button>
-                  </div>
-                </div>
+
+
+
+
+
+
             </div>
         </div>
 
 
 </div>
     </div>
-        </div>
-</div>
-  </div>
+
+
+
 
 </template>
 
 <script>
 import $ from "jquery";
-import BirdVueMap from "@/components/main_site/birdVueMap";
 import deleteCottageModal from "@/components/cottage_owner/deleteCottageModal"
 export default {
   name: "cottageElement",
   props: ["cottage"],
-  components:{BirdVueMap,deleteCottageModal},
+  components:{deleteCottageModal},
   data(){
     return{
       updateId:"updateCottage",

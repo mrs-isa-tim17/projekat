@@ -1,5 +1,5 @@
 <template>
-  <button id="update" type="button" @click="openForm" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
+  <button id="update" style= "background-color: #687864;font-weight: bold;" type="button" @click="openForm" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
     <i class="fa fa-delete icon"></i> Izbriši vikendicu
   </button>
 

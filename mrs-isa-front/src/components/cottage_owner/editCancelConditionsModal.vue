@@ -1,5 +1,5 @@
 <template>
-  <button style="border:none;background:none;" @click="openForm" class="m-lg-2" data-bs-toggle="modal" :data-bs-target=modalId><i style="font-size: 24px;" class="fa fa-edit"></i></button>
+  <button style="border:none;background:none;" @click="openForm" class="m-lg-2" data-bs-toggle="modal" :data-bs-target=modalId><i style="font-size: 20px;" class="fa fa-edit"></i></button>
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="editNameModal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content"  style="background-color:#31708E;color:whitesmoke;" >

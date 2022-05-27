@@ -1,12 +1,12 @@
 <template>
   <div class="container" >
-    <ownerHeader></ownerHeader>
+
     <div class="row d-flex justify-content-center">
       <div class="col-8 d-flex justify-content-center">
     <div class="input-group mb-3 input-icons" >
       <i class="fa fa-search icon"></i><input placeholder="Pretraži po imenu..." type="search" class="input-field form-control" aria-label="Text input with dropdown button" v-model="search"  @keyup="filtered">
     </div>
-        <button class="btn-sm "  @click="addCottagePage"><i class="fa fa-home"></i> Dodaj novu vikendicu</button>
+        <button class="btn-sm" @click="addCottagePage"><i class="fa fa-home"></i> Dodaj novu vikendicu</button>
       </div>
     </div>
 
@@ -20,10 +20,10 @@
 <script>
 import cottageElement from "@/components/cottage_owner/cottageElement";
 import CottageService from "@/servieces/cottage_owner/CottageService";
-import ownerHeader from "@/components/cottage_owner/cottageOwnerHeader";
+
 export default {
   name: "cottageList",
-  components: {cottageElement, ownerHeader},
+  components: {cottageElement},
   data() {
 
     return {
@@ -51,7 +51,7 @@ export default {
             .then((response) => {
               if(!this.search) {
                 this.allCottages = response.data;
-
+                console.log(this.allCottages);
               }
               else{
                 console.log(response.data);

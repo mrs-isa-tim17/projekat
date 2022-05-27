@@ -1,9 +1,10 @@
 <template>
-  <div id="instructor-home-page">
-    <instructor-header></instructor-header>
-    <div class="container">
+  <instructor-header></instructor-header>
 
-      <div class="row justify-content-center">
+
+    <div class="container p-3">
+    <allInstructorsAdventures></allInstructorsAdventures>
+      <!--<div class="row justify-content-center">
         <instructorHomePageOption :image_path="adventureImgPath" :option_link="adventureLink"
                                   :text="adventureText"></instructorHomePageOption>
 
@@ -41,21 +42,24 @@
                                             :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"></request-for-deleting-account-modal>
 
       </div>
-    </div>
+    </div>-->
   </div>
+
 </template>
 
 <script>
-import instructorHomePageOption from "@/components/homePageOption";
+//import instructorHomePageOption from "@/components/homePageOption";
 import instructorHeader from "@/components/insrtuctorHeader";
-import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
+//import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
+import allInstructorsAdventures from "@/components/fishing_instructor/allInstructorsAdventures";
 
 export default {
   name: "instructor-home",
   components: {
-    RequestForDeletingAccountModal,
-    instructorHomePageOption,
-    instructorHeader
+    //RequestForDeletingAccountModal,
+    //instructorHomePageOption,
+    instructorHeader,
+    allInstructorsAdventures
   },
   data() {
     return {
@@ -74,7 +78,6 @@ export default {
       fastReservationImgPath: require("@/assets/icons/sale.png"),
       fastReservationLink: "...",
       fastReservationText: "Brze rezervacije",
-
 
       reserveImgPath: require("@/assets/icons/reserve.png"),
       reserveLink: "...",

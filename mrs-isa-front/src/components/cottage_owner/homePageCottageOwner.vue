@@ -1,16 +1,16 @@
 <template>
   <ownerHeader></ownerHeader>
-<div class="container">
-
-
+<div class="container p-3">
+<cottage-list></cottage-list>
 </div>
 </template>
 
 <script>
 import ownerHeader from "@/components/cottage_owner/cottageOwnerHeader";
+import CottageList from "@/components/cottage_owner/cottageList";
 export default {
   name: "cottageOwnerHome",
-  components:{ ownerHeader}
+  components:{CottageList, ownerHeader}
 }
 </script>
 

@@ -8,7 +8,7 @@
        <experience-reviews-modal :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.cottage"></experience-reviews-modal><br><br>
 
       </div>
-      <div class="col-sm-8 align-content-center " >
+      <div class="col-sm-8 align-content-center" >
         <div >
         <p style="font-size:30px;display: inline-block">{{cottage.name}}   </p>
        <edit-offer-name-modal :index="editName" :header="editNameHeader" :name="cottage.name" @edit-name="editOfferName"></edit-offer-name-modal>
@@ -21,18 +21,20 @@
         ></lightbox>-->
         <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>
       </div>
-      <div class="row">
-        <div class="col-5 mt-3" style="text-align: left">
+      <div class="row  mt-3">
+        <div class="col-5" style="text-align: left">
          <p style="font-size:20px;display: inline-block;">{{cottage.description}}</p>
-         <edit-offer-description :header="editDescHeader" :index="editDesc" :description="cottage.description" @edit-description="editDescription"></edit-offer-description>
         </div>
-        <div class="col-sm-2 mt-3">
+          <div class="col-1">
+         <edit-offer-description :header="editDescHeader" :index="editDesc" :description="cottage.description" @edit-description="editDescription"></edit-offer-description>
+          </div>
+
+        <div class="col-6">
           <bird-vue-map :index="cottage.id" :lon="cottage.longitude" :lat="cottage.latitude" style="width: 200px;height:150px;"></bird-vue-map>
         </div>
       </div>
         <br>
-        <br>
-        <div style="text-align: left;font-size: 20px;"><b>Dodatne usluge</b>
+        <div style="text-align: left;font-size: 20px;text-decoration: underline;"><b>Dodatne usluge</b>
           <edit-offer-services-modal :servicesList="this.cottage.additionalServices" :header="editServHeader" :index="editServ" @edit-services="editServices"></edit-offer-services-modal>
           <br>
             <div class="" style="display: inline-block;" v-for="(s,i) in this.cottage.additionalServices" :key="i">
@@ -74,9 +76,12 @@
         <div style="font-size: 28px;"> {{cottage.price}} din/noć
         <edit-price-modal :header="editPriceHeader" :index="editPriceIndex" :price="cottage.price" @edit-price="editPrice" ></edit-price-modal>
         </div>
-          <div class="mt-5 justify-content-center" style="border:2px solid">
-        <p style="font-weight: bold;color:red;">Uslovi otkazivanja rezervacije</p>
-        <edit-cancel-conditions-modal :key="ccKey" :header="editCCHeader" :index="editCCIndex" :offer="cottage" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal>
+          <div class="row mt-5 justify-content-center" style="border:2px solid">
+
+        <div class="col-8" style="font-weight: bold;color:red;">Uslovi otkazivanja rezervacije</div>
+            <div class="col-4">
+            <edit-cancel-conditions-modal :key="ccKey" :header="editCCHeader" :index="editCCIndex" :offer="cottage" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal></div>
+         <br>
           <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d1}} dana pre početka, mora se uplatiti {{this.p1}}% od ukupne cene rezervacije.</p>
         <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d2}} dana pre početka, mora se uplatiti {{this.p2}}% od ukupne cene rezervacije.</p>
         <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d3}} dana pre početka, mora se uplatiti {{this.p3}}% od ukupne cene rezervacije.</p>
@@ -317,7 +322,7 @@ export default {
 <style scoped>
 #images{
   border:1px solid black;
-  width:600px;
+  width:650px;
   height:400px;
 }
 

@@ -70,8 +70,6 @@ public class CottageController {
 	@Autowired
 	private ComplaintService complaintService;
 
-
-
 	private OfferProcessing offerProcessing = new OfferProcessing();
 
 	@Autowired
@@ -175,8 +173,8 @@ public class CottageController {
 		List<FindCottagesDTO> cottageDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
-			 cottageDTO.add(new FindCottagesDTO(c,images, additionalServices));
+			 double price = pricelistService.findOffersCurrentPriceById(c.getId()).getPrice();
+			 cottageDTO.add(new FindCottagesDTO(c,images, price));
 		}
 
 		return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
@@ -219,8 +217,8 @@ public class CottageController {
 		
 		for (Cottage c : cottages) {
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
-			 cottagesDTO.add(new FindCottagesDTO(c,images,additionalServices));
+			 double price = pricelistService.getCurrentPriceOfOffer(c.getId());
+			 cottagesDTO.add(new FindCottagesDTO(c,images,price));
 
 		}
 		return new ResponseEntity<>(cottagesDTO, HttpStatus.OK);
