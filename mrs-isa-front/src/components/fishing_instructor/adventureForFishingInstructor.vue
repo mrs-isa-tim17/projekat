@@ -83,7 +83,7 @@
             <Datepicker v-model="availabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodAvailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodAvailability">Definiši period
               dostupnosti
             </button>
           </div>
@@ -99,7 +99,7 @@
             <Datepicker v-model="unavailabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodUnavailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodUnavailability">Definiši period
               nedostupnosti
             </button>
           </div>

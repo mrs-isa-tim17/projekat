@@ -125,7 +125,7 @@ export default {
 
       usersImgPath: require("@/assets/icons/users.png"),
       usersText: 'Korisnici',
-      usersLink: '...',
+      usersLink: '/admin/users',
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
       penaltyText: "Penali",
