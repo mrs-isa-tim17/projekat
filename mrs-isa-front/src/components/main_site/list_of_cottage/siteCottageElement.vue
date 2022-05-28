@@ -48,7 +48,6 @@ export default {
   props: ["cottage"],
   methods:{
     goToOffer(){
-      console.log('/'+this.cottage.id);
       this.$router.push('/book/cottage/site/'+this.cottage.id);
     },
   },

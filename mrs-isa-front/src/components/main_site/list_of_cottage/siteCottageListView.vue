@@ -25,7 +25,8 @@
           <option value="2">Location</option>
           <option value="3">Ocena</option>
           <option value="4">Cena</option>
-          <option value="5">Kapacitet</option>
+          <option value="5">Broj kreveta</option>
+          <option value="6">Broj soba</option>
         </select>
       </div>
     </div>
@@ -36,7 +37,7 @@
       <site-cottage-search-nav @filter="filterCottages"></site-cottage-search-nav>
     </div>
     <div class="col">
-      <site-cottage-list :cottages="cottages" :listLength="listLength" :key="cottagesKey"></site-cottage-list>
+      <site-cottage-list :fromElement="fromElement" :numberOfElementsForDisplay="numberOfElementsForDisplay" @get-list-from="getCottageList" :cottages="cottages" :listLength="listLength" :key="cottagesKey"></site-cottage-list>
     </div>
   </div>
 
@@ -53,12 +54,7 @@ export default {
   components: {ClientHeader, BasicHeader, SiteCottageList, SiteCottageSearchNav},
   created:
       function () {
-        cottageServce.getCottages().then(
-            (response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-            }
-        )
+        this.getCottageList(0);
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -75,67 +71,67 @@ export default {
 
       },
   methods: {
+    getCottageList(fromElement){
+      if (isNaN(fromElement)) {
+        fromElement = 0;
+      }
+      this.callFilterCottages(fromElement);
+    },
     searchCottages(){
       let searchByInput = document.getElementById("searchInput").value;
-      let searchParam = {
-        searchBy: searchByInput
-      }
-      cottageServce.search(searchParam)
-          .then(response =>{
-            this.cottages = response.data;
-            this.listLength = this.cottages.length;
-            this.forceRemounting();
-          })
+      this.filterDto.searchBy = searchByInput;
+      this.searchBy = searchByInput;
+      this.callFilterCottages(0);
+    },
+    callFilterCottages(fromElement){
+      this.fromElement = fromElement;
+      cottageServce.filterCottages(this.filterDto, fromElement, this.numberOfElementsForDisplay)
+          .then((response) => {
+                let listLengthObj = response.data[0];
+                this.listLength = listLengthObj.listSize;
+                if (this.listLength > 0)
+                  this.cottages = response.data.slice(1);
+                this.cottagesKey += 1;
+              }
+          )
     },
     sortList(){
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 1){
-        cottageServce.sortCottageListByName(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "name";
+        this.callFilterCottages(0);
       } else if (sortBy == 2){
-        cottageServce.sortCottageListByLocation(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "location";
+        this.callFilterCottages(0);
       }else if (sortBy == 3){
-        cottageServce.sortCottageListByRating(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "rating";
+        this.callFilterCottages(0);
       }else if (sortBy == 4){
-        cottageServce.sortCottageListByPrice(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "price";
+        this.callFilterCottages(0);
       }else if (sortBy == 5){
-        cottageServce.sortCottageListByNumberOfBeds(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "beds";
+        this.callFilterCottages(0);
       }else if (sortBy == 6){
-        cottageServce.sortCottageListByNumberOfRooms(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "rooms";
+        this.callFilterCottages(0);
+      }else {
+        this.filterDto.sortBy="";
       }
     },
     filterCottages(filterDto){
-      console.log(filterDto);
       filterDto.searchBy = this.searchBy;
-      cottageServce.filterCottages(filterDto)
+      filterDto.sortBy = this.filterDto.sortBy;
+      this.filterDto = filterDto;
+      cottageServce.filterCottages(this.filterDto, 0, this.numberOfElementsForDisplay)
           .then((response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-              this.cottagesKey++;
-              localStorage.cottage = JSON.stringify(filterDto);
+            let listLengthObj = response.data[0];
+            this.listLength = listLengthObj.listSize;
+            if (this.listLength > 0)
+              this.cottages = response.data.slice(1);
+            this.fromElement = 0;
+            this.cottagesKey += 1;
+            localStorage.cottage = JSON.stringify(filterDto);
               }
           )
     },
@@ -149,11 +145,31 @@ export default {
     return {
       cottages: [],
       listLength: 0,
+
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
+
       cottagesKey: 1,
-      searchBy: ""
+      filterDto: {
+        longitude: 0,
+        latitude: 0,
+        dateFrom: "",
+        dateUntil: "",
+        ratingRelOp: "",
+        rating: "",
+        roomsRelOp: "",
+        numberOfRooms: "",
+        bedsRelOp: "",
+        numberOfBed: "",
+        priceRelOp: "",
+        price: "",
+        searchBy: "",
+        sortBy: ""
+      },
+      searchBy: "",
+      numberOfElementsForDisplay: 2,
+      fromElement: 0
     }
   }
 }

@@ -2,7 +2,7 @@ package com.project.mrsisa.dto.simple_user;
 
 import com.project.mrsisa.domain.Cottage;
 
-public class CottageForListViewDTO {
+public class CottageForListViewDTO extends SizeOfListDTO{
 
     private int roomQuantity;
     private int bedQuantity;

@@ -3,7 +3,7 @@ package com.project.mrsisa.dto.simple_user;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class CottageFilterParamsDTO {
+public class CottageFilterParamsDTO extends PaginationDTO{
     private double longitude;
     private double latitude;
     private LocalDateTime dateFrom;
@@ -17,6 +17,15 @@ public class CottageFilterParamsDTO {
     private String priceRelOp;
     private double price;
     private String searchBy;
+    private String sortBy;
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
 
     public CottageFilterParamsDTO() {
     }
