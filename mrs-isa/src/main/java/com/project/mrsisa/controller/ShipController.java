@@ -314,14 +314,14 @@ public class ShipController {
 
 
 	@GetMapping(value = "/site/{id}")
-	public ResponseEntity<ShipProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
+	public ResponseEntity<ShipProfileInfoDTO> getShipDisplayForProfile(@PathVariable long id) {
 		Ship c = shipService.findOne(id);
 		ShipProfileInfoDTO shipProfileInfoDTO = new ShipProfileInfoDTO(c);
 		shipProfileInfoDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
 		shipProfileInfoDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
 		shipProfileInfoDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
 		shipProfileInfoDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.SHIP));
 		shipProfileInfoDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
 		return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
 	}

@@ -25,7 +25,10 @@ public class SaleAppointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Version
+	private Integer version;
+
 	@Column(nullable=false)
 	private LocalDateTime startSaleDate;
 	
@@ -52,6 +55,9 @@ public class SaleAppointment {
 
 	@Column(nullable = false)
 	private boolean reserved;
+
+	@Column(nullable = false)
+	private OfferType offerType;
 
 	public LocalDateTime getStartSaleDate() {
 		return startSaleDate;
@@ -108,5 +114,21 @@ public class SaleAppointment {
 
 	public void setReserved(boolean reserved) {
 		this.reserved = reserved;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
 	}
 }

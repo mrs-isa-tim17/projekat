@@ -427,12 +427,13 @@ public class CottageController {
 		return new ResponseEntity<CottageProfileInfoDTO>(cottageDTO, HttpStatus.OK);
 	}
 
+
 	@GetMapping(value = "/site/review/{id}")
 	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromCottage(@PathVariable long id) {
 		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
 		List<ExperienceReviewDTO> dto = new ArrayList<>();
 		for (ExperienceReview e : er) {
-			e.setClient(clientService.findOne(e.getClient().getId()));
+			//e.setClient(clientService.findOne(e.getClient().getId()));
 			dto.add(new ExperienceReviewDTO(e));
 		}
 		return ResponseEntity.ok(dto);

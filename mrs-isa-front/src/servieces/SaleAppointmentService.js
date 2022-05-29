@@ -17,5 +17,11 @@ class SaleAppointmentService{
             headers: authHeader()
         });
     }
+
+    reserveSaleAppointment(reserveObj){
+        return axios.post(SALE_APPOINTMENT_API_BASE_URL + "/quick/reserve", reserveObj, {
+            headers: authHeader()
+        });
+    }
 }
 export default new SaleAppointmentService();

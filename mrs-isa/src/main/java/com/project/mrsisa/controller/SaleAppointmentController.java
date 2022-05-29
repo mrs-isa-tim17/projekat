@@ -5,6 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
+import com.project.mrsisa.dto.client.SuccessResponseDTO;
+import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import org.aspectj.weaver.AnnotationNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +47,8 @@ import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
 import com.project.mrsisa.service.SaleAppointmentService;
+
+import javax.mail.MessagingException;
 
 
 @RestController
@@ -148,4 +154,31 @@ public class SaleAppointmentController {
 		return new ResponseEntity<List<SaleAppoinmentClientDTO>>(saleAppointmentDTOs, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/quick/reserve")
+	@PreAuthorize("hasRole('CLIENT')")
+	public ResponseEntity<SuccessResponseDTO> reserveSaleAppointment(@RequestBody ReserveSaleAppointmentRequestDTO dto){
+		SuccessResponseDTO res = new SuccessResponseDTO();
+		try {
+			saleAppointmentService.reserveSaleAppointment(dto);
+			res.setSuccessful(true);
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (ObjectOptimisticLockingFailureException e){
+			res.setSuccessful(false);
+			res.setExplanation("Ups, neko je stigao pre Vas");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		} catch (MessagingException me){
+			res.setSuccessful(false);
+			res.setExplanation("Izvinjavamo se, imamo problem sa slanjem mejla. Jeste li sigurni da ste dali ispravan mejl?");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (TooHighPenaltyNumber th){
+			res.setSuccessful(false);
+			res.setExplanation(th.getMessage());
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (Exception e){
+			res.setSuccessful(false);
+			res.setExplanation("Došlo je do greške, probajte da rezervišete malo kasnije");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}
+
+	}
 }

@@ -88,9 +88,9 @@ INSERT INTO ROLE (name) VALUES ('ROLE_FISHINSTRUCTOR');
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id,
 	penalty_number, enabled) values
-	('CL', nextval('user_seq'), false, 'marko.markovi@example.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	('CL', nextval('user_seq'), false, 'erdelji.violeta@gmail.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07', 1,
-	0, true);
+	3, true);
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
@@ -406,8 +406,8 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
     (false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2, false); 
      
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1, false);
 
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
 insert into registration_request (registration_type, status, user_id) values (1, 0, 4);
@@ -456,10 +456,10 @@ insert into experience_review (rate, status, text, client_id, offer_id, offer_ty
 insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
 insert into period_unavailability (start_date, end_date, offer_id) values ('15.05.2022','25.05.2022',7);
 
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('27.05.2022', 5, 4, 1, 4500, 20, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('01.06.2022', 3, 4, 1, 3500, 21, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('27.05.2022', 5, 4, 1, 4500, 20, false, 0, 1);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('01.06.2022', 3, 4, 1, 3500, 21, false, 0, 1);
 
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 2);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 4);
@@ -468,14 +468,14 @@ insert into additional_services_sale_appointment (sale_appointment_id, additiona
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
 
 
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('27.05.2022', 4, 4, 7, 4500, 22, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('01.06.2022', 5, 4, 7, 3500, 23, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('30.05.2022', 2, 4, 7, 1000, 24, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('03.06.2022', 3, 4, 7, 1200, 25, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('27.05.2022', 4, 4, 7, 4500, 22, false, 1,1);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('01.06.2022', 5, 4, 7, 3500, 23, false, 1,1);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('30.05.2022', 2, 4, 7, 1000, 24, false, 1,1);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('03.06.2022', 3, 4, 7, 1200, 25, false, 1,1);
 
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (3, 2);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (4, 4);
@@ -483,10 +483,10 @@ insert into additional_services_sale_appointment (sale_appointment_id, additiona
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (5, 5);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (2, 6);
 
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('30.05.2022', 2, 4, 2, 1000, 26, false);
-insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved) values
-    ('03.06.2022', 3, 4, 2, 1200, 27, false);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('30.05.2022', 2, 4, 2, 1000, 26, false, 2,1);
+insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
+    ('03.06.2022', 3, 4, 2, 1200, 27, false, 2,1);
 
 
 insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',2);

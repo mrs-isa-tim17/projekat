@@ -33,12 +33,12 @@
           </tr>
           <tr>
             <td>Cena: </td>
-            <td>{{offer.price}}</td>
+            <td>{{parseFloat(offer.price).toFixed(2)}}</td>
           </tr>
           <tr>
             <td>Ocena: </td>
             <td v-show="offer.rating > 0">
-              {{ offer.rating }}
+              {{ parseFloat(offer.rating).toFixed(2) }}
               <img class="mb-2" style="width: 20px;height: 18px;" src="/Star_icon_stylized.svg.png">
             </td>
             <td v-show="offer.rating <= 0">nema ocenu</td>

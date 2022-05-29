@@ -531,7 +531,7 @@ public class AdventureController {
 		adventuresDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
 		adventuresDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
 		adventuresDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.ADVENTURE));
 		adventuresDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
 		return new ResponseEntity<AdventureProfileInfoDTO>(adventuresDTO, HttpStatus.OK);
 	}
