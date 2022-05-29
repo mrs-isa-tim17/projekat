@@ -40,7 +40,7 @@
               <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
             </div>
             <div class="col-4">
-              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :cottage="cottage"></deleteCottageModal>
+              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :offer="cottage" :button_name="btnDeleteName"></deleteCottageModal>
             </div>
           <div class="col-4">
             <div class="dropdown">
@@ -54,17 +54,8 @@
             </div>
           </div>
             </div>
-
-
-
-
-
-
-
             </div>
         </div>
-
-
 </div>
     </div>
 
@@ -75,7 +66,7 @@
 
 <script>
 import $ from "jquery";
-import deleteCottageModal from "@/components/cottage_owner/deleteCottageModal"
+import deleteCottageModal from "@/components/owner/deleteOfferModal"
 export default {
   name: "cottageElement",
   props: ["cottage"],
@@ -85,7 +76,8 @@ export default {
       updateId:"updateCottage",
       image:"",
       DeleteHeader:"Brisanje vikendice",
-      deleteId:"deleteCottage"
+      deleteId:"deleteCottage",
+      btnDeleteName:"Obriši vikendicu"
 
     }
   },

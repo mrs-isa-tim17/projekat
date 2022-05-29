@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import cottageOwnerFutureReservationsElement from "@/components/cottage_owner/cottageOwnerFutureReservationsElement";
-import ownerHeader from "@/components/cottage_owner/cottageOwnerHeader";
+import cottageOwnerFutureReservationsElement from "@/components/owner/cottage_owner/cottageOwnerFutureReservationsElement";
+import ownerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
 import ReservationService from "@/servieces/ReservationService";
 
 

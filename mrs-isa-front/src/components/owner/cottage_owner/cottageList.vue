@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import cottageElement from "@/components/cottage_owner/cottageElement";
+import cottageElement from "@/components/owner/cottage_owner/cottageElement";
 import CottageService from "@/servieces/cottage_owner/CottageService";
 
 export default {

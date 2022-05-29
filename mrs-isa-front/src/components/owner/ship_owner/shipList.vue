@@ -1,6 +1,6 @@
 <template>
   <div class="container" >
-    <shipOwnerHeader></shipOwnerHeader>
+
   <div class="row d-flex justify-content-center">
     <div class="col-8 d-flex justify-content-center">
       <div class="input-group mb-3 input-icons" >
@@ -16,12 +16,11 @@
 </template>
 
 <script>
-import shipElement from "@/components/ship_owner/shipElement";
+import shipElement from "@/components/owner/ship_owner/shipElement";
 import ShipService from "@/servieces/ship_owner/ShipService";
-import shipOwnerHeader from "@/components/ship_owner/shipOwnerHeader";
 export default {
   name: "shipList",
-  components:{shipElement,shipOwnerHeader},
+  components:{shipElement},
   data(){
 
     return {

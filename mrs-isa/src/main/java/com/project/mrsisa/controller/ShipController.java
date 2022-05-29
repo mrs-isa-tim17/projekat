@@ -9,6 +9,7 @@ import java.util.List;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.StartEndDateDTO;
+import com.project.mrsisa.dto.ship.FindShipsByOwnerDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.dto.simple_user.*;
@@ -83,18 +84,18 @@ public class ShipController {
 
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('SHIP_OWNER')")
-    public ResponseEntity<List<FindShipDTO>> getShipsByOwner(@PathVariable Long id) {
+    public ResponseEntity<List<FindShipsByOwnerDTO>> getShipsByOwner(@PathVariable Long id) {
         ShipOwner owner = shipOwnerService.findOne(id);
         List<Ship> ships = shipService.getShipsByOwner(owner);
 
-        List<FindShipDTO> shipsDTO = new ArrayList<>();
+        List<FindShipsByOwnerDTO> shipsDTO = new ArrayList<>();
 
 
         for (Ship s : ships) {
-            List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(s.getId());
+
             List<Image> images = imageService.findAllByOfferId(s.getId());
-            List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(s.getId());
-            shipsDTO.add(new FindShipDTO(s,images,rules,cancelConditions));
+         	double price = pricelistService.getCurrentPriceOfOffer(s.getId());
+            shipsDTO.add(new FindShipsByOwnerDTO(s,images,price));
         }
         return new ResponseEntity<>(shipsDTO, HttpStatus.OK);
     }

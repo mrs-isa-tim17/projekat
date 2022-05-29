@@ -82,7 +82,7 @@
 
 <script>
 import changePasswordModal from "@/components/changePasswordModal";
-import cottageOwnerHeader from "@/components/cottage_owner/cottageOwnerHeader";
+import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
 import OpenMaps from "@/components/VueMaps";
 import disabledInputField from "@/components/disabledInputField";
 import deleteAccountModal from "@/components/deleteAccountModal"

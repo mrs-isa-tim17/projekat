@@ -36,4 +36,19 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value="select * from reservation r where r.offer_id = ?1 and DATE(NOW()) between r.start_date and r.end_date;", nativeQuery = true)
     List<Reservation> findCurrentReservationsForOffer(Long id);
 
+    @Transactional
+    @Query(value="select * from reservation r where r.offer_id = ?1 and EXTRACT(MONTH FROM r.start_date) = ?2 and EXTRACT(YEAR FROM r.start_date) = ?3",nativeQuery = true)
+    List<Reservation> getAllReservationsForMonthAndYear(Long id,int month, int year);
+
+    @Transactional
+    @Query(value="select * from reservation r where r.offer_id=?1 and r.start_date between DATE(NOW())-interval '1 month' and DATE(NOW());",nativeQuery = true)
+    List<Reservation> getAllReservationsForMonth(Long id);
+
+    @Transactional
+    @Query(value="select * from reservation r where r.offer_id=?1 and r.start_date between DATE(NOW())-interval '7 days' and DATE(NOW());",nativeQuery = true)
+    List<Reservation> getAllReservationsForWeek(Long id);
+
+    @Transactional
+    @Query(value="select * from reservation r where r.offer_id=?1 and r.start_date between CAST(?2 AS TIMESTAMP) and CAST(?3 AS TIMESTAMP)",nativeQuery = true)
+    List<Reservation> getAllReservationsForPeriod(Long id,String start, String end);
 }

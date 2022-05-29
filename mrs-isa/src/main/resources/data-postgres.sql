@@ -358,7 +358,12 @@ insert into image (path, offer_id) values ('/img/instructor/maxresdefault.jpg', 
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1,false);
-
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '28.04.2022', 0, 4000, false, false, '30.04.2022.', 1, 1,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+        (false, '15.05.2022', 0, 4000, false, false, '20.05.2022.', 1, 1,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+            (false, '10.05.2022', 0, 4000, false, false, '12.05.2022.', 1, 1,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4,false);
 

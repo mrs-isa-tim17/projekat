@@ -47,7 +47,7 @@
 <script>
 import clientProfile from "@/components/client/clientProfile";
 import ClientServce from "@/servieces/ClientServce";
-import reservationReport from "@/components/cottage_owner/reservationReport";
+import reservationReport from "@/components/owner/cottage_owner/reservationReport";
 export default {
   name: "shipOwnerPastReservationsElement",
    props: ["reservation"],
