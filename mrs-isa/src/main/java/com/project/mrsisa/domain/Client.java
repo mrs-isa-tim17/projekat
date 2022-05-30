@@ -4,13 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorValue("CL")
@@ -24,8 +18,9 @@ public class Client extends User {
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ClientReview> clientReviews;
 	
-	@ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
-	private List<Offer> subscriptions;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "subscriptions", inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
+	private List<Offer> subscriptions;//client je vlasnik veze
 	
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> futureReservations;

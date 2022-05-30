@@ -138,4 +138,13 @@ public class ClientController {
 
         return new ResponseEntity<>(current,HttpStatus.OK);
     }
+
+    @GetMapping("/subscribed/{clientId}/{offerId}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Boolean> getIfSubscribed(@PathVariable Long clientId, @PathVariable Long offerId){
+        if (clientService.findIfSubscribed(clientId, offerId))
+            return ResponseEntity.ok(true);
+        return ResponseEntity.ok(false);
+    }
+
 }
