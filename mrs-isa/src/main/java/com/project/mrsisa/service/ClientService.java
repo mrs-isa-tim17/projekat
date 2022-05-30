@@ -1,17 +1,24 @@
 package com.project.mrsisa.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Offer;
-import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.converter.LocalDateTimeToString;
+import com.project.mrsisa.domain.*;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.repository.ClientRepository;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class ClientService {
@@ -25,6 +32,12 @@ public class ClientService {
 	@Autowired
 	private AdventureService adventureService;
 
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	@Autowired
+	private Environment env;
+
 	@Transactional
     public void subscribeToOffer(Long clientId, Long offerId) {
 		Client c = clientRepository.findById(clientId).orElse(null);
@@ -35,7 +48,6 @@ public class ClientService {
 		try {
 			Offer cottage = cottageService.findOne(offerId);
 			subs.add(cottage);
-			System.out.println("cottage");
 		}catch (NullPointerException npe){
 
 		}
@@ -43,7 +55,6 @@ public class ClientService {
 			Offer ship = shipService.findOne(offerId);
 			if (ship != null) {
 				subs.add(ship);
-				System.out.println("ship");
 			}
 		}catch (NullPointerException npe){
 
@@ -52,12 +63,10 @@ public class ClientService {
 			Offer adventure = adventureService.findOneById(offerId);
 			if (adventure != null) {
 				subs.add(adventure);
-				System.out.println("adventure");
 			}
 		}catch (NullPointerException npe){
 
 		}
-		System.out.println("nothing?");
 
 		c.setSubscriptions(subs);
 		save(c);
@@ -95,7 +104,6 @@ public class ClientService {
 		List<Offer> subs = cottageService.findAllByClientId(clientId);
 		subs.addAll(shipService.findAllByClientId(clientId));
 		subs.addAll(adventureService.findAllByClientId(c));
-		//clientRepository.findAllBySubscriptionsId(offerId).size();
 		for(Offer o : subs){
 			System.out.println(o.getId());
 			if (o.getId() == offerId){
@@ -115,7 +123,6 @@ public class ClientService {
 		try {
 			Offer cottage = cottageService.findOne(offerId);
 			subs.remove(cottage);
-			System.out.println("cottage");
 		}catch (NullPointerException npe){
 
 		}
@@ -123,7 +130,6 @@ public class ClientService {
 			Offer ship = shipService.findOne(offerId);
 			if (ship != null) {
 				subs.remove(ship);
-				System.out.println("ship");
 			}
 		}catch (NullPointerException npe){
 
@@ -132,15 +138,45 @@ public class ClientService {
 			Offer adventure = adventureService.findOneById(offerId);
 			if (adventure != null) {
 				subs.remove(adventure);
-				System.out.println("adventure");
 			}
 		}catch (NullPointerException npe){
 
 		}
-		System.out.println("nothing?");
 
 		c.setSubscriptions(subs);
 		save(c);
 
 	}
+
+
+	@Async
+	public void sendNotification(Offer offer, SaleAppointment saleAppointment) throws MessagingException, UnsupportedEncodingException {
+
+		List<Client> clients = clientRepository.findAllBySubscriptionsId(offer.getId());
+
+		LocalDateTimeToString format = new LocalDateTimeToString();
+
+		String subject = "Nova mogućnost za brzu rezervaciju";
+		String senderName = "BookerTeam";
+		String mailContent = "<p>Entitet " + offer.getName() + " ima brzu akciju.</p>" +
+				"<br>Početak:" + format.format(saleAppointment.getStartSaleDate()) + "<br>" +
+				"Duration: " + saleAppointment.getDuration() +  "<br>" +
+				"Broj ljudi: " + saleAppointment.getPeopleQuantity() +  "<br>" +
+				"Price: " + saleAppointment.getDiscount() +  "<br>";
+
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+		helper.setText(mailContent, true);
+		helper.setSubject(subject);
+		helper.setFrom(env.getProperty("spring.mail.username"));
+		for (Client c : clients){
+			helper.setTo(c.getEmail());
+			javaMailSender.send(mimeMessage);
+		}
+		helper.setTo("evioletta121@gmail.com");
+		javaMailSender.send(mimeMessage);
+
+	}
+
+
 }

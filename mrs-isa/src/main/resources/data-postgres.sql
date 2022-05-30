@@ -495,4 +495,5 @@ insert into period_availability (end_date, start_date, offer_id) values ('20.12.
 
 
 insert into subscriptions (client_id, offer_id) values (1,7);
+insert into subscriptions (client_id, offer_id) values (1,2);
 

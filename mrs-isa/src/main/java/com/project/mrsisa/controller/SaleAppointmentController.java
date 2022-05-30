@@ -1,13 +1,16 @@
 package com.project.mrsisa.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
 import com.project.mrsisa.dto.client.SuccessResponseDTO;
 import com.project.mrsisa.exception.TooHighPenaltyNumber;
+import com.project.mrsisa.service.*;
 import org.aspectj.weaver.AnnotationNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,27 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Address;
-import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.PeriodAvailability;
-import com.project.mrsisa.domain.PeriodUnavailability;
-import com.project.mrsisa.domain.Reservation;
-import com.project.mrsisa.domain.SaleAppointment;
 import com.project.mrsisa.dto.SaleAppointmentDTO;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.TextDTO;
-import com.project.mrsisa.service.AdditionalServicesService;
-import com.project.mrsisa.service.AdventureService;
-import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.PeriodUnavailabilityService;
-import com.project.mrsisa.service.ReservationService;
 import com.project.mrsisa.domain.SaleAppointment;
 import com.project.mrsisa.dto.SaleAppointmentDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.SaleAppointmentService;
 
 import javax.mail.MessagingException;
 
@@ -68,8 +58,8 @@ public class SaleAppointmentController {
 	private ReservationService reservationService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-	
-	
+	@Autowired
+	private ClientService clientService;
 	
 	@PostMapping(value = "/define/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -90,6 +80,7 @@ public class SaleAppointmentController {
 			saleAppointment.setDuration(saleAppointmentDTO.getDuration());
 			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
 			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime().plusHours(2));
+			saleAppointment.setOfferType(OfferType.ADVENTURE);
 			
 			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
 			for(String service : saleAppointmentDTO.getAdditionalServices()) 
@@ -101,6 +92,15 @@ public class SaleAppointmentController {
 			saleAppointment.setAdditionalServices(additionalServices);
 			
 			saleAppointmentService.save(saleAppointment);
+
+			try {
+				clientService.sendNotification(adventure, saleAppointment);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+
 			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
 		}
 		else {
