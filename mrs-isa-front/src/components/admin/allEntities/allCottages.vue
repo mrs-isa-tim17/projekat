@@ -2,31 +2,30 @@
   <admin-header></admin-header>
 
   <div align="center">
-    <button class="btn btn-primary  btn-sm  me-md-2 " @click="goToDeletedUsers"> Obrisani korisnici</button>
-    <div v-for="user in this.users" :key="user">
-      <simple-user :user=user @delete-user="Deleted"></simple-user>
+    <button class="btn btn-primary  btn-sm  me-md-2 " @click="goToDeletedCottages"> Obrisane vikendice</button>
+    <div v-for="offer in this.offers" :key="offer">
+      <simple-cottage :cottage=offer @delete-cottage="Deleted"></simple-cottage>
     </div>
   </div>
-
-
 </template>
 
 <script>
-import SimpleUser from "@/components/admin/allEntities/simpleUser";
-import UserService from "@/servieces/UserService";
-import AdminHeader from "@/components/admin/adminHeader";
+
+import adminHeader from "@/components/admin/adminHeader";
+import CottageService from "@/servieces/cottage_owner/CottageService";
+import SimpleCottage from "@/components/admin/allEntities/simpleCottage";
+
 
 export default {
-  name: "allUsers",
-  components: {
-    SimpleUser,
-    AdminHeader,
-  },
+  name: "allShips",
+  components:{
+    SimpleCottage,
+    adminHeader,
 
-  created: function () {
-    UserService.getAllUsers().then((response) => {
-      this.users = response.data;
-      console.log(this.users);
+  },
+  created: function (){
+    CottageService.getActiveCottagesForAdmin().then((response)=>{
+      this.offers = response.data
     }).catch(function (error) {
       console.log(error.toJSON());
       if (error.response) {
@@ -49,31 +48,35 @@ export default {
   },
 
   methods:{
+    goToDeletedCottages(){
+      this.$router.push('/admin/cottages/deleted');
+    },
     Deleted(){
       this.$router.go();
     },
-
-    goToDeletedUsers(){
-      this.$router.push('/admin/users/deleted');
-    }
-
-
   },
-  data() {
+
+  data(){
     return {
-      users: [],
-      user: {
+      offers:[],
+      offer:{
         id:"",
-        name: "",
-        surname: "",
-        phoneNumber: "",
-        email: "",
-        role: "",
-        loyaltyPoints: "",
-        userType: "",
-        penalties: "",
+        name:"",
+        description:"",
+        ownerName:"",
+        ownerSurname:"",
+        ownerEmail:"",
+        capacity:"",
+        totalNumberOfReservations:"",
+        rate:"",
+        longitude:"",
+        latitude:"",
+        type:"",
+        bedQuantity:"",
+        roomQuantity:"",
         deleted:""
-      },
+      }
+
     }
   }
 }

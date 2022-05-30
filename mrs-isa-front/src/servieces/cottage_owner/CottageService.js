@@ -42,6 +42,18 @@ class CottageService{
         });
     }
 
+    getActiveCottagesForAdmin(){
+        return axios.get(COTTAGE_OWNER_API_BASE_URL + 'admin/all/', {
+            headers: authHeader()
+        });
+    }
+
+    getDeletedCottages(){
+        return axios.get(COTTAGE_OWNER_API_BASE_URL + 'admin/all/deleted/', {
+            headers: authHeader()
+        });
+    }
+
 
 }
 

@@ -45,9 +45,9 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
-              <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" href="#">Avanture</a></li>
+              <li><a class="dropdown-item" :href="'/admin/cottages'">Vikendice</a></li>
+              <li><a class="dropdown-item" :href="'/admin/ships'">Brodovi</a></li>
+              <li><a class="dropdown-item" href="/admin/adventures">Avanture</a></li>
             </ul>
           </div>
         </div>

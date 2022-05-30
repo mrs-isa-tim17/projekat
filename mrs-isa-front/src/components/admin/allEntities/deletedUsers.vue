@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import SimpleUser from "@/components/admin/simpleUser";
+import SimpleUser from "@/components/admin/allEntities/simpleUser";
 import AdminHeader from "@/components/admin/adminHeader";
 import UserService from "@/servieces/UserService";
 

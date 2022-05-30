@@ -46,6 +46,16 @@ class AdventureService{
             headers: authHeader()
         });
     }
+    getActiveAdventuresForAdmin(){
+        return axios.get(ADVENTURE_API_BASE_URL + 'admin/all/', {
+            headers: authHeader()
+        });
+    }
+    getDeletedAdventures(){
+        return axios.get(ADVENTURE_API_BASE_URL + 'admin/all/deleted/', {
+            headers: authHeader()
+        });
+    }
 
 
 }

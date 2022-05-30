@@ -2,31 +2,29 @@
   <admin-header></admin-header>
 
   <div align="center">
-    <button class="btn btn-primary  btn-sm  me-md-2 " @click="goToDeletedUsers"> Obrisani korisnici</button>
-    <div v-for="user in this.users" :key="user">
-      <simple-user :user=user @delete-user="Deleted"></simple-user>
+    <h3>Obrisani brodovi</h3><br>
+    <div v-for="offer in this.offers" :key="offer">
+      <simple-ship :ship=offer></simple-ship>
     </div>
   </div>
-
 
 </template>
 
 <script>
-import SimpleUser from "@/components/admin/allEntities/simpleUser";
-import UserService from "@/servieces/UserService";
 import AdminHeader from "@/components/admin/adminHeader";
+import SimpleShip from "@/components/admin/allEntities/simpleShip";
+import ShipService from "@/servieces/ship_owner/ShipService";
 
 export default {
-  name: "allUsers",
+  name: "deletedShips",
   components: {
-    SimpleUser,
+    SimpleShip,
     AdminHeader,
   },
-
   created: function () {
-    UserService.getAllUsers().then((response) => {
-      this.users = response.data;
-      console.log(this.users);
+    ShipService.getDeletedShips().then((response) => {
+      this.offers = response.data;
+      console.log(this.offers);
     }).catch(function (error) {
       console.log(error.toJSON());
       if (error.response) {
@@ -47,33 +45,26 @@ export default {
       console.log(error.config);
     });
   },
-
-  methods:{
-    Deleted(){
-      this.$router.go();
-    },
-
-    goToDeletedUsers(){
-      this.$router.push('/admin/users/deleted');
-    }
-
-
-  },
   data() {
     return {
-      users: [],
-      user: {
-        id:"",
+      offers: [],
+      offer: {
+        id: "",
         name: "",
-        surname: "",
-        phoneNumber: "",
-        email: "",
-        role: "",
-        loyaltyPoints: "",
-        userType: "",
-        penalties: "",
-        deleted:""
-      },
+        description: "",
+        ownerName: "",
+        ownerSurname: "",
+        ownerEmail: "",
+        capacity: "",
+        totalNumberOfReservations: "",
+        rate: "",
+        longitude: "",
+        latitude: "",
+        type: "",
+        bedQuantity: "",
+        roomQuantity: "",
+        deleted: ""
+      }
     }
   }
 }
