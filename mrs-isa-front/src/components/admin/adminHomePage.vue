@@ -10,14 +10,14 @@
         <adminHomePageOption :image_path="complaintImgPath" :option_link="complaintLink"
                              :text="complaintText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="revisionImgPath" :option_link="registrationLink"
+        <adminHomePageOption :image_path="revisionImgPath" :option_link="revisionLink"
                              :text="revisionText"></adminHomePageOption>
 
       </div>
 
       <div class="row justify-content-center ">
 
-        <adminHomePageOption :image_path="percentageImgPath" :option_link="penaltyLink"
+        <adminHomePageOption :image_path="percentageImgPath" :option_link="percentageLink"
                              :text="percentageText"></adminHomePageOption>
 
         <adminHomePageOption :image_path="businessReportImgPath" :option_link="businessReportLink"
@@ -105,7 +105,7 @@ export default {
 
 
       percentageImgPath: require("@/assets/icons/percentage.png"),
-      percentageLink: "...",
+      percentageLink: '/admin/percentage',
       percentageText: "Procenat zarade",
 
       businessReportImgPath: require("@/assets/icons/reportBusiness.png"),
