@@ -493,3 +493,5 @@ insert into period_availability (end_date, start_date, offer_id) values ('20.12.
 
 insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
 
+insert into percentage_of_earnings (start_date, end_date, percentage) values ('01.01.2022.', null, 3);
+
