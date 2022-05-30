@@ -73,7 +73,7 @@ export default {
       this.answer = response.data;
       if(this.answer){
         this.fireAlertOn("Uspešno ste obrisali korisnika.");
-        this.$emit('delete-user', this.deleteRequestId, this.textDTO);
+        this.$emit('delete-user');
 
       }else{
         this.fireAlertOn("Brisanje korisnika nije uspelo.");

@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
-import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.mrsisa.dto.ship.FindShipDTO;
+import com.project.mrsisa.dto.AdminOfferDTO;
 import com.project.mrsisa.dto.ShipDTO;
 @RestController
 @RequestMapping(value = "/ship")
@@ -69,6 +69,9 @@ public class ShipController {
 
 	@Autowired
 	private ClientService clientService;
+	
+	@Autowired
+	private UserService userService;
 
 	private OfferProcessing offerProcessing = new OfferProcessing();
 
@@ -76,7 +79,7 @@ public class ShipController {
 
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<ShipForListViewDTO>> getCottages(){
-		List<Ship> ships = shipService.findAll();
+		List<Ship> ships = shipService.findActiveShips();
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 		return ResponseEntity.ok(shipsDTO);
 	}
@@ -100,7 +103,7 @@ public class ShipController {
     }
 	@GetMapping(value = "/site/short")
 	public ResponseEntity<List<OfferForHomePageViewDTO>> getShipsForHomePage(){
-		List<Ship> ships = shipService.findAll();
+		List<Ship> ships = shipService.findActiveShips();
 		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
 		for (Ship c : ships) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
@@ -129,7 +132,7 @@ public class ShipController {
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<ShipDTO>> getAllShips() {
 
-		List<Ship> ships = shipService.findAll();
+		List<Ship> ships = shipService.findActiveShips();
 		List<ShipDTO> shipDTO = new ArrayList<>();
 		for (Ship s : ships) {
 			shipDTO.add(new ShipDTO(s));
@@ -138,16 +141,17 @@ public class ShipController {
 		return new ResponseEntity<>(shipDTO, HttpStatus.OK);
 	}
 	
-	
+    @PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Void> deleteShip(@PathVariable Long id) {
 
 		Ship ship = shipService.findOne(id);
-
-		if (ship != null) {
-			shipService.remove(id);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
+		System.out.println("brisiiii");
+		if ((ship != null) && ((reservationService.haveFutureReservations(id))==false)) {
+				ship.setDeleted(true);
+				shipService.save(ship);
+				return new ResponseEntity<>(HttpStatus.OK);
+		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -350,5 +354,44 @@ public class ShipController {
 		}
 
 		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/admin/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getActiveShipsForAdmin() {
+		List<Ship> ships = shipService.findActiveShips();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Ship ship : ships) {
+			User owner = userService.findById(ship.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(ship.getId());
+			double rate = experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP);
+			AdminOfferDTO offer = new AdminOfferDTO(ship.getId(), ship.getName(), ship.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(),  ship.getCapacity(),ship.getType().toString(), reservations.size(), rate, ship.isDeleted());
+			
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
+	}
+	
+	
+	@GetMapping(value="/admin/all/deleted")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getDeletedShipsForAdmin() {
+		List<Ship> ships = shipService.findDeletedShips();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Ship ship : ships) {
+			User owner = userService.findById(ship.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(ship.getId());
+			double rate = experienceReviewService.getReatingByOfferId(ship.getId(), OfferType.SHIP);
+			AdminOfferDTO offer = new AdminOfferDTO(ship.getId(), ship.getName(), ship.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+					ship.getAddress().getLongitude(), ship.getAddress().getLatitude(),  ship.getCapacity(),ship.getType().toString(), reservations.size(), rate, ship.isDeleted());
+			
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
 	}
 }

@@ -406,8 +406,8 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
     (false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2, false); 
      
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id) values
-    (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1, false);
 
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
 insert into registration_request (registration_type, status, user_id) values (1, 0, 4);

@@ -54,4 +54,12 @@ public class ReservationService {
         return reservationRepository.findCurrentReservationsForOffer(id);
     }
 
+	public boolean haveFutureReservations(Long offerId) {
+		List<Reservation> futureReservations = reservationRepository.findFutureReservationHistory(offerId);
+		if(futureReservations.size()==0) {
+			return false;
+		}
+		return true;
+	}
+
 }

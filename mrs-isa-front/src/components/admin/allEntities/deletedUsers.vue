@@ -2,7 +2,7 @@
   <admin-header></admin-header>
 
   <div align="center">
-    <h3>Izbrisani korisnici</h3><br>
+    <h3>Obrisani korisnici</h3><br>
     <div v-for="user in this.users" :key="user">
       <simple-user :user=user></simple-user>
     </div>
