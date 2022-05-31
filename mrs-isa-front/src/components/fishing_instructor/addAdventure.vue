@@ -1,6 +1,7 @@
 <template>
+  <instructor-header></instructor-header>
   <div class="container">
-    <instructor-header></instructor-header>
+
     <div class="row">
 
       <div class="col-4  d-flex justify-content-center"
@@ -26,8 +27,8 @@
           </div>
           <div>
             <label>{{}}</label>
-          <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
-                      style="width: 300px; height: 380px; visibility: visible"></openLayers>
+            <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                        style="width: 300px; height: 380px; visibility: visible"></openLayers>
           </div>
 
         </div>
@@ -59,43 +60,13 @@
           <br>
           <label>{{ ruleLabel }}</label>
           <br>
+
           <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule1 id="flexCheckDefault"
+            <div align="left" class="form-check" v-for="br in this.behRules" :key="br">
+              <input class="form-check-input" type="checkbox" :value=br id="flexCheckDefault"
                      v-model="adventure.behaviorRules">
-              <label :for=rule1 class="form-check-label">
-                {{ rule1 }}
-              </label>
-            </div>
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule2 id="flexCheckDefault"
-                     v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule2>
-                {{ rule2 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule3 id="flexCheckDefault"
-                     v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule3>
-                {{ rule3 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule4 id="flexCheckDefault"
-                     v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule4>
-                {{ rule4 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule5 id="flexCheckDefault"
-                     v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule5>
-                {{ rule5 }}
+              <label class="form-check-label" :for=br>
+                {{ br }}
               </label>
             </div>
           </div>
@@ -103,21 +74,18 @@
           <br>
           <label>{{ additionalEquipmentLabel }}</label>
           <br>
+
+
           <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=additionalEquipment1 id="flexCheckDefault"
+            <div align="left" class="form-check" v-for="add in this.addServices" :key="add">
+              <input class="form-check-input" type="checkbox" :value=add id="flexCheckDefault"
                      v-model="adventure.additionalServices">
-              <label class="form-check-label" :for=additionalEquipment1>
-                {{ additionalEquipment1 }}
+              <label class="form-check-label" :for=add>
+                {{ add }}
               </label>
             </div>
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=additionalEquipment2 id="flexCheckDefault"
-                     v-model="adventure.additionalServices">
-              <label class="form-check-label" :for=additionalEquipment2>
-                {{ additionalEquipment2 }}
-              </label>
-            </div>
+
+
           </div>
           <br>
           <h5 id="message"></h5>
@@ -135,33 +103,13 @@
             <br>
             <label>{{ fishingEquipmentLabel }}</label>
             <br>
+
             <div class="p-2" style="border-style: solid; border-width: medium;">
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment1 id="flexCheckDefault"
+              <div align="left" class="form-check" v-for="fi in this.fishEquip" :key="fi">
+                <input class="form-check-input" type="checkbox" :value=fi id="flexCheckDefault"
                        v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment1>
-                  {{ fishingEquipment1 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment2 id="flexCheckDefault"
-                       v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment2>
-                  {{ fishingEquipment2 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment3 id="flexCheckDefault"
-                       v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment3>
-                  {{ fishingEquipment3 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment4 id="flexCheckDefault"
-                       v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment4>
-                  {{ fishingEquipment4 }}
+                <label class="form-check-label" :for=fi>
+                  {{ fi }}
                 </label>
               </div>
             </div>
@@ -174,20 +122,20 @@
           <div class="p-2" style="border-style: solid; border-width: medium;">
 
             <p>Za odustanak od rezervacije u roku<b> 0 - 5 </b>dana plaća se <input type="number"
-                                                                                                v-model="adventure.p1"
-                                                                                                size="15"/> %
+                                                                                    v-model="adventure.p1"
+                                                                                    size="15"/> %
               ukupnog iznosa</p>
             <p>Za odustanak od rezervacije u roku <b>6 - 10</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.p2"
-                                                                                                size="15"/> %
+                                                                                     v-model="adventure.p2"
+                                                                                     size="15"/> %
               ukupnog iznosa</p>
             <p>Za odustanak od rezervacije u roku <b>11 - 15</b> dana plaća se <input type="number"
-                                                                                                v-model="adventure.p3"
-                                                                                                size="15"/> %
+                                                                                      v-model="adventure.p3"
+                                                                                      size="15"/> %
               ukupnog iznosa</p>
             <p>Za odustanak od rezervacije <b>16</b> i više dana pre termina plaća se <input type="number"
-                                                                                                v-model="adventure.p4"
-                                                                                                size="15"/> %
+                                                                                             v-model="adventure.p4"
+                                                                                             size="15"/> %
               ukupnog iznosa</p>
 
           </div>
@@ -197,7 +145,7 @@
       </div>
     </div>
     <div align="right">
-      <botton id="add" class="col-1 btn btn-primary  btn-md  me-md-2"  @click="addAdventure">Dodaj</botton>
+      <botton id="add" class="col-1 btn btn-primary  btn-md  me-md-2" @click="addAdventure">Dodaj</botton>
       <botton class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</botton>
     </div>
   </div>
@@ -208,12 +156,34 @@
 import InstructorHeader from "@/components/insrtuctorHeader"
 import AdventureService from "@/services/AdventureService";
 import openLayers from "@/components/VueMaps";
+import BehaviorRulesService from "@/servieces/BehaviorRulesService";
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
+import FishingEquipmentService from "@/servieces/FishingEquipmentService";
+
 export default {
   name: "addAdventure",
   components: {
     InstructorHeader,
     openLayers,
   },
+
+  mounted() {
+    BehaviorRulesService.getAll().then((response) => {
+      this.behRules = response.data;
+      console.log(this.behRules);
+    });
+
+    AdditionalServicesService.getAll().then((response) => {
+      this.addServices = response.data;
+      console.log(this.addServices);
+    });
+
+    FishingEquipmentService.getAll().then((response) => {
+      this.fishEquip = response.data;
+      console.log(this.fishEquip);
+    })
+  },
+
   methods: {
     updateCoordinats(lon, lat) {
       this.adventure.longitude = lon;
@@ -292,17 +262,6 @@ export default {
       fishingEquipmentLabel: "Pecaroška oprema*",
       additionalEquipmentLabel: "Dodatna oprema*",
       cancelConditionsLabel: "Uslovi otkaza*",
-      rule1: "dozvoljeno pecanje",
-      rule2: "zabranjeno pecanje",
-      rule3: "dozvoljeno kupanje",
-      rule4: "zabranjeno kupanje",
-      rule5: "volimo ljubimce",
-      fishingEquipment1: "štapovi",
-      fishingEquipment2: "mamac",
-      fishingEquipment3: "udice",
-      fishingEquipment4: "čamac",
-      additionalEquipment1: "kabanica",
-      additionalEquipment2: "baterijska lampa",
       cancelRule1: "od manje 5",
       cancelRule2: "od više 5",
       cancelRule3: "od više 10",
@@ -310,10 +269,10 @@ export default {
       cancelRule5: "od više 20",
 
       adventure: {
-        id:2,
+        id: 2,
         name: "",
-        latitude:"",
-        longitude:"",
+        latitude: "",
+        longitude: "",
         description: "",
         behaviorRules: [],
         images: [],
@@ -324,12 +283,15 @@ export default {
         instructorBiography: "",
         additionalServices: [],
         days: ['5', '10', '15', '20'],
-        p1:"0",
-        p2:"0",
-        p3:"0",
-        p4:"0",
+        p1: "0",
+        p2: "0",
+        p3: "0",
+        p4: "0",
         experienceReviews: [],
-      }
+      },
+      behRules: [],
+      addServices: [],
+      fishEquip: [],
     }
   }
 }

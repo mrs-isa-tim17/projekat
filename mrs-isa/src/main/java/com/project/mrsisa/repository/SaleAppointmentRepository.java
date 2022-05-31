@@ -7,12 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.project.mrsisa.domain.SaleAppointment;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-import com.project.mrsisa.domain.SaleAppointment;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 @Repository
 public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment, Long> {
@@ -25,6 +22,10 @@ public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment
 	@Transactional
 	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 and r.start_sale_date > CURRENT_DATE and reserved = false", nativeQuery = true)
 	List<SaleAppointment> findActiveFreeSaleAppoinments(Long id);
+
+	@Transactional
+	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1", nativeQuery = true)
+	public List<SaleAppointment> findAllByOfferId(Long offerId);
 
 
 }

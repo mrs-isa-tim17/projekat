@@ -56,7 +56,16 @@ const router = createRouter({
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
         {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")},
         {path: '/admin/complaints', component:()=> import("./components/admin/complaints")},
-        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")}
+        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")},
+        {path: '/admin/users', component:()=>import("./components/admin/allEntities/allUsers")},
+        {path: '/admin/users/deleted', component:()=>import("./components/admin/allEntities/deletedUsers")},
+        {path: '/admin/adventures', component:()=>import("./components/admin/allEntities/allAdventures")},
+        {path: '/admin/adventures/deleted', component:()=>import("./components/admin/allEntities/deletedAdventures")},
+        {path: '/admin/ships', component:()=>import("./components/admin/allEntities/allShips")},
+        {path: '/admin/ships/deleted', component:()=>import("./components/admin/allEntities/deletedShips")},
+        {path: '/admin/cottages', component:()=>import("./components/admin/allEntities/allCottages")},
+        {path: '/admin/cottages/deleted', component:()=>import("./components/admin/allEntities/deletedCottages")},
+        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")}
     ]
 });
 

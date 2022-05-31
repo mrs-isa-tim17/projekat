@@ -19,8 +19,15 @@ class ReservationService{
         });
     }
 
+
     getReservationsReportYearly(ownerId){
         return axios.get(RESERVATION_API_BASE_URL+'/reportYearly/'+ownerId,{
+            headers:authHeader()
+        });
+    }
+
+    getAllReservationsForOffer(offerId){
+        return axios.get(RESERVATION_API_BASE_URL + '/reservation/periods/' + offerId, {
             headers:authHeader()
         });
     }
@@ -47,6 +54,6 @@ class ReservationService{
         }
         return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/' + ownerId, config);
     }
-    }
+}
 
 export default new ReservationService();

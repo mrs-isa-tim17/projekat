@@ -39,6 +39,15 @@ public class AdventureService {
 	public void remove(Long id) {
 		adventureRepository.deleteById(id);
 	}
+	
+	public List<Adventure> findActiveAdventures(){
+		return adventureRepository.findActiveAdventures();
+	}
+	
+	public List<Adventure> findDeletedAdventures(){
+		return adventureRepository.findDeletedAdventures();
+	}
+	
 /*	public Adventure fetchAdventureWithOther(Long id) {
 		return adventureRepository.fetchAdventureWithOther(id);
 	}*/

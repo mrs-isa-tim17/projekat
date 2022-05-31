@@ -1,6 +1,6 @@
 <template>
+  <instructor-header></instructor-header>
   <div class="container">
-    <instructor-header></instructor-header>
 
     <div class="row">
       <div class="col-7">
@@ -15,7 +15,7 @@
         <h3 align="left"><em>Opis: {{ adventure.description }} </em></h3>
         <br>
         <div>
-          <images-carousel :image_paths=adventure.images></images-carousel>
+          <images-carousel :image_paths="adventure.images"></images-carousel>
         </div>
 
         <hr>
@@ -71,7 +71,8 @@
 
       <div class="col">
         <calendar :key="calendarKey" :availability-period="this.availabilityPeriod"
-                  :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></calendar>
+                  :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations"
+                  :actions="this.actions"></calendar>
         <br>
         <div class="row p-3">
           <div class="col-4">
@@ -83,7 +84,7 @@
             <Datepicker v-model="availabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodAvailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodAvailability">Definiši period
               dostupnosti
             </button>
           </div>
@@ -99,7 +100,7 @@
             <Datepicker v-model="unavailabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" type="button" @click="DefinePeriodUnavailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodUnavailability">Definiši period
               nedostupnosti
             </button>
           </div>
@@ -140,6 +141,8 @@ import Datepicker from "@vuepic/vue-datepicker";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import ActionModal from "@/components/fishing_instructor/actionModal";
 import swal from "sweetalert2";
+import ReservationService from "@/servieces/ReservationService";
+import SaleAppointmentService from "@/servieces/SaleAppointmentService";
 
 
 export default {
@@ -201,10 +204,16 @@ export default {
       this.calendarKey--;
     })
 
-    AdventureService.getReservationPeriods(this.currentId).then((response) => {
+    ReservationService.getAllReservationsForOffer(this.currentId).then((response) => {
       this.reservations = response.data;
       this.calendarKey++;
     })
+
+    SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) =>{
+      this.actions = response.data;
+      this.calendarKey--;
+    })
+
 
   },
 
@@ -367,6 +376,7 @@ export default {
       availabilityPeriod: [],
       unavailabilityPeriod: [],
       reservations: [],
+      actions:[],
       calendarKey: 1,
       period: {
         start: "",
