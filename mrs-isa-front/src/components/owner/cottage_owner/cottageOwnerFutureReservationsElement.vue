@@ -3,7 +3,7 @@
     <div class="card mb-3 mw-90" style="width: 90%;">
       <div class="row g-0" style="background-color: #31708E;color:#F7F9FB;">
         <div class="col-4" style="float:left">
-          <img :src="require('@/assets/' + image)" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src="image" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
         <div class="col-8">
           <div class="row">
@@ -29,7 +29,7 @@
 
             <div class="col-4">
               <div class="card-body">
-                <clientProfile></clientProfile>
+                <clientProfile :index="clientProfileId" :header="clientProfileHeader" :client-pr="client"></clientProfile>
               </div>
             </div>
 
@@ -44,14 +44,17 @@
 
 <script>
 import clientProfile from "@/components/client/clientProfile";
+import ClientServce from "@/servieces/ClientServce";
 export default {
   name: "cottageOwnerReservationsElement",
   props: ["reservation"],
   components:{clientProfile},
   data() {
     return {
-
-      image: ""
+      clientProfileId:"clientProfileId",
+      clientProfileHeader:"Profil klijenta",
+      image: "",
+      client:[]
     }
   },
   created() {
@@ -60,6 +63,12 @@ export default {
     } else {
       this.image = "icons/ship.png";
     }
+
+    ClientServce.getClient(this.reservation.clientId).then((response)=>
+    {
+      this.client = response.data;
+      console.log(this.client);
+    })
   }
 }
 </script>

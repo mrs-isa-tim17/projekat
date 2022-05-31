@@ -41,6 +41,17 @@ class ShipService{
             headers: authHeader()
         });
     }
+
+    getActiveShipsForAdmin(){
+        return axios.get(SHIP_OWNER_API_BASE_URL + 'admin/all',{
+            headers: authHeader()
+        });
+    }
+    getDeletedShips(){
+        return axios.get(SHIP_OWNER_API_BASE_URL + 'admin/all/deleted/', {
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ShipService();

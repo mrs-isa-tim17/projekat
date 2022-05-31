@@ -55,7 +55,6 @@ export default {
     },
     setCottage(){
       var selectedIndex = document.getElementById('cbClients').selectedIndex;
-
       this.cottageName = this.currentClients[parseInt(selectedIndex)].offerName;
       console.log(this.currentClients[parseInt(selectedIndex)]);
       console.log(this.cottageName);

@@ -10,8 +10,8 @@
 
 <script>
 import ReservationService from "@/servieces/ReservationService";
-import cottageOwnerHeader from "@/components/cottage_owner/cottageOwnerHeader";
-import cottageOwnerPastReservationsElement from "@/components/cottage_owner/cottageOwnerPastReservationsElement";
+import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
+import cottageOwnerPastReservationsElement from "@/components/owner/cottage_owner/cottageOwnerPastReservationsElement";
 export default {
   name: "cottageOwnerPastReservationsList",
   components:{cottageOwnerHeader,cottageOwnerPastReservationsElement},

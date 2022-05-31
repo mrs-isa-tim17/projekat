@@ -28,4 +28,8 @@ public class SaleAppointmentService {
 	public List<SaleAppointment> findActiveByOfferId(Long offerId) {
 		return saleAppointmentRepository.findActiveFreeSaleAppoinments(offerId);
 	}
+	
+	public List<SaleAppointment> findAllByOfferId(Long offerId){
+		return saleAppointmentRepository.findAllByOfferId(offerId);
+	}
 }

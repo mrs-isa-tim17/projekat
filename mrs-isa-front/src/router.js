@@ -32,27 +32,40 @@ const router = createRouter({
         { path:  '/book/adventure/site/:id', component: () => import("./components/main_site/adventure_profile/adventureProfile")},
 
 
-        { path: '/cottageOwner/profile', component: () => import("./components/cottage_owner/editProfileCottageOwner")},
-        {path:'/cottage/reservations/future/:id',component:() => import("./components/cottage_owner/cottageOwnerFutureReservationsList")},
-        {path:'/cottage/reservations/past/:id',component:()=>import("./components/cottage_owner/cottageOwnerPastReservationsList")},
+        { path: '/cottageOwner/profile', component: () => import("./components/owner/cottage_owner/editProfileCottageOwner")},
+        {path:'/cottage/reservations/future/:id',component:() => import("./components/owner/cottage_owner/cottageOwnerFutureReservationsList")},
+        {path:'/cottage/reservations/past/:id',component:()=>import("./components/owner/cottage_owner/cottageOwnerPastReservationsList")},
         {path:'/ship/reservations/future/:id',component:() => import("./components/ship_owner/shipOwnerFutureReservationsList")},
         {path:'/ship/reservations/past/:id',component:()=>import("./components/ship_owner/shipOwnerPastReservationsList")},
         { path: '/shipOwner/profile', component: () => import("./components/ship_owner/editProfileShipOwner")},
-        { path: '/cottageOwner/home', component: () => import("./components/cottage_owner/homePageCottageOwner")},
+        { path: '/cottageOwner/home', component: () => import("./components/owner/cottage_owner/homePageCottageOwner")},
         { path: '/shipOwner/home', component: () => import("./components/ship_owner/homePageShipOwner")},
-        { path: '/owner/cottages', component: () => import("./components/cottage_owner/cottageList")},
-        { path: '/owner/ships', component: () => import("./components/ship_owner/shipList")},
-        {path:'/cottage/add',component:() => import("./components/cottage_owner/addCottage.vue")},
-        {path:'/cottage/detail/:id',component:()=>import("./components/cottage_owner/cottageDetail")},
+        { path: '/owner/cottages', component: () => import("./components/owner/cottage_owner/cottageList")},
+        { path: '/owner/ships', component: () => import("./components/owner/ship_owner/shipList")},
+        {path:'/owner/report/graphReservations', component: () => import("./components/owner/graphReservations")},
+        {path:'/owner/report/graphIncome', component: () => import("./components/owner/graphIncome")},
+        {path:'/cottage/add',component:() => import("./components/owner/cottage_owner/addCottage.vue")},
+        {path:'/owner/calendar',component:()=>import("./components/owner/cottage_owner/calendarCottageOwner")},
+        {path:'/owner/quickReservation',component:()=>import("./components/owner/cottage_owner/quickReservation")},
+        {path:'/cottage/detail/:id',component:()=>import("./components/owner/cottage_owner/cottageDetail")},
         {path:'/ship/add',component:() => import("./components/ship_owner/addShip.vue")},
-        { path: '/cottage/update/:id',component:()=>import("./components/cottage_owner/updateCottage")},
+        { path: '/cottage/update/:id',component:()=>import("./components/owner/cottage_owner/updateCottage")},
         { path: '/ship/update/:id',component:()=>import("./components/ship_owner/updateShip")},
 
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
         {path:'/admin/registration/request', component:()=> import("./components/admin/requestForRegistration.vue")},
         {path: '/admin/complaints', component:()=> import("./components/admin/complaints")},
-        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")}
+        {path: '/admin/delete/requests', component:()=> import("./components/admin/deletingRequest")},
+        {path: '/admin/users', component:()=>import("./components/admin/allEntities/allUsers")},
+        {path: '/admin/users/deleted', component:()=>import("./components/admin/allEntities/deletedUsers")},
+        {path: '/admin/adventures', component:()=>import("./components/admin/allEntities/allAdventures")},
+        {path: '/admin/adventures/deleted', component:()=>import("./components/admin/allEntities/deletedAdventures")},
+        {path: '/admin/ships', component:()=>import("./components/admin/allEntities/allShips")},
+        {path: '/admin/ships/deleted', component:()=>import("./components/admin/allEntities/deletedShips")},
+        {path: '/admin/cottages', component:()=>import("./components/admin/allEntities/allCottages")},
+        {path: '/admin/cottages/deleted', component:()=>import("./components/admin/allEntities/deletedCottages")},
+        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")}
     ]
 });
 

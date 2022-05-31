@@ -17,7 +17,7 @@
             <div class="col-3">
               <label>{{ this.labelStartDateTime }}</label>
             </div>
-            <div class="col-9">
+            <div class="col-9">c
               <Datepicker v-model="saleAppointmentDTO.startDateTime"></Datepicker>
             </div>
           </div>
@@ -147,6 +147,7 @@ export default {
     },
 
     Define() {
+      console.log(this.saleAppointmentDTO.startDateTime);
       if (this.Validate()) {
         SaleAppointmentService.defineSaleAppointmentForOffer(this.adventure.id, this.saleAppointmentDTO).then((response) => {
           this.returnMessage = response.data;

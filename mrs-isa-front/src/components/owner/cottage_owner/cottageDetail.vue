@@ -105,18 +105,18 @@ import ReviewServce from "@/servieces/ReviewServce";
 
 //import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import cottageOwnerHeader from "@/components/cottage_owner/cottageOwnerHeader";
+import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
 import BirdVueMap from "@/components/main_site/birdVueMap";
-import EditOfferNameModal from "@/components/cottage_owner/editOfferNameModal";
+import EditOfferNameModal from "@/components/owner/cottage_owner/editOfferNameModal";
 import swal from "sweetalert2";
-import EditOfferDescription from "@/components/cottage_owner/editOfferDescriptionModal";
-import EditOfferServicesModal from "@/components/cottage_owner/editOfferServicesModal";
-import EditBehaviorRulesModal from "@/components/cottage_owner/editBehaviorRulesModal";
-import EditNumberModal from "@/components/cottage_owner/editNumberModal";
-import ExperienceReviewsModal from "@/components/cottage_owner/experienceReviewsModal";
-import EditPriceModal from "@/components/cottage_owner/editPriceModal"
-import EditCancelConditionsModal from "@/components/cottage_owner/editCancelConditionsModal";
-import UploadImagesModal from "@/components/cottage_owner/uploadImagesModal";
+import EditOfferDescription from "@/components/owner/cottage_owner/editOfferDescriptionModal";
+import EditOfferServicesModal from "@/components/owner/cottage_owner/editOfferServicesModal";
+import EditBehaviorRulesModal from "@/components/owner/cottage_owner/editBehaviorRulesModal";
+import EditNumberModal from "@/components/owner/cottage_owner/editNumberModal";
+import ExperienceReviewsModal from "@/components/owner/cottage_owner/experienceReviewsModal";
+import EditPriceModal from "@/components/owner/cottage_owner/editPriceModal"
+import EditCancelConditionsModal from "@/components/owner/cottage_owner/editCancelConditionsModal";
+import UploadImagesModal from "@/components/owner/cottage_owner/uploadImagesModal";
 //import lightbox from "vlightbox"
 // import VueGallerySlideshow from 'vue-gallery-slideshow'
 export default {

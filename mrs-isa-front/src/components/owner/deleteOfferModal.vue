@@ -1,6 +1,6 @@
 <template>
   <button id="update" style= "background-color: #687864;font-weight: bold;" type="button" @click="openForm" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
-    <i class="fa fa-delete icon"></i> Izbriši vikendicu
+    <i class="fa fa-delete icon"></i> {{button_name}}
   </button>
 
 
@@ -12,14 +12,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Da li ste sigurni da želite da obrišete Vašu vikendicu <b> {{cottage.name}}</b>?
+          Da li ste sigurni da želite da obrišete Vašu ponudu <b> {{offer.name}}</b>?
           <div class="modal-footer">
             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="deleteCottage" class="btn btn-primary">Potvrdi</button>
-          </div>
-          <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            Vikendica je obrisana!
           </div>
         </div>
       </div>
@@ -33,7 +29,7 @@ import CottageService from "@/servieces/cottage_owner/CottageService";
 
 export default {
   name: "deleteCottageModal",
-  props: ["cottage", "index", "header"],
+  props: ["offer", "index", "header","button_name"],
   created:
       function () {
         console.log(this.index);

@@ -12,13 +12,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="text-align: left;" >
-          <b>Ime: </b>{{clientPr.name}}<br>
-          <b>Prezime: </b>{{clientPr.surname}}<br>
-          <b>Email: </b>{{clientPr.email}}<br>
-          <b>Broj telefona: </b>{{clientPr.phoneNumber}}<br>
-          <b>Kategorija: </b>{{clientPr.userType}}<br>
-          <b>Broj loyality poena: </b>{{clientPr.loyalityPoints}}<br>
-          <b>Penali: </b>{{clientPr.penaltyNumber}}<br>
+          <b>Ime: </b>{{client.name}}<br>
+          <b>Prezime: </b>{{client.surname}}<br>
+          <b>Email: </b>{{client.email}}<br>
+          <b>Broj telefona: </b>{{client.phoneNumber}}<br>
+          <b>Kategorija: </b>{{client.userType}}<br>
+          <b>Broj loyality poena: </b>{{client.loyalityPoints}}<br>
+          <b>Penali: </b>{{client.penaltyNumber}}<br>
         </div>
         <div class="modal-footer">
 
@@ -30,6 +30,7 @@
 
 <script>
 import $ from "jquery";
+import ClientServce from "@/servieces/ClientServce";
 
 
 export default {
@@ -39,6 +40,13 @@ export default {
       function () {
         console.log(this.index);
         this.modalId = "#"+this.index;
+        console.log(this.clientPr);
+
+        ClientServce.getClient(this.clientPr).then((response)=>{
+          this.client = response.data;
+          console.log(this.client);
+        });
+
       },
   methods: {
     openForm() {
@@ -48,10 +56,23 @@ export default {
       $('#' + this.index).show(modalToggle);
       $('#' + this.index).focus(modalToggle);
     }
-
   },
   data(){
     return{
+      modalId:"",
+      client:{
+        name:"",
+        surname:"",
+        email:"",
+        password:"",
+        phoneNumber:"",
+        userType:"",
+        loyaltyPoints:"",
+        penaltyNumber:"",
+        benefits:"",
+        longitude:"",
+        latitude:""
+      },
 
     }
   }

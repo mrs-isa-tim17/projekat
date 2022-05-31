@@ -41,7 +41,7 @@
 
 <script>
 import loginServce from "@/servieces/LoginServce";
-import NewReservations from "@/components/cottage_owner/newReservations";
+import NewReservations from "@/components/owner/cottage_owner/newReservations";
 
 export default {
   name: "instructor-header",

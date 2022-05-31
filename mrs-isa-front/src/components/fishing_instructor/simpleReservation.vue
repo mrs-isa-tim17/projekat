@@ -43,13 +43,15 @@
         </thead>
         <tbody>
         <tr v-for="(reservation, index) in reservations" :key="index">
-          <th scope="row">{{index+1}}</th>
+          <th scope="row">{{index+1}} </th>
           <td>{{reservation.clientName}}</td>
           <td>{{reservation.clientSurname}}</td>
           <td>{{getDateFormat(reservation.startDate)}}</td>
           <td>{{getDateFormat(reservation.endDate)}}</td>
           <td> <input type="checkbox" v-bind:checked="reservation.quick" disabled="disabled"> </td>
-          <td><button class="btn btn-primary me-md-2">Profil klijenta</button></td>
+          <td> <client-profile :header="this.header" :index="getIndex(reservation.reservationId)"
+                              :client-pr="reservation.clientId" > </client-profile>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -61,24 +63,34 @@
 </template>
 
 <script>
+import ClientProfile from "@/components/client/clientProfile";
 export default {
   name: "simpleReservation",
+  components: {
+    ClientProfile,
+  },
   props: ["reservations"],
 
   methods:{
     getDateFormat(date) {
-      let d = date[2] +"-" +date[1]+"-" + date[0]
+      let d = date[2] +"." +date[1]+"." + date[0]+"."
         return d;
-    }
-  },
+    },
 
+    getIndex(id){
+      return this.indexPr+id;
+    }
+
+  },
 
   data() {
     return {
       clientNameSurnameLabel: "Ime i prezime klijenta: ",
       startDateLabel: "Početni datum: ",
       endDateLabel: "Krajnji datum: ",
-      quickLabel: "Brza rezervacija: "
+      quickLabel: "Brza rezervacija: ",
+      header:"Profil klijenta",
+      indexPr:"indexPr",
     }
   }
 }

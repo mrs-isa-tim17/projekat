@@ -1,6 +1,6 @@
 <template>
+  <admin-header></admin-header>
   <div>
-    <admin-header></admin-header>
     <div class="container">
       <div>
         <registration-request :requests="requests"></registration-request>

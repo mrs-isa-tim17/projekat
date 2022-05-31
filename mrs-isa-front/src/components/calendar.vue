@@ -6,7 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 export default {
   name: "calendar-mrs",
-  props: ['availabilityPeriod', 'unavailabilityPeriod', 'myEvents'],
+  props: ['availabilityPeriod', 'unavailabilityPeriod', 'reservations', 'actions'],
   components: {
     FullCalendar // make the <FullCalendar> tag available
   },
@@ -19,9 +19,14 @@ export default {
       period.color= '#F86C53';
       this.calendarOptions.events.push(period);
     }
-    for(let period of this.myEvents){
+    for(let period of this.reservations){
       period.color = '#2593F5';
       this.calendarOptions.events.push(period);
+    }
+    for(let period of this.actions){
+      period.color='#B691E4'
+      this.calendarOptions.events.push(period);
+      console.log(period);
     }
   },
 

@@ -33,4 +33,12 @@ public class ShipService {
 	public List<Ship> getShipsByOwner(ShipOwner owner){
 		return shipRepository.findByOwner(owner);
 	}
+	
+	public List<Ship> findActiveShips() {
+		return shipRepository.findActiveShips();
+	}
+	
+	public List<Ship> findDeletedShips(){
+		return shipRepository.findDeletedShips();
+	}
 }

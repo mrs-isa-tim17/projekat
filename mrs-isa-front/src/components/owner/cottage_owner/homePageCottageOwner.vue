@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ownerHeader from "@/components/cottage_owner/cottageOwnerHeader";
-import CottageList from "@/components/cottage_owner/cottageList";
+import ownerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
+import CottageList from "@/components/owner/cottage_owner/cottageList";
 export default {
   name: "cottageOwnerHome",
   components:{CottageList, ownerHeader}
