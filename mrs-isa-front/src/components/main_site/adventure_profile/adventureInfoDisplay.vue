@@ -159,7 +159,8 @@ export default {
   },
   mounted() {
     if (this.offer.id !== "")
-      this.checkSubscription();
+      if (this.verifiedClient)
+        this.checkSubscription();
       this.offerId = this.offer.id;
       this.rerender();
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offerId).then((response) => {

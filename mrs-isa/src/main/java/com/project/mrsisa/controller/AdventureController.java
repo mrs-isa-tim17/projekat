@@ -214,7 +214,7 @@ public class AdventureController {
 		Adventure adventure = adventureService.findOneById(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 		for(Reservation r : reservations) {
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDateTime().format(formatter), r.getEndDateTime().format(formatter), adventure.getName());
 			reservationPeriods.add(period);
 		}
 		
@@ -230,7 +230,7 @@ public class AdventureController {
 		for(Reservation reservation: reservations) {
 			Client client = (Client) userService.findById(reservation.getClient().getId());
 			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
-					reservation.getStartDate(), reservation.getEndDate(), reservation.isQuick());
+					reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick());
 			
 			reservationsForOwner.add(reservationForOwner);
 		}

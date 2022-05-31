@@ -176,20 +176,20 @@ public class OfferProcessing {
     private boolean isDefinedReservation(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
         for (Reservation pa : c.getReservations()){
             //before - less than zero				after - more than zero
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDateTime().compareTo(fromDate) > 0)
+                if (pa.getEndDateTime().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDateTime().compareTo(fromDate) < 0)
+                if (pa.getEndDateTime().compareTo(untilDate) < 0)
                     return true;
 
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDateTime().compareTo(fromDate) < 0)
+                if (pa.getEndDateTime().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDateTime().compareTo(fromDate) > 0)
+                if (pa.getEndDateTime().compareTo(untilDate) < 0)
                     return true;
         }
         return false;
@@ -200,20 +200,20 @@ public class OfferProcessing {
             //before - less than zero				after - more than zero
             // un: od - do
             // search od - do
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDate().compareTo(fromDate) > 0)
+                if (pa.getEndDate().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDate().compareTo(fromDate) < 0)
+                if (pa.getEndDate().compareTo(untilDate) < 0)
                     return true;
 
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDate().compareTo(fromDate) < 0)
+                if (pa.getEndDate().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDate().compareTo(fromDate) > 0)
+                if (pa.getEndDate().compareTo(untilDate) < 0)
                     return true;
 
         }
@@ -223,8 +223,8 @@ public class OfferProcessing {
     private boolean isDefinedAvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
         for (PeriodAvailability pa : c.getPeriodAvailabilities()){
             //before - less than zero				after - more than zero
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) <= 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) >= 0) {
+            if (pa.getStartDate().compareTo(fromDate) <= 0)
+                if (pa.getEndDate().compareTo(untilDate) >= 0) {
                     return true;
                 }
         }

@@ -1,7 +1,7 @@
 <template>
   <div class="container" >
-    <div class="p-2" v-for="(item) in filterOffers()"  :key="item.name">
-      <clientReservationHistoryElement :cottage="item" :key="myKey" @rerender="forceRerendering(item)" @reviewed="itemReviewed"> </clientReservationHistoryElement>
+    <div class="p-2" v-for="(item) in cottagesHistory"  :key="item.name">
+      <clientReservationHistoryElement :cottage="item" :type="type" :key="myKey" @rerender="forceRerendering(item)" @reviewed="itemReviewed"> </clientReservationHistoryElement>
     </div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 <script>
 import clientReservationHistoryElement from "@/components/client/clientReservationHistoryElement";
 export default {
-  props: ['from', 'cottagesHistory', 'numToDisplay'],
+  props: ['from', 'cottagesHistory', 'numToDisplay', 'type'],
   name: "clientReservationHistoryList",
   components: {
     clientReservationHistoryElement

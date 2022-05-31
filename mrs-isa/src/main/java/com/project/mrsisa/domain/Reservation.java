@@ -100,7 +100,7 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
-	
+
 	public LocalDate getStartDate() {
 		return startDate.toLocalDate();
 	}
@@ -116,8 +116,8 @@ public class Reservation {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate.atStartOfDay();
 	}
-	
-	
+
+
 	
 	
 	

@@ -196,7 +196,8 @@ export default {
   },
   mounted() {
     if (this.offer.id !== "") {
-      this.checkSubscription();
+      if (this.verifiedClient)
+        this.checkSubscription();
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offer.id).then((response) => {
         this.availabilityPeriod = response.data;
       });

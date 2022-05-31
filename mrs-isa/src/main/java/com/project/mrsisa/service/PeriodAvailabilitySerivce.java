@@ -69,14 +69,14 @@ public class PeriodAvailabilitySerivce {
 		for(StartEndDateTimeDefineDTO period : availabilityIntersectionUnavailability) {
 			current =  period.getStart();
 			for(Reservation r: reservations) {
-				if(current.isBefore(r.getStartDateTime()) && period.getEnd().isAfter(r.getEndDate().atStartOfDay())) {
+				if(current.isBefore(r.getStartDateTime()) && period.getEnd().isAfter(r.getEndDateTime())) {
 					System.out.println(current);
 					System.out.println("Sssssss " + current.format(formatter) );
-					System.out.println(r.getStartDate());
+					System.out.println(r.getStartDateTime());
 					System.out.println("sSSSSssssssss " + r.getStartDateTime().format(formatter));
 					
 					intersectionAll.add(new StartEndDateDTO(current.format(formatter), r.getStartDateTime().format(formatter), "  " ));
-					current = r.getEndDate().atStartOfDay();
+					current = r.getEndDateTime();
 				}
 			}
 			intersectionAll.add(new StartEndDateDTO(current.format(formatter), period.getEnd().format(formatter), " " ));

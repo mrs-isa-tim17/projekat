@@ -90,7 +90,7 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	penalty_number, enabled) values
 	('CL', nextval('user_seq'), false, 'erdelji.violeta@gmail.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3815828', 'Markovic', 0,1, '2017-10-01 21:58:58.508-07', 1,
-	3, true);
+	1, true);
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
@@ -382,7 +382,7 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
     (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10,false);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1,false);
+      (false, '14.06.2022', 0, 42542, false, false, '12.06.2022.', 1, 1,false);
       
       
      insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
@@ -398,7 +398,7 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
     (false, '14.04.2022', 1, 42542, false, true, '12.04.2022.', 1, 10, false);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-      (false, '14.06.2022', 1, 42542, false, false, '12.06.2022.', 1, 1, false);
+      (false, '14.06.2022', 0, 42542, false, false, '12.06.2022.', 1, 1, false);
 
 insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '09.05.2022.', 2, 3000, false, false, '05.05.2022.', 1, 2, false);
@@ -407,7 +407,7 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
      
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '23.05.2022', 1, 4000, false, false, '28.05.2022.', 1, 1, false);
+    (false, '23.05.2022', 0, 4000, false, false, '28.05.2022.', 1, 1, false);
 
 insert into registration_request (registration_type, status, user_id) values (0, 0, 3);
 insert into registration_request (registration_type, status, user_id) values (1, 0, 4);

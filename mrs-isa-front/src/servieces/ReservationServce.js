@@ -7,84 +7,107 @@ const RESERVATION_API_BASE_URL = Config.BASE_URL + '/offer';
 
 class ReservationServce{
 
-    getPastCottageReservations(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/cottage/history/" + clientID, {
+    getPastCottageReservations(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/cottage/history/" + clientID,  pagObj,{
             headers : authHeader()
         });
     }
-    getPastShipReservations(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/ship/history/" + clientID, {
+    getPastShipReservations(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/ship/history/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getPastAdventureReservations(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/adventure/history/" + clientID, {
-            headers : authHeader()
-        });
-    }
-
-
-    getSortedPastAdventureReservationsByName(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/adventure/history/name/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastAdventureReservationsByDate(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/adventure/history/date/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastAdventureReservationsByPrice(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/adventure/history/price/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastAdventureReservationsByDuration(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/adventure/history/duration/" + clientID, {
+    getPastAdventureReservations(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/adventure/history/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
 
 
-    getSortedPastCottageReservationsByName(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/cottage/history/name/" + clientID, {
+    getSortedPastAdventureReservationsByName(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/adventure/history/name/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastCottageReservationsByDate(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/cottage/history/date/" + clientID, {
+    getSortedPastAdventureReservationsByDate(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/adventure/history/date/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastCottageReservationsByPrice(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/cottage/history/price/" + clientID, {
+    getSortedPastAdventureReservationsByPrice(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/adventure/history/price/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastCottageReservationsByDuration(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/cottage/history/duration/" + clientID, {
+    getSortedPastAdventureReservationsByDuration(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/adventure/history/duration/" + clientID, pagObj,{
             headers : authHeader()
         });
     }
-    getSortedPastShipReservationsByName(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/ship/history/name/" + clientID, {
+
+
+    getSortedPastCottageReservationsByName(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/cottage/history/name/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastShipReservationsByDate(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/ship/history/date/" + clientID, {
+    getSortedPastCottageReservationsByDate(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/cottage/history/date/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastShipReservationsByPrice(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/ship/history/price/" + clientID, {
+    getSortedPastCottageReservationsByPrice(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/cottage/history/price/" + clientID, pagObj, {
             headers : authHeader()
         });
     }
-    getSortedPastShipReservationsByDuration(clientID){
-        return axios.get(RESERVATION_API_BASE_URL + "/ship/history/duration/" + clientID, {
+    getSortedPastCottageReservationsByDuration(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/cottage/history/duration/" + clientID, pagObj, {
             headers : authHeader()
         });
+    }
+    getSortedPastShipReservationsByName(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/ship/history/name/" + clientID, pagObj, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByDate(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/ship/history/date/" + clientID, pagObj, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByPrice(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/ship/history/price/" + clientID, pagObj, {
+            headers : authHeader()
+        });
+    }
+    getSortedPastShipReservationsByDuration(clientID, fromElement, numberOfElementsForDisplay){
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(RESERVATION_API_BASE_URL + "/ship/history/duration/" + clientID, pagObj, {
+            headers : authHeader()
+        });
+    }
+
+
+    formPaginationObj(fromElement, numberOfElementsForDisplay){
+        return {
+            fromElement: fromElement,
+            numberToDisplay: numberOfElementsForDisplay
+        }
     }
 }
 
