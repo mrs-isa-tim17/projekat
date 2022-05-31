@@ -195,6 +195,114 @@ public class ShipController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
+		List<ShipForListViewDTO> shipsDTO = filterShips(shipFilterParamsDTO);
+
+		shipsDTO = handleSort(shipsDTO, shipFilterParamsDTO);
+
+		shipsDTO = handlePagination(shipsDTO, shipFilterParamsDTO);
+
+
+		return new ResponseEntity(shipsDTO, HttpStatus.OK);
+	}
+
+	private List<ShipForListViewDTO> handlePagination(List<ShipForListViewDTO> shipsDTP, ShipFilterParamsDTO shipFilterParamsDTO) {
+		if (shipFilterParamsDTO.getFromElement() < 0)
+			shipFilterParamsDTO.setFromElement(0);
+		int untilElement = shipFilterParamsDTO.getUntilElement(shipsDTP.size());// paginationDTO.getFromElement() + paginationDTO.getNumberToDisplay();
+
+
+		ShipForListViewDTO firstDto = new ShipForListViewDTO();
+		firstDto.setListSize(shipsDTP.size());
+
+		shipsDTP = shipsDTP.subList(shipFilterParamsDTO.getFromElement(), untilElement);
+		shipsDTP.add(0, firstDto);
+
+		return shipsDTP;
+	}
+
+
+	private List<ShipForListViewDTO> handleSort(List<ShipForListViewDTO> shipsDTO, ShipFilterParamsDTO shipFilterParamsDTO) {
+		if (shipFilterParamsDTO.getSortBy().equals("name")){
+			return sortByName(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("location")){
+			return sortByLocation(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("rating")){
+			return sortByRating(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("price")){
+			return sortByPrice(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("speed")){
+			return sortBySpeed(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("capacity")){
+			return sortByCapacity(shipsDTO);
+		}
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByCapacity(List<ShipForListViewDTO> shipsDTO) {
+		System.out.println("CAPACITYYY");
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getCapacity() - c2.getCapacity());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortBySpeed(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getMaxSpeed() - c2.getMaxSpeed());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByPrice(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getPrice() - c2.getPrice());
+			}
+		});
+		return shipsDTO;
+	}
+
+
+	private List<ShipForListViewDTO> sortByRating(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getMark() - c2.getMark());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByLocation(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getLatitude() - c2.getLatitude());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByName(List<ShipForListViewDTO> shipsDTO) {
+		System.out.println("NAAMEEE");
+
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> filterShips(ShipFilterParamsDTO shipFilterParamsDTO) {
 		List<Ship> ships = shipService.findAll();
 
 		ships = offerProcessing.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
@@ -226,8 +334,9 @@ public class ShipController {
 		//cena
 		shipsDTO = offerProcessing.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
 
-		return new ResponseEntity(shipsDTO, HttpStatus.OK);
+		return shipsDTO;
 	}
+
 	private List<ShipForListViewDTO> getShipsForListViewDTO(List<Ship> ships){
 		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
 		for (Ship ship : ships) {
@@ -238,70 +347,6 @@ public class ShipController {
 			shipsDTO.add(dto);
 		}
 		return shipsDTO;
-	}
-
-	@PostMapping(value = "/site/sort/name", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByName(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return c1.getName().compareTo(c2.getName());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/location", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByLocation(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getLatitude() - c2.getLatitude());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-	@PostMapping(value = "/site/sort/rating", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByRating(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getMark() - c2.getMark());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-	@PostMapping(value = "/site/sort/price", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByPrice(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getPrice() - c2.getPrice());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/speed", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListBySpeed(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getMaxSpeed() - c2.getMaxSpeed());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/capacity", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByCapacity(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getCapacity() - c2.getCapacity());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
 	}
 
 	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)

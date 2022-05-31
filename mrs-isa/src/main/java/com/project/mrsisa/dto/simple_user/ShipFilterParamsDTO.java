@@ -2,7 +2,7 @@ package com.project.mrsisa.dto.simple_user;
 
 import java.time.LocalDateTime;
 
-public class ShipFilterParamsDTO {
+public class ShipFilterParamsDTO extends PaginationDTO{
     private double longitude;
     private double latitude;
     private LocalDateTime dateFrom;
@@ -16,6 +16,7 @@ public class ShipFilterParamsDTO {
     private String priceRelOp;
     private double price;
     private String searchBy;
+    private String sortBy;
 
     public ShipFilterParamsDTO() {
     }
@@ -122,5 +123,14 @@ public class ShipFilterParamsDTO {
 
     public void setSearchBy(String searchBy) {
         this.searchBy = searchBy;
+    }
+
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
     }
 }

@@ -11,9 +11,20 @@ class ShipServce{
         return axios.get(SHIP_API_BASE_URL + "/short");
     }
 
-    filterShips(filterParams) {
+    filterShips(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams = this.formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay);
         return axios.post(SHIP_API_BASE_URL + "/filter", filterParams);
     }
+
+    formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams.fromElement = fromElement;
+        filterParams.numberToDisplay = numberOfElementsForDisplay;
+        return filterParams;
+    }
+
+    /*filterShips(filterParams) {
+        return axios.post(SHIP_API_BASE_URL + "/filter", filterParams);
+    }*/
 
     sortShipListByName(ships) {
         return axios.post(SHIP_API_BASE_URL + "/sort/name", ships);

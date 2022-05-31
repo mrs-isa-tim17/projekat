@@ -2,13 +2,15 @@
 
 
   <div>
-    <div class="p-2" v-for="(item) in filterOffers()"  :key="item.name">
+    <div class="p-2" v-for="(item) in cottages"  :key="item.name">
       <site-ship-element :cottage="item"></site-ship-element>
     </div>
   </div>
 
-  <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numberOfElementsForDisplay" :fromElement="fromElement"
-                        :numberOfElements="listLength" @pagination="fromUntilElement" class="d-flex justify-content-center"></pagination-component>
+  <pagination-component :key="paginationKey" :numberOfElementsToDisplay="numberOfElementsForDisplay"
+                        :fromElement="fromElement"
+                        :numberOfElements="listLength" @pagination="fromUntilElement"
+                        class="d-flex justify-content-center"></pagination-component>
 
 
 </template>
@@ -20,7 +22,7 @@ import PaginationComponent from "@/components/paginationComponent";
 export default {
   name: "site-cottage-list",
   components: {PaginationComponent, SiteShipElement},
-  props: ["cottages", "listLength"],
+  props: ["cottages", "numberOfElementsForDisplay", "listLength", "fromElement"],
   mounted() {
   },
   created:
@@ -31,8 +33,7 @@ export default {
       },
   methods: {
     fromUntilElement(from){
-      this.fromElement = from;
-      this.forceRemounting();
+      this.$emit("get-list-from", from);
     },
     forceRemounting(){
       this.paginationKey += 1;
@@ -60,8 +61,6 @@ export default {
 
   data() {
     return {
-      numberOfElementsForDisplay : 3,
-      fromElement: 0,
       paginationKey: 0
     }
   }
