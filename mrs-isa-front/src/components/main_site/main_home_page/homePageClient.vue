@@ -1,7 +1,7 @@
 <template>
 
+  <client-header></client-header>
   <div class="px-5">
-    <client-header></client-header>
     <HomePageOffers></HomePageOffers>
   </div>
 </template>

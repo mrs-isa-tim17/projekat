@@ -35,4 +35,12 @@ public class CottageService {
 	public void remove(Long id) {
 		cottageRepository.deleteById(id);
 	}
+	
+	public List<Cottage> findActiveCottages() {
+		return cottageRepository.findActiveCottages();
+	}
+	
+	public List<Cottage> findDeletedCottages(){
+		return cottageRepository.findDeletedCottages();
+	}
 }

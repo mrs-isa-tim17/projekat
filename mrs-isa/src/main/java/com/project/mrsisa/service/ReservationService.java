@@ -71,4 +71,13 @@ public class ReservationService {
         return reservationRepository.getAllReservationsForPeriod(id,start,end);
     }
 
+	public boolean haveFutureReservations(Long offerId) {
+		List<Reservation> futureReservations = reservationRepository.findFutureReservationHistory(offerId);
+		if(futureReservations.size()==0) {
+			return false;
+		}
+		return true;
+	}
+
+
 }

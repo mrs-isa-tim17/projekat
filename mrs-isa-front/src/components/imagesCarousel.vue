@@ -2,7 +2,7 @@
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img :src="activeImage" class="d-block w-100" alt="...">
+        <img :src="getFirstImg()" class="d-block w-100" alt="...">
       </div>
 
       <div class="carousel-item" v-for="path in filterInactiveImages()" :key="path">
@@ -27,20 +27,30 @@ export default {
   name: "images-carousel",
   props: ['image_paths'],
 
+  mounted() {
+  },
   created:
       function () {
-        if (this.image_paths.length === 0) {
-          this.activeImage = this.image
-          this.images.push(this.activeImage);
-        } else {
-          this.activeImage = this.image_paths[0];
-        }
       },
 
   methods: {
-    filterInactiveImages() {
+    getFirstImg(){
+      console.log("LEEEN");
+      console.log(this.image_paths.length);
       if (this.image_paths.length === 0) {
-        this.images.push(this.image);
+        this.activeImage = this.image
+        //this.images.push(this.activeImage);
+      } else {
+        this.activeImage = this.image_paths[0];
+      }
+      return this.activeImage;
+    },
+    filterInactiveImages() {
+      console.log("OVDE ");
+      console.log(this.image_paths);
+      this.images=[];
+      if (this.image_paths.length === 0) {
+        this.images=[];//\.push(this.image);
       } else {
         for (let i in this.image_paths) {
           if (i !== 0) {
@@ -53,7 +63,7 @@ export default {
   },
   data() {
     return {
-      image: "/img/adventure/Drina1.jpg",
+      image: require("@/assets/icons/img.jpg"),
       images: [],
       activeImage: "",
     }

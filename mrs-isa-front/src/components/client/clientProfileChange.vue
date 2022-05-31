@@ -50,6 +50,8 @@
 
                 <changePasswordModal
                     :index="buttonId" :header="changePassHeader" @input-new-password="changePassword"></changePasswordModal>
+
+                <DeleteAccountDialog :index="'delAcc'" :header="'Zahtev za brisanje naloga'" :textModal="'Unosite razlog zašto hoćete da brišete svoj nalog'"></DeleteAccountDialog>
               </div>
 
 
@@ -81,10 +83,12 @@ import ClientServce from "@/servieces/ClientServce";
 import vueOpenLayerMap from "@/components/VueMaps";
 import PasswordService from "@/servieces/PasswordService";
 import changePasswordModal from "@/components/changePasswordModal";
+import DeleteAccountDialog from "@/components/deleteAccountModal";
 
 export default {
   name: "client-profile-change",
   components: {
+    DeleteAccountDialog,
     changePasswordModal,
     clientHeader,
     disabledInputField,

@@ -1,6 +1,7 @@
 <template>
+  <admin-header></admin-header>
   <div id="admin-home-page">
-    <admin-header></admin-header>
+
     <div class="container">
 
       <div class="row justify-content-center">
@@ -10,14 +11,14 @@
         <adminHomePageOption :image_path="complaintImgPath" :option_link="complaintLink"
                              :text="complaintText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="revisionImgPath" :option_link="registrationLink"
+        <adminHomePageOption :image_path="revisionImgPath" :option_link="revisionLink"
                              :text="revisionText"></adminHomePageOption>
 
       </div>
 
       <div class="row justify-content-center ">
 
-        <adminHomePageOption :image_path="percentageImgPath" :option_link="penaltyLink"
+        <adminHomePageOption :image_path="percentageImgPath" :option_link="percentageLink"
                              :text="percentageText"></adminHomePageOption>
 
         <adminHomePageOption :image_path="businessReportImgPath" :option_link="businessReportLink"
@@ -45,9 +46,9 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
-              <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" href="#">Avanture</a></li>
+              <li><a class="dropdown-item" :href="'/admin/cottages'">Vikendice</a></li>
+              <li><a class="dropdown-item" :href="'/admin/ships'">Brodovi</a></li>
+              <li><a class="dropdown-item" href="/admin/adventures">Avanture</a></li>
             </ul>
           </div>
         </div>
@@ -105,7 +106,7 @@ export default {
 
 
       percentageImgPath: require("@/assets/icons/percentage.png"),
-      percentageLink: "...",
+      percentageLink: '/admin/percentage',
       percentageText: "Procenat zarade",
 
       businessReportImgPath: require("@/assets/icons/reportBusiness.png"),
@@ -125,7 +126,7 @@ export default {
 
       usersImgPath: require("@/assets/icons/users.png"),
       usersText: 'Korisnici',
-      usersLink: '...',
+      usersLink: '/admin/users',
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
       penaltyText: "Penali",

@@ -80,4 +80,7 @@ public class DeleteRequestService {
         System.out.println("Poslat mail");
     }
 
+    public DeleteRequest findOneByUser(Long id) {
+        return deleteRequestRepository.findByUserRef(id);
+    }
 }
