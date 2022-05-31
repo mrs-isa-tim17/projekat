@@ -12,6 +12,12 @@ class SaleAppointmentService{
         });
     }
 
+    defineSaleAppointmentForCottage(offerId,saleAppointmentDTO){
+        return axios.post(SALE_APPOINTMENT_API_BASE_URL + '/cottage/define/'+offerId, saleAppointmentDTO, {
+            headers: authHeader()
+        });
+    }
+
     getSaleAppointmentsById(offerId) {
         return axios.get(SALE_APPOINTMENT_API_BASE_URL+'/quick/reservation/' + offerId, {
             headers: authHeader()

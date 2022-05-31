@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.*;
+import com.project.mrsisa.service.*;
 import org.aspectj.weaver.AnnotationNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,27 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.mrsisa.domain.AdditionalServices;
-import com.project.mrsisa.domain.Address;
-import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.PeriodAvailability;
-import com.project.mrsisa.domain.PeriodUnavailability;
-import com.project.mrsisa.domain.Reservation;
-import com.project.mrsisa.domain.SaleAppointment;
 import com.project.mrsisa.dto.SaleAppointmentDTO;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.TextDTO;
-import com.project.mrsisa.service.AdditionalServicesService;
-import com.project.mrsisa.service.AdventureService;
-import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.PeriodUnavailabilityService;
-import com.project.mrsisa.service.ReservationService;
 import com.project.mrsisa.domain.SaleAppointment;
 import com.project.mrsisa.dto.SaleAppointmentDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.SaleAppointmentService;
 
 
 @RestController
@@ -60,6 +49,9 @@ public class SaleAppointmentController {
 	private PeriodUnavailabilityService periodUnavailabilityService;
 	@Autowired
 	private ReservationService reservationService;
+
+	@Autowired
+	private CottageService cottageService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	
@@ -100,6 +92,45 @@ public class SaleAppointmentController {
 		else {
 			return new ResponseEntity<>(new TextDTO("Definistite akciju u periodu dostupnosti") , HttpStatus.OK);
 			
+		}
+	}
+
+	@PostMapping(value = "/cottage/define/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<TextDTO> defineSaleAppointmentCottage(@PathVariable Long id, @RequestBody SaleAppointmentDTO saleAppointmentDTO){
+
+		Cottage cottage = cottageService.findOne(id);
+
+		System.out.println("CENa: "+saleAppointmentDTO.getDuration() );
+
+		Address address = new Address(saleAppointmentDTO.getLongitude(), saleAppointmentDTO.getLatitude());
+
+
+		if (isInCorrectPeriod(id, saleAppointmentDTO.getStartDateTime(), saleAppointmentDTO.getDuration())) {
+
+			SaleAppointment saleAppointment = new SaleAppointment();
+			saleAppointment.setAddress(address);
+			saleAppointment.setDiscount(saleAppointmentDTO.getPrice());
+			saleAppointment.setDuration(saleAppointmentDTO.getDuration());
+			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
+			System.out.println(saleAppointmentDTO.getStartDateTime());
+			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime());
+
+			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
+			for(String service : saleAppointmentDTO.getAdditionalServices())
+			{
+				AdditionalServices as = additionalServicesService.findOneByName(service);
+				additionalServices.add(as);
+			}
+			saleAppointment.setOffer(cottage);
+			saleAppointment.setAdditionalServices(additionalServices);
+
+			saleAppointmentService.save(saleAppointment);
+			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<>(new TextDTO("Definistite akciju u periodu dostupnosti") , HttpStatus.OK);
+
 		}
 	}
 	

@@ -16,7 +16,7 @@
             <a class="nav-link" style="color:white;font-size: 20px;" :href="calendar" aria-current="page" >Kalendar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Brze rezervacije</a>
+            <a class="nav-link " style="color:white;font-size: 20px;" :href="quickRes">Brze rezervacije</a>
           </li>
           <li class="nav-item">
             <NewReservations :header="reservationsHeader" :index="reservationsIndex" :key="newResKey"></NewReservations>
@@ -66,7 +66,9 @@ export default {
       reservationsHeader:"Napravite novu rezervaciju",
       reservationsIndex:"resId",
       newResKey:0,
-      incomeReports:"/owner/report/graphIncome"
+      incomeReports:"/owner/report/graphIncome",
+      calendar:"/owner/calendar",
+      quickRes:'/owner/quickReservation'
     }
   },
   methods:

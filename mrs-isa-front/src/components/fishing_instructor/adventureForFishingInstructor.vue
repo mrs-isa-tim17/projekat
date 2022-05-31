@@ -182,6 +182,7 @@ export default {
               console.log(error.config);
             });
       },
+
   mounted() {
 
     PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.currentId).then((response) => {

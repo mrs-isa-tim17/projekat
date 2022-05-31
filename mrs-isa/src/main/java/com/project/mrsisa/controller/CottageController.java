@@ -1,11 +1,13 @@
 package com.project.mrsisa.controller;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
@@ -74,6 +76,8 @@ public class CottageController {
 
 	@Autowired
 	private ClientService clientService;
+
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<CottageForListViewDTO>> getCottages() {
@@ -393,6 +397,20 @@ public class CottageController {
 			dto.add(new ExperienceReviewDTO(e));
 		}
 		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping(value="/reservation/periods/{id}")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+
+		Cottage cottage = cottageService.findOne(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), cottage.getName());
+			reservationPeriods.add(period);
+		}
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
 	}
 
 }
