@@ -20,53 +20,8 @@
         {{textOnePanelty}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-
-      <div class="row justify-content-center">
-        <clientHomePageOption :image_path="cottageImgPath" :option_link="cottageLink" :text="cottageText"></clientHomePageOption>
-
-        <clientHomePageOption :image_path="shipImgPath" :option_link="shipLink" :text="shipText"></clientHomePageOption>
-
-        <clientHomePageOption :image_path="instructorImgPath" :option_link="instructorLink" :text="instructorText"></clientHomePageOption>
-      </div>
-
-      <div class="row justify-content-center ">
-        <clientHomePageOption :image_path="upcomingImgPath" :option_link="upcomingLink" :text="upcomingText"></clientHomePageOption>
-
-        <div class="col-3 px-5" style="min-width: 200px;">
-          <div class="dropdown">
-            <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="card-lg" style="min-width: 200px;">
-                <div class="card-body">
-                  <img :src=historyOfReservationImgPath height="150">
-                </div>
-                <div class="card-footer text-center text-primary">
-                  {{historyOfReservationText}}
-                </div>
-              </div>
-            </a>
-
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="min-width: 200px;">
-              <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
-              <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" :href="historyOfAdventureReservationsLink">Avanture</a></li>
-            </ul>
-          </div>
-        </div>
-
-
-        <clientHomePageOption :image_path="subscriptionImgPath" :option_link="subscriptionLink" :text="subscriptionText"></clientHomePageOption>
-      </div>
-
-      <div class="row justify-content-center ">
-
-        <request-for-deleting-account-modal style="min-width: 200px;" v-show="!deleteRequestMade" :image_path="deleteAccImgPath" :option_link="deleteAccLink"
-                       :text="deleteAccText" :index="deleteAccModal" :header="deleteAccHeader"
-                      ></request-for-deleting-account-modal>
-
-        <clientHomePageOption :image_path="profileImgPath" :option_link="profileLink" :text="profileText"></clientHomePageOption>
-      </div>
+      <HomePageOffers></HomePageOffers>
     </div>
-
   </div>
 </template>
 
@@ -77,16 +32,13 @@
 }
 </style>
 <script>
-import clientHomePageOption from "@/components/client/clientHomePageOption";
 import clientHeader from "@/components/client/clientHeader";
 import ClientServce from "@/servieces/ClientServce";
-import RequestForDeletingAccountModal from "@/components/RequestForDeletingAccountModal";
-//import clientServce from "@/servieces/ClientServce";
+import HomePageOffers from "@/components/main_site/main_home_page/homePageOffers";
 export default {
   name: "client-home",
   components: {
-    RequestForDeletingAccountModal,
-    clientHomePageOption,
+    HomePageOffers,
     clientHeader
   },
   methods:{
