@@ -59,43 +59,13 @@
           <br>
           <label>{{ ruleLabel }}</label>
           <br>
+
           <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule1 id="flexCheckDefault"
-                     :checked="rule1 in this.adventure.behaviorRules"  v-model="adventure.behaviorRules">
-              <label :for=rule1 class="form-check-label">
-                {{ rule1 }}
-              </label>
-            </div>
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule2 id="flexCheckDefault"
-                     :checked="rule2 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule2>
-                {{ rule2 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule3 id="flexCheckDefault"
-                     :checked="rule3 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule3>
-                {{ rule3 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule4 id="flexCheckDefault"
-                     :checked="rule4 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule4>
-                {{ rule4 }}
-              </label>
-            </div>
-
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=rule5 id="flexCheckDefault"
-                     :checked="rule5 in this.adventure.behaviorRules" v-model="adventure.behaviorRules">
-              <label class="form-check-label" :for=rule5>
-                {{ rule5 }}
+            <div align="left" class="form-check" v-for="br in this.behRules" :key="br">
+              <input class="form-check-input" type="checkbox" :value=br id="flexCheckDefault"
+                     v-model="adventure.behaviorRules">
+              <label class="form-check-label" :for=br>
+                {{ br }}
               </label>
             </div>
           </div>
@@ -103,23 +73,17 @@
           <br>
           <label>{{ additionalEquipmentLabel }}</label>
           <br>
-          <div class="p-2" style="border-style: solid; border-width: medium;">
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=additionalEquipment1 id="flexCheckDefault"
-                     :checked="additionalEquipment1 in this.adventure.additionalServices" v-model="adventure.additionalServices">
-              <label class="form-check-label" :for=additionalEquipment1>
-                {{ additionalEquipment1 }}
-              </label>
-            </div>
-            <div align="left" class="form-check">
-              <input class="form-check-input" type="checkbox" :value=additionalEquipment2 id="flexCheckDefault"
-                     :checked="additionalEquipment2 in this.adventure.additionalServices" v-model="adventure.additionalServices">
-              <label class="form-check-label" :for=additionalEquipment2>
-                {{ additionalEquipment2 }}
-              </label>
-            </div>
 
+          <div class="p-2" style="border-style: solid; border-width: medium;">
+            <div align="left" class="form-check" v-for="add in this.addServices" :key="add">
+              <input class="form-check-input" type="checkbox" :value=add id="flexCheckDefault"
+                     v-model="adventure.additionalServices">
+              <label class="form-check-label" :for=add>
+                {{ add }}
+              </label>
+            </div>
           </div>
+
           <br>
           <h5 id="message"></h5>
 
@@ -128,7 +92,6 @@
 
       </div>
 
-
       <div class="col-4 d-flex justify-content-center" style="border-style: solid; border-width: medium;
                                                 background-color: #CDCDCD;">
         <div>
@@ -136,33 +99,13 @@
             <br>
             <label>{{ fishingEquipmentLabel }}</label>
             <br>
+
             <div class="p-2" style="border-style: solid; border-width: medium;">
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment1 id="flexCheckDefault"
-                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment1>
-                  {{ fishingEquipment1 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment2 id="flexCheckDefault"
-                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment2>
-                  {{ fishingEquipment2 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment3 id="flexCheckDefault"
-                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment3>
-                  {{ fishingEquipment3 }}
-                </label>
-              </div>
-              <div align="left" class="form-check">
-                <input class="form-check-input" type="checkbox" :value=fishingEquipment4 id="flexCheckDefault"
-                       :checked="fishingEquipment1 in this.adventure.fishingEquipment" v-model="adventure.fishingEquipment">
-                <label class="form-check-label" :for=fishingEquipment4>
-                  {{ fishingEquipment4 }}
+              <div align="left" class="form-check" v-for="fi in this.fishEquip" :key="fi">
+                <input class="form-check-input" type="checkbox" :value=fi id="flexCheckDefault"
+                       v-model="adventure.fishingEquipment">
+                <label class="form-check-label" :for=fi>
+                  {{ fi }}
                 </label>
               </div>
             </div>
@@ -211,6 +154,9 @@
 import InstructorHeader from "@/components/insrtuctorHeader"
 import AdventureService from "@/services/AdventureService";
 import openLayers from "@/components/VueMaps";
+import BehaviorRulesService from "@/servieces/BehaviorRulesService";
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
+import FishingEquipmentService from "@/servieces/FishingEquipmentService";
 
 export default {
   name: "updateAdventure",
@@ -232,6 +178,24 @@ export default {
         })
       }
   ,
+
+  mounted() {
+    BehaviorRulesService.getAll().then((response) => {
+      this.behRules = response.data;
+      console.log(this.behRules);
+    });
+
+    AdditionalServicesService.getAll().then((response) => {
+      this.addServices = response.data;
+      console.log(this.addServices);
+    });
+
+    FishingEquipmentService.getAll().then((response) => {
+      this.fishEquip = response.data;
+      console.log(this.fishEquip);
+    })
+  },
+
   methods: {
     updateCoordinats(lon, lat) {
       this.adventure.longitude = lon;
@@ -364,7 +328,11 @@ export default {
           p3: 0,
           p4: 0,
           experienceReviews: [],
-        }
+        },
+
+        behRules: [],
+        addServices: [],
+        fishEquip: [],
       }
     }
 }

@@ -70,10 +70,13 @@ export default {
 
     deleteShip(){
       ShipService.deleteShip(this.ship.id).then((response)=>{
-        this.answer = response.data;      // treba mi neki odgovor
-
-        this.$emit('delete-ship');
-
+        this.answer = response.data;
+        if(this.answer) {
+          this.fireAlertOn("Obrisali ste brod.");
+          this.$emit('delete-ship');
+        }else{
+          this.fireAlertOn("Brisanje broda nije uspelo. Brod je ima rezervacije");
+        }
 
       }).catch(function (error) {
         console.log(error.toJSON());

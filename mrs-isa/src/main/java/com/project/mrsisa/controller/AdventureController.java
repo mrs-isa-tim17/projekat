@@ -181,12 +181,12 @@ public class AdventureController {
 	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteAdventure(@PathVariable Long id) {
 		Adventure adventure = adventureService.findOneById(id);
-		if ((adventure != null) && (!(reservationService.haveFutureReservations(id)))) {
+		if ((adventure != null) && ((reservationService.haveFutureReservations(id))==false)) {
 				adventure.setDeleted(true);
 				adventureService.save(adventure);				// logičko brisanje
 				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-				return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/detail/all")
@@ -202,21 +202,7 @@ public class AdventureController {
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
 	
-	
-	@GetMapping(value="/detail/reservation/periods/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
-		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
-		
-		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
-		for(Reservation r : reservations) {
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
-			reservationPeriods.add(period);
-		}
-		
-		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
-	}
+
 	
 	@GetMapping(value="/detail/reservation/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -234,7 +220,7 @@ public class AdventureController {
 		
 		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
 	}
-	
+		
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
 		Adventure adventure = new Adventure();

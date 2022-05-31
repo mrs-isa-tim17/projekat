@@ -75,8 +75,14 @@ export default {
 
     deleteCottage(){
       CottageService.deleteCottage(this.cottage.id).then((response)=>{
-        console.log(response.data);    // Treba mi neka povratna vrednost
-        this.$emit('delete-cottage');
+        console.log(response.data);
+        this.answer = response.data;
+        if(this.answer) {
+          this.fireAlertOn("Obrisali ste vikendicu.");
+          this.$emit('delete-cottage');
+        }else{
+          this.fireAlertOn("Brisanje vikendice nije uspelo. Vikendica je ima rezervacije");
+        }
 
       }).catch(function (error) {
         console.log(error.toJSON());

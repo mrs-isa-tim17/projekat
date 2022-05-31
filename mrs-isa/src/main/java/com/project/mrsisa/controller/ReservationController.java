@@ -1,5 +1,6 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.owner.HistoryFutureReservationOwnerDTO;
@@ -9,16 +10,18 @@ import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.ReservationService;
 
 import com.project.mrsisa.service.ShipService;
-
+import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
 import com.project.mrsisa.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
@@ -39,6 +42,8 @@ public class ReservationController {
     private ImageService imageService;
     @Autowired
     private AdventureService adventureService;
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     @RequestMapping(value = "/reservations/future/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
@@ -296,4 +301,19 @@ public class ReservationController {
         });
         return dtoList;
     }
+    
+	@GetMapping(value="/reservation/periods/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ROLE_COTTAGE_OWNER') or hasRole('ROLE_SHIP_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
+			reservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+	}
 }

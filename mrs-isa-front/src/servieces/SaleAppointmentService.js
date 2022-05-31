@@ -17,5 +17,11 @@ class SaleAppointmentService{
             headers: authHeader()
         });
     }
+
+    gatAllSaleAppontmentsForOffer(offerId){
+        return axios.get(SALE_APPOINTMENT_API_BASE_URL + '/quick/reservation/periods/' + offerId, {
+            headers: authHeader()
+        });
+    }
 }
 export default new SaleAppointmentService();

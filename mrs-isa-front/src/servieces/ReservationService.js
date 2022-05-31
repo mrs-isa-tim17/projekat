@@ -19,6 +19,12 @@ class ReservationService{
         });
     }
 
+    getAllReservationsForOffer(offerId){
+        return axios.get(RESERVATION_API_BASE_URL + '/reservation/periods/' + offerId, {
+            headers:authHeader()
+        });
+    }
+
 
 }
 export default new ReservationService();

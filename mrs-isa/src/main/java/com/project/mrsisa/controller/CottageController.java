@@ -239,9 +239,9 @@ public class CottageController {
 		if ((cottage != null) && ((reservationService.haveFutureReservations(id))==false)) {
 			cottage.setDeleted(true);
 			cottageService.save(cottage);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(true, HttpStatus.OK);
 		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(false, HttpStatus.OK);
 		}
 	}
 

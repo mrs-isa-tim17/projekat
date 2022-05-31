@@ -60,9 +60,9 @@ public class ClientController {
     }
 
     @GetMapping("/profile/{id}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ClientProfileResponseDTO> getClient(@PathVariable Long id){
-        
+  
         Client client = null;
        try {
         client = clientService.findOne(id);

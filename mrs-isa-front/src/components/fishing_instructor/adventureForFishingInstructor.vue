@@ -71,7 +71,8 @@
 
       <div class="col">
         <calendar :key="calendarKey" :availability-period="this.availabilityPeriod"
-                  :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></calendar>
+                  :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations"
+                  :actions="this.actions"></calendar>
         <br>
         <div class="row p-3">
           <div class="col-4">
@@ -140,6 +141,8 @@ import Datepicker from "@vuepic/vue-datepicker";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import ActionModal from "@/components/fishing_instructor/actionModal";
 import swal from "sweetalert2";
+import ReservationService from "@/servieces/ReservationService";
+import SaleAppointmentService from "@/servieces/SaleAppointmentService";
 
 
 export default {
@@ -200,10 +203,16 @@ export default {
       this.calendarKey--;
     })
 
-    AdventureService.getReservationPeriods(this.currentId).then((response) => {
+    ReservationService.getAllReservationsForOffer(this.currentId).then((response) => {
       this.reservations = response.data;
       this.calendarKey++;
     })
+
+    SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) =>{
+      this.actions = response.data;
+      this.calendarKey--;
+    })
+
 
   },
 
@@ -366,6 +375,7 @@ export default {
       availabilityPeriod: [],
       unavailabilityPeriod: [],
       reservations: [],
+      actions:[],
       calendarKey: 1,
       period: {
         start: "",

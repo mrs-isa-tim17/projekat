@@ -15,11 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.domain.AdditionalServices;
@@ -135,7 +130,6 @@ public class SaleAppointmentController {
 		
 	}
 
-
 	@GetMapping(value = "/quick/reservation/{id}")
 	@PreAuthorize("hasRole('CLIENT')")
 	public ResponseEntity<List<SaleAppoinmentClientDTO>> getSalesAppoinment(@PathVariable Long id){
@@ -146,6 +140,24 @@ public class SaleAppointmentController {
 			saleAppointmentDTOs.add(new SaleAppoinmentClientDTO(sa));
 		}
 		return new ResponseEntity<List<SaleAppoinmentClientDTO>>(saleAppointmentDTOs, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/quick/reservation/periods/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ROLE_COTTAGE_OWNER') or hasRole('ROLE_SHIP_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getQuickReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> quickReservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<SaleAppointment> apponiments = saleAppointmentService.findAllByOfferId(id);
+		for(SaleAppointment sale : apponiments) {
+			
+			LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
+			
+			StartEndDateDTO period = new StartEndDateDTO(sale.getStartSaleDate().format(formatter), end.format(formatter), adventure.getName());
+			quickReservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(quickReservationPeriods, HttpStatus.OK);
 	}
 
 }
