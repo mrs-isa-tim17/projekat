@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.Offer;
+import com.project.mrsisa.domain.Cottage;
+import com.project.mrsisa.domain.CottageOwner;
+import com.project.mrsisa.domain.FishingInstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +27,12 @@ public class AdventureService {
 	public List<Adventure> findAll(){
 		return adventureRepository.findAll();
 	}
-	
-	
+
+	public List<Adventure> getAdventuresByOwner(FishingInstructor owner){
+		return adventureRepository.findByOwnerId(owner.getId());
+	}
+
+
 	public Adventure findOneById(Long id) {
 		return adventureRepository.findOneById(id);
 	}
@@ -37,6 +44,15 @@ public class AdventureService {
     public List<Offer> findAllByClientId(Client clientId) {
 		return adventureRepository.findAllByClientId(clientId.getId());
     }
+
+	public List<Adventure> findActiveAdventures(){
+		return adventureRepository.findActiveAdventures();
+	}
+	
+	public List<Adventure> findDeletedAdventures(){
+		return adventureRepository.findDeletedAdventures();
+	}
+	
 /*	public Adventure fetchAdventureWithOther(Long id) {
 		return adventureRepository.fetchAdventureWithOther(id);
 	}*/

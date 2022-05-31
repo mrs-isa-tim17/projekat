@@ -22,11 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.dto.SaleAppointmentDTO;
@@ -56,6 +51,9 @@ public class SaleAppointmentController {
 	private PeriodUnavailabilityService periodUnavailabilityService;
 	@Autowired
 	private ReservationService reservationService;
+
+	@Autowired
+	private CottageService cottageService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@Autowired
@@ -108,13 +106,54 @@ public class SaleAppointmentController {
 			
 		}
 	}
+
+	@PostMapping(value = "/cottage/define/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<TextDTO> defineSaleAppointmentCottage(@PathVariable Long id, @RequestBody SaleAppointmentDTO saleAppointmentDTO){
+
+		Cottage cottage = cottageService.findOne(id);
+
+		System.out.println("CENa: "+saleAppointmentDTO.getDuration() );
+
+		Address address = new Address(saleAppointmentDTO.getLongitude(), saleAppointmentDTO.getLatitude());
+
+
+		if (isInCorrectPeriod(id, saleAppointmentDTO.getStartDateTime(), saleAppointmentDTO.getDuration())) {
+
+			SaleAppointment saleAppointment = new SaleAppointment();
+			saleAppointment.setAddress(address);
+			saleAppointment.setDiscount(saleAppointmentDTO.getPrice());
+			saleAppointment.setDuration(saleAppointmentDTO.getDuration());
+			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
+			System.out.println(saleAppointmentDTO.getStartDateTime());
+			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime());
+
+			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
+			for(String service : saleAppointmentDTO.getAdditionalServices())
+			{
+				AdditionalServices as = additionalServicesService.findOneByName(service);
+				additionalServices.add(as);
+			}
+			saleAppointment.setOffer(cottage);
+			saleAppointment.setAdditionalServices(additionalServices);
+
+			saleAppointmentService.save(saleAppointment);
+			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<>(new TextDTO("Definistite akciju u periodu dostupnosti") , HttpStatus.OK);
+
+		}
+	}
 	
 	private Boolean isInCorrectPeriod(Long id, LocalDateTime dateTime, double duration) {
 		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
 	
-		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availabilityPeriods, unavailability, reservations);
+		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availabilityPeriods,
+				unavailability, reservations, actions);
 			
 		
 		String bob = Double.toString(duration);
@@ -141,7 +180,6 @@ public class SaleAppointmentController {
 		
 	}
 
-
 	@GetMapping(value = "/quick/reservation/{id}")
 	@PreAuthorize("hasRole('CLIENT')")
 	public ResponseEntity<List<SaleAppoinmentClientDTO>> getSalesAppoinment(@PathVariable Long id){
@@ -152,6 +190,24 @@ public class SaleAppointmentController {
 			saleAppointmentDTOs.add(new SaleAppoinmentClientDTO(sa));
 		}
 		return new ResponseEntity<List<SaleAppoinmentClientDTO>>(saleAppointmentDTOs, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/quick/reservation/periods/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ROLE_COTTAGE_OWNER') or hasRole('ROLE_SHIP_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getQuickReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> quickReservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<SaleAppointment> apponiments = saleAppointmentService.findAllByOfferId(id);
+		for(SaleAppointment sale : apponiments) {
+			
+			LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
+			
+			StartEndDateDTO period = new StartEndDateDTO(sale.getStartSaleDate().format(formatter), end.format(formatter), adventure.getName());
+			quickReservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(quickReservationPeriods, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/quick/reserve")

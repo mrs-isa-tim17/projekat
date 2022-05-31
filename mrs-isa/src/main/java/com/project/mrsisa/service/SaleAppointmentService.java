@@ -95,6 +95,9 @@ public class SaleAppointmentService {
 		helper.setSubject(subject);
 		helper.setFrom(env.getProperty("spring.mail.username"));
 		javaMailSender.send(mimeMessage);
-
+	}
+	
+	public List<SaleAppointment> findAllByOfferId(Long offerId){
+		return saleAppointmentRepository.findAllByOfferId(offerId);
 	}
 }

@@ -1,14 +1,16 @@
 <template>
-  <div class="container">
-    <shipOwnerHeader></shipOwnerHeader>
+  <shipOwnerHeader></shipOwnerHeader>
+  <div class="container p-2">
+    <ship-list></ship-list>
   </div>
 </template>
 
 <script>
 import shipOwnerHeader from "@/components/ship_owner/shipOwnerHeader";
+import ShipList from "@/components/owner/ship_owner/shipList";
 export default {
   name: "shipOwnerHome",
-  components:{shipOwnerHeader}
+  components:{ShipList, shipOwnerHeader}
 }
 </script>
 

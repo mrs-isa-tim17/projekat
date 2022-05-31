@@ -97,7 +97,8 @@ export default {
         console.log(error.config);
 
       });
-      document.getElementById(id).innerText = "Uspešno ste prihvatili zahtev za brisanje naloga.";
+      document.getElementById(id).style.color = "red";
+      document.getElementById(id).innerText = "Prihvatili ste zahtev za brisanje naloga.";
       document.getElementById("delete"+id).style.visibility="hidden";
 
 
@@ -129,8 +130,7 @@ export default {
         }
         console.log(error.config);
       });
-      document.getElementById(id).innerText = "Uspešno ste odbili zahtev za brisanje naloga.";
-      document.getElementById(id).style.color = "red";
+      document.getElementById(id).innerText = "Odbili ste zahtev za brisanje naloga.";
       document.getElementById("delete"+id).style.visibility="hidden";
 
     }

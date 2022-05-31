@@ -1,16 +1,16 @@
 <template>
 
-  <div class="container">
-    <instructor-header></instructor-header>
+  <div class="container p-3">
     <div class="row d-flex justify-content-center">
       <div class="col-8 d-flex justify-content-center">
-        <div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button">
-            <button class="btn btn-primary me-md-2" type="button" aria-expanded="false">Search</button>
-            <button class="btn btn-secondary  btn-sm  me-md-2" @click="goToAddAdventure"> Dodaj novu avanturu</button>
-          </div>
-          <div v-for="adventure  in adventures" :key="adventure">
+        <div class="input-group mb-3 input-icons" >
+          <i class="fa fa-search icon"></i><input placeholder="Pretraži po imenu..." type="search" class="input-field form-control" aria-label="Text input with dropdown button" v-model="search"  @keyup="filtered">
+        </div>
+
+        <button class="btn-sm "  @click="goToAddAdventure"><i class="fa fa-mountain"></i> Dodaj novu avanturu</button>
+      </div>
+    </div>
+          <div class="p-2" v-for="adventure  in adventures" :key="adventure">
             <simple-adventure :adventure="adventure" :path=getImage(adventure) :key="myKey" @rerender="forceRerendering(adventure)"></simple-adventure>
           </div>
 
@@ -35,30 +35,31 @@
             </nav>
           </nav>
         </div>
-      </div>
-    </div>
-  </div>
+
+
 </template>
 
 <script>
-import instructorHeader from "@/components/insrtuctorHeader"
+//import instructorHeader from "@/components/insrtuctorHeader"
 import simpleAdventure from "@/components/fishing_instructor/simpleAdventure";
 import AdventureService from "@/services/AdventureService";
+
 
 export default {
   name: "adventure-all",
   components: {
-    instructorHeader,
+    //instructorHeader,
     simpleAdventure,
   },
 
-  mounted() {
-    console.log("bar je usao u funkciju");
+  created() {
+    //console.log("bar je usao u funkciju");
 
-    AdventureService.getAllAdventures().then((response) => {
+  /*  AdventureService.getAllAdventures().then((response) => {
       this.adventures = response.data;
       console.log(this.adventures);
-    })
+    })*/
+    this.filtered();
   }
   ,
   methods: {
@@ -75,6 +76,25 @@ export default {
       }else{
         return adventure.images[0];
       }
+
+    },
+    filtered(){
+      this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;
+      console.log(this.coID);
+     AdventureService.getAdventuresByOwner(this.coID)
+          .then((response) => {
+            if(!this.search) {
+              this.adventures = response.data;
+              console.log(this.adventures);
+            }
+            else{
+              console.log(response.data);
+              this.adventures = response.data.filter(adventure =>
+                  adventure.name.toLowerCase().includes(this.search.toLowerCase())
+              );
+              console.log(this.adventures);
+            }
+          })
 
     }
   },
@@ -102,7 +122,8 @@ export default {
         percentage: ['0', '0', '0', '0'],
         experienceReviews: [],
       },
-      myKey:1
+      myKey:1,
+      search:""
     }
   }
 }
@@ -112,4 +133,20 @@ export default {
 
 <style scoped>
 
+.input-icons{
+  width: 100%;
+  margin-bottom: 10px;
+  float:left;
+}
+.icon {
+  padding: 10px;
+  min-width: 40px;
+}
+input{
+  margin-right:20px;
+}
+button{
+  width:250px;
+  height:38px;
+}
 </style>

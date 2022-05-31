@@ -76,6 +76,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> findAllActive(){
+    	return userRepository.findAllActive();
+    }
+    
     public User save(UserRequest userRequest) {
         int userId = userRequest.getUserRole().intValue();
         switch (userId) {
@@ -142,6 +146,14 @@ public class UserService {
     public User save(User user) {
     	return userRepository.save(user);
     }
+    
+	public void remove(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	public List<User> findAllDeleted() {
+		return userRepository.findAllDeleted();
+	}
    
     }
 

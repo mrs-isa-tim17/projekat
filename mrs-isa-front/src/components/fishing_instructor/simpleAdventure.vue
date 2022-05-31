@@ -1,4 +1,5 @@
 <template>
+  <div class="d-flex justify-content-center mw-90" >
   <div class="card mb-3 d-flex justify-content-center" style="max-width: 800px;">
     <div class="row g-0">
       <div class="col-md-4">
@@ -22,6 +23,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
 </template>

@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.mrsisa.dto.AdminOfferDTO;
 import com.project.mrsisa.dto.AdventureDTO;
 
 import com.project.mrsisa.dto.ReservationForOwnerDTO;
@@ -63,7 +65,8 @@ public class AdventureController {
 	
 	@Autowired
 	private FishingEquipmentService fishingEquipmentService;
-	
+	@Autowired
+	private FishingInstructorService fishingInstructorService;
 	@Autowired
 	private CancelConditionService cancelConditionService;
 	
@@ -114,7 +117,7 @@ public class AdventureController {
 
 	@GetMapping(value = "/site/all")
 	public ResponseEntity<List<AdventureForListViewDTO>> getAdventures(){
-		List<Adventure> adventures = adventureService.findAll();
+		List<Adventure> adventures = adventureService.findActiveAdventures();
 		List<AdventureForListViewDTO> adventureDTO = getAdventuresForListViewDTO(adventures);
 		return ResponseEntity.ok(adventureDTO);
 	}
@@ -177,19 +180,15 @@ public class AdventureController {
 	
 	
 	@DeleteMapping(value = "/detail/delete/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteAdventure(@PathVariable Long id) {
-		
-		System.out.println("delete - in controller");
-
 		Adventure adventure = adventureService.findOneById(id);
-
-		if (adventure != null) {
-			adventureService.remove(id);
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+		if ((adventure != null) && ((reservationService.haveFutureReservations(id))==false)) {
+				adventure.setDeleted(true);
+				adventureService.save(adventure);				// logičko brisanje
+				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/detail/all")
@@ -204,22 +203,22 @@ public class AdventureController {
 
 		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
-	
-	
-	@GetMapping(value="/detail/reservation/periods/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
-		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
-		
-		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
-		for(Reservation r : reservations) {
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDateTime().format(formatter), r.getEndDateTime().format(formatter), adventure.getName());
-			reservationPeriods.add(period);
+
+
+	public ResponseEntity<List<AdventureDTO>> getAdventuresByOwner(@PathVariable Long id) {
+		FishingInstructor instructor = fishingInstructorService.findOne(id);
+		List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+
+		List<AdventureDTO> adventureDTO = new ArrayList<>();
+		System.out.println("avanture" + adventures.size());
+		for (Adventure adventure : adventures) {
+			adventureDTO.add(formAdventureDTO(adventure));
+			System.out.println("avanturaaaaaa" + adventure.getId() + adventure.getName());
 		}
-		
-		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
 	}
+	
+
 	
 	@GetMapping(value="/detail/reservation/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -237,7 +236,7 @@ public class AdventureController {
 		
 		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
 	}
-	
+		
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
 		Adventure adventure = new Adventure();
@@ -593,5 +592,46 @@ public class AdventureController {
 		dto.add(0, size);
 		return ResponseEntity.ok(dto);
 	}
+	
+	@GetMapping(value="/detail/admin/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getAllAvtiveAdventureForAdmin() {
+		List<Adventure> adventures = adventureService.findActiveAdventures();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Adventure adventure : adventures) {
+			User owner = userService.findById(adventure.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventure.getId());
+			double rate = experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE);
+			AdminOfferDTO offer = new AdminOfferDTO(adventure.getId(), adventure.getName(), adventure.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+		    		adventure.getAddress().getLongitude(), adventure.getAddress().getLatitude(), adventure.getCapacity(),
+		    		reservations.size(), rate, adventure.isDeleted());
+			
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value="/detail/admin/all/deleted")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getAllDeletedAdventureForAdmin() {
+		List<Adventure> adventures = adventureService.findDeletedAdventures();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Adventure adventure : adventures) {
+			User owner = userService.findById(adventure.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventure.getId());
+			double rate = experienceReviewService.getReatingByOfferId(adventure.getId(), OfferType.ADVENTURE);
+			AdminOfferDTO offer = new AdminOfferDTO(adventure.getId(), adventure.getName(), adventure.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+		    		adventure.getAddress().getLongitude(), adventure.getAddress().getLatitude(), adventure.getCapacity(),
+		    		reservations.size(), rate, adventure.isDeleted());
+			
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
+	}
+	
 
 }

@@ -38,4 +38,12 @@ public class ShipService {
     public List<Offer> findAllByClientId(Long clientId) {
 		return shipRepository.findAllByClientId(clientId);
     }
+	
+	public List<Ship> findActiveShips() {
+		return shipRepository.findActiveShips();
+	}
+	
+	public List<Ship> findDeletedShips(){
+		return shipRepository.findDeletedShips();
+	}
 }

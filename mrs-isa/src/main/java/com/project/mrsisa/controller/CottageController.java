@@ -1,16 +1,20 @@
 package com.project.mrsisa.controller;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.SearchParam;
+import com.project.mrsisa.dto.AdminOfferDTO;
+import com.project.mrsisa.dto.client.QuickReservationForClientDTO;
 import com.project.mrsisa.dto.simple_user.*;
 import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.service.*;
@@ -68,13 +72,16 @@ public class CottageController {
 
 	@Autowired
 	private ComplaintService complaintService;
-
-
+	
+	@Autowired
+	private UserService userService;
 
 	private OfferProcessing offerProcessing = new OfferProcessing();
 
 	@Autowired
 	private ClientService clientService;
+
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@PostMapping(value = "/site/all")
 	public ResponseEntity<List<CottageForListViewDTO>> getCottages(@RequestBody PaginationDTO paginationDTO) {
@@ -86,6 +93,13 @@ public class CottageController {
 		CottageForListViewDTO firstDto = new CottageForListViewDTO();
 		firstDto.setListSize(cottages.size());
 		cottagesDTO.add(0, firstDto);
+		return ResponseEntity.ok(cottagesDTO);
+	}
+
+	@GetMapping(value = "/site/all")
+	public ResponseEntity<List<CottageForListViewDTO>> getCottages() {
+		List<Cottage> cottages = cottageService.findActiveCottages();
+		List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
 		return ResponseEntity.ok(cottagesDTO);
 	}
 
@@ -103,7 +117,7 @@ public class CottageController {
 
 	@GetMapping(value = "/site/short")
 	public ResponseEntity<List<OfferForHomePageViewDTO>> getCottagesForHomePage() {
-		List<Cottage> cottages = cottageService.findAll();
+		List<Cottage> cottages = cottageService.findActiveCottages();
 		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
@@ -176,12 +190,12 @@ public class CottageController {
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<List<FindCottagesDTO>> getAllCottages() {
 
-		List<Cottage> cottages = cottageService.findAll();
+		List<Cottage> cottages = cottageService.findActiveCottages();
 		List<FindCottagesDTO> cottageDTO = new ArrayList<>();
 		for (Cottage c : cottages) {
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
-			 cottageDTO.add(new FindCottagesDTO(c,images, additionalServices));
+			 double price = pricelistService.findOffersCurrentPriceById(c.getId()).getPrice();
+			 cottageDTO.add(new FindCottagesDTO(c,images, price));
 		}
 
 		return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
@@ -224,24 +238,25 @@ public class CottageController {
 		
 		for (Cottage c : cottages) {
 			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(c.getId());
-			 cottagesDTO.add(new FindCottagesDTO(c,images,additionalServices));
+			 double price = pricelistService.getCurrentPriceOfOffer(c.getId());
+			 cottagesDTO.add(new FindCottagesDTO(c,images,price));
 
 		}
 		return new ResponseEntity<>(cottagesDTO, HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/delete/{id}")
-	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteCottage(@PathVariable Long id) {
 		System.out.println("tu sam, brisanje");
 		Cottage cottage = cottageService.findOne(id);
-		System.out.println(cottage.getName());
-		if (cottage != null) {
-			cottageService.remove(id);
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+		
+		if ((cottage != null) && ((reservationService.haveFutureReservations(id))==false)) {
+			cottage.setDeleted(true);
+			cottageService.save(cottage);
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(false, HttpStatus.OK);
 		}
 	}
 
@@ -440,6 +455,58 @@ public class CottageController {
 		}
 		dto.add(0, size);
 		return ResponseEntity.ok(dto);
+	}
+	
+	@GetMapping(value="/admin/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getActiveCottageForAdmin() {
+		List<Cottage> cottages = cottageService.findActiveCottages();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Cottage cottage : cottages) {
+			User owner = userService.findById(cottage.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(cottage.getId());
+			double rate = experienceReviewService.getReatingByOfferId(cottage.getId(), OfferType.COTTAGE);
+			AdminOfferDTO offer = new AdminOfferDTO(cottage.getId(), cottage.getName(), cottage.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+					cottage.getAddress().getLongitude(), cottage.getAddress().getLatitude(),  
+					cottage.getBedQuantity(), cottage.getRoomQuantity(), reservations.size(), rate, cottage.isDeleted());
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value="/admin/all/deleted")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<AdminOfferDTO>> getDeletedCottageForAdmin() {
+		List<Cottage> cottages = cottageService.findDeletedCottages();
+		List<AdminOfferDTO>  adminOffers = new ArrayList<AdminOfferDTO>();
+		for(Cottage cottage : cottages) {
+			User owner = userService.findById(cottage.getOwner().getId());
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(cottage.getId());
+			double rate = experienceReviewService.getReatingByOfferId(cottage.getId(), OfferType.COTTAGE);
+			AdminOfferDTO offer = new AdminOfferDTO(cottage.getId(), cottage.getName(), cottage.getDescription(),
+					owner.getName(), owner.getSurname(), owner.getEmail(),
+					cottage.getAddress().getLongitude(), cottage.getAddress().getLatitude(),  
+					cottage.getBedQuantity(), cottage.getRoomQuantity(), reservations.size(), rate, cottage.isDeleted());
+			adminOffers.add(offer);
+		}
+		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
+		
+	}
+
+	@GetMapping(value="/reservation/periods/{id}")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+
+		Cottage cottage = cottageService.findOne(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), cottage.getName());
+			reservationPeriods.add(period);
+		}
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
 	}
 
 }

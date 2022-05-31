@@ -6,15 +6,11 @@ import java.util.List;
 public class SaleAppointmentDTO {
 	private Long id;
 	private Long offerId;
-	
 	private LocalDateTime startDateTime;
-	
     private double longitude;
     private double latitude;
-    
     private double duration;
     private int peopleQuantity;
-    
 	private List<String> additionalServices;
 	private double price;
 	

@@ -152,7 +152,7 @@ import "vue-step-wizard/dist/vue-step-wizard.css";
 
 
 import CottageService from "@/servieces/cottage_owner/CottageService";
-import cottageOwnerHeader from "@/components/cottage_owner/cottageOwnerHeader"
+import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader"
 export default {
   name: "addCottage",
   components:{

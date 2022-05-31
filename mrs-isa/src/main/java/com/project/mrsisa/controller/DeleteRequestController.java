@@ -38,6 +38,9 @@ public class DeleteRequestController {
     @PreAuthorize("hasRole('CLIENT') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<Boolean> deleteAccountRequest(@PathVariable("id") long id, @RequestBody DeleteRequestDTO deleteRequestDTO) {
         User u = userService.findById(id);
+        DeleteRequest old = deleteRequestService.findOneByUser(id);
+        if (old != null)
+            return ResponseEntity.ok(false);
         DeleteRequest dr = new DeleteRequest();
         dr.setUserRef(u);
         dr.setStatus(ProcessingStatus.UNPROCESSED);
@@ -48,7 +51,7 @@ public class DeleteRequestController {
         dr.setText(reason);//deleting = from the end of the string
 
         deleteRequestService.save(dr);
-        return null;
+        return ResponseEntity.ok(true);
     }
     
     @GetMapping("/delete/unprocessed/")

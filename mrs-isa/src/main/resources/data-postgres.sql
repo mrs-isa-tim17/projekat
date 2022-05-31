@@ -94,8 +94,8 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
-	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
+	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milos', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milosevic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
@@ -113,8 +113,8 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
-	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milanovic', 0, 18, '2017-10-01 18:57:58.508-07',4, true);
+	('SO', nextval('user_seq'), false, 'ship.owner@example.com', 0, 'Milutin', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milutinovic', 0, 18, '2017-10-01 18:57:58.508-07',4, true);
 
 	
 	
@@ -147,8 +147,8 @@ insert into additional_services_offer (offer_id, additional_service_id) values (
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 9);
 insert into additional_services_offer (offer_id, additional_service_id) values (2, 2);
 insert into additional_services_offer (offer_id, additional_service_id) values (3, 2);
-insert into additional_services_offer (offer_id, additional_service_id) values (7, 2);
-insert into additional_services_offer (offer_id, additional_service_id) values (7, 9);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 4);
+insert into additional_services_offer (offer_id, additional_service_id) values (7, 5);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (7, 2);
 insert into additional_services_offer (offer_id, additional_service_id) values (7, 9);
@@ -358,7 +358,12 @@ insert into image (path, offer_id) values ('/img/instructor/maxresdefault.jpg', 
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1,false);
-
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '30.04.2022', 0, 4000, false, false, '28.04.2022.', 1, 1,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+        (false, '20.05.2022', 0, 4000, false, false, '15.05.2022.', 1, 1,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+            (false, '12.05.2022', 0, 4000, false, false, '10.05.2022.', 1, 1,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4,false);
 
@@ -405,6 +410,10 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
 insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '16.05.2022.', 2, 3000, true, false, '15.05.2022.', 1, 2, false); 
      
+
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id,ship_owner_present) values
+    (false, '30.05.2022', 0, 4000, false, false, '26.05.2022.', 1, 1,false);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '23.05.2022', 0, 4000, false, false, '28.05.2022.', 1, 1, false);
@@ -491,9 +500,9 @@ insert into sale_appointment (start_sale_date, duration, people_quantity, offer_
 
 insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',2);
 
-insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
-
-
 insert into subscriptions (client_id, offer_id) values (1,7);
 insert into subscriptions (client_id, offer_id) values (1,2);
+
+insert into percentage_of_earnings (start_date, end_date, percentage) values ('01.01.2022.', null, 3);
+
 

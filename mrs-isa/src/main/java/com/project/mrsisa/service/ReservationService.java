@@ -54,4 +54,30 @@ public class ReservationService {
         return reservationRepository.findCurrentReservationsForOffer(id);
     }
 
+    public List<Reservation> getReservationsForMonthAndYear(Long id,int month,int year){
+        return reservationRepository.getAllReservationsForMonthAndYear(id,month,year);
+    }
+
+    public List<Reservation> getReservationForMonth(Long id){
+        return reservationRepository.getAllReservationsForMonth(id);
+    }
+
+    public List<Reservation> getReservationForWeek(Long id){
+        return reservationRepository.getAllReservationsForWeek(id);
+    }
+
+    public List<Reservation> getReservationForPeriod(Long id, String start,String end){
+        System.out.println("id"+id+"datttt"+start);
+        return reservationRepository.getAllReservationsForPeriod(id,start,end);
+    }
+
+	public boolean haveFutureReservations(Long offerId) {
+		List<Reservation> futureReservations = reservationRepository.findFutureReservationHistory(offerId);
+		if(futureReservations.size()==0) {
+			return false;
+		}
+		return true;
+	}
+
+
 }

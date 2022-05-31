@@ -15,7 +15,7 @@
         </div>
         <div class="modal-body" style="background-color: white; margin-left: 10px;margin-right: 10px;">
 
-          <CalendarMrs id="calendar" style="width: 100%;" :key="calendarKey" :availability-period="availabilityPeriod" :unavailability-period="unavailabilityPeriod" :my-events="reservations"></CalendarMrs>  <!--  Ovde posalji u props events  -->
+          <CalendarMrs :reservations="reservations" id="calendar" style="width: 100%;" :key="calendarKey" :availability-period="availabilityPeriod" :unavailability-period="unavailabilityPeriod" :actions="reservations"></CalendarMrs>  <!--  Ovde posalji u props events  -->
 
         </div>
         <div class="modal-footer d-flex justify-content-start" align="left">
@@ -83,7 +83,8 @@ export default {
     return{
       unavailabilityPeriod: [],
       reservations: [],
-      calendarKey: 0
+      calendarKey: 0,
+      actions: []
     }
   }
 }

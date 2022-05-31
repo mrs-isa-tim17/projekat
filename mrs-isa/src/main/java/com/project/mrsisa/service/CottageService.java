@@ -37,7 +37,15 @@ public class CottageService {
 		cottageRepository.deleteById(id);
 	}
 
-	public List<Offer> findAllByClientId(Long id){
+	public List<Offer> findAllByClientId(Long id) {
 		return cottageRepository.findAllByClientId(id);
+	}
+	
+	public List<Cottage> findActiveCottages() {
+		return cottageRepository.findActiveCottages();
+	}
+	
+	public List<Cottage> findDeletedCottages(){
+		return cottageRepository.findDeletedCottages();
 	}
 }

@@ -1,7 +1,7 @@
 
 <template>
 
-   <button id="update" type="button" @click="openFormChangePassword" class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
+   <button id="update" type="button" @click="openFormChangePassword" class="btn btn-secondary my-2" data-bs-toggle="modal" :data-bs-target=modalId>
     Promena lozinke
   </button>
 
