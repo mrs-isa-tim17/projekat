@@ -3,7 +3,7 @@
     <div class="card mb-3 mw-90" style="width: 90%;">
       <div class="row g-0" style="background-color: #31708E;color:#F7F9FB;">
         <div class="col-4" style="float:left">
-          <img :src="require('@/assets/' + image)" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
+          <img :src=" image" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
         </div>
         <div class="col-8">
           <div class="row">

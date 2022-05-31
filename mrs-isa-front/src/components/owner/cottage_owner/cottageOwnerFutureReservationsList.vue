@@ -1,6 +1,7 @@
 <template>
+  <ownerHeader></ownerHeader>
   <div class="container" >
-    <ownerHeader></ownerHeader>
+
     <div v-if="!allReservations" style="color:red;">Nema trenutnih rezervacija</div> <!--??????????-->
     <div class="p-2" v-for="(r) in allReservations"  :key="r.id">
       <cottageOwnerFutureReservationsElement :reservation="r"></cottageOwnerFutureReservationsElement>

@@ -2,26 +2,24 @@
 <cottageOwnerHeader></cottageOwnerHeader>
   <div class="container" >
     <div class="row mt-4" >
-      <div class="col-sm-2 align-content-start">
+      <div class="col-sm-3 align-content-start">
         <br><br><br>
+        <star-rating :rating="rating" :round-start-rating="false" style="width: 15px;"></star-rating>
     <!--    <star-rating :rating="4" :starWidth="20" :star-style="config "></star-rating><br>    -->
        <experience-reviews-modal :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.cottage"></experience-reviews-modal><br><br>
 
       </div>
-      <div class="col-sm-8 align-content-center" >
+      <div class="col-sm-7 align-content-center" >
         <div >
         <p style="font-size:30px;display: inline-block">{{cottage.name}}   </p>
        <edit-offer-name-modal :index="editName" :header="editNameHeader" :name="cottage.name" @edit-name="editOfferName"></edit-offer-name-modal>
         </div>
 
-      <div  id="images">
-       <!-- <lightbox
-            :images="images"
-            title="Feed Gallery"
-        ></lightbox>-->
-        <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>
-      </div>
-      <div class="row  mt-3">
+      <div style="text-align: left"><img :src="cottage.images[0]" /><br></div>
+       <!--<offer-carousel :images="cottage.images" style="width:500px;"></offer-carousel>-->
+       <!-- <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>-->
+
+      <div class="row pt-2 mt-3">
         <div class="col-5" style="text-align: left">
          <p style="font-size:20px;display: inline-block;">{{cottage.description}}</p>
         </div>
@@ -47,7 +45,7 @@
         <div style="text-align: left;font-size: 20px;"><b>Kućni red</b>
           <edit-behavior-rules-modal :behaviorList="behavior" :header="behaviorHeader" :index="editBeh" @edit-rules="editRules"></edit-behavior-rules-modal>
           <br>
-          <div class="" style="display: inline-block;" v-for="(s,i) in this.cottage.behavioralRules" :key="i">
+          <div class="" style="display: inline-block;" v-for="(s,i) in this.behavior" :key="i">
             <i
                 class=" mr-1 text-primary"
                 :class="behavior_icons[s]"
@@ -55,9 +53,7 @@
           </div>
         </div>
         <br>
-        <div style="text-align: left;font-size: 20px;"><b>Raspoloživi datumi</b><br>
-        Kalendar
-        </div>
+
         <div >
 
         </div>
@@ -116,13 +112,17 @@ import EditNumberModal from "@/components/owner/cottage_owner/editNumberModal";
 import ExperienceReviewsModal from "@/components/owner/cottage_owner/experienceReviewsModal";
 import EditPriceModal from "@/components/owner/cottage_owner/editPriceModal"
 import EditCancelConditionsModal from "@/components/owner/cottage_owner/editCancelConditionsModal";
-import UploadImagesModal from "@/components/owner/cottage_owner/uploadImagesModal";
+//import UploadImagesModal from "@/components/owner/cottage_owner/uploadImagesModal";
+//import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 //import lightbox from "vlightbox"
 // import VueGallerySlideshow from 'vue-gallery-slideshow'
+import StarRating from 'vue-star-rating'
 export default {
   name: "cottageDetail",
   components: {
-    UploadImagesModal,
+    //OfferCarousel,
+  //  UploadImagesModal,
+    StarRating,
     EditCancelConditionsModal,
     ExperienceReviewsModal,
     EditNumberModal,
@@ -290,12 +290,12 @@ export default {
     editCapacity(number){
       this.cottage.bedQuantity = number;
       CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno promenjen kapacitet vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      swal.fire({title:'Uspešno izmenjen kapacitet vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
     },
     editRooms(number){
       this.cottage.roomQuantity = number;
       CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno promenjen broj soba vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      swal.fire({title:'Uspešno izmenjen broj soba vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
 
     },
     editPrice(price,startDate){
@@ -303,7 +303,7 @@ export default {
       console.log(startDate);
       this.cottage.priceStartDate = startDate;
       CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno promenjen cenovnik!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      swal.fire({title:'Uspešno izmenjen cenovnik!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
     },
     editCancelConditions(percents){
       this.cottage.percents = percents;
@@ -313,7 +313,7 @@ export default {
       this.p3=percents[2];
       this.p4=percents[3];
       CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno promenjeni uslovi otkazivanja rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      swal.fire({title:'Uspešno izmenjeni uslovi otkazivanja rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
     }
   }
 }
