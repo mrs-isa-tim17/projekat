@@ -368,14 +368,18 @@ public class ShipController {
 		return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/site/review/{id}")
-	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id) {
+	@PostMapping(value = "/site/review/{id}")
+	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id, @RequestBody PaginationDTO paginationDTO) {
 		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		ExperienceReviewDTO size = new ExperienceReviewDTO();
+		size.setListSize(er.size());
+		er = er.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(er.size()));
 		List<ExperienceReviewDTO> dto = new ArrayList<>();
 		for (ExperienceReview e : er) {
-			e.setClient(clientService.findOne(e.getClient().getId()));
 			dto.add(new ExperienceReviewDTO(e));
 		}
+		dto.add(0, size);
+
 		return ResponseEntity.ok(dto);
 	}
 

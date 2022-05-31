@@ -24,8 +24,15 @@ class AdventureServce{
         return axios.get(ADVENTURES_API_BASE_URL + "/" + offerId);
     }
 
-    getAdventureReviews(offerId) {
-        return axios.get(ADVENTURES_API_BASE_URL + "/review/" + offerId);
+    getAdventureReviews(offerId, fromElement, numberOfElementsForDisplay) {
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(ADVENTURES_API_BASE_URL + "/review/" + offerId, pagObj);
+    }
+    formPaginationObj(fromElement, numberOfElementsForDisplay){
+        return {
+            fromElement: fromElement,
+            numberToDisplay: numberOfElementsForDisplay
+        }
     }
 }
 

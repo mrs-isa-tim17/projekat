@@ -20,8 +20,15 @@ class CottageServce{
         return axios.get(COTTAGE_API_BASE_URL + "/" + cottageId);
     }
 
-    getCottageReviews(offerId) {
-        return axios.get(COTTAGE_API_BASE_URL + "/review/" + offerId);
+    getCottageReviews(offerId, fromElement, numberOfElementsForDisplay) {
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(COTTAGE_API_BASE_URL + "/review/" + offerId, pagObj);
+    }
+    formPaginationObj(fromElement, numberOfElementsForDisplay){
+        return {
+            fromElement: fromElement,
+            numberToDisplay: numberOfElementsForDisplay
+        }
     }
 }
 

@@ -2,7 +2,7 @@ package com.project.mrsisa.dto.simple_user;
 
 import com.project.mrsisa.domain.ExperienceReview;
 
-public class ExperienceReviewDTO {
+public class ExperienceReviewDTO extends SizeOfListDTO {
     private String clientName;
     private String text;
     private int rating;
