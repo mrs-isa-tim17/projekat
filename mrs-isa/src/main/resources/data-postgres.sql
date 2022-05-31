@@ -356,8 +356,7 @@ insert into image (path, offer_id) values ('/img/instructor/images.jpg', 14);
 insert into image (path, offer_id) values ('/img/instructor/906z513_PECANJE2310pog.jpg', 11);
 insert into image (path, offer_id) values ('/img/instructor/maxresdefault.jpg', 12);
 
-insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '28.01.2022', 0, 4000, false, false, '24.01.2022.', 1, 1,false);
+
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '30.04.2022', 0, 4000, false, false, '28.04.2022.', 1, 1,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
@@ -372,6 +371,8 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '14.04.2022', 0, 42542, false, true, '12.04.2022.', 1, 6,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+        (false, '12.05.2022', 0, 5000, false, false, '10.05.2022.', 1, 1,false);
 
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
@@ -453,14 +454,14 @@ insert into delete_request (status, text, user_id) values (0, 'Molim da mi se ob
 insert into delete_request (status, text, user_id) values (0, 'Zelim da obrisem nalog.', 3);
 insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog.', 5);
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'juhi.', 1, 1, 0);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,1, 0);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 1, 0);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 1, 0);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'juhi.', 1, 1, 0);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,1, 0);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 1, 0);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 1, 0);
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,7,1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 7, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 7, 1);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,7,1);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'ok.', 1, 7, 1);
+--insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, '', 1, 7, 1);
 
 insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',7);
 insert into period_unavailability (start_date, end_date, offer_id) values ('15.05.2022','25.05.2022',7);

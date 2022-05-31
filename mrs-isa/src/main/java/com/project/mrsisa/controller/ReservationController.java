@@ -86,14 +86,15 @@ public class ReservationController {
         List<HistoryPastReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryPastReservationOwnerDTO>();
         List<Reservation> pastReservations = reservationService.getPastHistoryReservation(id);
         for (Reservation r : pastReservations) {
-            if (r.getOfferType() == OfferType.COTTAGE) {
-                r.setOffer(cottageService.findOne(id));
+            r.setOffer(cottageService.findOne(id));
+           /*// if (r.getOfferType() == OfferType.COTTAGE) {
 
-            } else if (r.getOfferType() == OfferType.ADVENTURE) {
+
+           // } else if (r.getOfferType() == OfferType.ADVENTURE) {
                 //poziv adventureService.findOne
-            } else { //ship
+         //   } else { //ship
                 r.setOffer(shipService.findOne(id));
-            }
+            }*/
             r.getOffer().setImages(imageService.findAllByOfferId(id));
             reservationsDTO.add(new HistoryPastReservationOwnerDTO(r));
 

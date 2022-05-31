@@ -39,12 +39,13 @@ export default {
         this.modalId = "#" + this.index;
         console.log(this.servicesList);
         for(let i=0;i<this.allServices.length;i++){
-
           if((this.servicesList.includes(this.allServices[i]))){
             this.checked_services.push(this.allServices[i]);
+            console.log(this.checked_services);
           }
           else{
             this.services_for_show.push(this.allServices[i]);
+            console.log(this.services_for_show);
           }
         }
         console.log(this.checked_services);
@@ -65,6 +66,9 @@ export default {
         console.log(i);
         console.log(this.checked_services[i]);
         this.checked_services.splice(i,1);
+        this.services_for_show.push(s);
+        console.log("odcekirano");
+        console.log(s);
         console.log(this.checked_services);
       }
       else{
@@ -101,8 +105,7 @@ export default {
         "bazen",
         "spa",
         "teretana",
-        "tv",
-        "besplatne pešačke ture"],
+        ],
       services_for_show:[],
       checked_services:[]
     }

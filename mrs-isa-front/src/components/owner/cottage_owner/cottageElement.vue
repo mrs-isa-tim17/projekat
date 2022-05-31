@@ -13,7 +13,8 @@
               <div style="font-size:26px;text-align:left;font-weight: bold;">{{cottage.name}}</div>
             </div>
             <div class="col-4">
-              zvezdice
+              <br>
+              <star-rating :rating="rating" :round-start-rating="false" :star-size="30" ></star-rating>
             </div>
           </div>
 
@@ -67,17 +68,20 @@
 <script>
 import $ from "jquery";
 import deleteCottageModal from "@/components/owner/deleteOfferModal"
+import StarRating from 'vue-star-rating'
+import ReviewServce from "@/servieces/ReviewServce";
 export default {
   name: "cottageElement",
   props: ["cottage"],
-  components:{deleteCottageModal},
+  components:{deleteCottageModal,StarRating},
   data(){
     return{
       updateId:"updateCottage",
       image:"",
       DeleteHeader:"Brisanje vikendice",
       deleteId:"deleteCottage",
-      btnDeleteName:"Obriši vikendicu"
+      btnDeleteName:"Obriši vikendicu",
+      rating:null
 
     }
   },
@@ -87,6 +91,10 @@ export default {
     }else {
       this.image = "icons/ship.png";
     }
+    ReviewServce.getRating(this.cottage.id).then((response) =>
+    {
+      this.rating = response.data;
+    })
   },
   methods:{
     openModel() {
