@@ -91,6 +91,8 @@ export default {
                 this.listLength = listLengthObj.listSize;
                 if (this.listLength > 0)
                   this.cottages = response.data.slice(1);
+                else
+                  this.cottages = [];
                 this.cottagesKey += 1;
               }
           )
@@ -129,6 +131,8 @@ export default {
             this.listLength = listLengthObj.listSize;
             if (this.listLength > 0)
               this.cottages = response.data.slice(1);
+            else
+              this.cottages = [];
             this.fromElement = 0;
             this.cottagesKey += 1;
             localStorage.cottage = JSON.stringify(filterDto);

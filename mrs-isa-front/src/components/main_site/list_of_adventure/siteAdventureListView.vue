@@ -37,7 +37,9 @@
         <site-adventure-search-nav @filter="filterAdventures"></site-adventure-search-nav>
       </div>
       <div class="col">
-        <site-adventure-list :cottages="cottages" :listLength="listLength" :key="adventuresKey"></site-adventure-list>
+        <site-adventure-list :cottages="cottages" :listLength="listLength" :key="adventuresKey"
+                             :fromElement="fromElement" :numberOfElementsForDisplay="numberOfElementsForDisplay" @get-list-from="getAdventureList"
+                            ></site-adventure-list>
       </div>
     </div>
   </div>
@@ -54,13 +56,15 @@ export default {
   components: {SiteAdventureSearchNav, ClientHeader, BasicHeader, siteAdventureList},
   created:
       function () {
+        this.getAdventureList(0);
+    /*
         adventureServce.getAdventures().then(
             (response) => {
               this.cottages = response.data;
               this.listLength = this.cottages.length;
 
             }
-        )
+        )*/
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -77,62 +81,82 @@ export default {
 
       },
   methods: {
+    getAdventureList(fromElement){
+      if (isNaN(fromElement)) {
+        fromElement = 0;
+      }
+      this.callFilterAdventues(fromElement);
+    },
     searchAdventures(){
+      let searchByInput = document.getElementById("searchInput").value;
+      this.filterDto.searchBy = searchByInput;
+      this.searchBy = searchByInput;
+      this.callFilterAdventues(0);
+      /*
       let searchByInput = document.getElementById("searchInput").value;
       let searchParam = {
         searchBy: searchByInput
       }
+
       adventureServce.search(searchParam)
           .then(response =>{
             this.cottages = response.data;
             this.listLength = this.cottages.length;
             this.forceRemounting();
           })
-
+*/
+    },
+    callFilterAdventues(fromElement){
+      this.fromElement = fromElement;
+      adventureServce.filterAdventures(this.filterDto, fromElement, this.numberOfElementsForDisplay)
+          .then((response) => {
+                let listLengthObj = response.data[0];
+                this.listLength = listLengthObj.listSize;
+                if (this.listLength > 0)
+                  this.cottages = response.data.slice(1);
+                else
+                  this.cottages = [];
+                this.adventuresKey += 1;
+              }
+          )
     },
     sortList(){
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 1){
-        adventureServce.sortAdventureListByName(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "name";
+        this.callFilterAdventues(0);
       } else if (sortBy == 2){
-        adventureServce.sortAdventureListByLocation(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "location";
+        this.callFilterAdventues(0);
       }else if (sortBy == 3){
-        adventureServce.sortAdventureListByRating(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "rating";
+        this.callFilterAdventues(0);
       }else if (sortBy == 4){
-        adventureServce.sortAdventureListByPrice(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "price";
+        this.callFilterAdventues(0);
       }else if (sortBy == 5){
-        adventureServce.sortAdventureListByCapacity(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "capacity";
+        this.callFilterAdventues(0);
       }
     },
 
     filterAdventures(filterDto){
-      console.log(filterDto);
       filterDto.searchBy = this.searchBy;
-      adventureServce.filterAdventures(filterDto)
+      filterDto.sortBy = this.filterDto.sortBy;
+      this.filterDto = filterDto;
+      adventureServce.filterAdventures(this.filterDto, 0, this.numberOfElementsForDisplay)
           .then((response) => {
-                this.cottages   = response.data;
-                this.listLength = this.cottages.length;
-                this.adventuresKey++;
+                let listLengthObj = response.data[0];
+                this.listLength = listLengthObj.listSize;
+                console.log("LIST LENGTH");
+                console.log(this.listLength);
+                if (this.listLength > 0) {
+                  this.cottages = response.data.slice(1);
+                }else{
+                  this.cottages = [];
+                }
+                this.fromElement = 0;
+                this.adventuresKey += 1;
                 localStorage.adventure = JSON.stringify(filterDto);
               }
           )
@@ -147,11 +171,31 @@ export default {
     return {
       cottages: [],
       listLength: 0,
+
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
+
       adventuresKey: 0,
-      searchBy: ""
+      searchBy: "",
+      filterDto: {
+        longitude: 0,
+        latitude: 0,
+        dateFrom: "",
+        dateUntil: "",
+        ratingRelOp: "",
+        rating: "",
+        roomsRelOp: "",
+        numberOfRooms: "",
+        bedsRelOp: "",
+        numberOfBed: "",
+        priceRelOp: "",
+        price: "",
+        searchBy: "",
+        sortBy: ""
+      },
+      numberOfElementsForDisplay: 2,
+      fromElement: 0
     }
   }
 }

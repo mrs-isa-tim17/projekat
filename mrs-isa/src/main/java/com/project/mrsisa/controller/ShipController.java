@@ -239,7 +239,6 @@ public class ShipController {
 	}
 
 	private List<ShipForListViewDTO> sortByCapacity(List<ShipForListViewDTO> shipsDTO) {
-		System.out.println("CAPACITYYY");
 		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
 			@Override
 			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
@@ -291,8 +290,6 @@ public class ShipController {
 	}
 
 	private List<ShipForListViewDTO> sortByName(List<ShipForListViewDTO> shipsDTO) {
-		System.out.println("NAAMEEE");
-
 		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
 			@Override
 			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {

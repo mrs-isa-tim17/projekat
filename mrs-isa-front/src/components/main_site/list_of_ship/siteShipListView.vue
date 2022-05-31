@@ -94,11 +94,9 @@ export default {
                 this.listLength = listLengthObj.listSize;
                 if (this.listLength > 0)
                   this.cottages = response.data.slice(1);
+                else
+                  this.cottages = [];
                 this.shipsKey += 1;
-                console.log("SHIIIIIIIIP");
-                console.log(this.filterDto);
-                console.log(this.fromElement);
-
               }
           )
     },
@@ -136,6 +134,8 @@ export default {
                 this.listLength = listLengthObj.listSize;
                 if (this.listLength > 0)
                   this.cottages = response.data.slice(1);
+                else
+                  this.cottages = 0;
                 this.fromElement = 0;
                 this.shipsKey += 1;
                 localStorage.ship = JSON.stringify(filterDto);

@@ -166,7 +166,11 @@ export default {
       this.ratingRelOp = this.getRelOp(document.getElementById("ratingBy").value);
     },
     ratingChanged(){
-      this.rating =document.getElementById("rating").value;
+      if (document.getElementById("rating").value > 0){
+        this.rating = document.getElementById("rating").value;
+      }else{
+        this.rating = 0;
+      }
     },
     getRelOp(value){
       switch (value){

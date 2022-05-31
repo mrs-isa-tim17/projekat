@@ -10,39 +10,16 @@ class AdventureServce{
     getAdventuresForHomePageView(){
         return axios.get(ADVENTURES_API_BASE_URL + "/short");
     }
-
-    filterAdventures(filterParams) {
+    filterAdventures(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams = this.formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay);
         return axios.post(ADVENTURES_API_BASE_URL + "/filter", filterParams);
     }
 
-    sortAdventureListByName(adventures) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/sort/name", adventures);
+    formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams.fromElement = fromElement;
+        filterParams.numberToDisplay = numberOfElementsForDisplay;
+        return filterParams;
     }
-
-    sortAdventureListByLocation(adventures) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/sort/location", adventures);
-
-    }
-
-    sortAdventureListByRating(adventures) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/sort/rating", adventures);
-
-    }
-
-    sortAdventureListByPrice(adventures) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/sort/price", adventures);
-
-    }
-
-    sortAdventureListByCapacity(adventures) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/sort/capacity", adventures);
-
-    }
-
-    search(searchParam) {
-        return axios.post(ADVENTURES_API_BASE_URL + "/search", searchParam);
-    }
-
     getAdvanture(offerId) {
         return axios.get(ADVENTURES_API_BASE_URL + "/" + offerId);
     }
