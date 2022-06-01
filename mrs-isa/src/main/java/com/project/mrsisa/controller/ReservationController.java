@@ -8,7 +8,6 @@ import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.owner.HistoryFutureReservationOwnerDTO;
 import com.project.mrsisa.dto.owner.HistoryPastReservationOwnerDTO;
-import com.project.mrsisa.dto.simple_user.PaginationDTO;
 
 import com.project.mrsisa.service.CottageService;
 import com.project.mrsisa.service.ImageService;
@@ -86,15 +85,14 @@ public class ReservationController {
         List<HistoryPastReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryPastReservationOwnerDTO>();
         List<Reservation> pastReservations = reservationService.getPastHistoryReservation(id);
         for (Reservation r : pastReservations) {
-            r.setOffer(cottageService.findOne(id));
-           /*// if (r.getOfferType() == OfferType.COTTAGE) {
+            if (r.getOfferType() == OfferType.COTTAGE) {
+                r.setOffer(cottageService.findOne(id));
 
-
-           // } else if (r.getOfferType() == OfferType.ADVENTURE) {
+            } else if (r.getOfferType() == OfferType.ADVENTURE) {
                 //poziv adventureService.findOne
-         //   } else { //ship
+            } else { //ship
                 r.setOffer(shipService.findOne(id));
-            }*/
+            }
             r.getOffer().setImages(imageService.findAllByOfferId(id));
             reservationsDTO.add(new HistoryPastReservationOwnerDTO(r));
 
@@ -104,32 +102,13 @@ public class ReservationController {
     }
 
 
-    @PostMapping("/cottage/history/{id}")
+    @GetMapping("/cottage/history/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservations(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastCottageReservations.size());
-        pastCottageReservations = pastCottageReservations.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastCottageReservations.size()));
-        List<OfferHistoryReservationDTO> dtoList = makeFullPastCottageReservationDtoList(pastCottageReservations);
-        dtoList.add(0, size);
-        return ResponseEntity.ok(dtoList);
-    }
-
-
-    @PostMapping("/cottage/history/name/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByName(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservations(@PathVariable Long id) {
         List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastCottageReservationDtoList(pastCottageReservations);
-        dtoList = sortReservationHistoryByName(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastCottageReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastCottageReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
-
 
     private List<OfferHistoryReservationDTO> makeFullPastCottageReservationDtoList(List<Reservation> pastCottageReservations) {
         List<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
@@ -161,67 +140,47 @@ public class ReservationController {
         return dtoList;
     }
 
-    @PostMapping("/adventure/history/{id}")
+    @GetMapping("/adventure/history/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservations(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservations(@PathVariable Long id) {
         List<Reservation> pastAdventureReservations = reservationService.getAdventureHistoryReservation(id);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastAdventureReservations.size());
-        pastAdventureReservations = pastAdventureReservations.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastAdventureReservations.size()));
         List<OfferHistoryReservationDTO> dtoList = makeFullPastAdventureReservationDtoList(pastAdventureReservations);
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/adventure/history/name/{id}")
+    @GetMapping("/adventure/history/name/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByName(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByName(@PathVariable Long id) {
         List<Reservation> pastAdventureReservations = reservationService.getAdventureHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastAdventureReservationDtoList(pastAdventureReservations);
         dtoList = sortReservationHistoryByName(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastAdventureReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastAdventureReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/adventure/history/date/{id}")
+    @GetMapping("/adventure/history/date/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByDate(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByDate(@PathVariable Long id) {
         List<Reservation> pastAdventureReservations = reservationService.getAdventureHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastAdventureReservationDtoList(pastAdventureReservations);
         dtoList = sortReservationHistoryByDate(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastAdventureReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastAdventureReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/adventure/history/duration/{id}")
+    @GetMapping("/adventure/history/duration/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByDuration(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByDuration(@PathVariable Long id) {
         List<Reservation> pastAdventureReservations = reservationService.getAdventureHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastAdventureReservationDtoList(pastAdventureReservations);
         dtoList = sortReservationHistoryByDuration(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastAdventureReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastAdventureReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/adventure/history/price/{id}")
+    @GetMapping("/adventure/history/price/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByPrice(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllAdventurePastReservationsSortByPrice(@PathVariable Long id) {
         List<Reservation> pastAdventureReservations = reservationService.getAdventureHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastAdventureReservationDtoList(pastAdventureReservations);
         dtoList = sortReservationHistoryByPrice(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastAdventureReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastAdventureReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
@@ -234,106 +193,74 @@ public class ReservationController {
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/cottage/history/date/{id}")
+    @GetMapping("/cottage/history/date/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDate(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDate(@PathVariable Long id) {
         List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastCottageReservationDtoList(pastCottageReservations);
         dtoList = sortReservationHistoryByDate(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastCottageReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastCottageReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/cottage/history/duration/{id}")
+    @GetMapping("/cottage/history/duration/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDuration(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDuration(@PathVariable Long id) {
         List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastCottageReservationDtoList(pastCottageReservations);
         dtoList = sortReservationHistoryByDuration(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastCottageReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastCottageReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/cottage/history/price/{id}")
+    @GetMapping("/cottage/history/price/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByPrice(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByPrice(@PathVariable Long id) {
         List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastCottageReservationDtoList(pastCottageReservations);
         dtoList = sortReservationHistoryByPrice(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastCottageReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastCottageReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/ship/history/{id}")
+    @GetMapping("/ship/history/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservations(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservations(@PathVariable Long id) {
         List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastShipReservations.size());
-        pastShipReservations = pastShipReservations.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastShipReservations.size()));
         List<OfferHistoryReservationDTO> dtoList = makeFullPastShipReservationDtoList(pastShipReservations);
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/ship/history/name/{id}")
+    @GetMapping("/ship/history/name/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByName(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByName(@PathVariable Long id) {
         List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastShipReservationDtoList(pastShipReservations);
         dtoList = sortReservationHistoryByName(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastShipReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastShipReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/ship/history/date/{id}")
+    @GetMapping("/ship/history/date/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDate(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDate(@PathVariable Long id) {
         List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastShipReservationDtoList(pastShipReservations);
         dtoList = sortReservationHistoryByDate(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastShipReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastShipReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/ship/history/duration/{id}")
+    @GetMapping("/ship/history/duration/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDuration(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDuration(@PathVariable Long id) {
         List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastShipReservationDtoList(pastShipReservations);
         dtoList = sortReservationHistoryByDuration(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastShipReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastShipReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 
-    @PostMapping("/ship/history/price/{id}")
+    @GetMapping("/ship/history/price/{id}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByPrice(@PathVariable Long id, @RequestBody PaginationDTO paginationDTO){
+    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByPrice(@PathVariable Long id) {
         List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
         List<OfferHistoryReservationDTO> dtoList = makeFullPastShipReservationDtoList(pastShipReservations);
         dtoList = sortReservationHistoryByPrice(dtoList);
-        OfferHistoryReservationDTO size = new OfferHistoryReservationDTO();
-        size.setListSize(pastShipReservations.size());
-        dtoList = dtoList.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(pastShipReservations.size()));
-        dtoList.add(0, size);
         return ResponseEntity.ok(dtoList);
     }
 

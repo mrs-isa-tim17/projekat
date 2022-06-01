@@ -119,7 +119,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/current/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
         CottageOwner owner = cottageOwnerService.findOne(id);
         List<Cottage> cottages = cottageService.getCottagesByOwner(owner);

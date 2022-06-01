@@ -30,7 +30,7 @@
 
             <div class="col-4">
               <div class="card-body">
-                <clientProfile :header="clientProfileHeader" :index="clientProfileId" :clientPr="client"></clientProfile><br>
+                <clientProfile :header="clientProfileHeader" :index="clientProfileId" :clientPr="reservation.clientId"></clientProfile><br>
                 <reservationReport :header="reportHeader" :reservation="reservation" :client="client" :index="reportId"></reservationReport>
               </div>
             </div>
@@ -76,6 +76,7 @@ export default {
       reportHeader:"Izveštaj o rezervaciji",
       reportId:"reportReservation",
       client:{
+        id:"",
         name: "",
         surname: "",
         email: "",
