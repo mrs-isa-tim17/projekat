@@ -114,7 +114,7 @@ export default {
       businessReportText: "Izveštaji o poslovanju",
 
       loyaltyImgPath: require("@/assets/icons/loyalty.png"),
-      loyaltyLink: "...",
+      loyaltyLink: "/admin/loyalty/scale",
       loyaltyText: "Loyalty program",
 
 

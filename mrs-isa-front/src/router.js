@@ -65,7 +65,8 @@ const router = createRouter({
         {path: '/admin/ships/deleted', component:()=>import("./components/admin/allEntities/deletedShips")},
         {path: '/admin/cottages', component:()=>import("./components/admin/allEntities/allCottages")},
         {path: '/admin/cottages/deleted', component:()=>import("./components/admin/allEntities/deletedCottages")},
-        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")}
+        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")},
+        {path: '/admin/loyalty/scale', component:()=>import("./components/admin/loyaltyScale")}
     ]
 });
 
