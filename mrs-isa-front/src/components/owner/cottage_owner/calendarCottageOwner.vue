@@ -6,7 +6,7 @@
     </div>
 
   <calendar :key="calendarKey" :availability-period="this.availabilityPeriod"
-            :unavailability-period="this.unavailabilityPeriod" :my-events="this.reservations"></calendar>
+            :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations" :actions="this.actions"></calendar>
   </div>
 </template>
 
@@ -74,7 +74,8 @@ export default {
       reservations:[],
       allCottages:[],
       cottageId:"",
-      calendarKey:0
+      calendarKey:0,
+      actions:[]
     }
   },
   methods:{

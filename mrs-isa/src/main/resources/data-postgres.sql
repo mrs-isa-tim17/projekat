@@ -245,10 +245,12 @@ insert into image (path, offer_id) values('/img/adventure/Drina3.jpg', 2);
 
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
+
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 1, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 1, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 1, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 1, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 3, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 4, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 5, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 6, 1);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 3000, '29.04.2022.', 1);
@@ -467,9 +469,9 @@ insert into period_availability (end_date, start_date, offer_id) values ('20.12.
 insert into period_unavailability (start_date, end_date, offer_id) values ('15.05.2022','25.05.2022',7);
 
 insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
-    ('27.05.2022', 5, 4, 1, 4500, 20, false, 0, 1);
+    ('05.06.2022', 5, 4, 1, 4500, 20, false, 0, 1);
 insert into sale_appointment (start_sale_date, duration, people_quantity, offer_id, discount, address_id, reserved, offer_type, version) values
-    ('01.06.2022', 3, 4, 1, 3500, 21, false, 0, 1);
+    ('11.06.2022', 3, 2, 1, 2000, 21, false, 0, 1);
 
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 2);
 insert into additional_services_sale_appointment (sale_appointment_id, additional_service_id) values (1, 4);

@@ -208,6 +208,8 @@ public class AdventureController {
 	}
 
 
+	@GetMapping(value = "/detail/all/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<AdventureDTO>> getAdventuresByOwner(@PathVariable Long id) {
 		FishingInstructor instructor = fishingInstructorService.findOne(id);
 		List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);

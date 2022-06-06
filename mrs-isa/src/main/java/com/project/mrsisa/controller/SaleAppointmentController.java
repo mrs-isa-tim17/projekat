@@ -127,6 +127,7 @@ public class SaleAppointmentController {
 			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
 			System.out.println(saleAppointmentDTO.getStartDateTime());
 			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime());
+			saleAppointment.setOfferType(OfferType.COTTAGE);
 
 			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
 			for(String service : saleAppointmentDTO.getAdditionalServices())
