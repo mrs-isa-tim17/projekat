@@ -1,6 +1,5 @@
 package com.project.mrsisa.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.mrsisa.domain.LoyaltyPoints;
 import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.domain.Role;
 import com.project.mrsisa.domain.UserType;
+import com.project.mrsisa.domain.UserTypeLoyaltyPoints;
+import com.project.mrsisa.dto.LoyaltyPointsDTO;
 import com.project.mrsisa.dto.LoyaltyScaleDTO;
+import com.project.mrsisa.service.LoyaltyPointsService;
 import com.project.mrsisa.service.LoyaltyScaleService;
 import com.project.mrsisa.service.RoleService;
 
@@ -30,6 +33,8 @@ public class LoyaltyScaleController {
 	private RoleService roleService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
+	@Autowired
+	private LoyaltyPointsService loyaltyPointsService;
 	
 	
 	@GetMapping(value="scale/all/{role}")
@@ -72,6 +77,52 @@ public class LoyaltyScaleController {
 	}
 	
 	
+	@GetMapping(value="points/all/{type}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<LoyaltyPointsDTO>> getLoyaltyPointsForType(@PathVariable String type) {
 
+		List<LoyaltyPoints> points = loyaltyPointsService.findPointsByUserTypePoints(UserTypeLoyaltyPoints.valueOf(type));
+		
+		List<LoyaltyPointsDTO> pointsDTO = new ArrayList<LoyaltyPointsDTO>();
+
+		for(LoyaltyPoints l : points) {
+			pointsDTO.add(new LoyaltyPointsDTO(l.getId(), l.getStartDate(), l.getEndDate(),l.getPoints(), l.getUserTypeLoyaltyPoints().toString()));
+		}	
+		return new ResponseEntity<List<LoyaltyPointsDTO>>(pointsDTO, HttpStatus.OK);
+		
+	}
+	
+	
+	@PostMapping(value="points/define")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<LoyaltyPointsDTO>> defineNewPoints(@RequestBody LoyaltyPointsDTO loyaltyPointsDTO) {
+		
+		LoyaltyPoints old = loyaltyPointsService.findActivePointsByType(UserTypeLoyaltyPoints.valueOf(loyaltyPointsDTO.getType()));
+		
+		old.setEndDate(loyaltyPointsDTO.getStartDate().minusDays(1));
+		loyaltyPointsService.save(old);
+		
+		LoyaltyPoints newPoints = new LoyaltyPoints();
+		newPoints.setEndDate(null);
+		newPoints.setPoints(loyaltyPointsDTO.getPoints());
+		newPoints.setStartDate(loyaltyPointsDTO.getStartDate());
+		newPoints.setUserTypeLoyaltyPoints(old.getUserTypeLoyaltyPoints());
+		
+		loyaltyPointsService.save(newPoints);
+		
+		
+		
+		
+		List<LoyaltyPoints> points = loyaltyPointsService.findPointsByUserTypePoints(UserTypeLoyaltyPoints.valueOf(loyaltyPointsDTO.getType()));
+		
+		List<LoyaltyPointsDTO> pointsDTO = new ArrayList<LoyaltyPointsDTO>();
+
+		for(LoyaltyPoints l : points) {
+			pointsDTO.add(new LoyaltyPointsDTO(l.getId(), l.getStartDate(), l.getEndDate(),l.getPoints(), l.getUserTypeLoyaltyPoints().toString()));
+		}	
+		
+		return new ResponseEntity<>(pointsDTO, HttpStatus.OK);
+		
+	}
 
 }

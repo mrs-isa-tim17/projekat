@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,9 +29,9 @@ public class LoyaltyPoints {
 	@Column(nullable = true)
 	private LocalDate endDate;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "roleId", referencedColumnName = "id")
-	private Role role;
+	@Enumerated
+	private UserTypeLoyaltyPoints userTypeLoyaltyPoints;
+	
 	
 	public double getPoints() {
 		return points;
@@ -55,7 +57,12 @@ public class LoyaltyPoints {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+	public UserTypeLoyaltyPoints getUserTypeLoyaltyPoints() {
+		return userTypeLoyaltyPoints;
+	}
+	public void setUserTypeLoyaltyPoints(UserTypeLoyaltyPoints userTypeLoyaltyPoints) {
+		this.userTypeLoyaltyPoints = userTypeLoyaltyPoints;
+	}
 	
 	
 

@@ -525,3 +525,7 @@ insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, 
 insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 15, 0, 5);
 insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 25, 1, 5);
 insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 35, 2, 5);
+
+
+insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 3, 0);
+insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 5, 1);
