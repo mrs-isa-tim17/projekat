@@ -2,11 +2,14 @@ package com.project.mrsisa.domain;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class LoyaltyPoints {
@@ -21,8 +24,12 @@ public class LoyaltyPoints {
 	@Column(nullable = false)
 	private LocalDate startDate;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private LocalDate endDate;
+	
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "roleId", referencedColumnName = "id")
+	private Role role;
 	
 	public double getPoints() {
 		return points;

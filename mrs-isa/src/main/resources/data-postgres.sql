@@ -508,4 +508,20 @@ insert into subscriptions (client_id, offer_id) values (1,2);
 
 insert into percentage_of_earnings (start_date, end_date, percentage) values ('01.01.2022.', null, 3);
 
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 10, 0, 1);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 20, 1, 1);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 30, 2, 1);
 
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 20, 0, 3);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 40, 1, 3);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 60, 2, 3);
+
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 25, 0, 4);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 45, 1, 4);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 65, 2, 4);
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 15, 0, 5);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 25, 1, 5);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 35, 2, 5);
