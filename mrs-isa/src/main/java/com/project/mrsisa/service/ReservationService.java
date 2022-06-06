@@ -61,6 +61,9 @@ public class ReservationService {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private ImageService imageService;
+
     public List<Reservation> getCottageHistoryReservation(Long id){
         return reservationRepository.findCottageReservationHistory(id, OfferType.COTTAGE.getValue());
     }
@@ -239,5 +242,19 @@ public class ReservationService {
         return reservationRepository.getReservationsForShipInPeriodWhenShipOwnerIsPresent(s.getId(), fromDate, untilDate);
     }
 
-
+    @Transactional
+    public List<Reservation> getUpcomingReservationsForClient(long id) {
+        List<Reservation> res = reservationRepository.getUpcomingReservationsForClient(id);
+        for(Reservation r : res){
+            if (r.getOfferType() == OfferType.COTTAGE){
+                r.setOffer(cottageService.findOne(r.getOffer().getId()));
+            } else if (r.getOfferType() == OfferType.SHIP){
+                r.setOffer(shipService.findOne(r.getOffer().getId()));
+            }else if (r.getOfferType() == OfferType.ADVENTURE){
+                r.setOffer(adventureService.findOneById(r.getOffer().getId()));
+            }
+            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
+        }
+        return res;
+    }
 }

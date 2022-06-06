@@ -115,6 +115,12 @@ class ReservationServce{
             headers : authHeader()
         });
     }
+
+    getUpcomingReservationsForClient(id) {
+        return axios.get(RESERVATION_API_BASE_URL + "/upcoming/" + id,  {
+            headers : authHeader()
+        });
+    }
 }
 
 export default new ReservationServce();

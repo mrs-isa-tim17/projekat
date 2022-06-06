@@ -81,7 +81,7 @@ export default {
       historyOfCottageReservationsLink: "/client/history/cottage",
       historyOfShipReservationsLink: "/client/history/ship",
       historyOfAdventureReservationsLink: "/client/history/adventure",
-      upcomingLink: "...",
+      upcomingLink: "/client/upcoming/reservations",
       subscriptionLink: "...",
 
 

@@ -6,7 +6,7 @@
       <div class="col-8">
       </div>
       <div class="col-3 justify-content-right" >
-        <select id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
+        <select id="sortBy" @change="sortList(0)" class="form-select" aria-label="Default select">
           <option selected>Sortiraj po</option>
           <option value="1">Datum</option>
           <option value="2">Trajanja</option>
@@ -79,7 +79,7 @@ export default {
     },
     fromUntilElement(from){
       this.fromElement = from;
-      this.getReservations();
+      this.sortList(this.fromElement);
       this.forceRemounting();
     },
     itemReviewed(itemID){
@@ -95,9 +95,9 @@ export default {
       this.myKey -= 1;
       this.paginationKey += 1;
     },
-    sortList(){
+    sortList(fromElement){
       //axios
-      this.fromElement = 0;
+      this.fromElement = fromElement;
       this.forceRemounting();
       console.log(document.getElementById("sortBy").value);
       let sortBy = document.getElementById("sortBy").value;
@@ -161,7 +161,23 @@ export default {
             .then(response => {
               this.handleResponse(response);
             })
-      }
+      }else if (this.type == "ship")
+        reservationServce.getPastShipReservations(JSON.parse(localStorage.user).id, this.fromElement, this.numberOfElementsForDisplay)
+            .then(response =>{
+              this.handleResponse(response);
+            })
+      else if (this.type == "cottage")
+        reservationServce.getPastCottageReservations(JSON.parse(localStorage.user).id, this.fromElement, this.numberOfElementsForDisplay)
+            .then((response) => {
+                  this.handleResponse(response);
+                }
+            );
+      else if (this.type == "adventure")
+        reservationServce.getPastAdventureReservations(JSON.parse(localStorage.user).id, this.fromElement, this.numberOfElementsForDisplay)
+            .then((response) => {
+                  this.handleResponse(response);
+                }
+            );
     },
     checkIfNeedsToBeDisplayed(index){
       let untilElement = parseInt(this.numberOfElementsForDisplay) + parseInt(this.fromElement);
