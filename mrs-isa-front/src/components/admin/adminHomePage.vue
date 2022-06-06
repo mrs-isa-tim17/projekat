@@ -24,12 +24,30 @@
         <adminHomePageOption :image_path="businessReportImgPath" :option_link="businessReportLink"
                              :text="businessReportText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="loyaltyImgPath" :option_link="loyaltyLink"
-                             :text="loyaltyText"></adminHomePageOption>
 
+          <div class="col-3 px-5" >
+            <div class="dropdown">
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="card-lg">
+                  <div class="card-body">
+                    <img :src=loyaltyImgPath height="150">
+                  </div>
+                  <div class="card-footer text-center text-primary">
+                    {{loyaltyText}}
+                  </div>
+                </div>
+              </a>
 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" :href="'/admin/loyalty/scale'">Skala</a></li>
+                <li><a class="dropdown-item" :href="'/admin/loyalty/points'">Poeni</a></li>
+              </ul>
+            </div>
+          </div>
 
       </div>
+
+
       <div class="row justify-content-center ">
 
         <div class="col-3 px-5" >
@@ -114,7 +132,7 @@ export default {
       businessReportText: "Izveštaji o poslovanju",
 
       loyaltyImgPath: require("@/assets/icons/loyalty.png"),
-      loyaltyLink: "/admin/loyalty/scale",
+      loyaltyLink: "...",
       loyaltyText: "Loyalty program",
 
 

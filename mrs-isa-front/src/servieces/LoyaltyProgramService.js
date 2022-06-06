@@ -18,5 +18,17 @@ class LoyaltyProgramService {
         });
     }
 
+    getPointsForUser(user){
+        return axios.get(LOYALTY_API_BASE_URL + 'points/all/' + user, {
+            headers: authHeader()
+        });
+    }
+
+    defineNewPoint(points) {
+        return axios.post(LOYALTY_API_BASE_URL + 'points/define', points, {
+            headers: authHeader()
+        });
+    }
+
 }
 export default new LoyaltyProgramService();
