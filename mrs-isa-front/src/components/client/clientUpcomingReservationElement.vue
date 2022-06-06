@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col">
-                  <button @click="cancelReservation" type="button" class="btn btn-secondary" >Otkaži</button>
+                  <button v-show="offer.canBeCanceled" @click="cancelReservation" type="button" class="btn btn-secondary" >Otkaži</button>
                 </div>
 
 
@@ -51,17 +51,22 @@
 
 <script>
 import Swal from 'sweetalert2';
+import reservationServce from "@/servieces/ReservationServce";
 
 export default {
   name: "clientUpcomingReservationElement",
   props: ["offer"],
   methods: {
+    goToOffer(){
+      this.$router.push('/book/' + this.offer.offerType.toLowerCase() + '/site/' + +this.offer.offerId);
+    },
     formatDate(date){
       return date[2] + ". " + date[1] + ". " + date[0] + " " + date[3] + ":" + date[4];
     },
     cancelReservation(){
       Swal.fire({
-        title: 'Jeste li sigurni da hoćete da otkažete rezervaciju?',
+        title: 'Jeste li sigurni da hoćete da otkažete rezervaciju?\n Otkazivanjem neki deo novca, oni sadrže, i kasnije' +
+            'nećete biti u stanju da isti entitet rezervišete u istom trenutku',
         //showDenyButton: true,
         showCancelButton: true,
         cancelButtonText: "Odustani",
@@ -72,9 +77,28 @@ export default {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-
+          reservationServce.cancelReservation(this.offer.reservationId)
+              .then((response) =>{
+                if (response.data.successful) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Uspešno ste otkazali rezervaciju. Sadrže: ' + response.data.taken,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                  this.$emit('rerender');
+                }else{
+                  Swal.fire({
+                    icon: 'fail',
+                    title: 'Otkazivanje rezervacije je bilo neuspešno',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                }
+              })
           //axios for canceling reservation!!
           //Swal.fire('Saved!', '', 'success')
+
         }
       })
     }

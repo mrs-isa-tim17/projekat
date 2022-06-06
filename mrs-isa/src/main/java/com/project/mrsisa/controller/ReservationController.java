@@ -3,6 +3,7 @@ package com.project.mrsisa.controller;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.ReserveEntityDTO;
 import com.project.mrsisa.dto.ReserveEntityResponseDTO;
+import com.project.mrsisa.dto.client.SuccessOfCancelReservationDTO;
 import com.project.mrsisa.dto.client.UpcomingReservationDTO;
 import com.project.mrsisa.dto.owner.*;
 
@@ -568,6 +569,20 @@ public class ReservationController {
             res.add(new UpcomingReservationDTO(r));
         }
         return ResponseEntity.ok(res);
+    }
+
+    @GetMapping(value = "cancel/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<SuccessOfCancelReservationDTO> cancelReservation(@PathVariable long id){
+        //cancel
+        try {
+            SuccessOfCancelReservationDTO success = reservationService.cancelReservation(id);
+            return ResponseEntity.ok(success);
+        }catch (Exception e) {
+            SuccessOfCancelReservationDTO success = new SuccessOfCancelReservationDTO();
+            success.setSuccessful(false);
+            return ResponseEntity.ok(success);
+        }
     }
 }
 

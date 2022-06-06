@@ -83,6 +83,16 @@ public class Adventure extends Offer {
 				+ ", getSubscribers()=" + getClient() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
-	
 
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Cottage)){
+			return false;
+		}
+		Adventure c = (Adventure) obj;
+		if (id == c.getId())
+			return true;
+		return false;
+	}
 }

@@ -1,8 +1,10 @@
 package com.project.mrsisa.dto.client;
 
+import com.project.mrsisa.domain.OfferType;
 import com.project.mrsisa.domain.Reservation;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class UpcomingReservationDTO {
 
@@ -16,6 +18,8 @@ public class UpcomingReservationDTO {
     private String offerName;
     private String description;
     private String img;
+    private boolean canBeCanceled;
+    private OfferType offerType;
 
     public UpcomingReservationDTO(Reservation r) {
         this.offerId = r.getOffer().getId();
@@ -30,6 +34,13 @@ public class UpcomingReservationDTO {
         if (r.getOffer().getImages().size()>0){
             this.img = r.getOffer().getImages().get(0).getPath();
         }
+        long numberOfDaysUntilStart = ChronoUnit.DAYS.between(LocalDateTime.now(), r.getStartDateTime());//LocalDateTime.now()
+        if (numberOfDaysUntilStart > 3 && !canceled){
+            this.canBeCanceled = true;
+        }else{
+            this.canBeCanceled = false;
+        }
+        this.offerType = r.getOfferType();
     }
 
     public long getOfferId() {
@@ -110,5 +121,21 @@ public class UpcomingReservationDTO {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public boolean isCanBeCanceled() {
+        return canBeCanceled;
+    }
+
+    public void setCanBeCanceled(boolean canBeCanceled) {
+        this.canBeCanceled = canBeCanceled;
+    }
+
+    public OfferType getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(OfferType offerType) {
+        this.offerType = offerType;
     }
 }

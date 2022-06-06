@@ -1,7 +1,7 @@
 <template>
   <div class="container" >
     <div class="p-2" v-for="(item) in offers"  :key="item.name">
-      <client-upcoming-reservation-element :offer="item"> </client-upcoming-reservation-element>
+      <client-upcoming-reservation-element :offer="item" @rerender="emitRerender"> </client-upcoming-reservation-element>
     </div>
   </div>
 </template>
@@ -11,7 +11,12 @@ import ClientUpcomingReservationElement from "@/components/client/clientUpcoming
 export default {
   name: "clientUpcomingReservationList",
   components: {ClientUpcomingReservationElement},
-  props: ["offers"]
+  props: ["offers"],
+  methods: {
+    emitRerender(){
+      this.$emit('rerender');
+    }
+  }
 }
 </script>
 

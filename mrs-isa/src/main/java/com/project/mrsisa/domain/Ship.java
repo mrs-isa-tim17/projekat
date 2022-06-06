@@ -114,6 +114,16 @@ public class Ship extends Offer {
 	public void setOwner(ShipOwner owner) {
 		this.owner = owner;
 	}
-	
-	
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Cottage)){
+			return false;
+		}
+		Ship c = (Ship) obj;
+		if (id == c.getId())
+			return true;
+		return false;
+	}
 }

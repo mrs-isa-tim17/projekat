@@ -3,7 +3,7 @@
     <client-header></client-header>
 
     <div>
-      <client-upcoming-reservation-list :key="myKey" :offers="upcomingReservations"> </client-upcoming-reservation-list>
+      <client-upcoming-reservation-list @rerender="forceRerender" :key="myKey" :offers="upcomingReservations"> </client-upcoming-reservation-list>
     </div>
 
 
@@ -27,6 +27,10 @@ export default {
             this.upcomingReservations = response.data;
             this.myKey++;
           })
+    },
+    forceRerender(){
+      this.getUpcomingReservations();
+      //this.myKey++;
     }
   },
   data(){

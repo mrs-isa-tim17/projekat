@@ -29,7 +29,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findCurrentReservationInInterval(long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
 
     @Transactional
-    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1 order by r.start_date", nativeQuery = true)
+    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1 and not canceled order by r.start_date", nativeQuery = true)
     List<Reservation> findAllReservationsForOffer(Long id);
 
     @Transactional

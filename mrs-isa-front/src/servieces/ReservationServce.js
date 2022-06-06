@@ -121,6 +121,12 @@ class ReservationServce{
             headers : authHeader()
         });
     }
+
+    cancelReservation(reservationId) {
+        return axios.get(RESERVATION_API_BASE_URL + "/cancel/" + reservationId,  {
+            headers : authHeader()
+        });
+    }
 }
 
 export default new ReservationServce();

@@ -3,6 +3,7 @@ package com.project.mrsisa.service;
 import com.project.mrsisa.converter.LocalDateTimeToString;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.ReserveEntityDTO;
+import com.project.mrsisa.dto.client.SuccessOfCancelReservationDTO;
 import com.project.mrsisa.exception.AlreadyCanceled;
 import com.project.mrsisa.exception.NotAvailable;
 import com.project.mrsisa.exception.NotDefinedValue;
@@ -54,6 +55,9 @@ public class ReservationService {
 
     @Autowired
     PeriodUnavailabilityService periodUnavailabilityService;
+
+    @Autowired
+    CancelConditionService cancelConditionService;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -247,7 +251,8 @@ public class ReservationService {
         List<Reservation> res = reservationRepository.getUpcomingReservationsForClient(id);
         for(Reservation r : res){
             if (r.getOfferType() == OfferType.COTTAGE){
-                r.setOffer(cottageService.findOne(r.getOffer().getId()));
+                Cottage c = cottageService.findOne(r.getOffer().getId());
+                r.setOffer(c);
             } else if (r.getOfferType() == OfferType.SHIP){
                 r.setOffer(shipService.findOne(r.getOffer().getId()));
             }else if (r.getOfferType() == OfferType.ADVENTURE){
@@ -255,6 +260,52 @@ public class ReservationService {
             }
             r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
         }
+        return res;
+    }
+
+    @Transactional
+    public SuccessOfCancelReservationDTO cancelReservation(long id) throws NotDefinedValue {
+        Reservation r = reservationRepository.findById(id).orElse(null);
+        if (r == null)
+            throw new NotDefinedValue("Rezervacija ne postoji");
+/*
+        if (r.getOfferType() == OfferType.COTTAGE){
+            r.setOffer(cottageService.findOne(r.getOffer().getId()));
+        } else if (r.getOfferType() == OfferType.SHIP){
+            r.setOffer(shipService.findOne(r.getOffer().getId()));
+        }else if (r.getOfferType() == OfferType.ADVENTURE){
+            r.setOffer(adventureService.findOneById(r.getOffer().getId()));
+        }
+*/
+        List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferIdOrderdByDays(r.getOffer().getId());
+
+        long numberOfDaysUntilStart = ChronoUnit.DAYS.between(LocalDateTime.now(), r.getStartDateTime());//LocalDateTime.now()
+
+        CancelCondition chosenCancelCondition = null;
+        for(CancelCondition cc : cancelConditions){
+            if (cc.getDays() > numberOfDaysUntilStart){
+                chosenCancelCondition = cc;
+                break;
+            }
+        }
+
+        SuccessOfCancelReservationDTO res = new SuccessOfCancelReservationDTO();
+        res.setSuccessful(true);
+        r.setCanceled(true);
+        reservationRepository.save(r);
+        if (chosenCancelCondition == null){
+            res.setTaken(0);
+        }else{
+            //count taken
+            double precent = chosenCancelCondition.getPrecent();
+            if (precent == 0)
+                res.setTaken(0);
+            else{
+                double taken = r.getPrice() * (precent / 100);
+                res.setTaken(taken);
+            }
+        }
+
         return res;
     }
 }
