@@ -35,6 +35,9 @@
 </template>
 
 <script>
+import offerService from "@/servieces/OfferService";
+import Swal from "sweetalert2";
+
 export default {
   name: "clientSubscribedEntitiesElement",
   props: ["offer"],
@@ -43,7 +46,19 @@ export default {
       this.$router.push('/book/' + this.offer.offerType.toLowerCase() + '/site/' + +this.offer.offerId);
     },
     unsubscribe(){
-
+      console.log("UNSUBSCRIBE");
+      console.log(JSON.parse(localStorage.user).id);
+      console.log(this.offer.offerId);
+      offerService.unsubscribeForOffer(JSON.parse(localStorage.user).id, this.offer.offerId)
+          .then((response) =>{
+            console.log(response.data);
+            this.$emit('rerender');
+            Swal.fire({
+              icon: 'success',
+              title: 'Uspešno ste otkazali rezervaciju.',
+              showConfirmButton: false,
+              timer: 1500
+          })});
     }
   }
 }

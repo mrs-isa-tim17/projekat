@@ -11,7 +11,12 @@ import ClientSubscribedEntitiesElement from "@/components/client/clientSubscribe
 export default {
   name: "clientSubscribedEntitiesList",
   components: {ClientSubscribedEntitiesElement},
-  props: ["offers"]
+  props: ["offers"],
+  methods: {
+    emitRerender(){
+      this.$emit('rerender');
+    }
+  }
 }
 </script>
 

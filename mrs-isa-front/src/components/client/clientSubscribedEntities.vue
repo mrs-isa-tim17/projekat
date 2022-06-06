@@ -27,11 +27,15 @@ export default {
             this.entitiesSubscribedFor = response.data;
             this.myKey++;
           })
+    },
+    forceRerender(){
+      this.getEntitiesClientSubscribedFor();
     }
   },
   data(){
     return{
-      entitiesSubscribedFor: []
+      entitiesSubscribedFor: [],
+      myKey: 0
     }
   }
 }

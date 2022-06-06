@@ -118,19 +118,21 @@ public class ClientService {
 
 	@Transactional
 	public void unsubscribeFromOffer(Long clientId, Long offerId) {
+		System.out.println(clientId);
+		System.out.println(offerId);
 		Client c = clientRepository.findById(clientId).orElse(null);
 		List<Offer> subs = cottageService.findAllByClientId(clientId);
 		subs.addAll(shipService.findAllByClientId(clientId));
 		subs.addAll(adventureService.findAllByClientId(c));
 
 		try {
-			Offer cottage = cottageService.findOne(offerId);
+			Cottage cottage = cottageService.findOne(offerId);
 			subs.remove(cottage);
 		}catch (NullPointerException npe){
 
 		}
 		try {
-			Offer ship = shipService.findOne(offerId);
+			Ship ship = shipService.findOne(offerId);
 			if (ship != null) {
 				subs.remove(ship);
 			}
@@ -138,14 +140,13 @@ public class ClientService {
 
 		}
 		try {
-			Offer adventure = adventureService.findOneById(offerId);
+			Adventure adventure = adventureService.findOneById(offerId);
 			if (adventure != null) {
 				subs.remove(adventure);
 			}
 		}catch (NullPointerException npe){
 
 		}
-
 		c.setSubscriptions(subs);
 		save(c);
 

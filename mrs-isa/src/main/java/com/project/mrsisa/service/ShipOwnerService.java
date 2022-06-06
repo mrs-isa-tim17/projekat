@@ -51,8 +51,6 @@ public class ShipOwnerService {
 		List<Reservation> reservations = new ArrayList<>();
 		for (Ship s : ships){
 			List<Reservation> res = reservationService.getReservationsForShipInPeriodWhenShipOwnerIsPresent(s, periodDTO.getFromDate(), periodDTO.getUntilDate());
-			System.out.println("RES LENGTH");
-			System.out.println(res.size());
 			for (Reservation r : res){
 				if (checkIfInterfere(r, periodDTO.getFromDate(), periodDTO.getUntilDate()))
 					return false;

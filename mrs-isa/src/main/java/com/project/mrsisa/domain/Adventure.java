@@ -87,7 +87,7 @@ public class Adventure extends Offer {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Cottage)){
+		if (!(obj instanceof Adventure)){
 			return false;
 		}
 		Adventure c = (Adventure) obj;

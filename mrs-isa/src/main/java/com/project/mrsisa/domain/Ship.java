@@ -118,7 +118,7 @@ public class Ship extends Offer {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Cottage)){
+		if (!(obj instanceof Ship)){
 			return false;
 		}
 		Ship c = (Ship) obj;
