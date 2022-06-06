@@ -5,6 +5,7 @@ import com.project.mrsisa.dto.UserTokenState;
 import com.project.mrsisa.dto.client.CurrentClientDTO;
 import com.project.mrsisa.dto.client.HomePageInfoDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
+import com.project.mrsisa.dto.client.SubscriebedEntitiesDTO;
 import com.project.mrsisa.service.*;
 import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,4 +148,14 @@ public class ClientController {
         return ResponseEntity.ok(false);
     }
 
+    @GetMapping("/subscribed/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<List<SubscriebedEntitiesDTO>> getEntitiesClientSubscribed(@PathVariable Long id){
+        List<Offer> offers = clientService.getEntitiesClientSubscribedFor(id);
+        List<SubscriebedEntitiesDTO> res = new ArrayList<>();
+        for (Offer o : offers){
+            res.add(new SubscriebedEntitiesDTO(o));
+        }
+        return ResponseEntity.ok(res);
+    }
 }

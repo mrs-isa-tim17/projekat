@@ -49,6 +49,11 @@ class ClientServce{
             })
     }
 
+    getEntitiesSubscribedFor(id) {
+        return axios.get(CLIENT_API_BASE_URL + "/subscribed/" + id, {
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ClientServce();

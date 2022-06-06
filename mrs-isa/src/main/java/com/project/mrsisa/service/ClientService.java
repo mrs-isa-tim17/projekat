@@ -38,6 +38,9 @@ public class ClientService {
 	@Autowired
 	private Environment env;
 
+	@Autowired
+	private ImageService imageService;
+
 	@Transactional
     public void subscribeToOffer(Long clientId, Long offerId) {
 		Client c = clientRepository.findById(clientId).orElse(null);
@@ -179,4 +182,14 @@ public class ClientService {
 	}
 
 
+    public List<Offer> getEntitiesClientSubscribedFor(Long clientId) {
+		Client c = clientRepository.findById(clientId).orElse(null);
+		List<Offer> subs = cottageService.findAllByClientId(clientId);
+		subs.addAll(shipService.findAllByClientId(clientId));
+		subs.addAll(adventureService.findAllByClientId(c));
+		for(Offer o : subs){
+			o.setImages(imageService.findAllByOfferId(o.getId()));
+		}
+		return subs;
+    }
 }
