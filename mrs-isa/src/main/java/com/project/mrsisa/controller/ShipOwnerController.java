@@ -1,5 +1,8 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.dto.PeriodDTO;
+import com.project.mrsisa.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +28,7 @@ import com.project.mrsisa.util.TokenUtils;
 @CrossOrigin
 public class ShipOwnerController {
     @Autowired
-	public ShipOwnerService soService;
+	public ShipOwnerService shipOwnerService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
     @Autowired
@@ -37,7 +40,7 @@ public class ShipOwnerController {
 	        
 	        ShipOwner so = null;
 	       try {
-	        so = soService.findOne(id);
+	        so = shipOwnerService.findOne(id);
 	        if (so == null) {
 	        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
@@ -64,7 +67,7 @@ public class ShipOwnerController {
 	        
 	        ShipOwner so = null;
 	       try {
-	        so = soService.findOne(id);
+	        so = shipOwnerService.findOne(id);
 	        if (so == null) {
 	        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
@@ -81,7 +84,7 @@ public class ShipOwnerController {
 	        so.getAddress().setLatitude(shipOwnerDTO.getLatitude());
 	        so.getAddress().setLongitude(shipOwnerDTO.getLongitude());
 
-	        soService.save(so);
+	        shipOwnerService.save(so);
 	        
 	       }catch (Exception e) {
 			e.printStackTrace();
@@ -89,4 +92,13 @@ public class ShipOwnerController {
 
 	       return new ResponseEntity<ShipOwnerProfileResponseDTO>(new ShipOwnerProfileResponseDTO(so, 5), HttpStatus.OK);
 	    }
+
+		@PostMapping("{id}/free")
+		@PreAuthorize("hasRole('CLIENT')")
+		public ResponseEntity<Boolean> getIfOwnerFree(@PathVariable long id, @RequestBody PeriodDTO periodDTO){
+			if (shipOwnerService.checkIfFreeInPeriod(id, periodDTO))
+				return ResponseEntity.ok(true);
+			else
+				return ResponseEntity.ok(false);
+		}
 }

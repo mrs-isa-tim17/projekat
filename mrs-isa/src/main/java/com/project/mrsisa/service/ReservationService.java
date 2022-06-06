@@ -1,18 +1,65 @@
 package com.project.mrsisa.service;
 
-import com.project.mrsisa.domain.OfferType;
-import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.converter.LocalDateTimeToString;
+import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.ReserveEntityDTO;
+import com.project.mrsisa.exception.AlreadyCanceled;
+import com.project.mrsisa.exception.NotAvailable;
+import com.project.mrsisa.exception.NotDefinedValue;
+import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.MailSendException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ReservationService {
     @Autowired
     ReservationRepository reservationRepository;
+
+    @Autowired
+    ClientService clientService;
+
+    @Autowired
+    CottageService cottageService;
+
+    @Autowired
+    ShipService shipService;
+
+    @Autowired
+    AdventureService adventureService;
+
+    @Autowired
+    AdditionalServicesService additionalServicesService;
+
+    @Autowired
+    PricelistService pricelistService;
+
+    @Autowired
+    PeriodAvailabilitySerivce periodAvailabilitySerivce;
+
+    @Autowired
+    PeriodUnavailabilityService periodUnavailabilityService;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Autowired
+    private Environment env;
 
     public List<Reservation> getCottageHistoryReservation(Long id){
         return reservationRepository.findCottageReservationHistory(id, OfferType.COTTAGE.getValue());
@@ -42,7 +89,7 @@ public class ReservationService {
         return reservationRepository.findFutureReservationHistory(offer_id);
     }
 
-    public List<Reservation> getListOfReservationByOfferInInterval(long offerId, LocalDate fromDate, LocalDate untilDate){
+    public List<Reservation> getListOfReservationByOfferInInterval(long offerId, LocalDateTime fromDate, LocalDateTime untilDate){
         return reservationRepository.findCurrentReservationInInterval(offerId, fromDate, untilDate);
     }
 
@@ -78,6 +125,119 @@ public class ReservationService {
 		}
 		return true;
 	}
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void reserveEntity(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException {
+        Client client = clientService.findOne(reserveEntityDTO.getClientId());
+        if (checkIfCanceledReservationWithSameParametars(client, reserveEntityDTO))
+            throw new AlreadyCanceled("Već je otkazao rezervaciju sa istim parametrima");
+        Offer o;
+        Reservation r = new Reservation();
+        if (reserveEntityDTO.getOfferType().equals("cottage")){
+            o = cottageService.findOne(reserveEntityDTO.getOfferId());
+            r.setOfferType(OfferType.COTTAGE);
+        }else if (reserveEntityDTO.getOfferType().equals("ship")){
+            o = shipService.findOne(reserveEntityDTO.getOfferId());
+            r.setOfferType(OfferType.SHIP);
+        }else if (reserveEntityDTO.getOfferType().equals("adventure")){
+            o = adventureService.findOneById(reserveEntityDTO.getOfferId());
+            r.setOfferType(OfferType.ADVENTURE);
+        }else{
+            throw new NotDefinedValue("Dobijeni tip entiteta nije validan");
+        }
+        OfferProcessing offerProcessing = new OfferProcessing();
+        System.out.println(reserveEntityDTO.getFromDate());
+        System.out.println(reserveEntityDTO.getUntilDate());
+        o.setReservations(getListOfReservationByOfferInInterval(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
+        o.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
+        o.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
+        boolean res = offerProcessing.isGloballyFree(o, reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
+        System.out.println("Global free res: ");
+        System.out.println(res);
+        if (!res){
+            throw new NotAvailable("Neko je stigao pre");
+        }
+        List<AdditionalServices> additionalServices = formAdditionalServices(reserveEntityDTO.getChosenAdditionalServices());
+        r.setStartDateTime(reserveEntityDTO.getFromDate());
+        r.setEndDateTime(reserveEntityDTO.getUntilDate());
+        r.setAdditionalServices(additionalServices);
+        double price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
+        if (price == 0)
+            throw new NotDefinedValue("Izračunavanje cene je neuspešno");
+        r.setPrice(price);
+        r.setQuick(false);
+        r.setCanceled(false);
+        r.setClient(client);
+        r.setOffer(o);
+        r.setShipOwnerPresent(reserveEntityDTO.isShipOwnerPresent());//!!!!!!!!!!!!
+        r.setReviewed(false);
+        reservationRepository.save(r);
+        sendMailAboutReservation(client, r);
+    }
+
+    private void sendMailAboutReservation(Client client, Reservation r) throws MessagingException {
+        String subject = "Potvrda o rezervaciji";
+        LocalDateTimeToString dateTimeFormatter = new LocalDateTimeToString();
+        String mailContent = "<p>Uspešno se rezervisali entitet: " + r.getOffer().getName() +
+                ", u periodu od <strong> " + dateTimeFormatter.format(r.getStartDateTime()) + "</strong> do: <strong>" + dateTimeFormatter.format(r.getEndDateTime()) + "</strong>.</p>";
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+        helper.setText(mailContent, true);
+        helper.setTo(client.getEmail());
+        helper.setSubject(subject);
+        helper.setFrom(env.getProperty("spring.mail.username"));
+        javaMailSender.send(mimeMessage);
+    }
+
+
+    private boolean checkIfCanceledReservationWithSameParametars(Client client, ReserveEntityDTO reserveEntityDTO) {
+        Reservation r = reservationRepository.checkIfClientCanceledReservationWithSameParametars(client.getId(), reserveEntityDTO.getOfferId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
+        if (r == null)
+            return false;
+        else
+            return true;
+    }
+
+    private double countPriceOfReservation(OfferType offerType, Offer o, LocalDateTime startDateTime, LocalDateTime endDateTime, List<AdditionalServices> additionalServices) {
+        double price = 0;
+        try {
+            if (offerType == OfferType.COTTAGE) {
+                long days = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
+                price = days * pricelistService.getCurrentPriceOfOffer(o.getId());
+            } else if (offerType == OfferType.ADVENTURE) {
+                long minutes = ChronoUnit.MINUTES.between(startDateTime, endDateTime);//req.getUntilDate() - req.getFromDate();
+                price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
+            } else if (offerType == OfferType.SHIP) {
+                long minutes = ChronoUnit.MINUTES.between(startDateTime, startDateTime);//req.getUntilDate() - req.getFromDate();
+                price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
+            }
+            price = addAdditionalServicesToPrice(price, additionalServices);
+            return price;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    private double addAdditionalServicesToPrice(double price, List<AdditionalServices> additionalServices) {
+        for (AdditionalServices a : additionalServices){
+            price += a.getPrice();
+        }
+        return price;
+    }
+
+    private List<AdditionalServices> formAdditionalServices(List<String> chosenAdditionalServices) {
+        List<AdditionalServices> services = new ArrayList<>();
+        for (String addString : chosenAdditionalServices){
+            AdditionalServices add = additionalServicesService.findOneByName(addString);
+            services.add(add);
+        }
+        return services;
+    }
+
+    public List<Reservation> getReservationsForShipInPeriodWhenShipOwnerIsPresent(Ship s, LocalDateTime fromDate, LocalDateTime untilDate){
+        return reservationRepository.getReservationsForShipInPeriodWhenShipOwnerIsPresent(s.getId(), fromDate, untilDate);
+    }
 
 
 }

@@ -94,6 +94,9 @@ public class AdventureController {
 
 	@Autowired
 	private ClientService clientService;
+
+	@Autowired
+	private SaleAppointmentService saleAppointmentService;
 	
 	@GetMapping(value = "/detail/{id}")
     @PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -526,9 +529,10 @@ public class AdventureController {
 		//interval
 		if (adventureFilterParamsDTO.getDateFrom() != null && adventureFilterParamsDTO.getDateUntil() != null) {
 			for (Adventure adventure : adventures) {
-				adventure.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(adventure.getId(), adventureFilterParamsDTO.getDateFrom().toLocalDate(), adventureFilterParamsDTO.getDateUntil().toLocalDate()));
-				adventure.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(adventure.getId(), adventureFilterParamsDTO.getDateFrom().toLocalDate(), adventureFilterParamsDTO.getDateUntil().toLocalDate()));
-				adventure.setReservations(reservationService.getListOfReservationByOfferInInterval(adventure.getId(), adventureFilterParamsDTO.getDateFrom().toLocalDate(), adventureFilterParamsDTO.getDateUntil().toLocalDate()));
+				adventure.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
+				adventure.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
+				adventure.setReservations(reservationService.getListOfReservationByOfferInInterval(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
+				adventure.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
 			}
 			adventures = offerProcessing.filterAdventureByInterval(adventures, adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil());
 		}

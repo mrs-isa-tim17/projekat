@@ -30,9 +30,10 @@ public class AdditionalServices {
 	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<SaleAppointment> saleAppointment;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reservationId")
-	private Reservation reservation;
+	//@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "reservationId")
+	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Reservation> reservation;
 	
 	@Column(name="price", nullable=false)
 	private double price;
@@ -82,11 +83,11 @@ public class AdditionalServices {
 		this.saleAppointment = saleAppointment;
 	}
 
-	public Reservation getReservation() {
+	public List<Reservation> getReservation() {
 		return reservation;
 	}
 
-	public void setReservation(Reservation reservation) {
+	public void setReservation(List<Reservation> reservation) {
 		this.reservation = reservation;
 	}
 	public double getPrice() {

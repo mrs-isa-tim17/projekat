@@ -6,7 +6,7 @@
       </div>
       <div class="col">
         <div class="row p-1">
-          <res-mod :additionalServicesPrice="offer.additionalServicesPrice" :price="offer.price" :offer-type="'adventure'" :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
+          <res-mod :offerId="offer.id" :additionalServicesPrice="offer.additionalServicesPrice" :price="offer.price" :offer-type="'adventure'" :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
           <button v-show="!verifiedClient" style="min-width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
         </div>
         <div align="left" class="row p-1">

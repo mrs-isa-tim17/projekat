@@ -131,4 +131,8 @@ public class SaleAppointment {
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
 	}
+
+    public LocalDateTime getEndSaleDate() {
+		return this.startSaleDate.plusHours((long) duration);//u cemu cuva vikendica?
+    }
 }

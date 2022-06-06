@@ -100,4 +100,8 @@ public class SaleAppointmentService {
 	public List<SaleAppointment> findAllByOfferId(Long offerId){
 		return saleAppointmentRepository.findAllByOfferId(offerId);
 	}
+
+	public List<SaleAppointment> getListOfReservationByOfferInInterval(Long id, LocalDateTime dateFrom, LocalDateTime dateUntil) {
+		return saleAppointmentRepository.findCurrentSaleAppointmentInInterval(id, dateFrom, dateUntil);
+	}
 }

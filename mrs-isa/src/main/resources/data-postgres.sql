@@ -131,16 +131,16 @@ insert into cottage (id, deleted,description, name, address_id, bed_quantity, ro
 insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Best adventure ever', 'Fishing on the Lake', 2, 8, 'Im the best instructor ever', 2);
 	
-insert into additional_services (name, reservation_id, price, deleted) values ('wifi', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('kabanica', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('baterijska lampa', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('bazen', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('parking', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('kablovska TV', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('WiFi', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('društvene igre', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('besplatne pešačke ture', null, 100, false);
-insert into additional_services (name, reservation_id, price, deleted) values ('bicikli', null, 100, false);
+insert into additional_services (name, price, deleted) values ('wifi', 100, false);
+insert into additional_services (name, price, deleted) values ('kabanica', 100, false);
+insert into additional_services (name, price, deleted) values ('baterijska lampa', 100, false);
+insert into additional_services (name, price, deleted) values ('bazen', 100, false);
+insert into additional_services (name, price, deleted) values ('parking', 100, false);
+insert into additional_services (name, price, deleted) values ('kablovska TV', 100, false);
+insert into additional_services (name, price, deleted) values ('WiFi', 100, false);
+insert into additional_services (name, price, deleted) values ('društvene igre', 100, false);
+insert into additional_services (name, price, deleted) values ('besplatne pešačke ture', 100, false);
+insert into additional_services (name, price, deleted) values ('bicikli', 100, false);
 
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 1);
 insert into additional_services_offer (offer_id, additional_service_id) values (1, 4);
@@ -506,4 +506,8 @@ insert into subscriptions (client_id, offer_id) values (1,2);
 
 insert into percentage_of_earnings (start_date, end_date, percentage) values ('01.01.2022.', null, 3);
 
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 1500, '29.04.2022.', 3);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 4000, '29.04.2022.', 4);
 
+ insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',8);
+ insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',9);

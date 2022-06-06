@@ -74,6 +74,9 @@ public class ShipController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private SaleAppointmentService saleAppointmentService;
+
 	private OfferProcessing offerProcessing = new OfferProcessing();
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -321,9 +324,10 @@ public class ShipController {
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
 			for (Ship ship : ships) {
-				ship.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
-				ship.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
-				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				ship.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
 			}
 			ships = offerProcessing.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}

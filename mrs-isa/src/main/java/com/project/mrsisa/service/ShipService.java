@@ -24,6 +24,8 @@ public class ShipService {
 	}
 	
 	public Ship findOne(Long id) {
+		System.out.println("ID:");
+		System.out.println(id);
 		return shipRepository.findById(id).orElseGet(null);
 	}
 	

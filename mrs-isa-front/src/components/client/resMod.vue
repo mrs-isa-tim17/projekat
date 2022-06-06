@@ -42,6 +42,8 @@
                 </div>
               </div>
               </div>
+              <input class="form-check-input" type="checkbox" v-show="shipOwnerCanBePresent" v-model="shipOwnerWanted">
+              <label v-show="shipOwnerCanBePresent">Prisutnost vlasnika</label>
             </div>
 
           </div>
@@ -52,22 +54,25 @@
           <p v-if="noReservationPossible" class="text-danger">Pre rezervacije morate da pretražite entitete da biste našli slobodne.</p>
         </div>
 
-      </div>
         <div class="modal-footer" style="background-color: #31708E;">
           <button @click="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-          <button v-if="!noReservationPossible" @click="reserveEntity" type="button" class="btn btn-primary" data-bs-dismiss="modal">Rezerviši</button>
+          <button v-show="!noReservationPossible" @click.prevent="reserveEntity" type="button" class="btn btn-primary">Rezerviši</button>
 
         </div>
+      </div>
       </div>
     </div>
 </template>
 
 <script>
 import offerService from "@/servieces/OfferService";
+import reservationServce from "@/servieces/ReservationServce";
+import swal from "sweetalert2";
+import shipOwnerService from "@/servieces/ship_owner/ShipOwnerService";
 
 export default {
   name: "resMod",
-  props: ["verifiedClient", "additionalServices", "offerType", "price",
+  props: ["verifiedClient", "offerId", "additionalServices", "offerType", "price",
     "additionalServicesPrice"],
   created() {
     this.additionalServicesModal = [];//this.additionalServices;
@@ -86,6 +91,14 @@ export default {
         this.offerFilter = JSON.parse(localStorage.ship);
         this.callOfferService();
         this.searchHappened = true;
+        //check if vlasnik can be prisutan
+
+        shipOwnerService.getIfFreeInPeriod(this.offerId, {fromDate: this.offerFilter.dateFrom, untilDate: this.offerFilter.dateUntil})
+            .then((response) =>{
+              console.log("SHIP OWNER");
+              console.log(response.data);
+              this.shipOwnerCanBePresent = response.data;
+            })
       }catch {
         this.searchHappened = false;
       }
@@ -101,7 +114,37 @@ export default {
   },
   methods: {
     reserveEntity(){
-
+      let clientID = JSON.parse(localStorage.user).id;
+      //additionalServicesModal
+      let resObj = {
+        clientId: clientID,
+        offerId: this.offerId,
+        offerType: this.offerType,
+        chosenAdditionalServices: this.additionalServicesModal,
+        fromDate: this.offerFilter.dateFrom,
+        untilDate: this.offerFilter.dateUntil,
+        shipOwnerPresent: this.shipOwnerWanted
+      };
+      reservationServce.reserveEntity(resObj)
+          .then((response) =>{
+            console.log("RESERVE ");
+            let res = response.data
+            if (res.successfull){
+              swal.fire({
+                title: "Uspešsno",
+                text: "Uspešno je sačvana rezervacija, mejl je poslatu na vaš mejl, za potvrdu.",
+                background:'white',
+                color:'black',
+                confirmButtonColor:'green'});
+            }else{
+              swal.fire({
+                title: "Neuspešno",
+                text: res.text,
+                background:'white',
+                color:'black',
+                confirmButtonColor:'#FECDA6'});
+            }
+          });
     },
     callOfferService(){
       let obj = {
@@ -206,7 +249,9 @@ export default {
       },
       currentPrice: "",
       searchHappened: false,
-      noReservationPossible : false
+      noReservationPossible : false,
+      shipOwnerCanBePresent: false,
+      shipOwnerWanted: false
     }
   }
 }//MODIFIKACIJA DA UDE OTPORAN DA NEMA PRETRAGA

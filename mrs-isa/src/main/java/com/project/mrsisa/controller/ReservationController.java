@@ -1,6 +1,8 @@
 package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.ReserveEntityDTO;
+import com.project.mrsisa.dto.ReserveEntityResponseDTO;
 import com.project.mrsisa.dto.owner.*;
 
 import com.project.mrsisa.domain.Adventure;
@@ -10,6 +12,9 @@ import com.project.mrsisa.dto.owner.HistoryFutureReservationOwnerDTO;
 import com.project.mrsisa.dto.owner.HistoryPastReservationOwnerDTO;
 import com.project.mrsisa.dto.simple_user.PaginationDTO;
 
+import com.project.mrsisa.exception.AlreadyCanceled;
+import com.project.mrsisa.exception.NotAvailable;
+import com.project.mrsisa.exception.NotDefinedValue;
 import com.project.mrsisa.service.CottageService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.ReservationService;
@@ -24,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -544,6 +550,26 @@ public class ReservationController {
 		
 		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
 	}
+
+    @PostMapping(value = "reserve")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
+        try{
+            reservationService.reserveEntity(reserveEntityDTO);
+            return ResponseEntity.ok(new ReserveEntityResponseDTO());
+        }catch (AlreadyCanceled ac){
+            return ResponseEntity.ok(new ReserveEntityResponseDTO(ac.getMessage()));
+        }catch (NotAvailable na){
+            return ResponseEntity.ok(new ReserveEntityResponseDTO(na.getMessage()));
+        }catch (NotDefinedValue ndv) {
+            return ResponseEntity.ok(new ReserveEntityResponseDTO(ndv.getMessage()));
+        }catch (MailSendException mse){
+            return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekoga nismo bili u stanju da pošaljemo Vam mejl, molimo Vas pokušavajte kasnije"));
+        }catch (Exception e){
+            return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekog razloga došlo je do greške, molimo Vas pokušavajte kasnije"));
+        }
+    }
+
 
 }
 

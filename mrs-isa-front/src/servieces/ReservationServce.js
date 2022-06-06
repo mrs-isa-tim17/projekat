@@ -109,6 +109,12 @@ class ReservationServce{
             numberToDisplay: numberOfElementsForDisplay
         }
     }
+
+    reserveEntity(resObj) {
+        return axios.post(RESERVATION_API_BASE_URL + "/reserve", resObj,  {
+            headers : authHeader()
+        });
+    }
 }
 
 export default new ReservationServce();

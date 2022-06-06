@@ -81,6 +81,9 @@ public class CottageController {
 	@Autowired
 	private ClientService clientService;
 
+	@Autowired
+	private SaleAppointmentService saleAppointmentService;
+
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@PostMapping(value = "/site/all")
@@ -405,9 +408,10 @@ public class CottageController {
 		//interval
 		if (cottageFilterParamsDTO.getDateFrom() != null && cottageFilterParamsDTO.getDateUntil() != null) {
 			for (Cottage c : cottages) {
-				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
-				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
-				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom().toLocalDate(), cottageFilterParamsDTO.getDateUntil().toLocalDate()));
+				c.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
+				c.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
+				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
+				c.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
 			}
 			cottages = offerProcessing.filterByInterval(cottages, cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil());
 
