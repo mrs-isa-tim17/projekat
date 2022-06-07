@@ -243,14 +243,17 @@ insert into image (path, offer_id) values('/img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('/img/adventure/Drina2.jpg', 2);
 insert into image (path, offer_id) values('/img/adventure/Drina3.jpg', 2);
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 0, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 1, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 3, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 4, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 5, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 6, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 0, 'Prelepo, ali daleko.', 1, 1, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 3, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 4, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 5, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 6, 0);
+
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 0, 'Sve pohvale,odlično. Avantura je divna.', 1, 2, 2);
+
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 3000, '29.04.2022.', 1);
@@ -529,3 +532,4 @@ insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, 
 
 insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 3, 0);
 insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 5, 1);
+

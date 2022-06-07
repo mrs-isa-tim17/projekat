@@ -24,4 +24,7 @@ public interface ExperienceReviewRepository extends JpaRepository<ExperienceRevi
             nativeQuery = true)
     Optional<Double> findOffersCurrentPriceById(Long offerId, int offerType);
 
+    @Query(value="SELECT * FROM experience_review r WHERE r.status=0", nativeQuery=true)
+	public List<ExperienceReview> findAllUnprocessedExperienceReview();
+
 }
