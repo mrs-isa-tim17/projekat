@@ -22,6 +22,23 @@ class ReviewServce{
             headers: authHeader()
         });
     }
+    getUnproccessedReviews(){
+        return axios.get(REVIEW_API_BASE_URL + '/unprocessed', {
+            headers: authHeader()
+        });
+    }
+
+    acceptReview(id){
+        return axios.get(REVIEW_API_BASE_URL + '/accept/' + id,{
+            headers: authHeader()
+        });
+    }
+
+    rejectReview(id){
+        return axios.get(REVIEW_API_BASE_URL + '/reject/'+id,{
+            headers: authHeader()
+        });
+    }
 
 }
 

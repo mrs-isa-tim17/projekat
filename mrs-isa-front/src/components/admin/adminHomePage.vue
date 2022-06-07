@@ -116,7 +116,7 @@ export default {
 
       revisionImgPath: require("@/assets/icons/revision.png"),
       revisionText: "Revizije",
-      revisionLink: "...",
+      revisionLink: "/admin/revisions",
 
       complaintImgPath: require("@/assets/icons/angry.png"),
       complaintText: "Žalbe",
