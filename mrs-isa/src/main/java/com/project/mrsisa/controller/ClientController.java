@@ -5,6 +5,7 @@ import com.project.mrsisa.dto.UserTokenState;
 import com.project.mrsisa.dto.client.CurrentClientDTO;
 import com.project.mrsisa.dto.client.HomePageInfoDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
+import com.project.mrsisa.dto.client.SubscriebedEntitiesDTO;
 import com.project.mrsisa.service.*;
 import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +120,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/current/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
         CottageOwner owner = cottageOwnerService.findOne(id);
         List<String> emails = new ArrayList<>();
@@ -143,5 +144,24 @@ public class ClientController {
         }
 
         return new ResponseEntity<>(current,HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribed/{clientId}/{offerId}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Boolean> getIfSubscribed(@PathVariable Long clientId, @PathVariable Long offerId){
+        if (clientService.findIfSubscribed(clientId, offerId))
+            return ResponseEntity.ok(true);
+        return ResponseEntity.ok(false);
+    }
+
+    @GetMapping("/subscribed/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<List<SubscriebedEntitiesDTO>> getEntitiesClientSubscribed(@PathVariable Long id){
+        List<Offer> offers = clientService.getEntitiesClientSubscribedFor(id);
+        List<SubscriebedEntitiesDTO> res = new ArrayList<>();
+        for (Offer o : offers){
+            res.add(new SubscriebedEntitiesDTO(o));
+        }
+        return ResponseEntity.ok(res);
     }
 }

@@ -1,11 +1,15 @@
 package com.project.mrsisa.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
+import com.project.mrsisa.dto.client.SuccessResponseDTO;
+import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import com.project.mrsisa.service.*;
 import org.aspectj.weaver.AnnotationNameValuePair;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +32,8 @@ import com.project.mrsisa.dto.SaleAppointmentDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.PeriodAvailabilitySerivce;
+
+import javax.mail.MessagingException;
 
 
 @RestController
@@ -49,8 +56,8 @@ public class SaleAppointmentController {
 	private CottageService cottageService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-	
-	
+	@Autowired
+	private ClientService clientService;
 	
 	@PostMapping(value = "/define/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
@@ -71,6 +78,7 @@ public class SaleAppointmentController {
 			saleAppointment.setDuration(saleAppointmentDTO.getDuration());
 			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
 			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime().plusHours(2));
+			saleAppointment.setOfferType(OfferType.ADVENTURE);
 			
 			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
 			for(String service : saleAppointmentDTO.getAdditionalServices()) 
@@ -82,6 +90,15 @@ public class SaleAppointmentController {
 			saleAppointment.setAdditionalServices(additionalServices);
 			
 			saleAppointmentService.save(saleAppointment);
+
+			try {
+				clientService.sendNotification(adventure, saleAppointment);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+
 			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
 		}
 		else {
@@ -110,6 +127,7 @@ public class SaleAppointmentController {
 			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
 			System.out.println(saleAppointmentDTO.getStartDateTime());
 			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime());
+			saleAppointment.setOfferType(OfferType.COTTAGE);
 
 			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
 			for(String service : saleAppointmentDTO.getAdditionalServices())
@@ -133,8 +151,10 @@ public class SaleAppointmentController {
 		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
 	
-		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availabilityPeriods, unavailability, reservations);
+		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availabilityPeriods,
+				unavailability, reservations, actions);
 			
 		
 		String bob = Double.toString(duration);
@@ -191,4 +211,31 @@ public class SaleAppointmentController {
 		return new ResponseEntity<>(quickReservationPeriods, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/quick/reserve")
+	@PreAuthorize("hasRole('CLIENT')")
+	public ResponseEntity<SuccessResponseDTO> reserveSaleAppointment(@RequestBody ReserveSaleAppointmentRequestDTO dto){
+		SuccessResponseDTO res = new SuccessResponseDTO();
+		try {
+			saleAppointmentService.reserveSaleAppointment(dto);
+			res.setSuccessful(true);
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (ObjectOptimisticLockingFailureException e){
+			res.setSuccessful(false);
+			res.setExplanation("Ups, neko je stigao pre Vas");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		} catch (MessagingException me){
+			res.setSuccessful(false);
+			res.setExplanation("Izvinjavamo se, imamo problem sa slanjem mejla. Jeste li sigurni da ste dali ispravan mejl?");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (TooHighPenaltyNumber th){
+			res.setSuccessful(false);
+			res.setExplanation(th.getMessage());
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (Exception e){
+			res.setSuccessful(false);
+			res.setExplanation("Došlo je do greške, probajte da rezervišete malo kasnije");
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}
+
+	}
 }

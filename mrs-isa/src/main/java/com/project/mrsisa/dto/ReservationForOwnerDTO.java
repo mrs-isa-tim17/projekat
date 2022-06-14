@@ -1,6 +1,7 @@
 package com.project.mrsisa.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReservationForOwnerDTO {
 
@@ -8,15 +9,15 @@ public class ReservationForOwnerDTO {
 	private Long clientId;
 	private String clientName;
 	private String clientSurname;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private boolean quick;
 	
 	public ReservationForOwnerDTO() {
 		
 	}
 	
-	public ReservationForOwnerDTO(Long reservationId, Long clientId, String clientName, String clientSurname, LocalDate startDate, LocalDate endDate,
+	public ReservationForOwnerDTO(Long reservationId, Long clientId, String clientName, String clientSurname, LocalDateTime startDate, LocalDateTime endDate,
 			boolean quick) {
 		super();
 		this.reservationId = reservationId;
@@ -60,19 +61,19 @@ public class ReservationForOwnerDTO {
 		this.clientSurname = clientSurname;
 	}
 
-	public LocalDate getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
-	public LocalDate getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 

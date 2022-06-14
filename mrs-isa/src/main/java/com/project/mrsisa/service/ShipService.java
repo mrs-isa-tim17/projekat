@@ -3,6 +3,7 @@ package com.project.mrsisa.service;
 import java.util.List;
 
 
+import com.project.mrsisa.domain.Offer;
 import com.project.mrsisa.domain.ShipOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class ShipService {
 	}
 	
 	public Ship findOne(Long id) {
+		System.out.println("ID:");
+		System.out.println(id);
 		return shipRepository.findById(id).orElseGet(null);
 	}
 	
@@ -33,6 +36,10 @@ public class ShipService {
 	public List<Ship> getShipsByOwner(ShipOwner owner){
 		return shipRepository.findByOwner(owner);
 	}
+
+    public List<Offer> findAllByClientId(Long clientId) {
+		return shipRepository.findAllByClientId(clientId);
+    }
 	
 	public List<Ship> findActiveShips() {
 		return shipRepository.findActiveShips();
@@ -41,4 +48,8 @@ public class ShipService {
 	public List<Ship> findDeletedShips(){
 		return shipRepository.findDeletedShips();
 	}
+
+    public Offer findOneTryOccupation(long offerId) {
+		return shipRepository.findOneTryOccupation(offerId);
+    }
 }

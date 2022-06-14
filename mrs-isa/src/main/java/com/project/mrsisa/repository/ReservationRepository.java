@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Transactional
     @Query(value = "SELECT * FROM reservation r WHERE r.client_id = ?1 and r.offer_type = ?2 and r.start_date < CURRENT_DATE",
             nativeQuery = true)
     //@Query("SELECT rs FROM reservation r LEFT JOIN FETCH ")
@@ -24,12 +24,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and r.start_date > CURRENT_DATE",nativeQuery = true)
     List<Reservation> findFutureReservationHistory(Long offer_id);
 
-    @Transactional
-    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE", nativeQuery = true)
-    List<Reservation> findCurrentReservationInInterval(long offerId, LocalDate fromDate, LocalDate untilDate);
+    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE and not canceled", nativeQuery = true)
+    List<Reservation> findCurrentReservationInInterval(long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
 
     @Transactional
-    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1", nativeQuery = true)
+    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1 and not canceled order by r.start_date", nativeQuery = true)
     List<Reservation> findAllReservationsForOffer(Long id);
 
     @Transactional
@@ -51,4 +50,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Transactional
     @Query(value="select * from reservation r where r.offer_id=?1 and r.start_date between CAST(?2 AS TIMESTAMP) and CAST(?3 AS TIMESTAMP)",nativeQuery = true)
     List<Reservation> getAllReservationsForPeriod(Long id,String start, String end);
+
+    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE and r.ship_owner_present", nativeQuery = true)
+    List<Reservation> getReservationsForShipInPeriodWhenShipOwnerIsPresent(Long id, LocalDateTime fromDate, LocalDateTime untilDate);
+
+    @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date = ?3 and r.end_date = ?4 and r.offer_id = ?2", nativeQuery = true)
+    Reservation checkIfClientCanceledReservationWithSameParametars(Long id, long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
+
+    @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date > CURRENT_DATE", nativeQuery = true)
+    List<Reservation> getUpcomingReservationsForClient(long id);
 }

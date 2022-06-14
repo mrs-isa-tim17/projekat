@@ -36,7 +36,16 @@ public class Cottage extends Offer {
 	public void setOwner(CottageOwner owner) {
 		this.owner = owner;
 	}
-	
-	
-	
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Cottage)){
+			return false;
+		}
+		Cottage c = (Cottage) obj;
+		if (id == c.getId())
+			return true;
+		return false;
+	}
 }

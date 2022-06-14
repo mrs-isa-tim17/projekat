@@ -31,6 +31,12 @@ class ShipOwnerService{
 
             })
     }
+
+    getIfFreeInPeriod(shipId, periodObj) {
+        return axios.post(SHIP_OWNER_API_BASE_URL +"/"+ shipId+ "/free/", periodObj,{
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ShipOwnerService();

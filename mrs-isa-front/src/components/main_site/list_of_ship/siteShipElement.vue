@@ -19,9 +19,9 @@
                   {{cottage.description}}
                   <br>
                   <br>
-                  Cena: {{cottage.price}}
+                  Cena: {{parseFloat(cottage.price).toFixed(2)}}
                   <br>
-                  Ocena: {{cottage.mark}}
+                  Ocena: {{parseFloat(cottage.mark).toFixed(2)}}
                   <br>
                   Brzina: {{cottage.maxSpeed}}
                   <br>

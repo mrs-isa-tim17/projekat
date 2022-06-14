@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Repository
 public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment, Long> {
@@ -24,8 +25,9 @@ public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment
 	List<SaleAppointment> findActiveFreeSaleAppoinments(Long id);
 
 	@Transactional
-	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1", nativeQuery = true)
+	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 order by start_sale_date", nativeQuery = true)
 	public List<SaleAppointment> findAllByOfferId(Long offerId);
 
-
+	@Query(value="SELECT * FROM sale_appointment r WHERE r.offer_id=?1 and (r.start_sale_date < ?2 or r.start_sale_date < ?3)", nativeQuery = true)
+    public List<SaleAppointment> findCurrentSaleAppointmentInInterval(Long id, LocalDateTime dateFrom, LocalDateTime dateUntil);
 }

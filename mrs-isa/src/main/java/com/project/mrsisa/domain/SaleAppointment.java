@@ -25,7 +25,10 @@ public class SaleAppointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Version
+	private Integer version;
+
 	@Column(nullable=false)
 	private LocalDateTime startSaleDate;
 	
@@ -52,6 +55,21 @@ public class SaleAppointment {
 
 	@Column(nullable = false)
 	private boolean reserved;
+
+	@Column(nullable = false)
+	private OfferType offerType;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reservationId", referencedColumnName = "id", nullable = false)
+	private Reservation reservation;
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
 
 	public LocalDateTime getStartSaleDate() {
 		return startSaleDate;
@@ -109,4 +127,24 @@ public class SaleAppointment {
 	public void setReserved(boolean reserved) {
 		this.reserved = reserved;
 	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
+
+    public LocalDateTime getEndSaleDate() {
+		return this.startSaleDate.plusHours((long) duration);//u cemu cuva vikendica?
+    }
 }

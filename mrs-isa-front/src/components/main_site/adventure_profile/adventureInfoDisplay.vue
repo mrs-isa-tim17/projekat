@@ -6,13 +6,17 @@
       </div>
       <div class="col">
         <div class="row p-1">
-          <res-mod :additionalServicesPrice="offer.additionalServicesPrice" :price="offer.price" :offer-type="'adventure'" :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
+          <res-mod :offerId="offer.id" :additionalServicesPrice="offer.additionalServicesPrice" :price="offer.price" :offer-type="'adventure'" :verified-client="verifiedClient" :additionalServices="offer.additionalServices"></res-mod>
           <button v-show="!verifiedClient" style="min-width: 150px; " @click="reserveOffer" class="btn btn-secondary"> Rezerviši </button>
         </div>
-        <div class="row p-1"><button @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button></div>
         <div align="left" class="row p-1">
           <quick-reservation-modal :key="saleAppointmentKey" @sale-modal-rerender="rerender" :verifiedClient="verifiedClient" :offerId="offer.id"></quick-reservation-modal>
           <button v-show="!verifiedClient" style="min-width: 150px;" @click="viewQuickReservation" class="btn btn-secondary" type="button">Brze rezervacije</button>
+        </div>
+
+        <div class="row p-1">
+          <button v-if="!subscribed" :key="subKey" @click="subscribeToTheOffer" class="btn btn-secondary"> Prati </button>
+          <button v-if="subscribed" :key="unsubKey" @click="unsubscribeFromTheOffer" class="btn btn-light text-secondary"> Odprati </button>
         </div>
       </div>
     </div>
@@ -39,12 +43,12 @@
         </tr>
         <tr>
           <td>Cena: </td>
-          <td>{{offer.price}}</td>
+          <td>{{parseFloat(offer.price).toFixed(2)}}</td>
         </tr>
         <tr>
           <td>Ocena: </td>
           <td v-show="offer.rating > 0">
-            {{ offer.rating }}
+            {{ parseFloat(offer.rating).toFixed(2) }}
             <img class="mb-2" style="width: 20px;height: 18px;" src="/Star_icon_stylized.svg.png">
           </td>
           <td v-show="offer.rating <= 0">nema ocenu</td>
@@ -132,6 +136,8 @@ import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabil
 import CalendarModal from "@/components/main_site/offer_profile/calendarModal";
 import QuickReservationModal from "@/components/client/quickReservationModal";
 import ResMod from "@/components/client/resMod";
+import clientServce from "@/servieces/ClientServce";
+import OfferService from "@/servieces/OfferService";
 export default {
   name: "adventureInfoDisplay",
   components: {ResMod, QuickReservationModal, CalendarModal, ExperienceReviewView},
@@ -153,6 +159,8 @@ export default {
   },
   mounted() {
     if (this.offer.id !== "")
+      if (this.verifiedClient)
+        this.checkSubscription();
       this.offerId = this.offer.id;
       this.rerender();
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.offerId).then((response) => {
@@ -160,6 +168,35 @@ export default {
       });
   },
   methods: {
+    checkSubscription(){
+      let clientId = JSON.parse(localStorage.user).id;
+      clientServce.checkIfSubscribed(clientId, this.offerId)
+          .then((response) => {
+            this.subscribed = response.data;
+            console.log("SUBBB");
+            console.log(this.subscribed);
+            this.subKey++;
+            this.unsubKey++;
+          })
+    },
+    unsubscribeFromTheOffer(){
+      OfferService.unsubscribeForOffer(JSON.parse(localStorage.user).id, this.offer.id)
+          .then((response)=>{
+            console.log(response.data);
+            this.checkSubscription();
+          })
+    },
+    subscribeToTheOffer(){
+      if (localStorage.user == null)
+        this.fireAlertOn('Morate da se prijavite da biste se mogli pretplatiti na obavaštenje za brze rezervacije!');
+      else{
+        OfferService.subscribeToOffer(JSON.parse(localStorage.user).id, this.offer.id)
+            .then((response)=>{
+              console.log(response.data);
+              this.checkSubscription();
+            })
+      }
+    },
     rerender(){
       this.saleAppointmentKey++;
     },
@@ -174,10 +211,6 @@ export default {
         background:'white',
         color:'black',
         confirmButtonColor:'#FECDA6'});
-    },
-    subscribeToTheOffer(){
-      if (localStorage.user == null)
-        this.fireAlertOn('Morate da se prijavite da biste se mogli pretplatiti na obavaštenje za brze rezervacije!');
     },
     viewQuickReservation(){
       if (localStorage.user == null)
@@ -202,6 +235,9 @@ export default {
       availabilityPeriod: [],
       verifiedClient: false,
       saleAppointmentKey: 0,
+      subKey: 0,
+      unsubKey: 0,
+      subscribed: false,
     }
   }
 

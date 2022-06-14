@@ -26,7 +26,8 @@
             <option value="2">Location</option>
             <option value="3">Ocena</option>
             <option value="4">Cena</option>
-            <option value="5">Kapacitet</option>
+            <option value="5">Brzina</option>
+            <option value="6">Kapacitet</option>
           </select>
         </div>
       </div>
@@ -37,7 +38,9 @@
         <site-ship-search-nav @filter="filterShips"></site-ship-search-nav>
       </div>
       <div class="col">
-        <site-ship-list :cottages="cottages" :listLength="listLength" :key="shipsKey"></site-ship-list>
+        <site-ship-list :cottages="cottages" :listLength="listLength" :key="shipsKey"
+                :from-element="fromElement" :number-of-elements-for-display="numberOfElementsForDisplay"
+                        @get-list-from="getShipList" ></site-ship-list>
       </div>
     </div>
   </div>
@@ -54,12 +57,7 @@ export default {
   components: {SiteShipSearchNav, ClientHeader, BasicHeader, SiteShipList},
   created:
       function () {
-        shipServce.getShips().then(
-            (response) => {
-              this.cottages = response.data;
-              this.listLength = this.cottages.length;
-            }
-        )
+        this.getShipList(0);
         try{
 
           if (JSON.parse(localStorage.user) == null) {
@@ -76,65 +74,70 @@ export default {
 
       },
   methods: {
+    getShipList(fromElement){
+      if (isNaN(fromElement)) {
+        fromElement = 0;
+      }
+      this.callFilterShips(fromElement);
+    },
     searchShips(){
       let searchByInput = document.getElementById("searchInput").value;
-      let searchParam = {
-        searchBy: searchByInput
-      }
-      shipServce.search(searchParam)
-          .then(response =>{
-            this.cottages = response.data;
-            this.listLength = this.cottages.length;
-            this.forceRemounting();
-          })
+      this.filterDto.searchBy = searchByInput;
+      this.searchBy = searchByInput;
+      this.callFilterShips(0);
+    },
+    callFilterShips(fromElement){
+      this.fromElement = fromElement;
+      shipServce.filterShips(this.filterDto, fromElement, this.numberOfElementsForDisplay)
+          .then((response) => {
+                let listLengthObj = response.data[0];
+                this.listLength = listLengthObj.listSize;
+                if (this.listLength > 0)
+                  this.cottages = response.data.slice(1);
+                else
+                  this.cottages = [];
+                this.shipsKey += 1;
+              }
+          )
     },
     sortList(){
       let sortBy = document.getElementById("sortBy").value;
       if (sortBy == 1){
-        shipServce.sortShipListByName(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "name";
+        this.callFilterShips(0);
       } else if (sortBy == 2){
-        shipServce.sortShipListByLocation(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "location";
+        this.callFilterShips(0);
       }else if (sortBy == 3){
-        shipServce.sortShipListByRating(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "rating";
+        this.callFilterShips(0);
       }else if (sortBy == 4){
-        shipServce.sortShipListByPrice(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "price";
+        this.callFilterShips(0);
       }else if (sortBy == 5){
-        shipServce.sortShipListBySpeed(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "speed";
+        this.callFilterShips(0);
       }else if (sortBy == 6){
-        shipServce.sortShipListByCapacity(this.cottages)
-            .then(response =>{
-              this.cottages = response.data;
-              this.forceRemounting();
-            })
+        this.filterDto.sortBy = "capacity";
+        this.callFilterShips(0);
+      }else {
+        this.filterDto.sortBy="";
       }
     },
     filterShips(filterDto){
       filterDto.searchBy = this.searchBy;
-      shipServce.filterShips(filterDto)
+      filterDto.sortBy = this.filterDto.sortBy;
+      this.filterDto = filterDto;
+      shipServce.filterShips(this.filterDto, 0, this.numberOfElementsForDisplay)
           .then((response) => {
-                this.cottages = response.data;
-                this.listLength = this.cottages.length;
-                this.shipsKey++;
+                let listLengthObj = response.data[0];
+                this.listLength = listLengthObj.listSize;
+                if (this.listLength > 0)
+                  this.cottages = response.data.slice(1);
+                else
+                  this.cottages = 0;
+                this.fromElement = 0;
+                this.shipsKey += 1;
                 localStorage.ship = JSON.stringify(filterDto);
               }
           )
@@ -149,11 +152,31 @@ export default {
     return {
       cottages: [],
       listLength: 0,
+
       verifiedClient: false,
       basicHeaderKey: 0,
       clientHeaderKey: 0,
+
       shipsKey: 1,
-      searchBy: ""
+      searchBy: "",
+      filterDto: {
+        longitude: 0,
+        latitude: 0,
+        dateFrom: "",
+        dateUntil: "",
+        ratingRelOp: "",
+        rating: "",
+        roomsRelOp: "",
+        numberOfRooms: "",
+        bedsRelOp: "",
+        numberOfBed: "",
+        priceRelOp: "",
+        price: "",
+        searchBy: "",
+        sortBy: ""
+      },
+      numberOfElementsForDisplay: 2,
+      fromElement: 0
     }
   }
 }

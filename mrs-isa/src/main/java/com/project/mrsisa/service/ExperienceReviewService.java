@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.project.mrsisa.domain.ExperienceReview;
 import com.project.mrsisa.repository.ExperienceReviewRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ExperienceReviewService {
 	
 	@Autowired
 	private ExperienceReviewRepository experienceReviewRepository;
+	@Autowired
+	private ClientService clientService;
 
 	public double getReatingByOfferId(long id, OfferType offerType){
 		return experienceReviewRepository.findOffersCurrentPriceById(id, offerType.getValue()).orElse(0.0);
@@ -31,9 +34,15 @@ public class ExperienceReviewService {
 	public ExperienceReview findOneById(Long id) {
 		return experienceReviewRepository.findOneById(id);
 	}
-	
+
+	@Transactional
 	public List<ExperienceReview> findAllByOfferId(Long id){
-		return experienceReviewRepository.findAllByOfferId(id);
+		List<ExperienceReview> exRevs = experienceReviewRepository.findAllByOfferId(id);
+		for (ExperienceReview e: exRevs) {
+			e.setClient(clientService.findOne(e.getClient().getId()));
+		}
+		return exRevs;
+
 	}
 
 }

@@ -68,7 +68,7 @@ export default {
     modalWithTextAreaAndRating,
     modalWithTextArea
   },
-  props: ["cottage"],
+  props: ["cottage", "type"],
   created() {
     if (this.cottage.images[0] != null) {
       this.image = this.cottage.images[0];
@@ -78,7 +78,7 @@ export default {
   },
   methods : {
     goToOffer(){
-      this.$router.push('/'+this.cottage.id);
+      this.$router.push('/book/' + this.type + '/site/' + +this.cottage.id);
     },
     sendReview(text, rating){
       if (rating == "*")

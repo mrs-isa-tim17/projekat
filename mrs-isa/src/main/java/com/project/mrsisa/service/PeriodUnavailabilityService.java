@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class PeriodUnavailabilityService {
     @Autowired
     private PeriodUnavailabilityRepository periodUnavailabilityRepository;
 
-    public List<PeriodUnavailability> getListOfUnavailability(long offerId, LocalDate fromDate, LocalDate untilDate){
+    public List<PeriodUnavailability> getListOfUnavailability(long offerId, LocalDateTime fromDate, LocalDateTime untilDate){
         return periodUnavailabilityRepository.findCurrentPeriodsOfUnavailability(offerId, fromDate, untilDate);
     }
 

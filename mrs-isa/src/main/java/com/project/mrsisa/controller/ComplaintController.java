@@ -98,7 +98,7 @@ public class ComplaintController {
             }
 			
 			ComplaintDTO complaintDTO = new ComplaintDTO(c.getId(), c.getText(), client.getName(), client.getSurname(), client.getEmail(),
-					owner.getName(), owner.getSurname(), owner.getEmail(),offerName, reservation.getStartDate().toString(), reservation.getEndDate().toString());
+					owner.getName(), owner.getSurname(), owner.getEmail(),offerName, reservation.getStartDateTime().toString(), reservation.getEndDateTime().toString());
 			complaintsDTO.add(complaintDTO);
 			
     	}

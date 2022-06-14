@@ -2,7 +2,6 @@ package com.project.mrsisa.domain;
 
 import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,9 +80,8 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
 	
-	@ManyToMany
-	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
-	protected List<Client> subscribers;
+	@ManyToMany(mappedBy = "subscriptions", fetch = FetchType.LAZY)
+	protected List<Client> client;
 	
 	public Offer() {
 		this.complaints = new ArrayList<Complaint>();
@@ -167,11 +165,11 @@ public abstract class Offer {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<Client> getSubscribers() {
-		return subscribers;
+	public List<Client> getClient() {
+		return client;
 	}
-	public void setSubscribers(List<Client> subscribers) {
-		this.subscribers = subscribers;
+	public void setClient(List<Client> client) {
+		this.client = client;
 	}
 
 	public List<PeriodAvailability> getPeriodAvailabilities() {
@@ -206,5 +204,17 @@ public abstract class Offer {
 		this.reservations = reservations;
 	}
 
+	public void addPeriodAvailability(PeriodAvailability pa){
+		if (this.periodAvailabilities == null){
+			this.periodAvailabilities = new ArrayList<PeriodAvailability>();
+		}
+		this.periodAvailabilities.add(pa);
+	}
 
+	public void addReservation(Reservation r){
+		if (this.reservations == null){
+			this.reservations = new ArrayList<Reservation>();
+		}
+		this.reservations.add(r);
+	}
 }

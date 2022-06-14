@@ -7,11 +7,16 @@ const CLIENT_API_BASE_URL = Config.BASE_URL + '/client';
 
 class ClientServce{
     getClient(clientID){
-        console.log(authHeader());
         return axios.get(CLIENT_API_BASE_URL+'/profile/'+clientID, {
             headers: authHeader()
         });
     }
+    checkIfSubscribed(clientID, offerId){
+        return axios.get(CLIENT_API_BASE_URL+'/subscribed/'+clientID + "/" + offerId, {
+            headers: authHeader()
+        });
+    }
+
     getClientPenalties(clientId){
         return axios.get(CLIENT_API_BASE_URL+'/penalties/'+clientId, {
             headers: authHeader()
@@ -44,6 +49,11 @@ class ClientServce{
             })
     }
 
+    getEntitiesSubscribedFor(id) {
+        return axios.get(CLIENT_API_BASE_URL + "/subscribed/" + id, {
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ClientServce();

@@ -11,44 +11,30 @@ class ShipServce{
         return axios.get(SHIP_API_BASE_URL + "/short");
     }
 
-    filterShips(filterParams) {
+    filterShips(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams = this.formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay);
         return axios.post(SHIP_API_BASE_URL + "/filter", filterParams);
     }
 
-    sortShipListByName(ships) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/name", ships);
+    formFilterParamsObj(filterParams, fromElement, numberOfElementsForDisplay){
+        filterParams.fromElement = fromElement;
+        filterParams.numberToDisplay = numberOfElementsForDisplay;
+        return filterParams;
     }
 
-    sortShipListByLocation(ships) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/location", ships);
+    formPaginationObj(fromElement, numberOfElementsForDisplay){
+        return {
+            fromElement: fromElement,
+            numberToDisplay: numberOfElementsForDisplay
+        }
     }
-
-    sortShipListByRating(ship) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/rating", ship);
-    }
-
-    sortShipListByPrice(ships) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/price", ships);
-    }
-
-    sortShipListBySpeed(ships) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/speed", ships);
-    }
-
-    sortShipListByCapacity(ships) {
-        return axios.post(SHIP_API_BASE_URL + "/sort/capacity", ships);
-    }
-
-    search(searchParam) {
-        return axios.post(SHIP_API_BASE_URL + "/search", searchParam);
-    }
-
     getShip(offerId) {
         return axios.get(SHIP_API_BASE_URL + "/" + offerId);
     }
 
-    getShipReviews(offerId) {
-        return axios.get(SHIP_API_BASE_URL + "/review/" + offerId);
+    getShipReviews(offerId, fromElement, numberOfElementsForDisplay) {
+        let pagObj = this.formPaginationObj(fromElement, numberOfElementsForDisplay);
+        return axios.post(SHIP_API_BASE_URL + "/review/" + offerId, pagObj);
     }
 
     getReservationsForShip(offerId){

@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Ship extends Offer {
+public class Ship extends Offer  implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Column(nullable=false)
 	private String type;
@@ -114,6 +116,16 @@ public class Ship extends Offer {
 	public void setOwner(ShipOwner owner) {
 		this.owner = owner;
 	}
-	
-	
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Ship)){
+			return false;
+		}
+		Ship c = (Ship) obj;
+		if (id == c.getId())
+			return true;
+		return false;
+	}
 }

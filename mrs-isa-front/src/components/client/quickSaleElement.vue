@@ -34,13 +34,16 @@
   <div class="row">
 
     <div class="col d-flex justify-content-end">
-      <button class="btn btn-secondary">Rezerviši</button>
+      <button class="btn btn-secondary" @click="reserveSaleAppointment">Rezerviši</button>
     </div>
   </div>
 </template>
 
 <script>
 import BirdVueMap from "@/components/main_site/birdVueMap";
+import saleAppointmentService from "@/servieces/SaleAppointmentService";
+import swal from "sweetalert2";
+
 export default {
   name: "quickSaleElement",
   components: {BirdVueMap},
@@ -54,11 +57,43 @@ export default {
       if (date !== null && date !== undefined && date !== "")
         d = date[2] +"." +date[1]+"." + date[0] + " " + date[3] + ":"+ date[4];
       return d;
+    },
+    forceRemount(){
+      this.$emit('remount');
+    },
+    reserveSaleAppointment(){
+      this.lodingStatus = true;
+      setTimeout(() => (this.isLoading = false), 3000);
+      let reserveObj = {
+        saleAppointmentId: this.saleAppointment.id,
+        clientId: JSON.parse(localStorage.user).id
+      }
+      saleAppointmentService.reserveSaleAppointment(reserveObj)
+          .then((response)=>{
+            let successful = response.data.successful;
+            if (successful){
+              swal.fire({
+                title: "Uspešno",
+                text: "Uspešno ste rezervisali, poslali smo mejl za potvrdu",
+                background:'white',
+                color:'black',
+                confirmButtonColor: "green"});
+              this.forceRemount();
+            }else{
+              swal.fire({
+                title: "Upozerenje",
+                text: response.data.explanation,
+                background:'white',
+                color:'black',
+                confirmButtonColor:'#FECDA6'});
+            }
+          });
     }
   },
   data(){
     return {
-      mapKey: 0
+      mapKey: 0,
+      lodingStatus: false
     }
   }
 }

@@ -73,16 +73,26 @@ public class Adventure extends Offer {
 				+ ", address=" + address + ", description=" + description + ", deleted=" + deleted + ", complaints="
 				+ complaints + ", experienceReviews=" + experienceReviews + ", additionalServices=" + additionalServices
 				+ ", behaviorRules=" + behaviorRules + ", cancelCondition=" + cancelCondition + ", pricelists="
-				+ pricelists + ", subscribers=" + subscribers + ", getInstructorBiography()="
+				+ pricelists + ", subscribers=" + client + ", getInstructorBiography()="
 				+ getInstructorBiography() + ", getCapacity()=" + getCapacity() + ", getFishingEquipments()="
 				+ getFishingEquipments() + ", getOwner()=" + getOwner() + ", getName()=" + getName() + ", getAddress()="
 				+ getAddress() + ", getDescription()=" + getDescription() + ", isDeleted()=" + isDeleted()
 				+ ", getComplaints()=" + getComplaints() + ", getExperienceReviews()=" + getExperienceReviews()
 				+ ", getAdditionalServices()=" + getAdditionalServices() + ", getBehaviorRules()=" + getBehaviorRules()
 				+ ", getImages()=" + getImages() + ", getCancelCondition()=" + getCancelCondition()
-				+ ", getSubscribers()=" + getSubscribers() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", getSubscribers()=" + getClient() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
-	
 
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Adventure)){
+			return false;
+		}
+		Adventure c = (Adventure) obj;
+		if (id == c.getId())
+			return true;
+		return false;
+	}
 }

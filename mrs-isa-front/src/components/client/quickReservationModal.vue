@@ -12,7 +12,7 @@
         </div>
         <div class="modal-body">
 
-          <quick-reservation-list :quick-reservations="quickReservations" :key="quickReservationsKey"></quick-reservation-list>
+          <quick-reservation-list @remount="forceRemount" :quick-reservations="quickReservations" :key="quickReservationsKey"></quick-reservation-list>
 
         </div>
       </div>
@@ -30,11 +30,7 @@ export default {
   //components: {QuickSaleElement},
   props: ["verifiedClient", "offerId"],
   mounted() {
-    console.log("SALE BEFORE REQ");
-    console.log(this.offerId);
     if (this.offerId !== "" && this.offerId !== undefined){
-      console.log("SALE APP REQ");
-      console.log(this.offerId);
       saleAppointmentService.getSaleAppointmentsById(this.offerId)
           .then((response) =>{
             this.quickReservations = response.data;
@@ -43,10 +39,18 @@ export default {
             console.log(this.quickReservations);
           });
     }
-    console.log("SALE APPOINNMENT");
-    console.log(this.offerId);
   },
   methods: {
+    forceRemount(){
+
+      if (this.offerId !== "" && this.offerId !== undefined){
+        saleAppointmentService.getSaleAppointmentsById(this.offerId)
+            .then((response) =>{
+              this.quickReservations = response.data;
+              this.quickReservationsKey++;
+            });
+      }
+    },
     openModal() {
       var modalToggle = document.getElementById("exampleModal");
       ///myModal.show(modalToggle)

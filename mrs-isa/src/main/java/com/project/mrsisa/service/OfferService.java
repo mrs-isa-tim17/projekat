@@ -1,4 +1,4 @@
-package com.project.mrsisa.processing;
+package com.project.mrsisa.service;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfferProcessing {
+public class OfferService {
 
     public List<CottageForListViewDTO> filterByRating(List<CottageForListViewDTO> cottages, int rating, String ratingRelOp) {
         if (rating == 0)
@@ -36,8 +36,9 @@ public class OfferProcessing {
                 return value1 > value2;
             case "<":
                 return value1 < value2;
+            default:
+                return false;
         }
-        return false;
     }
 
     public List<Cottage> filterByBedQuntity(List<Cottage> cottages, double numberOfBeds, String bedsRelOp) {
@@ -166,65 +167,105 @@ public class OfferProcessing {
             return false;
         if (!isDefinedAvailabilePeriod(c, fromDate, untilDate))
             return false;
-        if (c.getPeriodUnavailabilities() == null || isDefinedUnvailabilePeriod(c, fromDate, untilDate))
+        if (isDefinedUnvailabilePeriod(c, fromDate, untilDate))
             return false;
-        if (c.getReservations() == null || isDefinedReservation(c, fromDate, untilDate))
+        if (isDefinedReservation(c, fromDate, untilDate))
+            return false;
+        if (isDefinedSaleAppointment(c, fromDate, untilDate))
             return false;
         return true;
     }
 
-    private boolean isDefinedReservation(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+    private boolean isDefinedSaleAppointment(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+        if (untilDate.isBefore(fromDate))
+            return true;
+        for (SaleAppointment pa : c.getSaleAppointments()){
+            //before - less than zero				after - more than zero
+            if (pa.getStartSaleDate().isBefore(fromDate))
+                if (pa.getEndSaleDate().isBefore(untilDate))
+                    if (pa.getEndSaleDate().isAfter(fromDate))//nov
+                        return true;
+
+            if (pa.getStartSaleDate().isAfter(fromDate))
+                if (pa.getEndSaleDate().isAfter(untilDate))
+                    if (pa.getStartSaleDate().isBefore(untilDate))//nov
+                        return true;
+
+            if (pa.getStartSaleDate().compareTo(fromDate) < 0)
+                if (pa.getEndSaleDate().compareTo(untilDate) > 0)
+                    return true;
+
+            if (pa.getStartSaleDate().compareTo(fromDate) > 0)
+                if (pa.getEndSaleDate().compareTo(untilDate) < 0)
+                    return true;
+        }
+        return false;
+    }
+
+    public boolean isDefinedReservation(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+        if (untilDate.isBefore(fromDate))
+            return true;
         for (Reservation pa : c.getReservations()){
             //before - less than zero				after - more than zero
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDateTime().isBefore(fromDate))
+                if (pa.getEndDateTime().isBefore(untilDate))
+                    if (pa.getEndDateTime().isAfter(fromDate))//nov
+                        return true;
+
+            if (pa.getStartDateTime().isAfter(fromDate))
+                if (pa.getEndDateTime().isAfter(untilDate))
+                    if (pa.getStartDateTime().isBefore(untilDate))//nov
+                        return true;
+
+            if (pa.getStartDateTime().compareTo(fromDate) < 0)
+                if (pa.getEndDateTime().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) < 0)
-                    return true;
-
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) > 0)
-                    return true;
-
-            if (pa.getStartDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDateTime().compareTo(fromDate) > 0)
+                if (pa.getEndDateTime().compareTo(untilDate) < 0)
                     return true;
         }
         return false;
     }
 
     private boolean isDefinedUnvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+        if (c.getPeriodUnavailabilities() == null)
+            return false;
+        if (untilDate.isBefore(fromDate))
+            return true;
         for (PeriodUnavailability pa : c.getPeriodUnavailabilities()){
             //before - less than zero				after - more than zero
             // un: od - do
             // search od - do
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) > 0)
+            if (pa.getStartDate().isBefore(fromDate))
+                if (pa.getEndDate().isBefore(untilDate))
+                    if (pa.getEndDate().isAfter(fromDate))//nov
+                        return true;
+
+            if (pa.getStartDate().isAfter(fromDate))
+                if (pa.getEndDate().isAfter(untilDate))
+                    if (pa.getStartDate().isBefore(untilDate))//nov
+                        return true;
+
+            if (pa.getStartDate().compareTo(fromDate) < 0)
+                if (pa.getEndDate().compareTo(untilDate) > 0)
                     return true;
 
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) < 0)
-                    return true;
-
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) < 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) > 0)
-                    return true;
-
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) > 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) < 0)
+            if (pa.getStartDate().compareTo(fromDate) > 0)
+                if (pa.getEndDate().compareTo(untilDate) < 0)
                     return true;
 
         }
         return false;
     }
 
-    private boolean isDefinedAvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+    public boolean isDefinedAvailabilePeriod(Offer c, LocalDateTime fromDate, LocalDateTime untilDate) {
+        if (untilDate.isBefore(fromDate))
+            return false;
         for (PeriodAvailability pa : c.getPeriodAvailabilities()){
             //before - less than zero				after - more than zero
-            if (pa.getStartDate().toLocalDate().compareTo(fromDate.toLocalDate()) <= 0)
-                if (pa.getEndDate().toLocalDate().compareTo(untilDate.toLocalDate()) >= 0) {
+            if (pa.getStartDate().compareTo(fromDate) <= 0)
+                if (pa.getEndDate().compareTo(untilDate) >= 0) {
                     return true;
                 }
         }

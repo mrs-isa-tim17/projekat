@@ -7,6 +7,8 @@ const router = createRouter({
         { path: '/client/home', component: () => import("./components/client/clientHomePage.vue")},
         { path: '/client/profile', component: () => import("./components/client/clientProfileChange.vue")},
         { path: '/client/history/:type', component: () => import("./components/client/clientReservationHistory.vue")},
+        { path: '/client/upcoming/reservations', component: () => import("./components/client/clientUpcomingReservations.vue")},
+        { path: '/client/subscribed', component: () => import("./components/client/clientSubscribedEntities.vue")},
         { path: '/client/verify/:code', component: () => import("./components/client/clientVerified.vue") },
         { path: '/client/site/home', component: () => import("./components/main_site/main_home_page/homePageClient.vue")},
 

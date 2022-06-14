@@ -35,4 +35,8 @@ public class CancelConditionService {
 	public CancelCondition findOneByOfferIdAndDays(Long id, int days) {
 		return cancelConditionRepository.findOneByOfferIdAndDays(id, days);
 	}
+
+	public List<CancelCondition> findAllByOfferIdOrderdByDays(Long id){
+		return cancelConditionRepository.findAllByOfferId(id);
+	}
 }

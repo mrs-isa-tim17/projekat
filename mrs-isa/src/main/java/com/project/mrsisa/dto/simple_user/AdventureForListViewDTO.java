@@ -3,7 +3,7 @@ package com.project.mrsisa.dto.simple_user;
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.Ship;
 
-public class AdventureForListViewDTO {
+public class AdventureForListViewDTO extends SizeOfListDTO{
     private double longitude;
     private double latitude;
     private Long id;

@@ -2,6 +2,7 @@ package com.project.mrsisa.service;
 
 import java.util.List;
 
+import com.project.mrsisa.domain.Offer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class CottageService {
 	public void remove(Long id) {
 		cottageRepository.deleteById(id);
 	}
+
+	public List<Offer> findAllByClientId(Long id) {
+		return cottageRepository.findAllByClientId(id);
+	}
 	
 	public List<Cottage> findActiveCottages() {
 		return cottageRepository.findActiveCottages();
@@ -43,4 +48,8 @@ public class CottageService {
 	public List<Cottage> findDeletedCottages(){
 		return cottageRepository.findDeletedCottages();
 	}
+
+    public Cottage findOneTryOccupation(Long id) {
+		return cottageRepository.findOneTryOccupation(id);
+    }
 }

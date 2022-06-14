@@ -1,6 +1,6 @@
 <template>
   <div v-if="reviews.length > 0">
-    <div v-for="(review, index) of filterReviews()" :key="index">
+    <div v-for="(review, index) of reviews" :key="index">
       <client-comment :key="myKey" :review="review"></client-comment>
     </div>
 
@@ -25,42 +25,57 @@ export default {
   mounted() {
 
     console.log(this.id);
-    if (this.offerType === "cottage" && this.id !== "" ){
-      cottageServce.getCottageReviews(this.id)
-          .then((response) => {
-            this.reviews = response.data;
-            this.listLength = this.reviews.length;
-            this.paginationKey++;
-            if (this.listLength === 0){
-              document.getElementById("noReviews").style.visibility = "visible"
-            }
-          })
-    }else if (this.offerType === "adventure" && this.id !== "" ){
-      adventureServce.getAdventureReviews(this.id)
-          .then((response) => {
-            this.reviews = response.data;
-            this.listLength = this.reviews.length;
-            this.paginationKey++;
-            if (this.listLength === 0){
-              document.getElementById("noReviews").style.visibility = "visible"
-            }
-          })
-    }else if (this.offerType === "ship" && this.id !== "" ) {
-      shipServce.getShipReviews(this.id)
-          .then((response) => {
-            this.reviews = response.data;
-            this.listLength = this.reviews.length;
-            this.paginationKey++;
-            if (this.listLength === 0) {
-              document.getElementById("noReviews").style.visibility = "visible"
-            }
-          })
-    }
+    this.getListOfReviews();
   },
   created() {
   },
   methods: {
+    getListOfReviews(){
 
+      if (this.offerType === "cottage" && this.id !== "" ){
+        cottageServce.getCottageReviews(this.id, this.fromEl, this.numToDisplay)
+            .then((response) => {
+              let listLengthObj = response.data[0];
+              this.listLength = listLengthObj.listSize;
+              if (this.listLength > 0)
+                this.reviews = response.data.slice(1);
+              else
+                this.reviews = [];
+              if (this.listLength === 0){
+                document.getElementById("noReviews").style.visibility = "visible"
+              }
+              this.$emit("remountReviews");
+            })
+      }else if (this.offerType === "adventure" && this.id !== "" ){
+        adventureServce.getAdventureReviews(this.id, this.fromEl, this.numToDisplay)
+            .then((response) => {
+              let listLengthObj = response.data[0];
+              this.listLength = listLengthObj.listSize;
+              if (this.listLength > 0)
+                this.reviews = response.data.slice(1);
+              else
+                this.reviews = [];
+              if (this.listLength === 0){
+                document.getElementById("noReviews").style.visibility = "visible"
+              }
+              this.$emit("remountReviews");
+            })
+      }else if (this.offerType === "ship" && this.id !== "" ) {
+        shipServce.getShipReviews(this.id, this.fromEl, this.numToDisplay)
+            .then((response) => {
+              let listLengthObj = response.data[0];
+              this.listLength = listLengthObj.listSize;
+              if (this.listLength > 0)
+                this.reviews = response.data.slice(1);
+              else
+                this.reviews = [];
+              if (this.listLength === 0) {
+                document.getElementById("noReviews").style.visibility = "visible"
+              }
+              this.$emit("remountReviews");
+            })
+      }
+    },
     checkIfNeedsToBeDisplayed(index){
       let untilElement = parseInt(this.numToDisplay) + parseInt(this.fromEl);
       if (index >= this.fromEl && index < untilElement){
@@ -86,8 +101,8 @@ export default {
     },
     fromUntilElement(from){
       this.fromEl = from;
-      this.$emit("remountReviews");
-      this.forceRemounting();
+      this.getListOfReviews();
+//      this.forceRemounting();
     }
   },
   data(){

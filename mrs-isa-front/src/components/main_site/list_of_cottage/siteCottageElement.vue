@@ -23,9 +23,9 @@
                   <br>
                   Broj kreveta: {{cottage.bedQuantity}}
                   <br>
-                  Cena: {{cottage.price}}
+                  Cena: {{parseFloat(cottage.price).toFixed(2)}}
                   <br>
-                  Ocena: {{cottage.mark}}
+                  Ocena: {{parseFloat(cottage.mark).toFixed(2)}}
                 </div>
 
                 <div class="col">
@@ -48,7 +48,6 @@ export default {
   props: ["cottage"],
   methods:{
     goToOffer(){
-      console.log('/'+this.cottage.id);
       this.$router.push('/book/cottage/site/'+this.cottage.id);
     },
   },

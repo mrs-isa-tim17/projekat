@@ -12,7 +12,7 @@ import com.project.mrsisa.dto.ship.FindShipsByOwnerDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.dto.simple_user.*;
-import com.project.mrsisa.processing.OfferProcessing;
+import com.project.mrsisa.service.OfferService;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +74,10 @@ public class ShipController {
 	@Autowired
 	private UserService userService;
 
-	private OfferProcessing offerProcessing = new OfferProcessing();
+	@Autowired
+	private SaleAppointmentService saleAppointmentService;
+
+	private OfferService offerService = new OfferService();
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -200,39 +203,146 @@ public class ShipController {
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value="/site/filter")
 	public ResponseEntity<List<CottageForListViewDTO>> getFilteredCottages(@RequestBody ShipFilterParamsDTO shipFilterParamsDTO){
+		List<ShipForListViewDTO> shipsDTO = filterShips(shipFilterParamsDTO);
+
+		shipsDTO = handleSort(shipsDTO, shipFilterParamsDTO);
+
+		shipsDTO = handlePagination(shipsDTO, shipFilterParamsDTO);
+
+
+		return new ResponseEntity(shipsDTO, HttpStatus.OK);
+	}
+
+	private List<ShipForListViewDTO> handlePagination(List<ShipForListViewDTO> shipsDTP, ShipFilterParamsDTO shipFilterParamsDTO) {
+		if (shipFilterParamsDTO.getFromElement() < 0)
+			shipFilterParamsDTO.setFromElement(0);
+		int untilElement = shipFilterParamsDTO.getUntilElement(shipsDTP.size());// paginationDTO.getFromElement() + paginationDTO.getNumberToDisplay();
+
+
+		ShipForListViewDTO firstDto = new ShipForListViewDTO();
+		firstDto.setListSize(shipsDTP.size());
+
+		shipsDTP = shipsDTP.subList(shipFilterParamsDTO.getFromElement(), untilElement);
+		shipsDTP.add(0, firstDto);
+
+		return shipsDTP;
+	}
+
+
+	private List<ShipForListViewDTO> handleSort(List<ShipForListViewDTO> shipsDTO, ShipFilterParamsDTO shipFilterParamsDTO) {
+		if (shipFilterParamsDTO.getSortBy().equals("name")){
+			return sortByName(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("location")){
+			return sortByLocation(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("rating")){
+			return sortByRating(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("price")){
+			return sortByPrice(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("speed")){
+			return sortBySpeed(shipsDTO);
+		}else if (shipFilterParamsDTO.getSortBy().equals("capacity")){
+			return sortByCapacity(shipsDTO);
+		}
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByCapacity(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getCapacity() - c2.getCapacity());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortBySpeed(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getMaxSpeed() - c2.getMaxSpeed());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByPrice(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getPrice() - c2.getPrice());
+			}
+		});
+		return shipsDTO;
+	}
+
+
+	private List<ShipForListViewDTO> sortByRating(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getMark() - c2.getMark());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByLocation(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return (int) (c1.getLatitude() - c2.getLatitude());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> sortByName(List<ShipForListViewDTO> shipsDTO) {
+		Collections.sort(shipsDTO, new Comparator<ShipForListViewDTO>() {
+			@Override
+			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
+		return shipsDTO;
+	}
+
+	private List<ShipForListViewDTO> filterShips(ShipFilterParamsDTO shipFilterParamsDTO) {
 		List<Ship> ships = shipService.findAll();
 
-		ships = offerProcessing.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
+		ships = offerService.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
 
 		//lokacija
-		ships = offerProcessing.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
+		ships = offerService.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
 
 		//kapacitet
-		ships = offerProcessing.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
+		ships = offerService.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
 
 		//broj kreveta
-		ships = offerProcessing.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
+		ships = offerService.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
 
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
 			for (Ship ship : ships) {
-				ship.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
-				ship.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
-				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom().toLocalDate(), shipFilterParamsDTO.getDateUntil().toLocalDate()));
+				ship.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
+				ship.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
 			}
-			ships = offerProcessing.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
+			ships = offerService.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}
 
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 
 		//rating
-		shipsDTO = offerProcessing.filterShipsByRating(shipsDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
+		shipsDTO = offerService.filterShipsByRating(shipsDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
 
 		//cena
-		shipsDTO = offerProcessing.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
+		shipsDTO = offerService.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
 
-		return new ResponseEntity(shipsDTO, HttpStatus.OK);
+		return shipsDTO;
 	}
+
 	private List<ShipForListViewDTO> getShipsForListViewDTO(List<Ship> ships){
 		List<ShipForListViewDTO> shipsDTO = new ArrayList<>();
 		for (Ship ship : ships) {
@@ -245,100 +355,40 @@ public class ShipController {
 		return shipsDTO;
 	}
 
-	@PostMapping(value = "/site/sort/name", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByName(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return c1.getName().compareTo(c2.getName());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/location", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByLocation(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getLatitude() - c2.getLatitude());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-	@PostMapping(value = "/site/sort/rating", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByRating(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getMark() - c2.getMark());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-	@PostMapping(value = "/site/sort/price", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByPrice(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getPrice() - c2.getPrice());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/speed", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListBySpeed(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getMaxSpeed() - c2.getMaxSpeed());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
-	@PostMapping(value = "/site/sort/capacity", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ShipForListViewDTO>> getSortedCottageListByCapacity(@RequestBody List<ShipForListViewDTO> cottagesDTO){
-		Collections.sort(cottagesDTO, new Comparator<ShipForListViewDTO>() {
-			@Override
-			public int compare(ShipForListViewDTO c1, ShipForListViewDTO c2) {
-				return (int) (c1.getCapacity() - c2.getCapacity());
-			}
-		});
-		return ResponseEntity.ok(cottagesDTO);
-	}
-
 	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ShipForListViewDTO>> getShipsSearchedBy(@RequestBody SearchParam searchBy){
 		List<Ship> ships = shipService.findAll();
-		ships = offerProcessing.searchShipsBy(ships, searchBy.getSearchBy());
+		ships = offerService.searchShipsBy(ships, searchBy.getSearchBy());
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 		return new ResponseEntity<List<ShipForListViewDTO>>(shipsDTO, HttpStatus.OK);
 	}
 
 
 	@GetMapping(value = "/site/{id}")
-	public ResponseEntity<ShipProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
+	public ResponseEntity<ShipProfileInfoDTO> getShipDisplayForProfile(@PathVariable long id) {
 		Ship c = shipService.findOne(id);
 		ShipProfileInfoDTO shipProfileInfoDTO = new ShipProfileInfoDTO(c);
 		shipProfileInfoDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
 		shipProfileInfoDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
 		shipProfileInfoDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
 		shipProfileInfoDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.SHIP));
 		shipProfileInfoDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
 		return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/site/review/{id}")
-	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id) {
+	@PostMapping(value = "/site/review/{id}")
+	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id, @RequestBody PaginationDTO paginationDTO) {
 		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		ExperienceReviewDTO size = new ExperienceReviewDTO();
+		size.setListSize(er.size());
+		er = er.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(er.size()));
 		List<ExperienceReviewDTO> dto = new ArrayList<>();
 		for (ExperienceReview e : er) {
-			e.setClient(clientService.findOne(e.getClient().getId()));
 			dto.add(new ExperienceReviewDTO(e));
 		}
+		dto.add(0, size);
+
 		return ResponseEntity.ok(dto);
 	}
 
@@ -350,7 +400,7 @@ public class ShipController {
 		Ship ship = shipService.findOne(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 		for(Reservation r : reservations) {//////////////////STA je ovo
-			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), ship.getName());
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDateTime().format(formatter), r.getEndDateTime().format(formatter), ship.getName());
 			reservationPeriods.add(period);
 		}
 

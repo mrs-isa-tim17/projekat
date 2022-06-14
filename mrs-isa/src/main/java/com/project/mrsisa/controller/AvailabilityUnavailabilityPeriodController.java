@@ -4,6 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.mrsisa.domain.*;
+import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,17 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.mrsisa.domain.Adventure;
-import com.project.mrsisa.domain.PeriodAvailability;
-import com.project.mrsisa.domain.PeriodUnavailability;
-import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.StartEndDateTimeDefineDTO;
-import com.project.mrsisa.service.AdventureService;
-import com.project.mrsisa.service.PeriodAvailabilitySerivce;
-import com.project.mrsisa.service.PeriodUnavailabilityService;
-import com.project.mrsisa.service.ReservationService;
-
 
 
 @RestController
@@ -44,6 +37,9 @@ public class AvailabilityUnavailabilityPeriodController {
 	@Autowired
 	private ReservationService reservationService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+	@Autowired
+	private SaleAppointmentService saleAppointmentService;
 
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -95,16 +91,15 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 
 	@GetMapping(value="/availability/all/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
 		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
-	
-		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations);
-		for(StartEndDateDTO s : intersectionAll){
-			System.out.println("dostupnoooooo" + s.getStart());
-		}
+
+		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
+
+		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations, actions);
+
 		return new ResponseEntity<>(intersectionAll, HttpStatus.OK);
 	}
 	
