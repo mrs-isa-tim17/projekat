@@ -17,6 +17,8 @@ public class ReservationReport {
         private boolean penallty;
         @Column(nullable = false)
         private boolean  unarrivedClient;
+        @Enumerated
+        private ProcessingStatus status;
 
         public ReservationReport() {
         }
@@ -68,4 +70,13 @@ public class ReservationReport {
         public void setUnarrivedClient(boolean unarrivedClient) {
                 this.unarrivedClient = unarrivedClient;
         }
+
+		public ProcessingStatus getStatus() {
+			return status;
+		}
+
+		public void setStatus(ProcessingStatus status) {
+			this.status = status;
+		}
+        
 }

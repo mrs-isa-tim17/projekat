@@ -533,3 +533,6 @@ insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, 
 insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 3, 0);
 insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 5, 1);
 
+
+insert into reservation_report(report_text, penallty, reservation_id, client_id, unarrived_client, status) values ('Neprijatni gosti, prilicno neuredni, ostavlisi su haos.', true, 6, 1, false, 0);
+insert into reservation_report(report_text, penallty, reservation_id, client_id, unarrived_client, status) values ('GOst se nije pojavio.', false, 10, 1, true, 0);

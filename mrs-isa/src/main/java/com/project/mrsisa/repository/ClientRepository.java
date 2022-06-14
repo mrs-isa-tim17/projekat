@@ -33,4 +33,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
 	List<Client> findAllBySubscriptionsId(long subscribers);
 
+
+	public Client findClientByEmail(String email);
+
 }

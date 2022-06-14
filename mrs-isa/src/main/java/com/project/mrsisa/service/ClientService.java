@@ -177,6 +177,12 @@ public class ClientService {
 		javaMailSender.send(mimeMessage);
 
 	}
+	
+	public Client findClientByEmail(String email) {
+		return clientRepository.findClientByEmail(email);
+	}
+
+
 
 
 }
