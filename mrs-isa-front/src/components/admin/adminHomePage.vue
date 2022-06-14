@@ -148,7 +148,7 @@ export default {
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
       penaltyText: "Penali",
-      penaltyLink: "...",
+      penaltyLink: "/admin/reports",
 
 
 

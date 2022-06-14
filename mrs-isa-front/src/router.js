@@ -68,7 +68,8 @@ const router = createRouter({
         {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")},
         {path: '/admin/loyalty/scale', component:()=>import("./components/admin/loyaltyScale")},
         {path: '/admin/loyalty/points', component:()=>import("./components/admin/loyaltyPoints")},
-        {path: '/admin/revisions', component:()=>import("./components/admin/revisions")}
+        {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
+        {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")}
     ]
 });
 
