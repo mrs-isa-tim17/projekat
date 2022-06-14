@@ -12,6 +12,7 @@ import com.project.mrsisa.domain.User;
 import com.project.mrsisa.dto.ReservationReportAdminDTO;
 import com.project.mrsisa.dto.ReservationReportDTO;
 import com.project.mrsisa.dto.ShipDTO;
+import com.project.mrsisa.dto.TextDTO;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.ClientService;
 import com.project.mrsisa.service.CottageService;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,20 +116,31 @@ public class ReservationReportController {
     
     @PostMapping(value="/approve", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> approveReservationReport(@RequestBody ReservationReportAdminDTO dto){
+    public ResponseEntity<TextDTO> approveReservationReport(@RequestBody ReservationReportAdminDTO dto){
     	System.out.println();
     	ReservationReport reservationReport = reservationReportService.findOneById(dto.getId());
 		if (reservationReport == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+			TextDTO  t = new TextDTO("Ne postojei izveštaj o rezervaciji.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.BAD_REQUEST);
 		}
     	Client client = clientService.findClientByEmail(dto.getClientEmail());
     	if(dto.getPenalty()) {
     		addPenalty(client);	
     	}
     	reservationReport.setStatus(ProcessingStatus.APPROVED);
-    	reservationReportService.saveAccept(reservationReport, dto);
+    	try {
+        	reservationReportService.saveAccept(reservationReport);
+        	reservationReportService.sendAcceptMails(dto);
+		} catch (ObjectOptimisticLockingFailureException e) {
+			TextDTO  t = new TextDTO("Drugi administrator je već odgovorio na ovaj izveštaj o rezervaciji.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.OK);
+		}
    
-    return new ResponseEntity<>(true, HttpStatus.OK);
+    	TextDTO  t = new TextDTO("Odobrili ste izveštaj o rezervaciji.");
+		t.setSuccessfull(true);
+    return new ResponseEntity<>(t, HttpStatus.OK);
     }
     
     private void addPenalty(Client client) {
@@ -139,16 +152,26 @@ public class ReservationReportController {
     
     @PostMapping(value="/reject", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> rejectReservationReport(@RequestBody ReservationReportAdminDTO dto){
+    public ResponseEntity<TextDTO> rejectReservationReport(@RequestBody ReservationReportAdminDTO dto){
     	ReservationReport reservationReport = reservationReportService.findOneById(dto.getId());
 		if (reservationReport == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+			TextDTO  t = new TextDTO("Ne postojei izveštaj o rezervaciji.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.BAD_REQUEST);
 		}
 
     	reservationReport.setStatus(ProcessingStatus.REJECTED);
-    	reservationReportService.saveReject(reservationReport, dto);
-   
-    return new ResponseEntity<>(true, HttpStatus.OK);
+    	try {
+        	reservationReportService.saveReject(reservationReport);
+        	reservationReportService.sendRejectmail(dto);
+		} catch (ObjectOptimisticLockingFailureException e) {    
+			TextDTO  t = new TextDTO("Drugi administrator je već odgovorio na ovaj izveštaj o rezervaciji.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.OK);
+		} 
+    	TextDTO  t = new TextDTO("Odbili ste izveštaj o rezervaciji.");
+		t.setSuccessfull(true);
+    return new ResponseEntity<>(t, HttpStatus.OK);
     }
     
 }

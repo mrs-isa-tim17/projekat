@@ -1,6 +1,10 @@
 <template>
   <admin-header></admin-header>
   <div class="container">
+    <div style="margin-top: 15px; margin-bottom: 20px">
+      <h2>Izveštaji o rezervacijama</h2>
+    </div>
+
     <reservation-report-table :reports="this.reports" :key="myKey"></reservation-report-table>
 
   </div>

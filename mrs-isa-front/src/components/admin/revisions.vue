@@ -1,6 +1,9 @@
 <template>
   <admin-header></admin-header>
   <div class="container">
+    <div style="margin-top: 15px; margin-bottom: 20px">
+      <h2>Revizije</h2>
+    </div>
     <revisionsTable :revisions="revisions"></revisionsTable>
 
   </div>

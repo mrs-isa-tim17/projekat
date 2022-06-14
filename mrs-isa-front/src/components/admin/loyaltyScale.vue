@@ -17,18 +17,18 @@
     <br>
 
     <div class="row-2">
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" @click="loadScales('ROLE_CLIENT')">Klijent</a>
+      <ul class="nav justify-content-center m-2">
+        <li class="nav-tabs active" id="ROLE_CLIENT">
+          <a class="nav-link" aria-current="page" href="#" @click="loadScales('ROLE_CLIENT')">Klijent</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" @click="loadScales('ROLE_COTTAGE_OWNER')">Vlasnik vikendice</a>
+        <li class="nav-tabs" id="cottage">
+          <a class="nav-link" href="#" id="ROLE_COTTAGE_OWNER" @click="loadScales('ROLE_COTTAGE_OWNER')">Vlasnik vikendice</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" @click="loadScales('ROLE_SHIP_OWNER')">Vlasnik broda</a>
+        <li class="nav-tabs" id="ship">
+          <a class="nav-link" href="#" id="ROLE_SHIP_OWNER" @click="loadScales('ROLE_SHIP_OWNER')">Vlasnik broda</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" @click="loadScales('ROLE_FISHINSTRUCTOR')">Instruktor pecanja</a>
+        <li class="nav-tabs" id="fish">
+          <a class="nav-link" href="#" id="ROLE_FISHINSTRUCTOR" @click="loadScales('ROLE_FISHINSTRUCTOR')">Instruktor pecanja</a>
         </li>
       </ul>
     </div>
@@ -87,6 +87,25 @@ export default {
 
   methods:{
     loadScales(role){
+      document.getElementById(this.last).classList.remove("active");
+      if(role==="ROLE_CLIENT"){
+        document.getElementById("ROLE_CLIENT").classList.add("active");
+        document.getElementById(this.last).classList.remove("active");
+        this.last="ROLE_CLIENT";
+      }else if(role==="ROLE_COTTAGE_OWNER"){
+        document.getElementById("ROLE_COTTAGE_OWNER").classList.add("active");
+        document.getElementById(this.last).classList.remove("active");
+        this.last="ROLE_COTTAGE_OWNER";
+      }else if(role === "ROLE_SHIP_OWNER"){
+        document.getElementById("ROLE_SHIP_OWNER").classList.add("active");
+        document.getElementById(this.last).classList.remove("active");
+        this.last="ROLE_SHIP_OWNER";
+      }else{
+        document.getElementById("ROLE_FISHINSTRUCTOR").classList.add("active");
+        document.getElementById(this.last).classList.remove("active");
+        this.last="ROLE_FISHINSTRUCTOR";
+      }
+
       LoyaltyProgramService.getLoyaltyScaleForRole(role).then((response=>{
         this.scales=response.data;
         this.myKey++;
@@ -128,7 +147,8 @@ export default {
         userType:"",
         role:""
       },
-      myKey:0
+      myKey:0,
+      last:"ROLE_CLIENT"
     }
   }
 
@@ -136,5 +156,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .active{
+    border-color: #0645AD;
+    border-width: 1px;
+    border-radius: 10px;
+    border-style: solid;
+  }
 </style>

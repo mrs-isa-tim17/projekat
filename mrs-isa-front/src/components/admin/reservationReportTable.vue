@@ -38,6 +38,7 @@
 <script>
 import reservationReportModal from "@/components/admin/reservationReportModal";
 import ReservationReportService from "@/servieces/ReservationReportService";
+import swal from "sweetalert2";
 
 export default {
   name: "reservationReportTable",
@@ -73,10 +74,43 @@ export default {
       }
     },
 
+    fireAlertSuccess(){
+      swal.fire({
+        title: "Uspešno",
+        text: this.answer.text,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#8DF172'
+      });
+    },
+
+    fireAlertUnSucc() {
+      swal.fire({
+        title: "Neuspešno",
+        text: this.answer.text,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#FECDA6'
+      });
+    },
+
+    handleAnswer(){
+      if(this.answer.successfull){
+        this.fireAlertSuccess();
+      }else{
+        this.fireAlertUnSucc();
+      }
+
+    },
+
     AcceptReport(report){
       console.log(report.id);
         ReservationReportService.approveReservationReport(report).then((response)=>{
-          this.answer = response.data
+          this.answer = response.data;
+          this.handleAnswer();
+          document.getElementById(report.id).innerText = this.answer.text;
+          document.getElementById("report"+report.id).style.visibility="hidden";
+
           console.log(report);
         }).catch(function (error) {
           console.log(error.toJSON());
@@ -98,19 +132,17 @@ export default {
           console.log(error.config);
 
         });
-
-      //  if(this.answer){
-          document.getElementById(report.id).innerText = "Odobrili ste izveštaj o rezervaciji.";
-          document.getElementById("report"+report.id).style.visibility="hidden";
-
-        //}
     },
 
     RejectReport(report){
       console.log(report);
       console.log(this.report)
       ReservationReportService.rejectReservationReport(report).then((response)=>{
-        this.answer = response.data
+        this.answer = response.data;
+        this.handleAnswer();
+        document.getElementById(report.id).innerText = this.answer.text;
+        document.getElementById('report'+report.id).style.visibility="hidden";
+
         console.log(report);
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -133,11 +165,6 @@ export default {
 
       });
 
-    //  if(this.answer){
-        document.getElementById(report.id).innerText = "Odbili ste izveštaj o rezervaciji.";
-        document.getElementById('report'+report.id).style.visibility="hidden";
-  //    }
-
     }
   },
 
@@ -158,7 +185,9 @@ export default {
         endDate: "",
         offerName:""
       },
-      answer:false,
+      answer:{
+        text:""
+      },
     }
 
   }

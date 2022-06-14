@@ -2,6 +2,7 @@
   <adminHeader></adminHeader>
   <div class="container">
     <br>
+    <!--
     <div class="row-2">
       <ul class="nav justify-content-center">
         <li class="nav-item">
@@ -11,7 +12,17 @@
           <a class="nav-link" href="#" @click="loadOfferer('OFFERER')">Vlasnik</a>
         </li>
       </ul>
-    </div>
+    </div>     -->
+
+    <ul class="nav nav-tabs justify-content-center m-2">
+      <li class="nav-item active" id="client">
+        <a class="nav-link" aria-current="page" href="#" style="font-size: 20px;"  @click="loadClient('CLIENT')">Klijent</a>
+      </li>
+      <li class="nav-item" id="owner">
+        <a class="nav-link" href="#"  style="font-size: 20px;"  @click="loadOfferer('OFFERER')">Vlasnik</a>
+      </li>
+    </ul>
+
 
     <loyalty-points-type :all-points="this.points" :type="this.type" :key="myKey"></loyalty-points-type>
 
@@ -33,6 +44,7 @@ export default {
   },
 
   created: function () {
+
     LoyaltyProgramService.getPointsForUser('CLIENT').then((response) => {
       this.type = 'client';
       this.points = response.data;
@@ -44,7 +56,8 @@ export default {
 
   methods: {
     loadClient() {
-
+      document.getElementById("client").classList.add("active");
+      document.getElementById("owner").classList.remove("active");
       LoyaltyProgramService.getPointsForUser('CLIENT').then((response) => {
         this.type = "client"
         this.points = response.data;
@@ -54,6 +67,9 @@ export default {
     },
 
     loadOfferer() {
+
+      document.getElementById("owner").classList.add("active");
+      document.getElementById("client").classList.remove("active");
       LoyaltyProgramService.getPointsForUser('OFFERER').then((response) => {
         this.type = 'offerer';
         this.points = response.data;
@@ -82,5 +98,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .active{
+    border-color: #0645AD;
+    border-width: 1px;
+    border-radius: 10px;
+    border-style: solid;
+  }
 </style>

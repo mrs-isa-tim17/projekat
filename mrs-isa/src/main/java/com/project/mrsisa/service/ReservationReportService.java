@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservationReportService {
@@ -37,21 +38,27 @@ public class ReservationReportService {
     	return reservationReportRepository.findOneById(id); 
     }
 
-	public ReservationReport saveAccept(ReservationReport reservationReport, ReservationReportAdminDTO dto) {
-		try {
-			sendMeesgeClientAboutAcceptReport(dto);
+    @Transactional(readOnly = false)
+	public ReservationReport saveAccept(ReservationReport reservationReport) {	
+		return reservationReportRepository.save(reservationReport);
+		
+	}
+    
+    public void sendAcceptMails(ReservationReportAdminDTO dto) {
+    	try {
+	//		sendMeesgeClientAboutAcceptReport(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			sendMeesgeOwnerAboutAcceptReport(dto);
+//			sendMeesgeOwnerAboutAcceptReport(dto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return reservationReportRepository.save(reservationReport);
-		
-	}
+    	
+    }
+    
 	
 	@Async
 	private void sendMeesgeOwnerAboutAcceptReport(ReservationReportAdminDTO dto) throws MessagingException {
@@ -100,22 +107,25 @@ public class ReservationReportService {
 
 	}
 
-	public ReservationReport saveReject(ReservationReport reservationReport, ReservationReportAdminDTO dto) {
+	@Transactional(readOnly = false)
+	public ReservationReport saveReject(ReservationReport reservationReport ) {
+		return reservationReportRepository.save(reservationReport);
+	}
+	
+	public void sendRejectmail(ReservationReportAdminDTO dto){
 		try {
-			sendMeesgeClientAboutRejectReport(dto);
+		//	sendMeesgeClientAboutRejectReport(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			sendMeesgeOwnerAboutRejectReport(dto);
+		//	sendMeesgeOwnerAboutRejectReport(dto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return reservationReportRepository.save(reservationReport);
-		
-		
 	}
+	
 	
 	
 	@Async

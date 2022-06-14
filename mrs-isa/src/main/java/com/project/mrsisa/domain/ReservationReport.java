@@ -19,6 +19,9 @@ public class ReservationReport {
         private boolean  unarrivedClient;
         @Enumerated
         private ProcessingStatus status;
+        
+    	@Version
+    	private Integer version;
 
         public ReservationReport() {
         }
@@ -78,5 +81,11 @@ public class ReservationReport {
 		public void setStatus(ProcessingStatus status) {
 			this.status = status;
 		}
-        
+		public Integer getVersion() {
+			return version;
+		}
+
+		public void setVersion(Integer version) {
+			this.version = version;
+		}
 }
