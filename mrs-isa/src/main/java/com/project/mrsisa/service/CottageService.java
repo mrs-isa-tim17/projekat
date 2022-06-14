@@ -48,4 +48,8 @@ public class CottageService {
 	public List<Cottage> findDeletedCottages(){
 		return cottageRepository.findDeletedCottages();
 	}
+
+    public Cottage findOneTryOccupation(Long id) {
+		return cottageRepository.findOneTryOccupation(id);
+    }
 }

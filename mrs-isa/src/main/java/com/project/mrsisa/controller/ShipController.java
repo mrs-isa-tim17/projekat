@@ -12,7 +12,7 @@ import com.project.mrsisa.dto.ship.FindShipsByOwnerDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
 import com.project.mrsisa.dto.simple_user.*;
-import com.project.mrsisa.processing.OfferProcessing;
+import com.project.mrsisa.service.OfferService;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -77,7 +77,7 @@ public class ShipController {
 	@Autowired
 	private SaleAppointmentService saleAppointmentService;
 
-	private OfferProcessing offerProcessing = new OfferProcessing();
+	private OfferService offerService = new OfferService();
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -310,16 +310,16 @@ public class ShipController {
 	private List<ShipForListViewDTO> filterShips(ShipFilterParamsDTO shipFilterParamsDTO) {
 		List<Ship> ships = shipService.findAll();
 
-		ships = offerProcessing.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
+		ships = offerService.searchShipsBy(ships, shipFilterParamsDTO.getSearchBy());
 
 		//lokacija
-		ships = offerProcessing.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
+		ships = offerService.filterByShipLocation(ships, shipFilterParamsDTO.getLongitude(), shipFilterParamsDTO.getLatitude());
 
 		//kapacitet
-		ships = offerProcessing.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
+		ships = offerService.filterByCapacity(ships, shipFilterParamsDTO.getCapacity(), shipFilterParamsDTO.getCapacityRelOp());
 
 		//broj kreveta
-		ships = offerProcessing.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
+		ships = offerService.filterBySpeed(ships, shipFilterParamsDTO.getSpeed(), shipFilterParamsDTO.getSpeedRelOp());
 
 		//interval
 		if (shipFilterParamsDTO.getDateFrom() != null && shipFilterParamsDTO.getDateUntil() != null) {
@@ -329,16 +329,16 @@ public class ShipController {
 				ship.setReservations(reservationService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
 				ship.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(ship.getId(), shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil()));
 			}
-			ships = offerProcessing.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
+			ships = offerService.filterShipByInterval(ships, shipFilterParamsDTO.getDateFrom(), shipFilterParamsDTO.getDateUntil());
 		}
 
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 
 		//rating
-		shipsDTO = offerProcessing.filterShipsByRating(shipsDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
+		shipsDTO = offerService.filterShipsByRating(shipsDTO, shipFilterParamsDTO.getRating(), shipFilterParamsDTO.getRatingRelOp());
 
 		//cena
-		shipsDTO = offerProcessing.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
+		shipsDTO = offerService.filterShipsByPrice(shipsDTO, shipFilterParamsDTO.getPrice(), shipFilterParamsDTO.getPriceRelOp());
 
 		return shipsDTO;
 	}
@@ -358,7 +358,7 @@ public class ShipController {
 	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ShipForListViewDTO>> getShipsSearchedBy(@RequestBody SearchParam searchBy){
 		List<Ship> ships = shipService.findAll();
-		ships = offerProcessing.searchShipsBy(ships, searchBy.getSearchBy());
+		ships = offerService.searchShipsBy(ships, searchBy.getSearchBy());
 		List<ShipForListViewDTO> shipsDTO = getShipsForListViewDTO(ships);
 		return new ResponseEntity<List<ShipForListViewDTO>>(shipsDTO, HttpStatus.OK);
 	}

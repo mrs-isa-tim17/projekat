@@ -204,5 +204,17 @@ public abstract class Offer {
 		this.reservations = reservations;
 	}
 
+	public void addPeriodAvailability(PeriodAvailability pa){
+		if (this.periodAvailabilities == null){
+			this.periodAvailabilities = new ArrayList<PeriodAvailability>();
+		}
+		this.periodAvailabilities.add(pa);
+	}
 
+	public void addReservation(Reservation r){
+		if (this.reservations == null){
+			this.reservations = new ArrayList<Reservation>();
+		}
+		this.reservations.add(r);
+	}
 }

@@ -167,4 +167,12 @@ public class Reservation {
 	public void setShipOwnerPresent(boolean shipOwnerPresent) {
 		this.shipOwnerPresent = shipOwnerPresent;
 	}
+
+	public Reservation() {
+	}
+
+	public Reservation(LocalDateTime startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 }

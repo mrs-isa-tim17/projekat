@@ -8,11 +8,16 @@ import com.project.mrsisa.domain.Offer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
+
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 
 
 public interface CottageRepository extends  JpaRepository<Cottage, Long>{
@@ -31,4 +36,9 @@ public interface CottageRepository extends  JpaRepository<Cottage, Long>{
 
 
     List<Offer> findAllByClientId(Long id);
+
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	//@Query("select p from Product p where p.id = :id")
+	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
+    Cottage findOneTryOccupation(Long id);
 }

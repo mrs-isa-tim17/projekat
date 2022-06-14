@@ -10,11 +10,10 @@ import java.util.List;
 
 
 import com.project.mrsisa.domain.*;
-import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.*;
 import com.project.mrsisa.dto.simple_user.AdventureForListViewDTO;
 
-import com.project.mrsisa.processing.OfferProcessing;
+import com.project.mrsisa.service.OfferService;
 import com.project.mrsisa.service.*;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 
@@ -39,7 +38,6 @@ import com.project.mrsisa.dto.AdminOfferDTO;
 import com.project.mrsisa.dto.AdventureDTO;
 
 import com.project.mrsisa.dto.ReservationForOwnerDTO;
-import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.service.AdditionalServicesService;
 import com.project.mrsisa.service.AdventureService;
 import com.project.mrsisa.service.BehaviorRuleService;
@@ -79,7 +77,7 @@ public class AdventureController {
 	@Autowired
 	private PricelistService pricelistService;
 
-	private OfferProcessing offerProcessing = new OfferProcessing();
+	private OfferService offerService = new OfferService();
 	@Autowired
 	private PeriodAvailabilitySerivce periodAvailabilitySerivce;
 	@Autowired
@@ -520,13 +518,13 @@ public class AdventureController {
 
 		List<Adventure> adventures = adventureService.findAll();
 
-		adventures = offerProcessing.searchAdventuresBy(adventures, adventureFilterParamsDTO.getSearchBy());
+		adventures = offerService.searchAdventuresBy(adventures, adventureFilterParamsDTO.getSearchBy());
 
 		//lokacija
-		adventures = offerProcessing.filterByAdventureLocation(adventures, adventureFilterParamsDTO.getLongitude(), adventureFilterParamsDTO.getLatitude());
+		adventures = offerService.filterByAdventureLocation(adventures, adventureFilterParamsDTO.getLongitude(), adventureFilterParamsDTO.getLatitude());
 
 		//kapacitet
-		adventures = offerProcessing.filterAdventuresByCapacity(adventures, adventureFilterParamsDTO.getCapacity(), adventureFilterParamsDTO.getCapacityRelOp());
+		adventures = offerService.filterAdventuresByCapacity(adventures, adventureFilterParamsDTO.getCapacity(), adventureFilterParamsDTO.getCapacityRelOp());
 
 		//interval
 		if (adventureFilterParamsDTO.getDateFrom() != null && adventureFilterParamsDTO.getDateUntil() != null) {
@@ -536,16 +534,16 @@ public class AdventureController {
 				adventure.setReservations(reservationService.getListOfReservationByOfferInInterval(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
 				adventure.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(adventure.getId(), adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil()));
 			}
-			adventures = offerProcessing.filterAdventureByInterval(adventures, adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil());
+			adventures = offerService.filterAdventureByInterval(adventures, adventureFilterParamsDTO.getDateFrom(), adventureFilterParamsDTO.getDateUntil());
 		}
 
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventures);
 
 		//rating
-		adventuresDTO = offerProcessing.filterAdventuresByRating(adventuresDTO, adventureFilterParamsDTO.getRating(), adventureFilterParamsDTO.getRatingRelOp());
+		adventuresDTO = offerService.filterAdventuresByRating(adventuresDTO, adventureFilterParamsDTO.getRating(), adventureFilterParamsDTO.getRatingRelOp());
 
 		//cena
-		adventuresDTO = offerProcessing.filterAdventuresByPrice(adventuresDTO, adventureFilterParamsDTO.getPrice(), adventureFilterParamsDTO.getPriceRelOp());
+		adventuresDTO = offerService.filterAdventuresByPrice(adventuresDTO, adventureFilterParamsDTO.getPrice(), adventureFilterParamsDTO.getPriceRelOp());
 
 		return adventuresDTO;
 
@@ -566,7 +564,7 @@ public class AdventureController {
 	@PostMapping(value = "/site/search", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AdventureForListViewDTO>> getCottagesSearchedBy(@RequestBody SearchParam searchBy){
 		List<Adventure> adventure = adventureService.findAll();
-		adventure = offerProcessing.searchAdventuresBy(adventure, searchBy.getSearchBy());
+		adventure = offerService.searchAdventuresBy(adventure, searchBy.getSearchBy());
 		List<AdventureForListViewDTO> adventuresDTO = getAdventuresForListViewDTO(adventure);
 		return new ResponseEntity<List<AdventureForListViewDTO>>(adventuresDTO, HttpStatus.OK);
 	}

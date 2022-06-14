@@ -53,7 +53,12 @@ public class PeriodAvailability {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
-	
+
+	public PeriodAvailability() {
+	}
+
+	public PeriodAvailability(LocalDateTime startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 }

@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    @Transactional
     @Query(value = "SELECT * FROM reservation r WHERE r.client_id = ?1 and r.offer_type = ?2 and r.start_date < CURRENT_DATE",
             nativeQuery = true)
     //@Query("SELECT rs FROM reservation r LEFT JOIN FETCH ")

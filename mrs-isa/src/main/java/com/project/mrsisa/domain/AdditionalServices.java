@@ -102,6 +102,11 @@ public class AdditionalServices {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-	
 
+
+	public AdditionalServices(String name, double price) {
+		this.name=name;
+		this.price = price;
+
+	}
 }

@@ -7,21 +7,18 @@ import com.project.mrsisa.dto.client.SuccessOfCancelReservationDTO;
 import com.project.mrsisa.exception.AlreadyCanceled;
 import com.project.mrsisa.exception.NotAvailable;
 import com.project.mrsisa.exception.NotDefinedValue;
-import com.project.mrsisa.processing.OfferProcessing;
 import com.project.mrsisa.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -152,13 +149,13 @@ public class ReservationService {
         }else{
             throw new NotDefinedValue("Dobijeni tip entiteta nije validan");
         }
-        OfferProcessing offerProcessing = new OfferProcessing();
+        OfferService offerService = new OfferService();
         System.out.println(reserveEntityDTO.getFromDate());
         System.out.println(reserveEntityDTO.getUntilDate());
         o.setReservations(getListOfReservationByOfferInInterval(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         o.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         o.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
-        boolean res = offerProcessing.isGloballyFree(o, reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
+        boolean res = offerService.isGloballyFree(o, reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
         System.out.println("Global free res: ");
         System.out.println(res);
         if (!res){
@@ -226,7 +223,7 @@ public class ReservationService {
         }
     }
 
-    private double addAdditionalServicesToPrice(double price, List<AdditionalServices> additionalServices) {
+    public double addAdditionalServicesToPrice(double price, List<AdditionalServices> additionalServices) {
         for (AdditionalServices a : additionalServices){
             price += a.getPrice();
         }
@@ -307,5 +304,9 @@ public class ReservationService {
         }
 
         return res;
+    }
+
+    public void setReservationRepository(ReservationRepository reservationRepository){
+        this.reservationRepository = reservationRepository;
     }
 }

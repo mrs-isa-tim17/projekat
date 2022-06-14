@@ -12,11 +12,9 @@ import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
 import com.project.mrsisa.dto.simple_user.CottageForListViewDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
-import com.project.mrsisa.dto.simple_user.SearchParam;
 import com.project.mrsisa.dto.AdminOfferDTO;
-import com.project.mrsisa.dto.client.QuickReservationForClientDTO;
 import com.project.mrsisa.dto.simple_user.*;
-import com.project.mrsisa.processing.OfferProcessing;
+import com.project.mrsisa.service.OfferService;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,7 +74,7 @@ public class CottageController {
 	@Autowired
 	private UserService userService;
 
-	private OfferProcessing offerProcessing = new OfferProcessing();
+	private OfferService offerService = new OfferService();
 
 	@Autowired
 	private ClientService clientService;
@@ -393,16 +391,16 @@ public class CottageController {
 
 		List<Cottage> cottages = cottageService.findAll();
 
-		cottages = offerProcessing.searchCottagesBy(cottages, cottageFilterParamsDTO.getSearchBy());
+		cottages = offerService.searchCottagesBy(cottages, cottageFilterParamsDTO.getSearchBy());
 
 		//lokacija
-		cottages = offerProcessing.filterByLocation(cottages, cottageFilterParamsDTO.getLongitude(), cottageFilterParamsDTO.getLatitude());
+		cottages = offerService.filterByLocation(cottages, cottageFilterParamsDTO.getLongitude(), cottageFilterParamsDTO.getLatitude());
 
 		//broj soba
-		cottages = offerProcessing.filterByRoomQuntity(cottages, cottageFilterParamsDTO.getNumberOfRooms(), cottageFilterParamsDTO.getRoomsRelOp());
+		cottages = offerService.filterByRoomQuntity(cottages, cottageFilterParamsDTO.getNumberOfRooms(), cottageFilterParamsDTO.getRoomsRelOp());
 
 		//broj kreveta
-		cottages = offerProcessing.filterByBedQuntity(cottages, cottageFilterParamsDTO.getNumberOfBed(), cottageFilterParamsDTO.getBedsRelOp());
+		cottages = offerService.filterByBedQuntity(cottages, cottageFilterParamsDTO.getNumberOfBed(), cottageFilterParamsDTO.getBedsRelOp());
 
 
 		//interval
@@ -413,7 +411,7 @@ public class CottageController {
 				c.setReservations(reservationService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
 				c.setSaleAppointments(saleAppointmentService.getListOfReservationByOfferInInterval(c.getId(), cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil()));
 			}
-			cottages = offerProcessing.filterByInterval(cottages, cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil());
+			cottages = offerService.filterByInterval(cottages, cottageFilterParamsDTO.getDateFrom(), cottageFilterParamsDTO.getDateUntil());
 
 		}
 
@@ -424,10 +422,10 @@ public class CottageController {
 		//List<CottageForListViewDTO> cottagesDTO = getCottagesForListViewDTO(cottages);
 
 		//rating
-		cottagesDTO = offerProcessing.filterByRating(cottagesDTO, cottageFilterParamsDTO.getRating(), cottageFilterParamsDTO.getRatingRelOp());
+		cottagesDTO = offerService.filterByRating(cottagesDTO, cottageFilterParamsDTO.getRating(), cottageFilterParamsDTO.getRatingRelOp());
 
 		//cena
-		cottagesDTO = offerProcessing.filterByPrice(cottagesDTO, cottageFilterParamsDTO.getPrice(), cottageFilterParamsDTO.getPriceRelOp());
+		cottagesDTO = offerService.filterByPrice(cottagesDTO, cottageFilterParamsDTO.getPrice(), cottageFilterParamsDTO.getPriceRelOp());
 
 		return cottagesDTO;
 
