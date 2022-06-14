@@ -26,6 +26,7 @@ public interface CottageRepository extends  JpaRepository<Cottage, Long>{
 	
 	public List<Cottage> findByOwner(CottageOwner owner);
 
+
 	@Transactional
     @Query(value = "SELECT * FROM cottage c WHERE c.deleted is false", nativeQuery = true)
 	public List<Cottage> findActiveCottages();

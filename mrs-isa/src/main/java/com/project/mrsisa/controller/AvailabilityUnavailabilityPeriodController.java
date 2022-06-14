@@ -95,10 +95,11 @@ public class AvailabilityUnavailabilityPeriodController {
 		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+
 		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
 
 		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations, actions);
-		
+
 		return new ResponseEntity<>(intersectionAll, HttpStatus.OK);
 	}
 	
