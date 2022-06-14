@@ -122,6 +122,7 @@ public class ClientController {
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
         CottageOwner owner = cottageOwnerService.findOne(id);
+        List<String> emails = new ArrayList<>();
         List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
         List<CurrentClientDTO> current = new ArrayList<>();
         for(Cottage c : cottages){
@@ -129,7 +130,12 @@ public class ClientController {
             for(Reservation r : reservations){
                 System.out.println("rez" + r.getId());
                 Client client = clientService.findOne(r.getClient().getId());
-                current.add(new CurrentClientDTO(client,c));
+                CurrentClientDTO currentdto = new CurrentClientDTO(client,c,r);
+                current.add(currentdto);
+               /* if(!emails.contains(currentdto.getClientEmail())){
+                    current.add(currentdto);
+                    emails.add(currentdto.getClientEmail());
+                }*/
             }
         }
         for(CurrentClientDTO currenttt : current){

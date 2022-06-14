@@ -19,7 +19,7 @@
             <a class="nav-link " style="color:white;font-size: 20px;" :href="quickRes">Brze rezervacije</a>
           </li>
           <li class="nav-item">
-            <NewReservations :header="reservationsHeader" :index="reservationsIndex" :key="newResKey"></NewReservations>
+            <a class="nav-link " style="color:white;font-size: 20px;" :href="newRes">Nova rezervacija</a>
           </li>
           <li class="nav-item">
             <div class="dropdown">
@@ -49,11 +49,10 @@
 
 <script>
 import loginServce from "@/servieces/LoginServce";
-import NewReservations from "@/components/owner/cottage_owner/newReservations";
+
 
 export default {
   name: "client-header",
-  components: {NewReservations},
   created:
     function (){
     this.newResKey++;
@@ -68,7 +67,8 @@ export default {
       newResKey:0,
       incomeReports:"/owner/report/graphIncome",
       calendar:"/owner/calendar",
-      quickRes:'/owner/quickReservation'
+      quickRes:'/owner/quickReservation',
+      newRes:'/owner/newReservation'
     }
   },
   methods:

@@ -47,6 +47,7 @@ const router = createRouter({
         {path:'/cottage/add',component:() => import("./components/owner/cottage_owner/addCottage.vue")},
         {path:'/owner/calendar',component:()=>import("./components/owner/cottage_owner/calendarCottageOwner")},
         {path:'/owner/quickReservation',component:()=>import("./components/owner/cottage_owner/quickReservation")},
+        {path:'/owner/newReservation',component:()=>import("./components/owner/cottage_owner/newReservationForClient")},
         {path:'/cottage/detail/:id',component:()=>import("./components/owner/cottage_owner/cottageDetail")},
         {path:'/ship/add',component:() => import("./components/ship_owner/addShip.vue")},
         { path: '/cottage/update/:id',component:()=>import("./components/owner/cottage_owner/updateCottage")},

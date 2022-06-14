@@ -102,7 +102,9 @@ public class AvailabilityUnavailabilityPeriodController {
 		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 	
 		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations);
-		
+		for(StartEndDateDTO s : intersectionAll){
+			System.out.println("dostupnoooooo" + s.getStart());
+		}
 		return new ResponseEntity<>(intersectionAll, HttpStatus.OK);
 	}
 	

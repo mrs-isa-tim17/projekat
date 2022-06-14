@@ -6,7 +6,7 @@
     <div class="input-group mb-3 input-icons" >
       <i class="fa fa-search icon"></i><input placeholder="Pretraži po imenu..." type="search" class="input-field form-control" aria-label="Text input with dropdown button" v-model="search"  @keyup="filtered">
     </div>
-        <button class="btn-sm" @click="addCottagePage"><i class="fa fa-home"></i> Dodaj novu vikendicu</button>
+        <button class="btn-sm" @click="addCottagePage" style="color: #31708E;border-color:#31708E;font-weight: bold;"><i class="fa fa-home" style="color: #31708E;"></i> Dodaj novu vikendicu</button>
       </div>
     </div>
 
