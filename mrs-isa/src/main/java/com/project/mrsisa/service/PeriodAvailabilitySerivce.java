@@ -114,5 +114,8 @@ public class PeriodAvailabilitySerivce {
 		
 	return 	intersectionAll;
 	}
-	
+
+	public void setPeriodAvailabilityRepository(PeriodAvailabilityRepository periodAvailabilityRepository) {
+		this.periodAvailabilityRepository = periodAvailabilityRepository;
+	}
 }

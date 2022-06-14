@@ -14,10 +14,7 @@ public class Client extends User {
 	
 	//@Column(name="isAuthenticated", nullable=true)
 	//private boolean isAuthenticated;
-	
-	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<ClientReview> clientReviews;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "subscriptions", inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
 	private List<Offer> subscriptions;//client je vlasnik veze
@@ -45,7 +42,6 @@ public class Client extends User {
 	}
 
 	public Client() {
-		clientReviews = new ArrayList<ClientReview>();
 		subscriptions = new ArrayList<Offer>();
 		futureReservations = new ArrayList<Reservation>();
 		historyReservations = new ArrayList<Reservation>();
@@ -65,12 +61,6 @@ public class Client extends User {
 	//public void setAuthenticated(boolean isAuthenticated) {
 		//this.isAuthenticated = isAuthenticated;
 	//}
-	public List<ClientReview> getClientReviews() {
-		return Collections.unmodifiableList(clientReviews);
-	}
-	public void setClientReviews(List<ClientReview> clientReviews) {
-		this.clientReviews = clientReviews;
-	}
 	public List<Offer> getSubscriptions() {
 		return Collections.unmodifiableList(subscriptions);
 	}

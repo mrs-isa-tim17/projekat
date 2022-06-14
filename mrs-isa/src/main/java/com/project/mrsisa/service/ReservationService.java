@@ -9,6 +9,7 @@ import com.project.mrsisa.exception.NotAvailable;
 import com.project.mrsisa.exception.NotDefinedValue;
 import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import com.project.mrsisa.repository.ReservationRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.MailSendException;
@@ -83,6 +84,7 @@ public class ReservationService {
     }
 
     public Reservation save(Reservation r){
+        System.out.println(r.toString());
         return reservationRepository.save(r);
     }
 
@@ -149,29 +151,32 @@ public class ReservationService {
         //    sendMailAboutReservation(r.getClient(), r);
     }
 
-    public void reserveEntity(ReserveEntityDTO reserveEntityDTO, Reservation r) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException {
+//throws NotDefinedValue, NotAvailable, MailSendException
+    @SneakyThrows
+    public void reserveEntity(ReserveEntityDTO reserveEntityDTO, Reservation r) {
         Offer o;
         //Reservation r = new Reservation();
-        if (reserveEntityDTO.getOfferType().equals("cottage")){
-            o = cottageService.findOneTryOccupation(reserveEntityDTO.getOfferId());
-            r.setOfferType(OfferType.COTTAGE);
-        }else if (reserveEntityDTO.getOfferType().equals("ship")){
-            System.out.println("GET SHIP");
-            try {
-                o = shipService.findOneTryOccupation(reserveEntityDTO.getOfferId());
-            }catch (Exception e){
-                o = null;
-                e.printStackTrace();
+        try {
+            if (reserveEntityDTO.getOfferType().equals("cottage")) {
+                o = cottageService.findOneTryOccupation(reserveEntityDTO.getOfferId());
+                r.setOfferType(OfferType.COTTAGE);
+            } else if (reserveEntityDTO.getOfferType().equals("ship")) {
+                try {
+                    o = shipService.findOneTryOccupation(reserveEntityDTO.getOfferId());
+                } catch (Exception e) {
+                    o = null;
+                    e.printStackTrace();
+                }
+                r.setOfferType(OfferType.SHIP);
+            } else if (reserveEntityDTO.getOfferType().equals("adventure")) {
+                o = adventureService.findOneTryOccupation(reserveEntityDTO.getOfferId());
+                r.setOfferType(OfferType.ADVENTURE);
+            } else {
+                throw new NotDefinedValue("Dobijeni tip entiteta nije validan");
             }
-            System.out.println("GOT SHIP");
-            r.setOfferType(OfferType.SHIP);
-        }else if (reserveEntityDTO.getOfferType().equals("adventure")){
-            o = adventureService.findOneTryOccupation(reserveEntityDTO.getOfferId());
-            r.setOfferType(OfferType.ADVENTURE);
-        }else{
-            throw new NotDefinedValue("Dobijeni tip entiteta nije validan");
+        }catch (Exception e){
+            throw new NotDefinedValue("Entitet nije definisano");
         }
-        System.out.println("OTHEEER");
         OfferService offerService = new OfferService();
         o.setReservations(getListOfReservationByOfferInInterval(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         o.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
@@ -330,5 +335,25 @@ public class ReservationService {
 
     public Reservation findOneById(Long id){
         return reservationRepository.findById(id).orElseGet(null);
+    }
+
+    public void setCottageService(CottageService cottageService) {
+        this.cottageService = cottageService;
+    }
+
+    public PeriodAvailabilitySerivce getPeriodAvailabilitySerivce() {
+        return periodAvailabilitySerivce;
+    }
+
+    public void setPeriodAvailabilitySerivce(PeriodAvailabilitySerivce periodAvailabilitySerivce) {
+        this.periodAvailabilitySerivce = periodAvailabilitySerivce;
+    }
+
+    public void setPeriodUnavailabilityService(PeriodUnavailabilityService periodUnavailabilityService) {
+        this.periodUnavailabilityService = periodUnavailabilityService;
+    }
+
+    public void setPricelistService(PricelistService pricelistService) {
+        this.pricelistService = pricelistService;
     }
 }

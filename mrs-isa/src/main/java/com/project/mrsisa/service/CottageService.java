@@ -52,4 +52,12 @@ public class CottageService {
     public Cottage findOneTryOccupation(Long id) {
 		return cottageRepository.findOneTryOccupation(id);
     }
+
+	public CottageRepository getCottageRepository() {
+		return cottageRepository;
+	}
+
+	public void setCottageRepository(CottageRepository cottageRepository) {
+		this.cottageRepository = cottageRepository;
+	}
 }
