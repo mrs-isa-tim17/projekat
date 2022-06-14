@@ -544,7 +544,8 @@ public class ReservationController {
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
-            reservationService.reserveEntity(reserveEntityDTO);
+            Reservation r = reservationService.makeReservation(reserveEntityDTO);
+            reservationService.sendMailAboutReservation(r.getClient(), r);
             return ResponseEntity.ok(new ReserveEntityResponseDTO());
         }catch (AlreadyCanceled ac){
             return ResponseEntity.ok(new ReserveEntityResponseDTO(ac.getMessage()));
@@ -553,7 +554,7 @@ public class ReservationController {
         }catch (NotDefinedValue ndv) {
             return ResponseEntity.ok(new ReserveEntityResponseDTO(ndv.getMessage()));
         }catch (MailSendException mse){
-            return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekoga nismo bili u stanju da pošaljemo Vam mejl, molimo Vas pokušavajte kasnije"));
+            return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekoga nismo bili u stanju da pošaljemo Vam mejl, kod zakazene rezervacije možete da vidite rezervaciju"));
         }catch (Exception e){
             return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekog razloga došlo je do greške, molimo Vas pokušavajte kasnije"));
         }

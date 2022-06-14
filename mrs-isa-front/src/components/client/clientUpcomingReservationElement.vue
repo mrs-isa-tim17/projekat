@@ -30,7 +30,7 @@
                   <p v-if="offer.canceled" class="text-danger">
                     otkazano
                   </p>
-                  <p v-if="offer.quickReservation" class="text-success">
+                  <p v-if="offer.quick" class="text-success">
                     na popustu
                   </p>
                 </div>

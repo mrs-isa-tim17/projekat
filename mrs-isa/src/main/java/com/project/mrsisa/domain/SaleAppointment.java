@@ -59,6 +59,18 @@ public class SaleAppointment {
 	@Column(nullable = false)
 	private OfferType offerType;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reservationId", referencedColumnName = "id", nullable = false)
+	private Reservation reservation;
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+
 	public LocalDateTime getStartSaleDate() {
 		return startSaleDate;
 	}

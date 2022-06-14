@@ -40,7 +40,7 @@ public class Reservation {
 	private boolean canceled;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "clientId")
+	@JoinColumn(name = "clientId", nullable = true)
 	private Client client;
 
 	@ManyToOne(fetch = FetchType.LAZY)

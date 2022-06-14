@@ -183,13 +183,7 @@ public class AdventureController {
 	@DeleteMapping(value = "/detail/delete/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteAdventure(@PathVariable Long id) {
-		Adventure adventure = adventureService.findOneById(id);
-		if ((adventure != null) && ((reservationService.haveFutureReservations(id))==false)) {
-				adventure.setDeleted(true);
-				adventureService.save(adventure);				// logičko brisanje
-				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
-				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		return ResponseEntity.ok(adventureService.deleteAdventure(id));
 	}
 	
 	@GetMapping(value = "/detail/all")

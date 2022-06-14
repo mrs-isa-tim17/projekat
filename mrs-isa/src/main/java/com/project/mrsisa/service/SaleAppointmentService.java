@@ -8,6 +8,7 @@ import com.project.mrsisa.converter.LocalDateTimeToString;
 import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.Reservation;
 import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
+import com.project.mrsisa.exception.NotDefinedValue;
 import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,26 +59,43 @@ public class SaleAppointmentService {
 
 	@Transactional
 	@Async
-	public void reserveSaleAppointment(ReserveSaleAppointmentRequestDTO dto) throws MessagingException, UnsupportedEncodingException, TooHighPenaltyNumber {
+	public void reserveSaleAppointment(ReserveSaleAppointmentRequestDTO dto) throws MessagingException, UnsupportedEncodingException, TooHighPenaltyNumber, NotDefinedValue {
 		SaleAppointment sa = findOneById(dto.getSaleAppointmentId());
+		Reservation r = reservationService.findOneById(sa.getReservation().getId());
+		if (r == null){
+			System.out.println("ne postoji rez");
+			throw new NotDefinedValue("Ne postoji rezervacija sa datom identifikatorom");
+		}
 		sa.setReserved(true);
 		save(sa);
-		Reservation r = new Reservation();
+		//Reservation r = new Reservation();
 		Client c = clientService.findOne(dto.getClientId());
 		if (c.getPenaltyNumber() >= 3)
 			throw new TooHighPenaltyNumber("Zbog broja penala ste onemogućeni da rezervišete.");
-		r.setStartDateTime(sa.getStartSaleDate());
-		r.setEndDateTime(sa.getStartSaleDate().plusHours((long) sa.getDuration()));
-		r.setPrice(sa.getDiscount());
-		r.setOfferType(sa.getOfferType());
-		r.setReviewed(false);
-		r.setQuick(true);
-		r.setCanceled(false);
+		System.out.println("Panel ok");
 		r.setClient(c);
-		r.setOffer(sa.getOffer());//pukne?
-		r.setShipOwnerPresent(false);
-		reservationService.save(r);
+		//r.setStartDateTime(sa.getStartSaleDate());
+		//r.setEndDateTime(sa.getStartSaleDate().plusHours((long) sa.getDuration()));
+		//r.setPrice(sa.getDiscount());
+		//r.setOfferType(sa.getOfferType());
+		//r.setReviewed(false);
+		//r.setQuick(true);
+		//r.setCanceled(false);
+		//r.setClient(c);
+		//r.setOffer(sa.getOffer());//pukne?
+		//r.setShipOwnerPresent(false);
+		try {
+			reservationService.save(r);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("");
+		try{
 		sendConfirmationMail(c, "offer name", r.getStartDateTime(), r.getEndDateTime());
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
     }
 
 

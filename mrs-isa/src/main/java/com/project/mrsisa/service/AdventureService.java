@@ -8,16 +8,21 @@ import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.FishingInstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.repository.AdventureRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdventureService {
 	
 	@Autowired
 	private AdventureRepository adventureRepository;
+	@Autowired
+	private ReservationService reservationService;
 	
 	
 	public Adventure save(Adventure adventure) {
@@ -52,7 +57,23 @@ public class AdventureService {
 	public List<Adventure> findDeletedAdventures(){
 		return adventureRepository.findDeletedAdventures();
 	}
-	
+
+    public Offer findOneTryOccupation(long offerId) {
+		return adventureRepository.findOneTryOccupation(offerId);
+    }
+
+	@Transactional
+	public boolean deleteAdventure(Long id){
+		Adventure adventure = adventureRepository.findOneTryOccupation(id);
+		if (adventure != null && !(reservationService.haveFutureReservations(id))) {
+			adventure.setDeleted(true);
+			save(adventure);				// logičko brisanje
+			return true;
+		}
+		return false;
+
+	}
+
 /*	public Adventure fetchAdventureWithOther(Long id) {
 		return adventureRepository.fetchAdventureWithOther(id);
 	}*/

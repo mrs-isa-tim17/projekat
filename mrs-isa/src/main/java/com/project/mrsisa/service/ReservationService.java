@@ -7,6 +7,7 @@ import com.project.mrsisa.dto.client.SuccessOfCancelReservationDTO;
 import com.project.mrsisa.exception.AlreadyCanceled;
 import com.project.mrsisa.exception.NotAvailable;
 import com.project.mrsisa.exception.NotDefinedValue;
+import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import com.project.mrsisa.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -131,33 +132,51 @@ public class ReservationService {
 	}
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void reserveEntity(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException {
-        Client client = clientService.findOne(reserveEntityDTO.getClientId());
-        if (checkIfCanceledReservationWithSameParametars(client, reserveEntityDTO))
-            throw new AlreadyCanceled("Već je otkazao rezervaciju sa istim parametrima");
-        Offer o;
+    public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
+        if (reserveEntityDTO.getClientId() == null){
+            r.setClient(null);
+        }else{
+            r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));
+            if (r.getClient().getPenaltyNumber() >= 3)
+                throw new TooHighPenaltyNumber("Zbog broja penala ste onemogućeni da rezervišete.");
+            if (checkIfCanceledReservationWithSameParametars(r.getClient(), reserveEntityDTO))
+                throw new AlreadyCanceled("Već je otkazao rezervaciju sa istim parametrima");
+        }
+        reserveEntity(reserveEntityDTO, r);
+        return r;
+        //if (r.getClient() != null)
+        //    sendMailAboutReservation(r.getClient(), r);
+    }
+
+    public void reserveEntity(ReserveEntityDTO reserveEntityDTO, Reservation r) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException {
+        Offer o;
+        //Reservation r = new Reservation();
         if (reserveEntityDTO.getOfferType().equals("cottage")){
-            o = cottageService.findOne(reserveEntityDTO.getOfferId());
+            o = cottageService.findOneTryOccupation(reserveEntityDTO.getOfferId());
             r.setOfferType(OfferType.COTTAGE);
         }else if (reserveEntityDTO.getOfferType().equals("ship")){
-            o = shipService.findOne(reserveEntityDTO.getOfferId());
+            System.out.println("GET SHIP");
+            try {
+                o = shipService.findOneTryOccupation(reserveEntityDTO.getOfferId());
+            }catch (Exception e){
+                o = null;
+                e.printStackTrace();
+            }
+            System.out.println("GOT SHIP");
             r.setOfferType(OfferType.SHIP);
         }else if (reserveEntityDTO.getOfferType().equals("adventure")){
-            o = adventureService.findOneById(reserveEntityDTO.getOfferId());
+            o = adventureService.findOneTryOccupation(reserveEntityDTO.getOfferId());
             r.setOfferType(OfferType.ADVENTURE);
         }else{
             throw new NotDefinedValue("Dobijeni tip entiteta nije validan");
         }
+        System.out.println("OTHEEER");
         OfferService offerService = new OfferService();
-        System.out.println(reserveEntityDTO.getFromDate());
-        System.out.println(reserveEntityDTO.getUntilDate());
         o.setReservations(getListOfReservationByOfferInInterval(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         o.setPeriodAvailabilities(periodAvailabilitySerivce.getListOfAvailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         o.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         boolean res = offerService.isGloballyFree(o, reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
-        System.out.println("Global free res: ");
-        System.out.println(res);
         if (!res){
             throw new NotAvailable("Neko je stigao pre");
         }
@@ -171,15 +190,14 @@ public class ReservationService {
         r.setPrice(price);
         r.setQuick(false);
         r.setCanceled(false);
-        r.setClient(client);
+        //r.setClient(client);
         r.setOffer(o);
         r.setShipOwnerPresent(reserveEntityDTO.isShipOwnerPresent());//!!!!!!!!!!!!
         r.setReviewed(false);
         reservationRepository.save(r);
-        sendMailAboutReservation(client, r);
     }
 
-    private void sendMailAboutReservation(Client client, Reservation r) throws MessagingException {
+    public void sendMailAboutReservation(Client client, Reservation r) throws MessagingException {
         String subject = "Potvrda o rezervaciji";
         LocalDateTimeToString dateTimeFormatter = new LocalDateTimeToString();
         String mailContent = "<p>Uspešno se rezervisali entitet: " + r.getOffer().getName() +
@@ -308,5 +326,9 @@ public class ReservationService {
 
     public void setReservationRepository(ReservationRepository reservationRepository){
         this.reservationRepository = reservationRepository;
+    }
+
+    public Reservation findOneById(Long id){
+        return reservationRepository.findById(id).orElseGet(null);
     }
 }

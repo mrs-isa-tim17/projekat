@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ReserveEntityDTO {
 
-    private long clientId;
+    private Long clientId;
     private long offerId;
     private String offerType;
     private List<String> chosenAdditionalServices;
@@ -21,7 +21,7 @@ public class ReserveEntityDTO {
         this.shipOwnerPresent = shipOwnerPresent;
     }
 
-    public long getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 

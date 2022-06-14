@@ -48,4 +48,8 @@ public class ShipService {
 	public List<Ship> findDeletedShips(){
 		return shipRepository.findDeletedShips();
 	}
+
+    public Offer findOneTryOccupation(long offerId) {
+		return shipRepository.findOneTryOccupation(offerId);
+    }
 }
