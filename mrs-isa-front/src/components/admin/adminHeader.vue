@@ -8,13 +8,17 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+            <a class="nav-link" :href="homeLink" style="color:white;font-size:20px;">Home</a>
+          </li>
           <li class="nav-item">
             <div class="dropdown">
               <button class="dropbtn nav-link" style="color:white;font-size:20px;">Ponude</button>
               <div class="dropdown-content">
-                <a href="#">Vikendice</a>
-                <a href="#">Brodovi</a>
-                <a href="#">Avanture</a>
+                <a :href="adminCottagesLink">Vikendice</a>
+                <a :href="adminShipssLink">Brodovi</a>
+                <a :href="adminAdventureLink">Avanture</a>
               </div>
             </div>
           </li>
@@ -25,10 +29,7 @@
               <div class="dropdown-content">
                 <a :href="registrationLink">Zahtevi za registraciju</a>
                 <a :href="requestForDeletingAccAccLink">Zahtevi za brisanje naloga</a>
-                <a href="#">Klijenti</a>
-                <a href="#">Instruktori</a>
-                <a href="#">Vlasnici brodova</a>
-                <a href="#">Vlasnici vikendica</a>
+                <a :href="adminUsersLink">Korisnici</a>
               </div>
             </div>
           </li>
@@ -37,13 +38,13 @@
             <a class="nav-link" :href="complaintLink" style="color:white;font-size:20px;">Žalbe</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" style="color:white;font-size:20px;">Prihodi</a>
+            <a class="nav-link" :href="adminPrecentageLink" style="color:white;font-size:20px;">Prihodi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" style="color:white;font-size:20px;">Izveštaji</a>
+            <a class="nav-link" href="#" style="color:white;font-size:20px;">Izveštaji</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" style="color:white;font-size:20px;">Loyality program</a>
+            <a class="nav-link" href="#" style="color:white;font-size:20px;">Loyality program</a>
           </li>
 
         </ul>
@@ -80,7 +81,13 @@ export default {
       adminHome:"/admin/home",
       registrationLink: '/admin/registration/request',
       complaintLink: "/admin/complaints",
-      requestForDeletingAccAccLink: "/admin/delete/requests"
+      requestForDeletingAccAccLink: "/admin/delete/requests",
+      adminCottagesLink: "/admin/cottages",
+      adminShipssLink: "/admin/ships",
+      adminAdventureLink: "/admin/adventures",
+      homeLink: "/admin/home",
+      adminUsersLink: "/admin/users",
+      adminPrecentageLink: "/admin/percentage"
     }
   }
 }
@@ -107,6 +114,7 @@ export default {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  border-radius: 4px;
 }
 
 .dropdown-content a {

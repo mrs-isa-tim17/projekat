@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailSendException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,52 +80,52 @@ public class RegistrationRequestController {
 		}
 		return new ResponseEntity<>(registrationRequestDTO, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping(value = "/approve/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Boolean> approveRequest(@PathVariable Long id) {
+	public ResponseEntity<TextDTO> approveRequest(@PathVariable Long id) {
 
-		System.out.println("@approve");
-		
-		RegistrationRequest request = registrationRequestService.findOneById(id);
-	
-		if (request == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+		TextDTO res = registrationRequestService.approveRegistrationRequest(id);
+		if (res.isSuccessfull()) {
+			try {
+				User u = userService.findById(Long.valueOf(res.getText()));
+				registrationRequestService.sendMailAboutRegistrationProcessing(u.getEmail(), "");
+				res.setText("Prihvatanje je uspešno");
+				res.setSuccessfull(true);
+			} catch (MailSendException me) {
+				res.setText("Prihvatanje je uspešno");
+				res.setSuccessfull(true);
+			} catch (Exception e) {
+				res.setSuccessfull(false);
+				res.setText("Došlo je do greška tokom obrada zahteva");
+			}
 		}
-
-		System.out.println("ID: " + request.getId());
-		User u = userService.findById(request.getUserRef().getId());
-		request.setStatus(ProcessingStatus.APPROVED);
-		
-		String text = "";
-		request = registrationRequestService.save(request, u.getEmail(), text);
-		
-		return new ResponseEntity<>(true, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 	
 	
 	@PostMapping(value = "/reject/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Boolean> rejectRequest(@PathVariable Long id, @RequestBody TextDTO text ) {
+	public ResponseEntity<TextDTO> rejectRequest(@PathVariable Long id, @RequestBody TextDTO text ) {
 
-		System.out.println("@reject ");
-		
-		RegistrationRequest request = registrationRequestService.findOneById(id);
-	
-		
-		if (request == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+
+		TextDTO res = registrationRequestService.rejectRegistrationRequest(id);
+		if (res.isSuccessfull()) {
+			try {
+				User u = userService.findById(Long.valueOf(res.getText()));
+				registrationRequestService.sendMailAboutRegistrationProcessing(u.getEmail(), "");
+				res.setText("Odbijanje je uspešno");
+				res.setSuccessfull(true);
+			} catch (MailSendException me) {
+				res.setText("Odbijanje je uspešno");
+				res.setSuccessfull(true);
+			} catch (Exception e) {
+				res.setSuccessfull(false);
+				res.setText("Došlo je do greška tokom obrada zahteva");
+			}
 		}
 
-		System.out.println("ID: " + request.getId());
-		System.out.println("TEXT: " +text.getText());
-		
-		User u = userService.findById(request.getUserRef().getId());
-		request.setStatus(ProcessingStatus.REJECTED);
-		
-		request = registrationRequestService.save(request, u.getEmail(), text.getText());
-		
-		return new ResponseEntity<>(true, HttpStatus.OK);
+
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 }
