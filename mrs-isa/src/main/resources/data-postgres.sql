@@ -449,15 +449,15 @@ insert into period_availability (start_date, end_date,  offer_id) values ('20.01
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.05.2022','22.05.2022',5);
 
 
-insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
-insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
+insert into complaint (version, offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+insert into complaint (version, offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
 insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
 
-insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
-insert into delete_request (status, text, user_id) values (0, 'Zelim da obrisem nalog.', 3);
-insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog.', 5);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Zelim da obrisem nalog.', 3);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog.', 5);
 
 --insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'juhi.', 1, 1, 0);
 --insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,1, 0);
@@ -534,5 +534,5 @@ insert into loyalty_points(start_date, end_date, points, user_type_loyalty_point
 insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 5, 1);
 
 
-insert into reservation_report(report_text, penallty, reservation_id, client_id, unarrived_client, status) values ('Neprijatni gosti, prilicno neuredni, ostavlisi su haos.', true, 6, 1, false, 0);
-insert into reservation_report(report_text, penallty, reservation_id, client_id, unarrived_client, status) values ('GOst se nije pojavio.', false, 10, 1, true, 0);
+insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'Neprijatni gosti, prilicno neuredni, ostavlisi su haos.', true, 6, 1, false, 0);
+insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'GOst se nije pojavio.', false, 10, 1, true, 0);

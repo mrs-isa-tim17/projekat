@@ -16,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,10 +29,6 @@ public class ComplaintService {
     private JavaMailSender javaMailSender;
     @Autowired
     private Environment env;
-
-    public Complaint save(Complaint complaint){
-        return complaintRepository.save(complaint);
-    }
 
     public List<Complaint> findAllByOfferId(Long id){
         return complaintRepository.findAllByOfferId(id);
@@ -46,21 +43,25 @@ public class ComplaintService {
 		return complaintRepository.findOneById(id);
 	}
     
-    public Complaint save(Complaint complaint, String clientEmail, String clientName, String clientSurname, String ownerEmail, String answer) {
-    	try {
-			sendMeesgeClientAboutAnswerToComplaint(complaint.getText(), answer, clientEmail );
+	@Transactional(readOnly = false)
+    public Complaint save(Complaint complaint) {
+		return complaintRepository.save(complaint);
+		
+    }
+	
+	public void sendMailsAboutComplaints(Complaint complaint, String clientEmail, String clientName, String clientSurname, String ownerEmail, String answer) {
+		try {
+	//		sendMeesgeClientAboutAnswerToComplaint(complaint.getText(), answer, clientEmail );
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	try {
-			sendMeesgeOwnerAboutAnswerToComplaint(complaint.getText(), answer, ownerEmail, clientName, clientSurname);
+   //   	sendMeesgeOwnerAboutAnswerToComplaint(complaint.getText(), answer, ownerEmail, clientName, clientSurname);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return complaintRepository.save(complaint);
-		
-    }
+	}
 
     
     @Async

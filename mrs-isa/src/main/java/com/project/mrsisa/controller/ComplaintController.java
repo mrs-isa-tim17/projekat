@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,7 +110,7 @@ public class ComplaintController {
     @PostMapping(value="/answer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> answerComplaint(@PathVariable Long id, @RequestBody TextDTO textAnswer ) {
+    public ResponseEntity<TextDTO> answerComplaint(@PathVariable Long id, @RequestBody TextDTO textAnswer ) {
 
 		System.out.println("@reject ");
 		
@@ -117,7 +118,9 @@ public class ComplaintController {
 	
 		
 		if (complaint == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+			TextDTO t = new TextDTO("Žalba ne postoji.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.BAD_REQUEST);
 		}
 
 		System.out.println("ID: " + complaint.getId());
@@ -143,9 +146,18 @@ public class ComplaintController {
         }
 		complaint.setStatus(ComplaintStatus.ANSWERED);
 		
-		complaint = complaintService.save(complaint, client.getEmail(), client.getName(), client.getSurname(), owner.getEmail(), textAnswer.getText());
-		
-		return new ResponseEntity<>(true, HttpStatus.OK);
+		try {
+			complaint = complaintService.save(complaint);
+		//	complaintService.sendMailsAboutComplaints(complaint, client.getEmail(),  client.getName(),  client.getSurname(), owner.getEmail(), textAnswer.getText());
+		}catch (ObjectOptimisticLockingFailureException e) {
+			// TODO: handle exception
+			TextDTO t = new TextDTO("Drugi administrator je već odgovorio na ovu žalbu.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.OK);
+		}
+		TextDTO t = new TextDTO("Odgovorili ste na žalbu.");
+		t.setSuccessfull(true);
+		return new ResponseEntity<>(t, HttpStatus.OK);
 	}
     
 }

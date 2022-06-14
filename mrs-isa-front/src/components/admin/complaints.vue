@@ -1,6 +1,9 @@
 <template>
   <admin-header></admin-header>
     <div class="container">
+        <div style="margin-top: 15px; margin-bottom: 20px">
+          <h2>Žalbe</h2>
+        </div>
       <complaints-table :complaints="complaints"></complaints-table>
 
     </div>
