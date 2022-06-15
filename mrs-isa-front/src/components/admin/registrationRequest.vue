@@ -33,6 +33,7 @@
 <script>
 import RegistrationRequestService from "@/servieces/RegistrationRequestService";
 import RegistrationRequestModal from "@/components/admin/registrationRequestModal";
+import swal from "sweetalert2";
 export default {
   name: "registrationRequest.vue",
   components:{
@@ -60,12 +61,44 @@ export default {
       console.log("odbij"+id);
       return "odbij"+id;
     },
+    handleApproveAnswer(id){
+      if (this.answer.successfull){
+        document.getElementById("prihvati"+id).style.visibility="hidden";
+        document.getElementById(id).innerText = "Uspešno ste prihvatili registraciju."
 
+        document.getElementById("odbij"+id).style.visibility="hidden";
+      }else{
+        swal.fire({
+          title:"Nešto se desilo",
+          text: this.answer.text,
+          background:'white',
+          color:'#31708E',
+          confirmButtonColor:'#FECDA6'});
+
+      }
+    },
+    handleRejectAnswer(id){
+      if (this.answer.successfull){
+        document.getElementById("prihvati"+id).style.visibility="hidden";
+        document.getElementById(id).innerText = "Uspešno ste odbili registraciju.";
+        document.getElementById(id).style.color="red";
+        document.getElementById("odbij"+id).style.visibility="hidden";
+      }else{
+        swal.fire({
+          title:"Nešto se desilo",
+          text: this.answer.text,
+          background:'white',
+          color:'#31708E',
+          confirmButtonColor:'#FECDA6'});
+
+      }
+    },
     ApproveRegistration(id){
       console.log("approve dugme");
       console.log(id);
       RegistrationRequestService.approveRegistration(id).then((response) => {
         this.answer = response.data
+        this.handleApproveAnswer(id);
         console.log(response.data);
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -87,10 +120,6 @@ export default {
         console.log(error.config);
 
       });
-      document.getElementById("prihvati"+id).style.visibility="hidden";
-      document.getElementById(id).innerText = "Uspešno ste prihvatili registraciju."
-
-      document.getElementById("odbij"+id).style.visibility="hidden";
 
     },
 
@@ -101,6 +130,7 @@ export default {
 
       RegistrationRequestService.rejectRegistration(id, text).then((response) => {
         this.answer = response.data
+        this.handleRejectAnswer(id);
         console.log(response.data);
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -121,11 +151,6 @@ export default {
         }
         console.log(error.config);
       });
-      document.getElementById("prihvati"+id).style.visibility="hidden";
-      document.getElementById(id).innerText = "Uspešno ste odbili registraciju.";
-      document.getElementById(id).style.color="red";
-      document.getElementById("odbij"+id).style.visibility="hidden";
-
     }
   },
 
@@ -135,7 +160,7 @@ export default {
       cottageOwner: "Vlasnik vikendice",
       fishingInstructor: "Instruktor pecanja",
       answer:false,
-      modalHeader:"Obrazloženje za odbijanje registraceije naloga"
+      modalHeader:"Obrazloženje za odbijanje registraceije naloga",
     }
   }
 }

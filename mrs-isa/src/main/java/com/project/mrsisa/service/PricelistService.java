@@ -42,4 +42,8 @@ public class PricelistService {
 			return 0;
 		return p.getPrice();
 	}
+
+	public void setPricelistRepository(PricelistRepository pricelistRepository) {
+		this.pricelistRepository = pricelistRepository;
+	}
 }

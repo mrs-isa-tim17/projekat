@@ -26,4 +26,8 @@ public class PeriodUnavailabilityService {
 	public List<PeriodUnavailability>  getListOfUnavailbilityForOffer(Long offerId){
 		return periodUnavailabilityRepository.getListOfUnavailbilityForOffer(offerId);
 	}
+
+	public void setPeriodUnavailabilityRepository(PeriodUnavailabilityRepository periodUnavailabilityRepository) {
+		this.periodUnavailabilityRepository = periodUnavailabilityRepository;
+	}
 }

@@ -2,31 +2,14 @@
   <admin-header></admin-header>
   <div>
     <div class="container">
+
+      <div style="margin-bottom: 20px;margin-top: 15px;">
+        <h3>Zahtevi za registraciju</h3>
+      </div>
+
       <div>
         <registration-request :requests="requests"></registration-request>
       </div>
-
-
-      <nav aria-label="...">
-
-        <nav aria-label="Page navigation example">
-          <ul class="pagination d-flex justify-content-center">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </nav>
 
     </div>
   </div>

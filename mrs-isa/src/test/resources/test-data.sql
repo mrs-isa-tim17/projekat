@@ -30,4 +30,9 @@ insert into cottage (id, deleted,description, name, address_id, bed_quantity, ro
 	(nextval('offer_seq'), false, ' Ponuda obuhvata restoran, vrt, terasu i smeštaj sa pogledom na planinu.', 'Meda na Tari', 2, 4, 2, 3);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '30.04.2022', 0, 4000, false, false, '28.04.2022.', 1, 1,false);
+   (false, '30.09.2022', 0, 4000, false, false, '20.09.2022.', 1, 1,false);
+
+insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',1);
+insert into period_unavailability (end_date, start_date, offer_id) values ('31.12.2022','01.12.2022',1);
+
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 1500, '01.01.2021.', 1);
