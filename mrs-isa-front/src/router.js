@@ -69,7 +69,9 @@ const router = createRouter({
         {path: '/admin/loyalty/scale', component:()=>import("./components/admin/loyaltyScale")},
         {path: '/admin/loyalty/points', component:()=>import("./components/admin/loyaltyPoints")},
         {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
-        {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")}
+        {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")},
+        {path: '/admin/register/new', component:()=>import("./components/admin/registerNewAdmin")},
+        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")}
     ]
 });
 

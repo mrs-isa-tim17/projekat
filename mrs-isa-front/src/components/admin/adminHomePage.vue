@@ -88,8 +88,8 @@
         <adminHomePageOption :image_path="requestForDeletingAccImgPath" :option_link="requestForDeletingAccAccLink"
                              :text="requestForDeletingAccText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="profileImgPath" :option_link="profileLink"
-                             :text="profileText"></adminHomePageOption>
+        <adminHomePageOption :image_path="registerAdminImgPath" :option_link="registerAdminLink"
+                             :text="registerAdminText"></adminHomePageOption>
 
       </div>
 
@@ -160,9 +160,9 @@ export default {
       requestForDeletingAccAccLink: "/admin/delete/requests",
       requestForDeletingAccText: "Zahtevi za brisanje naloga",
 
-      profileImgPath: require("@/assets/icons/profile.png"),
-      profileLink: "...",
-      profileText: "Profil"
+      registerAdminImgPath: require("@/assets/icons/registerAdmin.png"),
+      registerAdminLink: "/admin/register/new",
+      registerAdminText: "Registracija admina"
 
     }
   }
