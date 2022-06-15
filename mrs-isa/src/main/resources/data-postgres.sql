@@ -76,7 +76,7 @@ insert into address (longitude, latitude) values (0, -30);
 insert into address (longitude, latitude) values (11, 70);
 insert into address (longitude, latitude) values (16, 16);
 insert into address (longitude, latitude) values (13, 13);
-
+insert into address (longitude, latitude) values (13, 13);
 
 INSERT INTO ROLE (name) VALUES ('ROLE_CLIENT');
 INSERT INTO ROLE (name) VALUES ('ROLE_ADMIN');
@@ -122,6 +122,11 @@ insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled, init_login_changed) values
 	('AD', nextval('user_seq'), false, 'admin@email.com', 0, 'Žika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3853252', 'Žikić', 0, 17, '2017-10-01 18:57:58.508-07',2,true, true);
+
+	insert into users(type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled, init_login_changed) values
+	('AD', nextval('user_seq'), false, 'mika@email.com', 0, 'Mika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3853252', 'Mikić', 0, 79, '2017-10-01 18:57:58.508-07',2,true, false);
 
 	
 	
@@ -243,14 +248,17 @@ insert into image (path, offer_id) values('/img/adventure/Drina1.jpg', 2);
 insert into image (path, offer_id) values('/img/adventure/Drina2.jpg', 2);
 insert into image (path, offer_id) values('/img/adventure/Drina3.jpg', 2);
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Prelepa tura, sve pohvale.', 1, 2, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 0, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
 
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 1, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 3, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 4, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 5, 1);
-insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 6, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 0, 'Prelepo, ali daleko.', 1, 1, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Prelepo, ali daleko.', 1, 3, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Prelepo.', 1, 4, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 5, 0);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 6, 0);
+
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 0, 'Sve pohvale,odlično. Avantura je divna.', 1, 2, 2);
+
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 3000, '29.04.2022.', 1);
@@ -447,15 +455,15 @@ insert into period_availability (start_date, end_date,  offer_id) values ('20.01
 --insert into period_unavailability (start_date, end_date, offer_id) values ('20.05.2022','22.05.2022',5);
 
 
-insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
-insert into complaint (offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
+insert into complaint (version, offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 0, 'Vikkendica se ne greje tokom proleca i prilicno je hladno.', 1, 4, 2);
+insert into complaint (version, offer_type, status, text, client_id, offer_id, reservation_id) values (0, 0, 0, 'Internet je jako los, spor i ne moze se koristiti.', 1, 5, 3);
 
 insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
 
-insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
-insert into delete_request (status, text, user_id) values (0, 'Zelim da obrisem nalog.', 3);
-insert into delete_request (status, text, user_id) values (0, 'Molim da mi se obrise nalog.', 5);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Zelim da obrisem nalog.', 3);
+insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog.', 5);
 
 --insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'juhi.', 1, 1, 0);
 --insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(1, 1, 'nemojte.', 1,1, 0);
@@ -535,3 +543,29 @@ insert into pricelist (end_date, price, start_date, offer_id) values (null, 4000
 
  insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',8);
  insert into period_availability (end_date, start_date, offer_id) values ('20.12.2022','01.01.2022',9);
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 10, 0, 1);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 20, 1, 1);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 30, 2, 1);
+
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 20, 0, 3);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 40, 1, 3);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 60, 2, 3);
+
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 25, 0, 4);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 45, 1, 4);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 65, 2, 4);
+
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (1, '01.01.2022.', null, 15, 0, 5);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (2, '01.01.2022.', null, 25, 1, 5);
+insert into loyalty_scale(discount, start_date, end_date, trashhold, user_type, role_id) values (3, '01.01.2022.', null, 35, 2, 5);
+
+
+insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 3, 0);
+insert into loyalty_points(start_date, end_date, points, user_type_loyalty_points) values ('01.01.2022.', null, 5, 1);
+
+
+insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'Neprijatni gosti, prilicno neuredni, ostavlisi su haos.', true, 6, 1, false, 0);
+insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'GOst se nije pojavio.', false, 10, 1, true, 0);

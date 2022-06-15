@@ -36,6 +36,7 @@
 <script>
 import DeleteRequestModal from "@/components/admin/deleteRequestModal";
 import DeleteRequestServce from "@/servieces/DeleteRequestServce";
+import swal from "sweetalert2";
 
 export default {
   name: "deletingRequestTable",
@@ -72,10 +73,42 @@ export default {
     generateButtonId(id) {
       return "delete" + id;
     },
+    fireAlertSuccess() {
+      swal.fire({
+        title: "Uspešno",
+        text: this.answer.text,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#8DF172'
+      });
+    },
+
+    fireAlertUnSucc() {
+      swal.fire({
+        title: "Neuspešno",
+        text: this.answer.text,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#FECDA6'
+      });
+    },
+
+    handleAnswer() {
+      if (this.answer.successfull) {
+        this.fireAlertSuccess();
+      } else {
+        this.fireAlertUnSucc();
+      }
+    },
+
     AcceptDeleteRequest(id, text) {
       console.log(id, text);
       DeleteRequestServce.acceptDeleteRequest(id, text).then((response) => {
         this.answer = response.data;
+        this.handleAnswer()
+        document.getElementById(id).style.color = "red";
+        document.getElementById(id).innerText = this.answer.text;
+        document.getElementById("delete" + id).style.visibility = "hidden";
 
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -97,19 +130,15 @@ export default {
         console.log(error.config);
 
       });
-      document.getElementById(id).style.color = "red";
-      document.getElementById(id).innerText = "Prihvatili ste zahtev za brisanje naloga.";
-      document.getElementById("delete"+id).style.visibility="hidden";
-
-
     },
 
     RejectDeleteRequest(id, text) {
       console.log(id, text);
       DeleteRequestServce.rejectDeleteRequest(id, text).then((response) => {
         this.answer = response.data;
-
-
+        this.handleAnswer();
+        document.getElementById(id).innerText = this.answer.text;
+        document.getElementById("delete" + id).style.visibility = "hidden";
 
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -130,8 +159,6 @@ export default {
         }
         console.log(error.config);
       });
-      document.getElementById(id).innerText = "Odbili ste zahtev za brisanje naloga.";
-      document.getElementById("delete"+id).style.visibility="hidden";
 
     }
 
@@ -148,7 +175,9 @@ export default {
         userType: "",
         role: ""
       },
-      answer: false
+      answer: {
+        text: ""
+      },
 
     }
   }

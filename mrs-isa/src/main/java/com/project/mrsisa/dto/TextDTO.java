@@ -29,5 +29,6 @@ public class TextDTO {
 	public void setSuccessfull(boolean successfull) {
 		this.successfull = successfull;
 	}
-	
+
 }
+

@@ -7,6 +7,7 @@ public class UserTokenState {
     private Long expiresIn;
     private long roleID;
     private long id;
+    private boolean changePassword;
 
     public long getId() {
         return id;
@@ -51,5 +52,13 @@ public class UserTokenState {
     public void setExpiresIn(Long expiresIn) {
         this.expiresIn = expiresIn;
     }
+
+	public boolean isChangePassword() {
+		return changePassword;
+	}
+
+	public void setChangePassword(boolean changePassword) {
+		this.changePassword = changePassword;
+	}
     
 }

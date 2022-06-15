@@ -1,6 +1,10 @@
 <template>
   <admin-header></admin-header>
   <div class="container">
+    <div style="margin-top: 15px; margin-bottom: 20px">
+      <h2>Zahtevi za brisanje naloga</h2>
+    </div>
+
     <deleting-request-table :delete-requests="deleteRequests"></deleting-request-table>
 
   </div>
@@ -51,7 +55,7 @@ export default {
         text: "",
         userType: "",
         role: ""
-      }
+      },
     }
   }
 }

@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DeleteRequestService {
@@ -25,10 +26,6 @@ public class DeleteRequestService {
     private JavaMailSender javaMailSender;
     @Autowired
     private Environment env;
-
-    public DeleteRequest save(DeleteRequest deleteRequest){
-        return deleteRequestRepository.save(deleteRequest);
-    }
 
     public boolean getIfUserMadeDeleteRequest(long id){
         DeleteRequest dr = deleteRequestRepository.findByUserRef(id);
@@ -45,14 +42,17 @@ public class DeleteRequestService {
     	return deleteRequestRepository.findOneById(id);
     }
     
-    public DeleteRequest save(DeleteRequest deleteRequest, String mail, String text, boolean accepted) {
+    @Transactional(readOnly = false)
+    public DeleteRequest save(DeleteRequest deleteRequest) {  	
+    	return deleteRequestRepository.save(deleteRequest);
+    }
+    
+    public void sendMailsAboutDeleteRequest(String mail, String text, boolean accepted) {
     	try {
-    		sendMeesgeAboutAcceptRejectDeleteRequest(mail, text, accepted);
+    	//	sendMeesgeAboutAcceptRejectDeleteRequest(mail, text, accepted);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-    	return deleteRequestRepository.save(deleteRequest);
-    	
+		}	
     }
     
     @Async

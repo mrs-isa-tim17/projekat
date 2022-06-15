@@ -68,7 +68,13 @@ const router = createRouter({
         {path: '/admin/ships/deleted', component:()=>import("./components/admin/allEntities/deletedShips")},
         {path: '/admin/cottages', component:()=>import("./components/admin/allEntities/allCottages")},
         {path: '/admin/cottages/deleted', component:()=>import("./components/admin/allEntities/deletedCottages")},
-        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")}
+        {path: '/admin/percentage', component:()=>import("./components/admin/definePercentageOfEarnings")},
+        {path: '/admin/loyalty/scale', component:()=>import("./components/admin/loyaltyScale")},
+        {path: '/admin/loyalty/points', component:()=>import("./components/admin/loyaltyPoints")},
+        {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
+        {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")},
+        {path: '/admin/register/new', component:()=>import("./components/admin/registerNewAdmin")},
+        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")}
     ]
 });
 

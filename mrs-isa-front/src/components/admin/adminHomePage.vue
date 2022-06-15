@@ -24,12 +24,30 @@
         <adminHomePageOption :image_path="businessReportImgPath" :option_link="businessReportLink"
                              :text="businessReportText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="loyaltyImgPath" :option_link="loyaltyLink"
-                             :text="loyaltyText"></adminHomePageOption>
 
+          <div class="col-3 px-5" >
+            <div class="dropdown">
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="card-lg">
+                  <div class="card-body">
+                    <img :src=loyaltyImgPath height="150">
+                  </div>
+                  <div class="card-footer text-center text-primary">
+                    {{loyaltyText}}
+                  </div>
+                </div>
+              </a>
 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" :href="'/admin/loyalty/scale'">Skala</a></li>
+                <li><a class="dropdown-item" :href="'/admin/loyalty/points'">Poeni</a></li>
+              </ul>
+            </div>
+          </div>
 
       </div>
+
+
       <div class="row justify-content-center ">
 
         <div class="col-3 px-5" >
@@ -70,8 +88,8 @@
         <adminHomePageOption :image_path="requestForDeletingAccImgPath" :option_link="requestForDeletingAccAccLink"
                              :text="requestForDeletingAccText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="profileImgPath" :option_link="profileLink"
-                             :text="profileText"></adminHomePageOption>
+        <adminHomePageOption :image_path="registerAdminImgPath" :option_link="registerAdminLink"
+                             :text="registerAdminText"></adminHomePageOption>
 
       </div>
 
@@ -98,7 +116,7 @@ export default {
 
       revisionImgPath: require("@/assets/icons/revision.png"),
       revisionText: "Revizije",
-      revisionLink: "...",
+      revisionLink: "/admin/revisions",
 
       complaintImgPath: require("@/assets/icons/angry.png"),
       complaintText: "Žalbe",
@@ -130,7 +148,7 @@ export default {
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
       penaltyText: "Penali",
-      penaltyLink: "...",
+      penaltyLink: "/admin/reports",
 
 
 
@@ -142,9 +160,9 @@ export default {
       requestForDeletingAccAccLink: "/admin/delete/requests",
       requestForDeletingAccText: "Zahtevi za brisanje naloga",
 
-      profileImgPath: require("@/assets/icons/profile.png"),
-      profileLink: "...",
-      profileText: "Profil"
+      registerAdminImgPath: require("@/assets/icons/registerAdmin.png"),
+      registerAdminLink: "/admin/register/new",
+      registerAdminText: "Registracija admina"
 
     }
   }

@@ -181,6 +181,12 @@ public class ClientService {
 		javaMailSender.send(mimeMessage);
 
 	}
+	
+	public Client findClientByEmail(String email) {
+		return clientRepository.findClientByEmail(email);
+	}
+
+
 
 
     public List<Offer> getEntitiesClientSubscribedFor(Long clientId) {

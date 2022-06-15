@@ -23,7 +23,7 @@
         <td>{{complaint.offerName}}</td>
         <td>{{complaint.ownerName}} {{complaint.ownerSurname}}</td>
         <td> {{complaint.ownerEmail}}</td>
-        <td> od {{complaint.startDate}} <br> do {{complaint.endDate}}</td>
+        <td> od {{detFormmatedDate(complaint.startDate)}} <br> do {{detFormmatedDate(complaint.endDate)}}</td>
 
         <td> <complaint-modal :index="generateAnswerId(complaint.id)" :header="this.modalHeader" :complaintId="complaint.id" :complaintText="complaint.text" :btnId="generateModalId(complaint.id)" btn-text="Detalji" @answer-text="AnswerComplaint"> </complaint-modal> </td>
         <td><h6 :id="complaint.id"></h6></td>
@@ -38,6 +38,7 @@
 
 import ComplaintModal from "@/components/admin/complaintModal";
 import ComplaintServce from "@/servieces/ComplaintServce";
+import swal from "sweetalert2";
 
 export default {
   name: "complaintsTable",
@@ -53,10 +54,49 @@ export default {
       console.log("odgovor"+id);
       return "odgovor"+id;
     },
+
+    detFormmatedDate(date){
+      let useful = date.split("T")[0]
+      let tokens = useful.split("-")
+      return tokens[2]+"."+tokens[1]+"."+tokens[0]+"."
+    },
+
+    fireAlertSuccess(){
+      swal.fire({
+        title: "Uspešno",
+        text: this.answer.text,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#8DF172'
+      });
+    },
+
+    fireAlertUnSucc() {
+        swal.fire({
+          title: "Neuspešno",
+          text: this.answer.text,
+          background: 'white',
+          color: 'black',
+          confirmButtonColor: '#FECDA6'
+        });
+    },
+
+    handleAnswer(){
+      if(this.answer.successfull){
+        this.fireAlertSuccess();
+      }else{
+        this.fireAlertUnSucc();
+      }
+
+    },
     AnswerComplaint(id, text){
       console.log(id, text)
       ComplaintServce.answerComplaint(id, text).then((response) => {
         this.answer = response.data
+        this.handleAnswer();
+        document.getElementById(id).innerText = this.answer.text;
+        document.getElementById("odgovor"+id).style.visibility="hidden";
+
         console.log(response.data);
       }).catch(function (error) {
         console.log(error.toJSON());
@@ -78,10 +118,6 @@ export default {
         console.log(error.config);
 
       });
-
-      document.getElementById(id).innerText = "Uspešno ste odgovorili na žalbu.";
-      document.getElementById("odgovor"+id).style.visibility="hidden";
-
     }
 
     },
@@ -101,7 +137,11 @@ export default {
         startDate:"",
         endDate:""
       },
-      answer:false
+      answer:{
+        text:"",
+        successfull:""
+      },
+
     }
   }
 }
