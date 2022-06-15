@@ -45,9 +45,9 @@ public interface AdventureRepository extends JpaRepository<Adventure, Long> {
 	public List<Adventure> findDeletedAdventures();
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query(value = "select p from adventure p where p.id = ?1", nativeQuery = true)
+	@Query(value = "select p from Adventure p where p.id = :id")
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-    Adventure findOneTryOccupation(long id);
+	Adventure findOneTryOccupation(long id);
 
 	
 /*	@Query(value = "SELECT a FROM adventure JOIN FETCH a.behavior_rule br WHERE a.id=?1")

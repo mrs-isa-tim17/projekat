@@ -541,11 +541,11 @@ public class ReservationController {
 	}
 
     @PostMapping(value = "reserve")
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
             Reservation r = reservationService.makeReservation(reserveEntityDTO);
-            reservationService.sendMailAboutReservation(r.getClient(), r);
+           // reservationService.sendMailAboutReservation(r.getClient(), r);
             return ResponseEntity.ok(new ReserveEntityResponseDTO());
         }catch (AlreadyCanceled ac){
             return ResponseEntity.ok(new ReserveEntityResponseDTO(ac.getMessage()));
@@ -556,6 +556,7 @@ public class ReservationController {
         }catch (MailSendException mse){
             return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekoga nismo bili u stanju da pošaljemo Vam mejl, kod zakazene rezervacije možete da vidite rezervaciju"));
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekog razloga došlo je do greške, molimo Vas pokušavajte kasnije"));
         }
     }

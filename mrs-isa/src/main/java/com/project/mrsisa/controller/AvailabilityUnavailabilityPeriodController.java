@@ -35,6 +35,10 @@ public class AvailabilityUnavailabilityPeriodController {
 	@Autowired
 	private AdventureService adventureService;
 	@Autowired
+	private CottageService cottageService;
+	@Autowired
+	private ShipService shipService;
+	@Autowired
 	private ReservationService reservationService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -43,7 +47,7 @@ public class AvailabilityUnavailabilityPeriodController {
 
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		System.out.println("MILICAAA");
 		
@@ -60,13 +64,24 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	
 	@PostMapping(value = "/unavailability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		
 		PeriodUnavailability periodUnavailability = new PeriodUnavailability();
-		
-		Adventure adventure = adventureService.findOneById(id);
-		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(adventure.getId());
+		if(startEndDateTimeDefineDTO.getOfferType().equals("cottage")){
+			Cottage cottage = cottageService.findOne(id);
+			periodUnavailability.setOffer(cottage);
+		}
+		else if(startEndDateTimeDefineDTO.getOfferType().equals("ship")){
+			Ship ship = shipService.findOne(id);
+			periodUnavailability.setOffer(ship);
+		}
+		else{
+			Adventure adventure = adventureService.findOneById(id);
+			periodUnavailability.setOffer(adventure);
+		}
+
+		List<PeriodAvailability> availabilityPeriods = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		System.out.println("OK-"+availabilityPeriods.size());
 		
 		boolean isCorect = false;
@@ -81,7 +96,7 @@ public class AvailabilityUnavailabilityPeriodController {
 			return new ResponseEntity<>(false , HttpStatus.CREATED);	
 		}
 		else {
-			periodUnavailability.setOffer(adventure);
+
 			periodUnavailability.setStartDate(startEndDateTimeDefineDTO.getStart().plusHours(2));
 			periodUnavailability.setEndDate(startEndDateTimeDefineDTO.getEnd().plusHours(2));
 			periodUnavailabilityService.save(periodUnavailability);

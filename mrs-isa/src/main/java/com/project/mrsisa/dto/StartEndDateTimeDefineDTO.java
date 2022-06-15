@@ -5,16 +5,25 @@ import java.time.LocalDateTime;
 public class StartEndDateTimeDefineDTO {
 	private LocalDateTime start;
 	private LocalDateTime end;
+	private String offerType;
 	
 	
 	public StartEndDateTimeDefineDTO() {
 		
 	}
 	
-	public StartEndDateTimeDefineDTO(LocalDateTime start, LocalDateTime end) {
+	public StartEndDateTimeDefineDTO(LocalDateTime start, LocalDateTime end, String offerType) {
 		super();
 		this.start = start;
 		this.end = end;
+		this.offerType = offerType;
+	}
+
+	public StartEndDateTimeDefineDTO(LocalDateTime start, LocalDateTime end){
+		super();
+		this.start = start;
+		this.end = end;
+		this.offerType ="";
 	}
 
 	public LocalDateTime getStart() {
@@ -32,6 +41,12 @@ public class StartEndDateTimeDefineDTO {
 	public void setEnd(LocalDateTime end) {
 		this.end = end;
 	}
-	
 
+	public String getOfferType() {
+		return offerType;
+	}
+
+	public void setOfferType(String offerType) {
+		this.offerType = offerType;
+	}
 }

@@ -153,6 +153,7 @@ public class ReservationService {
         Offer o;
         //Reservation r = new Reservation();
         if (reserveEntityDTO.getOfferType().equals("cottage")){
+            System.out.println("GET COTTAGE");
             o = cottageService.findOneTryOccupation(reserveEntityDTO.getOfferId());
             r.setOfferType(OfferType.COTTAGE);
         }else if (reserveEntityDTO.getOfferType().equals("ship")){

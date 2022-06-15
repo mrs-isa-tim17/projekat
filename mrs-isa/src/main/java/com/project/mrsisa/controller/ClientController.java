@@ -30,8 +30,8 @@ public class ClientController {
     private CottageOwnerService cottageOwnerService;
 	@Autowired
     private CottageService cottageService;
-	@Autowired
-	private ClientService clientService;
+    @Autowired
+    private ClientService clientService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
     @Autowired

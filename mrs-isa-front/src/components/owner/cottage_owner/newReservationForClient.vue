@@ -2,7 +2,7 @@
   <cottageOwnerHeader></cottageOwnerHeader>
   <div class="container p-3">
     <div class="pb-5 justify-content-center" style="text-align: center;font-weight: bold;font-size: 30px;">Kreiranje nove rezervacije na zahtev klijenta</div>
-    <div  style="border:1px solid #31708E;background-color:#31708E;color:white; width: 800px; display: inline-block;">
+    <div  style="border:1px solid #31708E;background-color:#31708E;color:white; width: 1000px; display: inline-block;">
       <div class="row" >
         <div class="col-1"></div>
         <div class="col-5">
@@ -28,19 +28,24 @@
       <!-- <calendar-for-one-cottage :cottageId="cottageId" :index="calendarIndex" :header="calendarHeader"></calendar-for-one-cottage>-->
         <div class="col-3" style="margin-left: 40pt">
 
-        <label>Početni datum</label><br>
-        <input type="date" @change="enteredStartDate" v-model="startDate"/>
+        <label><b>Početni datum</b></label><br>
+          <Datepicker v-model="startDate" @change="enteredStartDate" style="max-width:300px;margin-left:55px;"></Datepicker>
         </div>
         <div class="col-3">
-          <label>Krajnji datum</label><br>
-          <input type="date" @change="enteredEndDate" v-model="endDate"/>
+          <label><b>Krajnji datum</b></label><br>
+          <Datepicker v-model="endDate" @change="enteredEndDate" style="max-width:300px;margin-left:55px;"></Datepicker>
         </div>
-      </div>
+        <div class="col-5">
+          <label><b>Dodatne usluge</b></label><br>
+          <div class="" style="display: inline-block;" v-for="(s,i) in this.additionalServices" :key="i">
+            <input type="checkbox" width="20" height="20"  @change="checkService(s)">{{s}} &nbsp;
+          </div>
+        </div>
+      </div><br><br>
       <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4"></div>
+        <div class="col-5"></div>
         <div class="col-3">
-          <button @click="createnewRes" style="width:200px;font-size:20px;border:none;color:#31708E;font-weight: bold; ">Kreiraj novu rezervaciju</button>
+          <button @click="createNewRes" style="width:200px;font-size:20px;border:none;color:#31708E;font-weight: bold; ">Kreiraj novu rezervaciju</button>
         </div>
 
       </div>
@@ -59,6 +64,10 @@ import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHea
 import ClientServce from "@/servieces/ClientServce";
 import Multiselect from "@vueform/multiselect";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
+import reservationServce from "@/servieces/ReservationServce";
+import swal from "sweetalert2";
+import Datepicker from "@vuepic/vue-datepicker";
 //import CalendarForOneCottage from "@/components/owner/cottage_owner/calendarForOneOffer";
 
 //import swal from "sweetalert2";
@@ -68,7 +77,7 @@ import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabil
 export default {
   name: "newReservationForClient",
   components: {//CalendarForOneCottage,
-    cottageOwnerHeader,Multiselect},
+    cottageOwnerHeader,Multiselect,Datepicker},
   created() {
     console.log(this.index);
     this.modalId = "#" + this.index;
@@ -82,6 +91,11 @@ export default {
         this.clientEmails.push(emailCottage);
     })
     console.log(this.clientEmails);
+
+    AdditionalServicesService.getAll().then((response)=> {
+          this.additionalServices = response.data;
+        }
+    )
 
 
   },
@@ -124,7 +138,9 @@ export default {
       message: "",
       calendarHeader:"Kalendar zauzeca",
       calendarIndex:"calendarId",
-      cottageId:"1"
+      cottageId:"1",
+      additionalServices:[],
+
     }
   },
   methods: {
@@ -150,7 +166,35 @@ export default {
       console.log(this.cottageId);
     },
     createNewRes(){
-
+      let resObj = {
+        clientId: this.selectedClientData.clientId,
+        offerId: this.cottageId,
+        offerType: 'cottage',
+        chosenAdditionalServices: this.checked_services,
+        fromDate: this.startDate,
+        untilDate: this.endDate,
+        shipOwnerPresent: false
+      };
+      reservationServce.reserveEntity(resObj)
+          .then((response) =>{
+            console.log("RESERVE ");
+            let res = response.data
+            if (res.successfull){
+              swal.fire({
+                title: "Uspešsno",
+                text: "Uspešno je sačvana rezervacija, mejl je poslatu na vaš mejl, za potvrdu.",
+                background:'white',
+                color:'black',
+                confirmButtonColor:'green'});
+            }else{
+              swal.fire({
+                title: "Neuspešno",
+                text: res.text,
+                background:'white',
+                color:'black',
+                confirmButtonColor:'#FECDA6'});
+            }
+          });
     },
     enteredStartDate(){
       console.log(this.startDate);
@@ -163,6 +207,22 @@ export default {
     },
     enteredEndDate(){
 
+    },
+    checkService(s){
+      console.log(s);
+      if(this.checked_services.includes(s)){
+        var i = this.checked_services.indexOf(s);
+        console.log(i);
+        console.log(this.checked_services[i]);
+        this.checked_services.splice(i,1);
+        console.log("odcekirano");
+        console.log(s);
+        console.log(this.checked_services);
+      }
+      else{
+        this.checked_services.push(s);
+      }
+      console.log(this.checked_services);
     }
   }
 }

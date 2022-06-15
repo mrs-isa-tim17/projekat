@@ -32,7 +32,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllReservationsForOffer(Long id);
 
     @Transactional
-    @Query(value="select * from reservation r where r.offer_id = ?1 and DATE(NOW()) between r.start_date and r.end_date;", nativeQuery = true)
+    @Query(value="select * from reservation r where r.offer_id = ?1 and DATE(NOW()) between r.start_date and r.end_date and client_id is not null;", nativeQuery = true)
     List<Reservation> findCurrentReservationsForOffer(Long id);
 
     @Transactional

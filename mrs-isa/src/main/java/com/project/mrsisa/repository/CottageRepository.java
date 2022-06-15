@@ -39,7 +39,7 @@ public interface CottageRepository extends  JpaRepository<Cottage, Long>{
     List<Offer> findAllByClientId(Long id);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query(value = "select p from cottage p where p.id = :id", nativeQuery = true)
+	@Query(value = "select p from Cottage p where p.id = :id")
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
     Cottage findOneTryOccupation(Long id);
 }

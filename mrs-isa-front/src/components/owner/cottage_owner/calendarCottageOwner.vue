@@ -3,10 +3,19 @@
   <div class="container p-3">
     <div style="display: inline-block" v-for="(c,i) in allCottages" :key="i" data-inline="true">
       <button @click="showCalendar(i)">{{c.name}}</button>&nbsp;
+    </div><br><br>
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-3">
+       <define-period :offerId="cottageId" :buttonName="buttonNameAvailability" :header="headerAvailability" :index="indexAvailability" @define-period="defineAvailabilityPeriod"></define-period>
+      </div>
+      <div class="col-3">
+        <define-period :offerId="cottageId" :buttonName="buttonNameUnavailability" :header="headerUnavailability" :index="indexUnavailability" @define-period="defineUnavailabilityPeriod"></define-period>
     </div>
-
+    </div>
   <calendar :key="calendarKey" :availability-period="this.availabilityPeriod"
             :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations" :actions="this.actions"></calendar>
+
   </div>
 </template>
 
@@ -15,9 +24,11 @@ import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHea
 import calendar from "@/components/calendar";
 import CottageService from "@/servieces/cottage_owner/CottageService";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
+import DefinePeriod from "@/components/owner/cottage_owner/definePeriod";
+import swal from "sweetalert2";
 export default {
   name: "calendarCottageOwner",
-  components:{calendar,cottageOwnerHeader},
+  components:{DefinePeriod, calendar,cottageOwnerHeader},
   created() {
     this.coID = JSON.parse(localStorage.user).id;
     CottageService.getCottageByOwner(this.coID)
@@ -75,7 +86,20 @@ export default {
       allCottages:[],
       cottageId:"",
       calendarKey:0,
-      actions:[]
+      actions:[],
+      buttonNameAvailability:"Definiši period dostupnosti",
+      headerAvailability:"Unesite početni i krajnji datum za period dostupnosti",
+      indexAvailability:"availabilityId",
+      buttonNameUnavailability:"Definiši period nedostupnosti",
+      headerUnavailability:"Unesite početni i krajnji datum za period nedostupnosti",
+      indexUnavailability:"unavailabilityId",
+      unavailDateAns: false,
+      availDateAns: false,
+      periodData:{
+        start:"",
+        end:"",
+        offerType:"cottage"
+      }
     }
   },
   methods:{
@@ -83,6 +107,8 @@ export default {
       console.log(i);
       console.log(this.allCottages[i]);
       this.cottageId=this.allCottages[i].id;
+      console.log(this.cottageId);
+      console.log(this.cottageId);
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.cottageId).then((response) => {
         this.availabilityPeriod = response.data;
         console.log(this.availabilityPeriod);
@@ -102,9 +128,83 @@ export default {
         console.log(this.reservations);
         this.calendarKey++;
       })
+    },
+    defineUnavailabilityPeriod(periodDate){
+      this.periodData.start = periodDate.start;
+      this.periodData.end = periodDate.end;
+      PeriodAvailabilityUnavailabilityService.defineUnavailability(this.cottageId, this.periodData).then((response) => {
+        this.unavailDateAns = response.data;
+
+
+        if (this.unavailDateAns === true) {
+          swal.fire({title:'Uspešno ste dodali period nedostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+          this.calendarKey--;
+        } else {
+          swal.fire({title:'Nije moguće dodati uneti period nedostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+
+
+      }).catch(function (error) {
+        console.log(error.toJSON());
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // error.request is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+    },
+
+    defineAvailabilityPeriod(periodDate){
+      this.periodData.start = periodDate.start;
+      this.periodData.end = periodDate.end;
+      PeriodAvailabilityUnavailabilityService.defineAvailability(this.cottageId, this.periodData).then((response) => {
+
+        this.availDateAns = response.data;
+        console.log(response.data);
+
+        console.log(this.availDateAns)
+
+        if (this.availDateAns === true) {
+          swal.fire({title:'Uspešno ste dodali period dostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+          this.calendarKey++;
+        } else {
+          swal.fire({title:'Nije moguće dodati uneti period dostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+
+      }).catch(function (error) {
+        console.log(error.toJSON());
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // error.request is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+    }
     }
   }
-}
+
 </script>
 
 <style scoped>

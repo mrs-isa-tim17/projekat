@@ -290,7 +290,6 @@ export default {
       if (this.unavailabilityDate.start === "" || this.unavailabilityDate.end === "") {
         this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
       } else {
-
         PeriodAvailabilityUnavailabilityService.defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
           this.unavailDateAns = response.data;
           this.calendarKey--;
@@ -362,10 +361,12 @@ export default {
       availabilityDate: {
         start: "",
         end: "",
+        offerType:"adventure"
       },
       unavailabilityDate: {
         start: "",
         end: "",
+        offerType:"adventure"
       },
       labelStartDate: "Početni datum",
       labelEndDate: "Krajnji datum",
