@@ -99,6 +99,7 @@ public class UserService {
                 Admin a = new Admin();
                 a = (Admin) fillUserAttributes(a, userRequest);
                 a.setInitLoginChanged(false);
+                a.setEnabled(true);
                 return userRepository.save(a);
             case 3:
                 CottageOwner co = new CottageOwner();
