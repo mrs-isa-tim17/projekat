@@ -21,7 +21,7 @@
             <a class="nav-link " style="color:white;font-size: 20px;" :href="this.sales">Istorija rezervacija</a>
           </li>
           <li class="nav-item">
-            <NewReservations :header="reservationsHeader" :index="reservationsIndex"></NewReservations>
+            <a class="nav-link " style="color:white;font-size: 20px;" :href="this.newReservation">Nova rezervacija</a>
           </li>
         </ul>
         <div class="dropdown" >
@@ -56,8 +56,8 @@ export default {
   data() {
     return {
       adventures:"/instructor/home",
-      sales:"/instructor/reservations/all"
-
+      sales:"/instructor/reservations/all",
+      newReservation:"/instructor/new/reservation"
     }
   }
 }

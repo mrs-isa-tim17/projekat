@@ -541,7 +541,7 @@ public class ReservationController {
 	}
 
     @PostMapping(value = "reserve")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
             Reservation r = reservationService.makeReservation(reserveEntityDTO);
