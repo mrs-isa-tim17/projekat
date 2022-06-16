@@ -77,7 +77,8 @@ const router = createRouter({
         {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
         {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")},
         {path: '/admin/register/new', component:()=>import("./components/admin/registerNewAdmin")},
-        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")}
+        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")},
+        {path: '/admin/change/profile', component:()=>import("./components/admin/editProfileAdmin")},
     ]
 });
 
