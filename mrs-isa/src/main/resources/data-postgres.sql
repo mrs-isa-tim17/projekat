@@ -467,8 +467,8 @@ insert into complaint (version, offer_type, status, text, client_id, offer_id, r
 
 insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
-
-insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+-- samo zbog testiranja komentarisem 
+--insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
 insert into delete_request (version, status, text, user_id) values (0, 0, 'Zelim da obrisem nalog.', 3);
 insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog.', 5);
 

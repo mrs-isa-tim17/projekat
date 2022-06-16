@@ -52,6 +52,10 @@ export default {
       this.$router.push('/book/site/home');
     },
 
+    editProfilePage(){
+      this.$router.push('/instructor/profile/change');
+    },
+
   },
   data() {
     return {

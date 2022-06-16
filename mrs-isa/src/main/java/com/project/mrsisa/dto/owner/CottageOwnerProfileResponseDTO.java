@@ -1,6 +1,7 @@
 package com.project.mrsisa.dto.owner;
 
 import com.project.mrsisa.domain.CottageOwner;
+import com.project.mrsisa.domain.FishingInstructor;
 import com.project.mrsisa.domain.UserType;
 
 public class CottageOwnerProfileResponseDTO {
@@ -33,6 +34,20 @@ public class CottageOwnerProfileResponseDTO {
         this.benefits = "Imate pravo na popust od " + discount;
         this.longitude = cottageOwner.getAddress().getLongitude();
         this.latitude = cottageOwner.getAddress().getLatitude();
+    }
+	
+	public CottageOwnerProfileResponseDTO(FishingInstructor fishInstructor, int discount) {
+    	this.name = fishInstructor.getName();
+        this.surname = fishInstructor.getSurname();
+        this.email = fishInstructor.getEmail();
+        this.password = "";
+        this.phoneNumber = fishInstructor.getPhoneNumber();
+        this.userType = fishInstructor.getUserType();
+        this.loyaltyPoints = fishInstructor.getLoyaltyPoints();
+        this.penaltyNumber = fishInstructor.getLoyaltyPoints();
+        this.benefits = "Imate pravo na popust od " + discount;
+        this.longitude = fishInstructor.getAddress().getLongitude();
+        this.latitude = fishInstructor.getAddress().getLatitude();
     }
 
 
