@@ -37,7 +37,9 @@
           <th scope="col">Prezime klijenta</th>
           <th scope="col">Početni datum</th>
           <th scope="col">Krajnji datum</th>
+          <th scope="col">Naziv avanture</th>
           <th scope="col">Brza rezervacija</th>
+          <th scope="col"></th>
           <th scope="col"></th>
         </tr>
         </thead>
@@ -48,10 +50,13 @@
           <td>{{reservation.clientSurname}}</td>
           <td>{{getDateFormat(reservation.startDate)}}</td>
           <td>{{getDateFormat(reservation.endDate)}}</td>
+          <td>{{reservation.offerName}}</td>
           <td> <input type="checkbox" v-bind:checked="reservation.quick" disabled="disabled"> </td>
-          <td> <client-profile :header="this.header" :index="getIndex(reservation.reservationId)"
+          <td> <client-profile :header="this.header" :index="getIndex(reservation.id)"
                               :client-pr="reservation.clientId" > </client-profile>
           </td>
+          <td> <reservationReport :index="getIndexReport(reservation.id)" :header="this.headerReport"
+                                  :reservation="reservation" :client="this.client" > </reservationReport> </td>
         </tr>
         </tbody>
       </table>
@@ -64,22 +69,29 @@
 
 <script>
 import ClientProfile from "@/components/client/clientProfile";
+import reservationReport from "@/components/reservationReport";
 export default {
   name: "simpleReservation",
   components: {
     ClientProfile,
+    reservationReport,
   },
   props: ["reservations"],
 
   methods:{
     getDateFormat(date) {
       let d = date[2] +"." +date[1]+"." + date[0]+"."
+      console.log(this.reservations[0]);
         return d;
     },
 
     getIndex(id){
       return this.indexPr+id;
-    }
+    },
+
+    getIndexReport(id){
+      return this.indexReport + id;
+    },
 
   },
 
@@ -91,6 +103,11 @@ export default {
       quickLabel: "Brza rezervacija: ",
       header:"Profil klijenta",
       indexPr:"indexPr",
+      headerReport:"Izveštaj o rezervaciji",
+      indexReport: "repIDX",
+      client:{
+
+      },
     }
   }
 }

@@ -18,7 +18,7 @@
             <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Brze rezervacije</a>
+            <a class="nav-link " style="color:white;font-size: 20px;" :href="this.sales">Istorija rezervacija</a>
           </li>
           <li class="nav-item">
             <NewReservations :header="reservationsHeader" :index="reservationsIndex"></NewReservations>
@@ -41,11 +41,11 @@
 
 <script>
 import loginServce from "@/servieces/LoginServce";
-import NewReservations from "@/components/owner/cottage_owner/newReservations";
+//import NewReservations from "@/components/owner/cottage_owner/newReservations";
 
 export default {
   name: "instructor-header",
-  components:{NewReservations},
+ // components:{NewReservations},
   methods:{
     logOut(){
       loginServce.logout();
@@ -55,8 +55,8 @@ export default {
   },
   data() {
     return {
-      adventures:"/instructor/home"
-
+      adventures:"/instructor/home",
+      sales:"/instructor/reservations/all"
 
     }
   }

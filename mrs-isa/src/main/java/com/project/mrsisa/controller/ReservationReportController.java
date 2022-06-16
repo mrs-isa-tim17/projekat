@@ -54,7 +54,7 @@ public class ReservationReportController {
     
 
     @PostMapping(value="/save", consumes = "application/json")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ReservationReportDTO> saveReservationReport(@RequestBody ReservationReportDTO reportDTO){
         ReservationReport report = new ReservationReport();
         report.setReportText(reportDTO.getReport());

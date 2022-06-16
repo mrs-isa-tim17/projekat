@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.mrsisa.domain.Adventure;
@@ -47,7 +48,7 @@ public interface AdventureRepository extends JpaRepository<Adventure, Long> {
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query(value = "select p from Adventure p where p.id = :id")
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-	Adventure findOneTryOccupation(long id);
+	Adventure findOneTryOccupation(@Param("id")long id);
 
 	
 /*	@Query(value = "SELECT a FROM adventure JOIN FETCH a.behavior_rule br WHERE a.id=?1")

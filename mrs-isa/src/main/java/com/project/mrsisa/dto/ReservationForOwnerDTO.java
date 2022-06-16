@@ -5,36 +5,38 @@ import java.time.LocalDateTime;
 
 public class ReservationForOwnerDTO {
 
-	private Long reservationId;
+	private Long id;
 	private Long clientId;
 	private String clientName;
 	private String clientSurname;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private boolean quick;
+	private String  offerName;
 	
 	public ReservationForOwnerDTO() {
 		
 	}
 	
 	public ReservationForOwnerDTO(Long reservationId, Long clientId, String clientName, String clientSurname, LocalDateTime startDate, LocalDateTime endDate,
-			boolean quick) {
+			boolean quick, String name) {
 		super();
-		this.reservationId = reservationId;
+		this.id = reservationId;
 		this.clientId = clientId;
 		this.clientName = clientName;
 		this.clientSurname = clientSurname;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.quick = quick;
+		this.offerName = name;
 	}
 	
-	public Long getReservationId() {
-		return reservationId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setReservationId(Long reservationId) {
-		this.reservationId = reservationId;
+	public void setId(Long reservationId) {
+		this.id = reservationId;
 	}
 
 	public Long getClientId() {
@@ -83,6 +85,14 @@ public class ReservationForOwnerDTO {
 
 	public void setQuick(boolean quick) {
 		this.quick = quick;
+	}
+
+	public String getOfferName() {
+		return offerName;
+	}
+
+	public void setOfferName(String offerName) {
+		this.offerName = offerName;
 	}
 	
 }

@@ -138,7 +138,7 @@ public class ReservationService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
-        if (reserveEntityDTO.getClientId() == null){
+        if (reserveEntityDTO.getClientId() == -1){
             r.setClient(null);
         }else{
             r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));

@@ -50,6 +50,7 @@ export default {
       function () {
         console.log(this.index);
         this.modalId = "#"+this.index;
+        console.log(this.reservation);
       },
   methods: {
     openForm() {
