@@ -569,3 +569,13 @@ insert into loyalty_points(start_date, end_date, points, user_type_loyalty_point
 
 insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'Neprijatni gosti, prilicno neuredni, ostavlisi su haos.', true, 6, 1, false, 0);
 insert into reservation_report(version, report_text, penallty, reservation_id, client_id, unarrived_client, status) values (0, 'GOst se nije pojavio.', false, 10, 1, true, 0);
+
+
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber,  surname, user_type, address_id, last_password_reset_date, role_id,
+	penalty_number, enabled) values
+	('CO', nextval('user_seq'), false, 'nov.cottage.owner@gmail.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3815828', 'Markovic', 0,28, '2017-10-01 21:58:58.508-07', 3,
+	null, false);
+
+insert into registration_request (registration_type, status, user_id, version) values (0, 0, 9,1);

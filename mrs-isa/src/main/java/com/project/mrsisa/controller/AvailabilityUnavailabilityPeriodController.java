@@ -49,7 +49,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
-		System.out.println("MILICAAA");
+		//System.out.println("MILICAAA");
 		
 		PeriodAvailability periodAvailability = new PeriodAvailability();
 		Adventure adventure = adventureService.findOneById(id);

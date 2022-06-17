@@ -65,7 +65,7 @@ public class Adventure extends Offer {
 	public void setOwner(FishingInstructor owner) {
 		this.owner = owner;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Adventure [instructorBiography=" + instructorBiography + ", capacity=" + capacity
@@ -83,7 +83,7 @@ public class Adventure extends Offer {
 				+ ", getSubscribers()=" + getClient() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
-
+*/
 
 	@Override
 	public boolean equals(Object obj) {

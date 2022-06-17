@@ -7,7 +7,12 @@ import com.project.mrsisa.domain.Offer;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.FishingInstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AdventureService {
-	
+	private final Logger LOG = LoggerFactory.getLogger(CottageService.class);
+
 	@Autowired
 	private AdventureRepository adventureRepository;
 	@Autowired
@@ -38,7 +44,9 @@ public class AdventureService {
 	}
 
 
+	@Cacheable("adventure")
 	public Adventure findOneById(Long id) {
+		LOG.info("Product with id: " + id + " successfully cached!");
 		return adventureRepository.findOneById(id);
 	}
 	
@@ -68,10 +76,21 @@ public class AdventureService {
 		if (adventure != null && !(reservationService.haveFutureReservations(id))) {
 			adventure.setDeleted(true);
 			save(adventure);				// logičko brisanje
+			removeOneFromCacheById(adventure.getId());
 			return true;
 		}
 		return false;
 
+	}
+
+	@CacheEvict(cacheNames = {"adventure"}, allEntries = true)
+	public void removeFromCache(){
+		LOG.info("Products removed from cache!");
+	}
+
+	@CacheEvict(cacheNames = {"adventure"},key = "#id")
+	public void removeOneFromCacheById(@Param("id") long id){
+		LOG.info("Adventure: " + id + " removed from cache!");
 	}
 
 /*	public Adventure fetchAdventureWithOther(Long id) {

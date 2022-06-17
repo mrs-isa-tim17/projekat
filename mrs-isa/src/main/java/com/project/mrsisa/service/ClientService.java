@@ -84,7 +84,8 @@ public class ClientService {
 		}else if(c.isEnabled()){
 			return c;
 		}else{
-			clientRepository.updateEnabledById(true, c.getId());
+			c.setEnabled(true);
+			clientRepository.save(c);
 			return c;
 		}
 	}

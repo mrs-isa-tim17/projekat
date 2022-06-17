@@ -148,8 +148,8 @@ public class ShipController {
     @PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<Boolean> deleteShip(@PathVariable Long id) {
-
-		Ship ship = shipService.findOne(id);
+		return ResponseEntity.ok(shipService.deleteShip(id));
+		/*Ship ship = shipService.findOne(id);
 		System.out.println("brisiiii");
 		if ((ship != null) && ((reservationService.haveFutureReservations(id))==false)) {
 				ship.setDeleted(true);
@@ -157,7 +157,7 @@ public class ShipController {
 				return new ResponseEntity<>(true, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(false, HttpStatus.OK);
-		}
+		}*/
 	}
 	
 	

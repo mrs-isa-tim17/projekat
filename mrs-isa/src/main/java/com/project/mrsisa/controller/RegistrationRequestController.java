@@ -113,7 +113,7 @@ public class RegistrationRequestController {
 		if (res.isSuccessfull()) {
 			try {
 				User u = userService.findById(Long.valueOf(res.getText()));
-				registrationRequestService.sendMailAboutRegistrationProcessing(u.getEmail(), "");
+				registrationRequestService.sendMailAboutRegistrationProcessing(u.getEmail(),text.getText());
 				res.setText("Odbijanje je uspešno");
 				res.setSuccessfull(true);
 			} catch (MailSendException me) {
