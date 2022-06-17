@@ -175,7 +175,7 @@ public class AdventureController {
 		
 		System.out.println("update in database");
 		AdventureDTO newadvDTo = formAdventureDTO(adventure);
-		
+		adventureService.removeOneFromCacheById(adventure.getId());
 		return new ResponseEntity<>(newadvDTo, HttpStatus.OK);
 	}
 	

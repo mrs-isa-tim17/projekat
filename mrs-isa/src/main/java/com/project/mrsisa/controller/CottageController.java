@@ -249,16 +249,16 @@ public class CottageController {
 	@DeleteMapping(value = "/delete/{id}")
 	@PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteCottage(@PathVariable Long id) {
-		System.out.println("tu sam, brisanje");
+		return ResponseEntity.ok(cottageService.deleteCottage(id));
+/*
 		Cottage cottage = cottageService.findOne(id);
-		
 		if ((cottage != null) && ((reservationService.haveFutureReservations(id))==false)) {
 			cottage.setDeleted(true);
 			cottageService.save(cottage);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(false, HttpStatus.OK);
-		}
+		}*/
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update")

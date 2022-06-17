@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div>
-        <h3>Defiišite procenat zarade od svake rezervacije</h3>
+        <h3>Definišite procenat zarade od svake rezervacije</h3>
       </div>
       <br>
       <br>

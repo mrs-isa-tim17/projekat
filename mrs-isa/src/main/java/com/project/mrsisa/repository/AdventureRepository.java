@@ -25,7 +25,7 @@ import java.util.List;
 public interface AdventureRepository extends JpaRepository<Adventure, Long> {
 		
 	public Page<Adventure> findAll(Pageable pageable);
-	
+
 	public Adventure findOneById(Long id);
 
     //List<Offer> findAllByClientId(Long clientId);

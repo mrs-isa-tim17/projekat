@@ -84,7 +84,8 @@ public class ClientService {
 		}else if(c.isEnabled()){
 			return c;
 		}else{
-			clientRepository.updateEnabledById(true, c.getId());
+			c.setEnabled(true);
+			clientRepository.save(c);
 			return c;
 		}
 	}
@@ -181,6 +182,12 @@ public class ClientService {
 		javaMailSender.send(mimeMessage);
 
 	}
+	
+	public Client findClientByEmail(String email) {
+		return clientRepository.findClientByEmail(email);
+	}
+
+
 
 
     public List<Offer> getEntitiesClientSubscribedFor(Long clientId) {

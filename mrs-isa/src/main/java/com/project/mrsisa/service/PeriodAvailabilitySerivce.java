@@ -81,29 +81,29 @@ public class PeriodAvailabilitySerivce {
 		for(PeriodAvailability avail : availability) {
 			current = avail.getStartDate();
 			for(PeriodUnavailability unavail : unavailability) {
-				System.out.println("avail: " + "start:  " + avail.getStartDate() +"end:  " + avail.getEndDate());
-				System.out.println("unavail : " + "start:  " + unavail.getStartDate()+"    end: " + unavail.getEndDate());
+				//System.out.println("avail: " + "start:  " + avail.getStartDate() +"end:  " + avail.getEndDate());
+				//System.out.println("unavail : " + "start:  " + unavail.getStartDate()+"    end: " + unavail.getEndDate());
 				if((current.isBefore(unavail.getStartDate())) && (avail.getEndDate().isAfter(unavail.getEndDate()))) {
 					availabilityIntersectionUnavailability.add(new StartEndDateTimeDefineDTO(current, unavail.getStartDate()));
 					current = unavail.getEndDate();
-					System.out.println("DDDDD");
+					//System.out.println("DDDDD");
 					
 				}
 			}
 			availabilityIntersectionUnavailability.add(new StartEndDateTimeDefineDTO(current, avail.getEndDate()));
 		}
 		
-		System.out.println("MILICAA: " + availabilityIntersectionUnavailability.size());
+		///System.out.println("MILICAA: " + availabilityIntersectionUnavailability.size());
 		
 		List<StartEndDateDTO> intersectionAll = new ArrayList<StartEndDateDTO>();
 		for(StartEndDateTimeDefineDTO period : availabilityIntersectionUnavailability) {
 			current =  period.getStart();
 			for(HelpObjectDateTime r: actionsReservations) {
 				if(current.isBefore(r.getStart()) && period.getEnd().isAfter(r.getEnd())) {
-					System.out.println(current);
-					System.out.println("Sssssss " + current.format(formatter) );
-					System.out.println(r.getStart());
-					System.out.println("sSSSSssssssss " + r.getStart().format(formatter));
+					//System.out.println(current);
+					//System.out.println("Sssssss " + current.format(formatter) );
+					//System.out.println(r.getStart());
+					///System.out.println("sSSSSssssssss " + r.getStart().format(formatter));
 					
 					intersectionAll.add(new StartEndDateDTO(current.format(formatter), r.getStart().format(formatter), "  " ));
 					current = r.getEnd();

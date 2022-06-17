@@ -36,6 +36,9 @@ public class RegistrationRequestService {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private UserService userService;
+
     public RegistrationRequest save(RegistrationRequest registrationRequest) {
         return registrationRequestRepository.save(registrationRequest);
     }
@@ -94,7 +97,7 @@ public class RegistrationRequestService {
     
     @Async
     private void sendMeesgeAboutRejectRegistration(String mail, String text) throws MessagingException, UnsupportedEncodingException {
-        String subject = "Odobrenje registracije";
+        String subject = "Odbijanje registracije";
         String senderName = "BookerTeam";
         String mailContent = "<p>Poštovani, odbijen je vaš zahtev za registraciju na Book sajtu.\n</p>" + " <p>Obrazloženje:\n</p>"
          +text + "<br><br>" + senderName;
@@ -133,6 +136,11 @@ public class RegistrationRequestService {
         response.setSuccessfull(false);
         try {
             save(request);
+
+            User u = userService.findById(request.getUserRef().getId());
+            u.setEnabled(true);
+            userService.save(u);
+
             response.setSuccessfull(true);
             response.setText("" + request.getUserRef().getId());
         }catch (ObjectOptimisticLockingFailureException changedException){

@@ -1,6 +1,6 @@
 package com.project.mrsisa.exception;
 
-public class TooHighPenaltyNumber extends Exception{
+public class TooHighPenaltyNumber extends RuntimeException{
     private static final long serialVersionUID = 1791564636123821405L;
 
     private String resourceId;

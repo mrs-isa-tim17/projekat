@@ -27,4 +27,18 @@ public class LoyaltyScaleService {
 		}
 		return result;
 	}
+	
+	public List<LoyaltyScale> findScaleByRole(Long roleId){
+		return loyaltyScaleRepository.findScaleByRole(roleId);
+	}
+	
+	public LoyaltyScale findOneById(long id) {
+		return loyaltyScaleRepository.findOneById(id);
+	}
+
+	public void save(LoyaltyScale loyaltyScale) {
+		loyaltyScaleRepository.save(loyaltyScale);
+		
+	}
+	
 }

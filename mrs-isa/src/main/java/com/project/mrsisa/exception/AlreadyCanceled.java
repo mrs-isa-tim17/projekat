@@ -1,6 +1,6 @@
 package com.project.mrsisa.exception;
 
-public class AlreadyCanceled extends Exception{
+public class AlreadyCanceled extends RuntimeException{
     private static final long serialVersionUID = 1791564636123821405L;
 
     private String resourceId;

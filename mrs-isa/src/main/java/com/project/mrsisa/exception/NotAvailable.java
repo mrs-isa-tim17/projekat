@@ -1,6 +1,6 @@
 package com.project.mrsisa.exception;
 
-public class NotAvailable extends Exception{
+public class NotAvailable extends RuntimeException{
     private static final long serialVersionUID = 1791564636123821405L;
 
     private String resourceId;

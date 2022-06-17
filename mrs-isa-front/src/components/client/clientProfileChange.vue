@@ -84,6 +84,7 @@ import vueOpenLayerMap from "@/components/VueMaps";
 import PasswordService from "@/servieces/PasswordService";
 import changePasswordModal from "@/components/changePasswordModal";
 import DeleteAccountDialog from "@/components/deleteAccountModal";
+import swal from 'sweetalert2';
 
 export default {
   name: "client-profile-change",
@@ -135,16 +136,16 @@ export default {
       this.passwords.old_password=old_password;
       this.passwords.new_password = new_password;
       PasswordService.matchPassword(this.passwords,this.coID)
-          .then((response)=>{
-                if(response.data){
-                  document.getElementById("successChange").style.visibility = 'visible';
-                }
-                else{
-                  document.getElementById("notSuccessChangePass").style.visibility = 'visible';
-                }
+          .then(()=>{
+                swal.fire({
+                  icon: 'success',
+                  title: 'Uspešno ste izmenili lozinku, molimo Vas ulogujte se opet.',
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                this.$router.push('/book/site/login');
               }
           )
-      console.log(new_password);
     },
     updateCoordinats(lon, lat){
       this.client.longitude = lon;

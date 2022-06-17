@@ -1,5 +1,6 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.domain.Admin;
 import com.project.mrsisa.domain.User;
 import com.project.mrsisa.dto.JwtAuthenticationRequest;
 import com.project.mrsisa.dto.PasswordDTO;
@@ -55,20 +56,39 @@ public class AuthenticationController {
 
 		// if email and password not valid AuthenticationException
 		// if you want to add aditional params you do it here
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-		//handle if email already exists
-		// valid credentials
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		// create token for user
-		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername());
-		int expiresIn = tokenUtils.getExpiredIn();
-
-		//User u = userService.findByUsername(authenticationRequest.getUsername());
-		// return created token
-		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, user.getRoleId(), user.getId()));
+		try {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+		
+			//handle if email already exists
+			// valid credentials
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+	
+			// create token for user
+			User user = (User) authentication.getPrincipal();
+			String jwt = tokenUtils.generateToken(user.getUsername());
+			int expiresIn = tokenUtils.getExpiredIn();
+	
+			//User u = userService.findByUsername(authenticationRequest.getUsername());
+			// return created token
+			UserTokenState uts =new UserTokenState(jwt, expiresIn, user.getRoleId(), user.getId());
+			if(user.getRoleId()==2) {
+				Admin a = (Admin)user;
+				if(a.isInitLoginChanged()==false) {
+					uts.setChangePassword(true);
+				}
+				else {
+					uts.setChangePassword(false);
+				}
+			}else {
+				uts.setChangePassword(false);
+			}
+			
+			return ResponseEntity.ok(uts);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.OK);
+		}
 	}
 
 	@PostMapping("/signup")
@@ -77,9 +97,8 @@ public class AuthenticationController {
 		User existUser = this.userService.findByUsername(userRequest.getEmail());
 
 		if (existUser != null) {
-			throw new ResourceConflictException(userRequest.getEmail(), "Email already exists");
+			return new ResponseEntity<>(null, HttpStatus.OK);
 		}
-
 		User user = this.userService.save(userRequest);
 
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -99,14 +118,27 @@ public class AuthenticationController {
 			user.setPassword(encoder.encode(passwordDTO.getNew_password()));
 	    	Date date = new Date();
 			user.setLastPasswordResetDate(new Timestamp(date.getTime()));
-			User new_user = userService.save(user);
-			System.out.println(new_user.getPassword() + new_user.getLastPasswordResetDate());
+			if(user.getRoleId()==2) {
+				Admin a = (Admin) user;
+				a.setInitLoginChanged(true);
+				User new_user = userService.save(a);
+				System.out.println(new_user.getPassword() + new_user.getLastPasswordResetDate());
+
+			}else {
+				User new_user = userService.save(user);
+				System.out.println(new_user.getPassword() + new_user.getLastPasswordResetDate());
+				}
 			}
+		
 		else {
 			success = false;
 		}
 		return ResponseEntity.ok(success);
 	}
 	
+	//public ResponseEntity<> adminFirstChangePassword(@RequestBody AdminChangePasswordDTO adminShangePasswordDTO){
+		
+		
+	//}
 	
 }

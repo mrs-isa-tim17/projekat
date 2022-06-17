@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,38 +77,61 @@ public class DeleteRequestController {
     
     @PostMapping(value = "/delete/reject/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> rejectDeleteRequest(@PathVariable Long id, @RequestBody TextDTO textDTO){
+    public ResponseEntity<TextDTO> rejectDeleteRequest(@PathVariable Long id, @RequestBody TextDTO textDTO){
 		DeleteRequest deleteRequest = deleteRequestService.findOneById(id);
 
 		if (deleteRequest == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+			TextDTO t = new TextDTO("Ne postoji zahtev za brisanje naloga.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t , HttpStatus.BAD_REQUEST);
 		}
 		
 		User u = userService.findById(deleteRequest.getUserRef().getId());
 		deleteRequest.setStatus(ProcessingStatus.REJECTED);
 		
-		deleteRequestService.save(deleteRequest, u.getEmail(), textDTO.getText(), false);
+		try {
+			deleteRequestService.save(deleteRequest);
+			deleteRequestService.sendMailsAboutDeleteRequest(u.getEmail(), textDTO.getText(), false);
+		}catch (ObjectOptimisticLockingFailureException e) {
+			// TODO: handle exception
+			TextDTO t = new TextDTO("Drugi administrator je već odgovorio na ovaj zahtev za brisanje naloga.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.OK);
+		}
     	
-    	return new ResponseEntity<>(true, HttpStatus.OK);
+		TextDTO t = new TextDTO("Odbili ste zahtev za brisanje naloga.");
+		t.setSuccessfull(true);
+    	return new ResponseEntity<>(t, HttpStatus.OK);
     }
     
     @PostMapping(value = "/delete/accept/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Boolean> acceptDeleteRequest(@PathVariable Long id, @RequestBody TextDTO textDTO){
+    public ResponseEntity<TextDTO> acceptDeleteRequest(@PathVariable Long id, @RequestBody TextDTO textDTO){
 		DeleteRequest deleteRequest = deleteRequestService.findOneById(id);
 
 		if (deleteRequest == null) {
-			return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+			TextDTO t = new TextDTO("Ne postoji zahtev za brisanje naloga.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.BAD_REQUEST);
 		}
 		
 		User u = userService.findById(deleteRequest.getUserRef().getId());
 		u.setDeleted(true);
-		userService.save(u);
+		
 		
 		deleteRequest.setStatus(ProcessingStatus.APPROVED);
-		deleteRequestService.save(deleteRequest, u.getEmail(), textDTO.getText(), true);
-    	
-    	return new ResponseEntity<>(true, HttpStatus.OK);
+		try {		
+			deleteRequestService.save(deleteRequest);
+			userService.save(u);
+			deleteRequestService.sendMailsAboutDeleteRequest(u.getEmail(), textDTO.getText(), true);
+		}catch (ObjectOptimisticLockingFailureException e) {
+			TextDTO t = new TextDTO("Drugi administrator je već odgovorio na ovaj zahtev za brisanje naloga.");
+			t.setSuccessfull(false);
+			return new ResponseEntity<>(t, HttpStatus.OK);
+		}
+		TextDTO t = new TextDTO("Prihvatili ste zahtev za brisanje naloga.");
+		t.setSuccessfull(true);
+    	return new ResponseEntity<>(t, HttpStatus.OK);
     }
     
     
