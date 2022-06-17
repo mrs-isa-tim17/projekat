@@ -22,6 +22,8 @@ const router = createRouter({
         { path: '/instructor/reservations/all', component:()=>import("./components/fishing_instructor/historyReservations")},
         { path: '/instructor/new/reservation', component:()=>import("./components/fishing_instructor/reservationForClient")},
         { path: '/instructor/profile/change', component:()=>import("./components/fishing_instructor/editProfileInstructor")},
+        { path: '/instructor/graph/income', component:()=>import("./components/fishing_instructor/instructorGraphIncome")},
+        { path: '/instructor/graph/reservations', component:()=>import("./components/fishing_instructor/instructorGraphReservations")},
 
         { path: '/book/site/home', component: () => import("./components/main_site/main_home_page/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},

@@ -11,17 +11,21 @@
           <li class="nav-item">
             <a class="nav-link" style="color:white;font-size: 20px;" :href="this.adventures">Moje ponude</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" style="color:white;font-size: 20px;" aria-current="page" :href="instructorHome">Kalendar</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="this.sales">Istorija rezervacija</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="this.newReservation">Nova rezervacija</a>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+              <button class="dropbtn nav-link" style="color:white;font-size:20px;">Izveštaji</button>
+              <div class="dropdown-content">
+                <a :href="reservationsReports">Posećenost</a>
+                <a :href="incomeReports">Prihodi</a>
+              </div>
+            </div>
           </li>
         </ul>
         <div class="dropdown" >
@@ -61,7 +65,9 @@ export default {
     return {
       adventures:"/instructor/home",
       sales:"/instructor/reservations/all",
-      newReservation:"/instructor/new/reservation"
+      newReservation:"/instructor/new/reservation",
+      reservationsReports:"/instructor/graph/reservations",
+      incomeReports:"/instructor/graph/income",
     }
   }
 }
@@ -69,5 +75,45 @@ export default {
 </script>
 
 <style scoped>
+
+.dropdown{
+  padding-right:100px;
+}
+a{
+  color: red;
+}
+.dropbtn {
+  background:none;
+  color: white;
+  font-size: 20px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {}
 
 </style>
