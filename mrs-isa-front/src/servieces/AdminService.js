@@ -5,7 +5,7 @@ import Config from "../config.json";
 
 const ADMIN_API_BASE_URL = Config.BASE_URL + '/admin';
 
-class FishingInstructorService {
+class AdminService {
     getOwner(coID) {
         console.log(authHeader());
         return axios.get(ADMIN_API_BASE_URL + '/profile/' + coID, {
@@ -20,4 +20,4 @@ class FishingInstructorService {
     }
 }
 
-export default new FishingInstructorService();
+export default new AdminService();

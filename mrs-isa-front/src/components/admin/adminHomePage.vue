@@ -82,8 +82,6 @@
 
       <div class="row justify-content-center ">
 
-        <adminHomePageOption :image_path="reportReservationImgPath" :option_link="reportReservationLink"
-                             :text="reportReservationText"></adminHomePageOption>
 
         <adminHomePageOption :image_path="requestForDeletingAccImgPath" :option_link="requestForDeletingAccAccLink"
                              :text="requestForDeletingAccText"></adminHomePageOption>
@@ -128,7 +126,7 @@ export default {
       percentageText: "Procenat zarade",
 
       businessReportImgPath: require("@/assets/icons/reportBusiness.png"),
-      businessReportLink: "...",
+      businessReportLink: "/admin/business/report",
       businessReportText: "Izveštaji o poslovanju",
 
       loyaltyImgPath: require("@/assets/icons/loyalty.png"),
@@ -147,7 +145,7 @@ export default {
       usersLink: '/admin/users',
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
-      penaltyText: "Penali",
+      penaltyText: "Izveštaji o rezervacijama i penali",
       penaltyLink: "/admin/reports",
 
 

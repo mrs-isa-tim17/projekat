@@ -42,10 +42,18 @@
               <a class="nav-link" :href="adminPrecentageLink" style="color:white;font-size:20px;">Prihodi</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" style="color:white;font-size:20px;">Izveštaji</a>
+              <a class="nav-link" :href="adminBusinessReportLink" style="color:white;font-size:20px;">Izveštaji</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" style="color:white;font-size:20px;">Loyality program</a>
+            <!--  <a class="nav-link" href="#" style="color:white;font-size:20px;">Loyality program</a>  -->
+              <div class="dropdown">
+                <button class="dropbtn nav-link" style="color:white;font-size:20px;">Loyality program</button>
+                <div class="dropdown-content">
+                  <a :href="adminLoyaltyPointsLink">Poeni</a>
+                  <a :href="adminLoyaltyScaleLink">Skala</a>
+                </div>
+              </div>
+
             </li>
 
           </ul>
@@ -93,7 +101,10 @@ export default {
       adminAdventureLink: "/admin/adventures",
       homeLink: "/admin/home",
       adminUsersLink: "/admin/users",
-      adminPrecentageLink: "/admin/percentage"
+      adminPrecentageLink: "/admin/percentage",
+      adminBusinessReportLink: "/admin/business/report",
+      adminLoyaltyPointsLink: "/admin/loyalty/points",
+      adminLoyaltyScaleLink:"/admin/loyalty/scale"
     }
   }
 }
