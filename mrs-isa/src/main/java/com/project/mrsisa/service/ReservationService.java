@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -358,5 +360,8 @@ public class ReservationService {
 
     public void setPricelistService(PricelistService pricelistService) {
         this.pricelistService = pricelistService;
+    }
+    public List<Reservation> getReservationsForPeriod(LocalDate startDate, LocalDate endDate){
+    	return reservationRepository.getReservationsForPeriod(startDate, endDate);
     }
 }
