@@ -34,6 +34,19 @@ public class ShipOwnerProfileResponseDTO {
         this.latitude = shipOwner.getAddress().getLatitude();
     }
 
+    public ShipOwnerProfileResponseDTO(ShipOwner shipOwner) {
+        this.name = shipOwner.getName();
+        this.surname = shipOwner.getSurname();
+        this.email = shipOwner.getEmail();
+        this.password = "";
+        this.phoneNumber = shipOwner.getPhoneNumber();
+        this.userType = shipOwner.getUserType();
+        this.loyaltyPoints = shipOwner.getLoyaltyPoints();
+        this.penaltyNumber = shipOwner.getLoyaltyPoints();
+        this.longitude = shipOwner.getAddress().getLongitude();
+        this.latitude = shipOwner.getAddress().getLatitude();
+    }
+
 
     public int getPenaltyNumber() {
         return penaltyNumber;

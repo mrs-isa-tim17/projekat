@@ -294,7 +294,7 @@ public class AdventureController {
 		adventure.setCancelCondition(cancelConditions);
 		
 		
-		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice(),adventureDTO.getStartDatePrice());
 		pricelist.setOffer(adventure);
 		
 		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
@@ -394,7 +394,7 @@ public class AdventureController {
 		adventure.setCancelCondition(cCondition);
 		
 
-		Pricelist pricelist = new Pricelist(adventureDTO.getPrice());
+		/*Pricelist pricelist = new Pricelist(adventureDTO.getPrice(),adventureDTO.getStartDatePrice());
 		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(adventureDTO.getId());
 		for(Pricelist p : pricelists) 
 		{
@@ -404,9 +404,18 @@ public class AdventureController {
 		}
 		pricelists.add(pricelist);
 		pricelist.setOffer(adventure);
-		adventure.setPricelists(pricelists);
-		System.out.println("priceee !!!");
+		adventure.setPricelists(pricelists);*/
 
+		Pricelist pricelist = pricelistService.findOneById(adventureDTO.getPriceListId());
+		pricelist.setEndDate(LocalDate.now());
+		Pricelist updated = pricelistService.save(pricelist);
+		System.out.println("cenaaaa  id: "  + updated.getId());
+		Pricelist newPricelist = new Pricelist();
+		newPricelist.setStartDate(LocalDate.now());
+		newPricelist.setEndDate(null);
+		newPricelist.setPrice(adventureDTO.getPrice());
+		newPricelist.setOffer(adventure);
+		pricelistService.save(newPricelist);
 		adventure.setImages(adventureDTO.getImagesAdventure());  // kasnije
 		
 	return adventure;

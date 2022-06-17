@@ -9,7 +9,7 @@
 
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="deleteCottageModal" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="background-color:#687864">
+      <div class="modal-content"  style="background-color:#31708E;color:whitesmoke;">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteCottageModal">{{header}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

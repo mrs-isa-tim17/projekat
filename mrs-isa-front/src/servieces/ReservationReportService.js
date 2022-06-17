@@ -11,6 +11,12 @@ class ReservationReportService{
             headers: authHeader()
         });
     }
+
+    haveReservationReport(id) {
+        return axios.get(RESERVATION_REPORT_API_BASE_URL+'/check/'+id,  {
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ReservationReportService();

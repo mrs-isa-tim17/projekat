@@ -127,7 +127,9 @@ public class ReservationService {
 
 	public boolean haveFutureReservations(Long offerId) {
 		List<Reservation> futureReservations = reservationRepository.findFutureReservationHistory(offerId);
+        System.out.println("nema rezzz" + futureReservations.size());
 		if(futureReservations.size()==0) {
+            System.out.println("nema rezzz");
 			return false;
 		}
 		return true;
@@ -190,11 +192,13 @@ public class ReservationService {
         r.setStartDateTime(reserveEntityDTO.getFromDate());
         r.setEndDateTime(reserveEntityDTO.getUntilDate());
         r.setAdditionalServices(additionalServices);
-        double price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
-        if (price == 0)
-            throw new NotDefinedValue("Izračunavanje cene je neuspešno");
+        double price = reserveEntityDTO.getPrice();
+        r.setQuick(true);
+        if (price == 0) {//0 je ako je obicna rezervacija, quick je false ako je obicna
+            price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
+            r.setQuick(false);
+        }
         r.setPrice(price);
-        r.setQuick(false);
         r.setCanceled(false);
         //r.setClient(client);
         r.setOffer(o);
@@ -233,12 +237,16 @@ public class ReservationService {
             if (offerType == OfferType.COTTAGE) {
                 long days = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
                 price = days * pricelistService.getCurrentPriceOfOffer(o.getId());
+
             } else if (offerType == OfferType.ADVENTURE) {
                 long minutes = ChronoUnit.MINUTES.between(startDateTime, endDateTime);//req.getUntilDate() - req.getFromDate();
                 price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
             } else if (offerType == OfferType.SHIP) {
-                long minutes = ChronoUnit.MINUTES.between(startDateTime, startDateTime);//req.getUntilDate() - req.getFromDate();
-                price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
+                long minutes = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
+                System.out.println("minutiii" + minutes);
+                System.out.println("minutiii" + minutes);
+                price = minutes  * pricelistService.getCurrentPriceOfOffer(o.getId());
+                System.out.println("minutiii" + price);
             }
             price = addAdditionalServicesToPrice(price, additionalServices);
             return price;

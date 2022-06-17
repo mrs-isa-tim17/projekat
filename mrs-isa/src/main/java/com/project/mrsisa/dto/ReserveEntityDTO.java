@@ -12,6 +12,19 @@ public class ReserveEntityDTO {
     private LocalDateTime fromDate;
     private LocalDateTime untilDate;
     private boolean shipOwnerPresent;
+    private double price;
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public boolean isShipOwnerPresent() {
         return shipOwnerPresent;

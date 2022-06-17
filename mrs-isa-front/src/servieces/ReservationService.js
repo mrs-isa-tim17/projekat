@@ -26,6 +26,12 @@ class ReservationService{
         });
     }
 
+    getReservationsReportYearlyShip(ownerId){
+        return axios.get(RESERVATION_API_BASE_URL+'/reportYearly/ship/'+ownerId,{
+            headers:authHeader()
+        });
+    }
+
     getAllReservationsForOffer(offerId){
         return axios.get(RESERVATION_API_BASE_URL + '/reservation/periods/' + offerId, {
             headers:authHeader()
@@ -37,14 +43,19 @@ class ReservationService{
             headers: authHeader()
         });
     }
-
-    getReservationsReportWeekly(ownerId) {
-        return axios.get(RESERVATION_API_BASE_URL + '/reportWeekly/' + ownerId, {
+    getReservationsReportMonthlyShip(ownerId) {
+        return axios.get(RESERVATION_API_BASE_URL + '/reportMonthly/ship/' + ownerId, {
             headers: authHeader()
         });
     }
 
-    getReservationsPeriod(ownerId,start,end){
+    getReservationsReportWeeklyShip(ownerId) {
+        return axios.get(RESERVATION_API_BASE_URL + '/reportWeekly/ship/' + ownerId, {
+            headers: authHeader()
+        });
+    }
+
+    getReservationsPeriodShip(ownerId,start,end){
         let config = {
             headers: authHeader(),
             params: {
@@ -52,7 +63,7 @@ class ReservationService{
                 end_date: end
             }
         }
-        return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/' + ownerId, config);
+        return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/ship/' + ownerId, config);
     }
 }
 

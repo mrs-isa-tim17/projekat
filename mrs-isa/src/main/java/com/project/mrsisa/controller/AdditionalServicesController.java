@@ -23,7 +23,7 @@ public class AdditionalServicesController {
 	
 	
 	@GetMapping(value = "/all")
-    @PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<List<String>> getAdditionalServices(){
 		List<AdditionalServices> additional = additionalServicesService.findAll();
 		List<String> additionalDTO = new ArrayList<String>();

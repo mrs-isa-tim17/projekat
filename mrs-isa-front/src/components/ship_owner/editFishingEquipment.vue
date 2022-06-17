@@ -9,13 +9,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" >
-          <div v-for="(s,i) in this.services_for_show" :key="i" >
-            <input type="checkbox" width="20" height="20"  @change="checkService(s)">{{s}}
+          <div v-for="(s,i) in eq_for_show" :key="i" >
+            <input type="checkbox" width="20" height="20"  @change="checkEq(s)">{{s}}
           </div>
 
           <div class="modal-footer" style="background-color:#31708E">
             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
-            <button type="button" @click="editServices" class="btn btn-primary">Izmeni</button>
+            <button type="button" @click="editEq" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
       </div>
@@ -27,59 +27,50 @@
 import $ from "jquery";
 
 export default {
-
-  name: "editOfferServicesModal",
-  props: ["servicesList", "index", "header"],
+  name: "editFishingEquipment",
+  props: ["eqList", "index", "header"],
   created:
       function () {
-
+        console.log(this.index);
         this.modalId = "#" + this.index;
-        this.services_for_show = this.servicesList;
+        console.log(this.behaviorList);
+        /*for(let i=0;i<this.allBehavior.length;i++){
 
-        /*console.log(this.servicesList);
-        for(let i=0;i<this.allServices.length;i++){
-          if((this.servicesList.includes(this.allServices[i]))){
-            this.checked_services.push(this.allServices[i]);
-            console.log(this.checked_services);
+          if((this.behaviorList.includes(this.allBehavior[i]))){
+            this.checked_behavior.push(this.allBehavior[i]);
           }
           else{
-            this.services_for_show.push(this.allServices[i]);
-            console.log(this.services_for_show);
+            this.behavior_for_show.push(this.allBehavior[i]);
           }
-        }
-        console.log(this.checked_services);*/
+        }*/
       },
   methods: {
 
     openForm() {
-
+      console.log("forma");
+      this.nameOffer=this.name;
       var modalToggle = document.getElementById(this.index);
-      this.services_for_show = this.servicesList;
-      console.log(this.services_for_show);
+      this.eq_for_show = this.eqList;
+      console.log(this.eqList);
       ///myModal.show(modalToggle)
       $('#' + this.index).show(modalToggle);
       $('#' + this.index).focus(modalToggle);
     },
-    checkService(s){
+    checkEq(s){
 
-      if(this.checked_services.includes(s)){
-        var i = this.checked_services.indexOf(s);
-        console.log(i);
-        console.log(this.checked_services[i]);
-        this.checked_services.splice(i,1);
-        this.services_for_show.push(s);
-        console.log("odcekirano");
-        console.log(s);
-        console.log(this.checked_services);
+      if(this.checked_eq.includes(s)){
+        var i = this.checked_eq.indexOf(s);
+        this.checked_eq.splice(i,1);
+
       }
       else{
-        this.checked_services.push(s);
+        this.checked_eq.push(s);
       }
     },
 
-    editServices() {
-      console.log(this.checked_services);
-      this.$emit('edit-services', this.checked_services);
+    editEq() {
+
+      this.$emit('edit-eq', this.checked_eq);
       const modal = document.getElementById(this.index);
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
@@ -96,16 +87,10 @@ export default {
     return{
       modalId:"",
       nameOffer:"",
-      allServices:["restoran",
-        "doručak",
-        "bar",
-        "wifi",
-        "bazen",
-        "spa",
-        "teretana",
-        ],
-      services_for_show:[],
-      checked_services:[]
+      allBehavior:[ "dozvoljeno pušenje",
+        "zabranjeno pušenje"],
+      eq_for_show:[],
+      checked_eq:[]
     }
   }
 }

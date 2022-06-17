@@ -13,4 +13,9 @@ public class ReservationReportService {
     public ReservationReport save(ReservationReport rr){
         return reservationReportRepository.save(rr);
     }
+
+
+    public ReservationReport haveReservationReport(Long id){
+        return reservationReportRepository.haveReservationReport(id);
+    }
 }

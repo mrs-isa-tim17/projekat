@@ -23,7 +23,7 @@ public class FishingEquipmentController {
 	
 	
 	@GetMapping(value = "/all")
-    @PreAuthorize("hasRole('FISHINSTRUCTOR')")
+    @PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<List<String>> getFishingEquipments(){
 		List<FishingEquipment> fishing = fishingEquipmentService.findAll();
 		List<String> fishingDTO = new ArrayList<String>();

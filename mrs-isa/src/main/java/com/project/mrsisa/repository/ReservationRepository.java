@@ -17,11 +17,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findCottageReservationHistory(Long clientId, int offerType);
 
     @Transactional
-    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and r.start_date < CURRENT_DATE", nativeQuery = true)
+    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and r.start_date < CURRENT_DATE and r.client_id is not null", nativeQuery = true)
     List<Reservation> findPastReservationHistory(Long offer_id);
 
     @Transactional
-    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and r.start_date > CURRENT_DATE",nativeQuery = true)
+    @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and r.start_date > CURRENT_DATE and r.client_id is not null",nativeQuery = true)
     List<Reservation> findFutureReservationHistory(Long offer_id);
 
     @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE and not canceled", nativeQuery = true)

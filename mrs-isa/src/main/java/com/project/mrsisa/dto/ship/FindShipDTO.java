@@ -1,7 +1,11 @@
 package com.project.mrsisa.dto.ship;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.domain.NavigationEquipment;
+import com.project.mrsisa.service.PricelistService;
 
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,84 +23,37 @@ public class FindShipDTO {
     private double maxSpeed;
     private List<String> behavioralRules;
     private List<String> images;
-    private List<String> cancelConditions;
+    private List<String> fishingEquipment;
+    private String navigationEquipment;
     private int capacity;
-
+    private Long ownerId;
     private String ownersEmail;
 
     private String ownersName;
     private String ownersSurname;
-    private List<String> days;
-    private String p1;
-    private String p2;
-    private String p3;
-    private String p4;
+    private List<Integer> days;
+    private List<Double> percents;
 
-    // private NavigationEquipment navigationEquipment;
+    private double price;
+    private LocalDate priceStartDate;
+    public PricelistService pricelistService;
+    private List<String> additionalServices;
+    private Long priceListId;
 
-
-    public List<String> getBehavioralRules() {
-        return behavioralRules;
+    public List<String> getFishingEquipment() {
+        return fishingEquipment;
     }
 
-    public void setBehavioralRules(List<String> behavioralRules) {
-        this.behavioralRules = behavioralRules;
+    public void setFishingEquipment(List<String> fishingEquipment) {
+        this.fishingEquipment = fishingEquipment;
     }
 
-    public List<String> getCancelConditions() {
-        return cancelConditions;
+    public String getNavigationEquipment() {
+        return navigationEquipment;
     }
 
-    public void setCancelConditions(List<String> cancelConditions) {
-        this.cancelConditions = cancelConditions;
-    }
-
-    public List<String> getDays() {
-        return days;
-    }
-
-    public void setDays(List<String> days) {
-        this.days = days;
-    }
-
-    public String getP1() {
-        return p1;
-    }
-
-    public void setP1(String p1) {
-        this.p1 = p1;
-    }
-
-    public String getP2() {
-        return p2;
-    }
-
-    public void setP2(String p2) {
-        this.p2 = p2;
-    }
-
-    public String getP3() {
-        return p3;
-    }
-
-    public void setP3(String p3) {
-        this.p3 = p3;
-    }
-
-    public String getP4() {
-        return p4;
-    }
-
-    public void setP4(String p4) {
-        this.p4 = p4;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setNavigationEquipment(String navigationEquipment) {
+        this.navigationEquipment = navigationEquipment;
     }
 
     public String getOwnersEmail() {
@@ -123,12 +80,87 @@ public class FindShipDTO {
         this.ownersSurname = ownersSurname;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public LocalDate getPriceStartDate() {
+        return priceStartDate;
+    }
+
+    public void setPriceStartDate(LocalDate priceStartDate) {
+        this.priceStartDate = priceStartDate;
+    }
+
+    public PricelistService getPricelistService() {
+        return pricelistService;
+    }
+
+    public void setPricelistService(PricelistService pricelistService) {
+        this.pricelistService = pricelistService;
+    }
+
+    public List<String> getAdditionalServices() {
+        return additionalServices;
+    }
+
+    public void setAdditionalServices(List<String> additionalServices) {
+        this.additionalServices = additionalServices;
+    }
+
+    public List<Double> getPercents() {
+        return percents;
+    }
+
+    public void setPercents(List<Double> percents) {
+        this.percents = percents;
+    }
+    // private NavigationEquipment navigationEquipment;
+
+
+    public List<String> getBehavioralRules() {
+        return behavioralRules;
+    }
+
+    public void setBehavioralRules(List<String> behavioralRules) {
+        this.behavioralRules = behavioralRules;
+    }
+
+
+    public List<Integer> getDays() {
+        return days;
+    }
+
+    public void setDays(List<Integer> days) {
+        this.days = days;
+    }
+
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Long getPriceListId() {
+        return priceListId;
+    }
+
+    public void setPriceListId(Long priceListId) {
+        this.priceListId = priceListId;
+    }
 
     public FindShipDTO() {
         super();
     }
 
-    public FindShipDTO(Ship ship, List<Image> imagesShips, List<BehaviorRule> rules, List<CancelCondition> conditions) {
+    public FindShipDTO(Ship ship, List<Image> imagesShips, List<BehaviorRule> rules, List<CancelCondition> conditions,List<FishingEquipment> fishEquipment,Pricelist pricelist, List<AdditionalServices> addServices) {
         id = ship.getId();
         name = ship.getName();
         longitude = ship.getAddress().getLongitude();
@@ -140,6 +172,9 @@ public class FindShipDTO {
         engineDesignation = ship.getEngineDesignation();
         enginePower = ship.getEnginePower();
         maxSpeed = ship.getMaxSpeed();
+        capacity = ship.getCapacity();
+        priceListId = pricelist.getId();
+        ownerId = ship.getOwner().getId();
 
         images = new ArrayList<String>();
         for(Image i : imagesShips){
@@ -150,36 +185,46 @@ public class FindShipDTO {
             behavioralRules.add(br.getText());
         }
 
-        cancelConditions = new ArrayList<String>();
+        days = new ArrayList<Integer>();
+        percents = new ArrayList<Double>();
         for(CancelCondition cc : conditions) {
-            this.days.add(String.valueOf(cc.getDays()));
-            switch (cc.getDays()) {
-                case 5:
-                    this.p1 = String.valueOf(cc.getPrecent());
-                    this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "od ukupne cene rezervacije.");
-                    break;
-                case 10:
-                    this.p2 = String.valueOf(cc.getPrecent());
-                    this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "od ukupne cene rezervacije.");
-                    break;
-                case 15:
-                    this.p3 = String.valueOf(cc.getPrecent());
-                    this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "od ukupne cene rezervacije.");
-                    break;
-                case 20:
-                    this.p4 = String.valueOf(cc.getPrecent());
-                    this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "od ukupne cene rezervacije.");
-                    break;
-                default:
-                    break;
+            this.days.add(cc.getDays());
+            this.percents.add(cc.getPrecent());
             }
+
+        navigationEquipment = getNavEq(ship.getNavigationEquipment().getValue());
+
+        fishingEquipment = new ArrayList<>();
+        for(FishingEquipment fe : fishEquipment){
+            fishingEquipment.add(fe.getName());
         }
 
+        additionalServices = new ArrayList<String>();
+        for(AdditionalServices as : addServices){
+            this.additionalServices.add(as.getName());
+        }
 
+        this.price = pricelist.getPrice();
+        this.priceStartDate = pricelist.getStartDate();
+    }
+
+    public static java.lang.String getNavEq(int value) {
+        switch (value) {
+            case 0:
+                return "GPS";
+            case 1:
+                return "RADAR";
+            case 2:
+                return "VHF_RADIO";
+            default:
+                return "FISHFINDER";
+        }
+
+    }
        /* navigationEquipment = ship.getNavigationEquipment();
         capacity = ship.getCapacity();
         owner = ship.getOwner();*/
-    }
+
     public Long getId() {
         return id;
     }
@@ -278,5 +323,11 @@ public class FindShipDTO {
         this.owner = owner;
     }*/
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
 
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
 }

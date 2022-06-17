@@ -1,46 +1,31 @@
 <template>
-  <div class="d-flex justify-content-center mw-90" >
-    <div class="card mb-3 mw-90" style="width: 90%;">
-      <div class="row g-0" style="background-color: #31708E;color:#F7F9FB;">
-        <div class="col-4" style="float:left">
-          <img :src="require('@/assets/' + image)" class="img-fluid " @click="goToOffer" alt="..." data-toggle="tooltip" data-placement="right" title="Poseti stranicu">
-        </div>
-        <div class="col-8">
-          <div class="row">
-            <div class="col-4">
-              <div class="card-body">
-                <h5 class="card-title" style="border:1px solid #687864;background-color:#687864">{{reservation.name}}</h5>
-                <div class="card-text" style="text-align: left;">
-                  <b>Broj osoba: </b><br>
-                  <b>Broj dana: </b>{{reservation.duration}}<br>
+<div class="d-flex justify-content-center mw-90" style=" align-content: center">
+      <div class="row p-3 " style="background-color: #31708E;color:#F7F9FB;width: 60%">
+        <div class="col-5" style="text-align: left;">
+
                   <b>Početak rezervacije: </b>{{reservation.startDate}}<br>
                   <b>Kraj rezervacije: </b>{{reservation.endDate}}<br>
+          <b>Broj dana: </b>{{reservation.duration}}<br>
                   <b>Cena: </b>{{reservation.price}} din.<br>
                 </div>
-              </div>
-            </div>
 
-            <div class="col-4">
-              <div class="card-body">
-                <p v-if="reservation.cancelled" style="color:red;font-weight: bold;">Otkazano</p>
-                <p v-if="reservation.quickReservation" style="color:red;font-weight: bold;">Brza rezervacija</p>
-              </div>
-            </div>
 
-            <div class="col-4">
-              <div class="card-body">
-                <clientProfile :header="clientProfileHeader" :index="clientProfileId" :clientPr="client"></clientProfile><br>
+            <div class="col-3">
+
+                <clientProfile :header="clientProfileHeader" :index="clientProfileId" :clientPr="reservation.clientId"></clientProfile><br>
                 <reservationReport :header="reportHeader" :reservation="reservation" :client="client" :index="reportId"></reservationReport>
 
-              </div>
             </div>
-
-
-          </div>
+        <div class="col-3">
+          <p  style="font-weight: bold;">{{this.status}}</p>
+          <p  style="font-weight: bold;">{{this.reported}}</p>
         </div>
+
+
+
       </div>
-    </div>
-  </div>
+</div>
+
 </template>
 
 
@@ -48,18 +33,21 @@
 import clientProfile from "@/components/client/clientProfile";
 import ClientServce from "@/servieces/ClientServce";
 import reservationReport from "@/components/owner/cottage_owner/reservationReport";
+//import ReservationReportService from "@/servieces/ReservationReportService";
 export default {
   name: "shipOwnerPastReservationsElement",
-   props: ["reservation"],
-  components:{clientProfile,reservationReport},
+  props: ["reservation"],
+  components: {clientProfile, reservationReport},
   data() {
     return {
       image: "",
-      clientProfileHeader:"Profil klijenta",
-      clientProfileId:"clientProfile",
-      reportHeader:"Izveštaj o rezervaciji",
-      reportId:"reportReservation",
-      client:{
+      clientProfileHeader: "Profil klijenta",
+      clientProfileId: "clientProfile",
+      reportHeader: "Izveštaj o rezervaciji",
+      reportId: "reportReservation",
+      status: "",
+      reported: "",
+      client: {
         name: "",
         surname: "",
         email: "",
@@ -75,11 +63,13 @@ export default {
     }
   },
   created() {
-    if (this.reservation.images[0] != null) {
-      this.image = this.reservation.images[0];
+    if (this.reservation.quick) {
+      this.status = "Brza rezervacija"
     } else {
-      this.image = "icons/ship.png";
+      this.status = "Obična rezervacija"
     }
+    console.log(this.reservation.clientId);
+
 
     ClientServce.getClient(this.reservation.clientId).then((response)=>
         {
@@ -87,7 +77,14 @@ export default {
           console.log(this.client);
         }
     );
-  }
+
+    /*ReservationReportService.haveReservationReport(this.reservation.id).then((response) => {
+      if (response.data) {
+        console.log(response.data);
+        this.reported = "Ocenjeno";
+      }*/
+
+  },
 }
 </script>
 

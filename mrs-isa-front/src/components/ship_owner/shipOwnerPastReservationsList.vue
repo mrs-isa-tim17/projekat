@@ -1,6 +1,7 @@
 <template>
-  <div class="container" >
-    <shipOwnerHeader></shipOwnerHeader>
+  <shipOwnerHeader></shipOwnerHeader>
+  <div class="container mt-2" >
+    <p style="font-size: 30px;font-weight: bold;">Realizovane rezervacije za brod {{this.name}}</p>
     <div v-if="!allReservations" style="color:red;">Nema trenutnih rezervacija</div> <!--??????????-->
     <div class="p-2" v-for="(r) in allReservations"  :key="r.id">
       <shipOwnerPastReservationsElement :reservation="r"></shipOwnerPastReservationsElement>
@@ -17,16 +18,19 @@ export default {
   components:{shipOwnerPastReservationsElement,shipOwnerHeader},
   data(){
     return{
-      allReservations:null
+      allReservations:null,
+      name:""
     }
   },
-  mounted(){
+  created(){
     let offerId = this.$route.params.id;
     console.log(offerId);
     ReservationService.getPastReservations(offerId)
         .then((response)=>{
           this.allReservations= response.data;
           console.log(this.allReservations);
+          console.log(this.allReservations[0].name);
+          this.name = this.allReservations[0].name;
         })
   },
 }

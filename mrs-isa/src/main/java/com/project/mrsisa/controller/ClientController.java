@@ -30,6 +30,12 @@ public class ClientController {
     private CottageOwnerService cottageOwnerService;
 	@Autowired
     private CottageService cottageService;
+
+    @Autowired
+    private ShipService shipService;
+
+    @Autowired
+    private ShipOwnerService shipOwnerService;
     @Autowired
     private ClientService clientService;
 	@Autowired
@@ -132,6 +138,34 @@ public class ClientController {
                 System.out.println("rez" + r.getId());
                 Client client = clientService.findOne(r.getClient().getId());
                 CurrentClientDTO currentdto = new CurrentClientDTO(client,c,r);
+                current.add(currentdto);
+               /* if(!emails.contains(currentdto.getClientEmail())){
+                    current.add(currentdto);
+                    emails.add(currentdto.getClientEmail());
+                }*/
+            }
+        }
+        for(CurrentClientDTO currenttt : current){
+            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+        }
+
+        return new ResponseEntity<>(current,HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/ship/current/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<CurrentClientDTO>> getCurrentShipClients(@PathVariable Long id){
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<String> emails = new ArrayList<>();
+        List<Ship> ships = shipService.getShipsByOwner(owner);
+        List<CurrentClientDTO> current = new ArrayList<>();
+        for(Ship s : ships){
+            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(s.getId());
+            for(Reservation r : reservations){
+                System.out.println("rez" + r.getId());
+                Client client = clientService.findOne(r.getClient().getId());
+                CurrentClientDTO currentdto = new CurrentClientDTO(client,s,r);
                 current.add(currentdto);
                /* if(!emails.contains(currentdto.getClientEmail())){
                     current.add(currentdto);

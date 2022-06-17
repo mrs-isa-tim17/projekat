@@ -29,15 +29,15 @@ class ShipService{
         });
     }
 
-    updateShip(ship){
-        return axios.post(SHIP_OWNER_API_BASE_URL + 'update', ship,{
+    updateShip(id,ship){
+        return axios.post(SHIP_OWNER_API_BASE_URL + 'update/' + id, ship,{
             headers: authHeader()
         });
 
     }
     deleteShip(shipId){
 
-        return axios.delete(SHIP_OWNER_API_BASE_URL + 'delete/'+ shipId,{
+        return axios.post(SHIP_OWNER_API_BASE_URL + 'delete/'+ shipId,{
             headers: authHeader()
         });
     }

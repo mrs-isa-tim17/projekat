@@ -14,17 +14,21 @@
           <li class="nav-item">
             <a class="nav-link  " style="color:white;font-size: 20px;" :href="calendar" >Kalendar</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="historyReservations">Istorija rezervacija </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="reports">Izveštaji</a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Brze rezervacije</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " style="color:white;font-size: 20px;" :href="sales">Nova rezervacija</a>
+            <a class="nav-link " style="color:white;font-size: 20px;" :href="newRes">Nova rezervacija</a>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+              <button class="dropbtn nav-link" style="color:white;font-size:20px;">Izveštaji</button>
+              <div class="dropdown-content">
+                <a :href="reservationsReports">Posećenost</a>
+                <a :href="incomeReports">Prihodi</a>
+              </div>
+            </div>
           </li>
         </ul>
         <div class="dropdown">
@@ -49,7 +53,12 @@ export default {
   name: "client-header",
   data() {
     return {
-      myOffers: "/shipOwner/home"
+      myOffers: "/shipOwner/home",
+      newRes:"/ship/newRes",
+      calendar:"/ship/calendar",
+      sales:"/ship/quickRes",
+      reservationsReports:"/ship/report/graphReservations",
+      incomeReports:"/ship/report/graphIncome",
     }
   },
   methods:
@@ -66,10 +75,38 @@ export default {
 </script>
 
 <style scoped>
-.dropdown{
-  padding-right:100px;
+
+.dropbtn {
+  background:none;
+  color: white;
+  font-size: 20px;
+  border: none;
 }
-a{
-  color: red;
+
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {}
 </style>

@@ -22,4 +22,6 @@ public interface AdditionalServicesRepository extends JpaRepository<AdditionalSe
 	List<AdditionalServices> findAllBySaleAppointmentId(Long id);
 
 
+
+
 }

@@ -1,6 +1,7 @@
 package com.project.mrsisa.dto;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AdventureDTO {
 	
     private double longitude;
     private double latitude;
-    
+    private LocalDate startDatePrice;
 	private String description;
 	private String instructorBiography;
 
@@ -40,6 +41,8 @@ public class AdventureDTO {
 
 	private double price;
 	private int capacity;
+
+	private Long priceListId;
 	
 	
 	public AdventureDTO() {
@@ -123,8 +126,31 @@ public class AdventureDTO {
 			this.additionalServices.add(as.getName());
 		}	
 	}
-	
-	
+
+	public LocalDate getStartDatePrice() {
+		return startDatePrice;
+	}
+
+	public Long getPriceListId() {
+		return priceListId;
+	}
+
+	public void setPriceListId(Long priceListId) {
+		this.priceListId = priceListId;
+	}
+
+	public void setStartDatePrice(LocalDate startDatePrice) {
+		this.startDatePrice = startDatePrice;
+	}
+
+	public List<String> getBehavioralRules() {
+		return behavioralRules;
+	}
+
+	public void setBehavioralRules(List<String> behavioralRules) {
+		this.behavioralRules = behavioralRules;
+	}
+
 	public String getInstructorBiography() {
 		return instructorBiography;
 	}

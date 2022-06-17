@@ -47,7 +47,7 @@ public class AvailabilityUnavailabilityPeriodController {
 
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		System.out.println("MILICAAA");
 		
@@ -64,7 +64,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	
 	@PostMapping(value = "/unavailability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		
 		PeriodUnavailability periodUnavailability = new PeriodUnavailability();
@@ -121,7 +121,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 
 	@GetMapping(value="/unavailability/all/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')or hasRole('SHIP_OWNER')")
 	public ResponseEntity<List<StartEndDateDTO>> getUnavailabilityPeriodsForOffer(@PathVariable Long id) {
 
 		List<PeriodUnavailability> unavailabilityPeriods = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);

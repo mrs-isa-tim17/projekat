@@ -46,11 +46,20 @@ import swal from "sweetalert2";
 export default {
   name: "reservationReport",
   props:["index","header","reservation","client"],
-  created:
+  created:{
       function () {
         console.log(this.index);
         this.modalId = "#"+this.index;
-      },
+
+        ReservationReportService.haveReservationReport(this.reservation.id).then((response)=>
+        {
+          if(response.data){
+            var button = document.getElementById("client");
+            button.disabled = true;
+          }
+        })
+      }
+  },
   methods: {
     openForm() {
       console.log("forma");

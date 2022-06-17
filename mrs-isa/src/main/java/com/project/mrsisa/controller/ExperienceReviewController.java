@@ -64,7 +64,7 @@ public class ExperienceReviewController {
     }
 
     @GetMapping(value="/all/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER')  or hasRole('SHIP_OWNER') or hasRole('FISHING_INSTRUCTOR')")
     public ResponseEntity<List<ExperienceReviewDTO>>getExperienceReviews(@PathVariable Long id){
         List<ExperienceReviewDTO> dto = new ArrayList<>();
         List<ExperienceReview> reviews = experienceReviewService.findAllByOfferId(id);

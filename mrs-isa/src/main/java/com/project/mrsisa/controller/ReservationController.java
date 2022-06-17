@@ -61,6 +61,8 @@ public class ReservationController {
     @Autowired
     private ImageService imageService;
     @Autowired
+    private ShipOwnerService shipOwnerService;
+    @Autowired
     private AdventureService adventureService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -72,14 +74,14 @@ public class ReservationController {
         List<HistoryFutureReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryFutureReservationOwnerDTO>();
         List<Reservation> futureReservations = reservationService.getFutureHistoryReservation(id);
         for (Reservation r : futureReservations) {
-            r.setOffer(cottageService.findOne(id));
-            /*if (r.getOfferType() == OfferType.COTTAGE) {
+            if (r.getOfferType() == OfferType.COTTAGE) {
                 r.setOffer(cottageService.findOne(id));
+
             } else if (r.getOfferType() == OfferType.ADVENTURE) {
                 //poziv adventureService.findOne
             } else { //ship
-               // r.setOffer(shipService.findOne(id));
-            }*/
+                r.setOffer(shipService.findOne(id));
+            }
             r.getOffer().setImages(imageService.findAllByOfferId(id));
             reservationsDTO.add(new HistoryFutureReservationOwnerDTO(r));
         }
@@ -103,6 +105,7 @@ public class ReservationController {
                 r.setOffer(shipService.findOne(id));
             }
             r.getOffer().setImages(imageService.findAllByOfferId(id));
+
             reservationsDTO.add(new HistoryPastReservationOwnerDTO(r));
 
 
@@ -414,6 +417,39 @@ public class ReservationController {
         return ResponseEntity.ok(resGraphDTO);
     }
 
+    @RequestMapping("/reportYearly/ship/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<ReservationsYearlyGraphDTO>> getYearlyReportShip(@PathVariable Long id) {
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<Ship> offers = shipService.getShipsByOwner(owner);
+        List<ReservationsYearlyGraphDTO> resGraphDTO = new ArrayList<>();
+        for (Ship c : offers) {
+            LocalDate dateNow = LocalDate.now();
+            LocalDate dateStart = dateNow.minusYears(1);
+            int yearStart = dateStart.getYear();
+            int monthStart = dateStart.getMonthValue();
+            List<Integer> numbers = new ArrayList<>();
+            List<String> monthYear = new ArrayList<>();
+            for (int i = monthStart; i < 13; i++) {
+                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
+                numbers.add(resForMonthAndYear.size());
+                String monthYearString = getMonthYear(i,yearStart);
+                monthYear.add(monthYearString);
+
+            }
+            yearStart++;
+            for (int i = 1; i < dateNow.getMonthValue() + 1; i++) {
+                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
+                numbers.add(resForMonthAndYear.size());
+                String monthYearString = getMonthYear(i,yearStart);;
+                monthYear.add(monthYearString);
+
+            }
+            resGraphDTO.add(new ReservationsYearlyGraphDTO(monthYear, numbers, c.getName()));
+        }
+        return ResponseEntity.ok(resGraphDTO);
+    }
+
     private String getMonthYear(int month,int year){
         String monthString="";
         switch (month){
@@ -471,7 +507,7 @@ public class ReservationController {
     }
 
     @RequestMapping("/reportMonthly/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<List<ReservationMonthlyGraphDTO>> getMonthlyReport(@PathVariable Long id){
         CottageOwner owner = cottageOwnerService.findOne(id);
         List<Cottage> offers = cottageService.getCottagesByOwner(owner);
@@ -483,8 +519,21 @@ public class ReservationController {
         return ResponseEntity.ok(dto);
     }
 
+    @RequestMapping("/reportMonthly/ship/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<ReservationMonthlyGraphDTO>> getMonthlyReportShip(@PathVariable Long id){
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<Ship> offers = shipService.getShipsByOwner(owner);
+        List<ReservationMonthlyGraphDTO> dto = new ArrayList<>();
+        for(Ship c : offers){
+            List<Reservation> resForMonth = reservationService.getReservationForMonth(c.getId());
+            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForMonth.size()));
+        }
+        return ResponseEntity.ok(dto);
+    }
+
     @RequestMapping("/reportWeekly/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<List<ReservationMonthlyGraphDTO>> getWeeklyReport(@PathVariable Long id){
         CottageOwner owner = cottageOwnerService.findOne(id);
         List<Cottage> offers = cottageService.getCottagesByOwner(owner);
@@ -496,8 +545,21 @@ public class ReservationController {
         return ResponseEntity.ok(dto);
     }
 
+    @RequestMapping("/reportWeekly/ship/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<ReservationMonthlyGraphDTO>> getWeeklyReportShip(@PathVariable Long id){
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<Ship> offers = shipService.getShipsByOwner(owner);
+        List<ReservationMonthlyGraphDTO> dto = new ArrayList<>();
+        for(Ship c : offers){
+            List<Reservation> resForWeek = reservationService.getReservationForWeek(c.getId());
+            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForWeek.size()));
+        }
+        return ResponseEntity.ok(dto);
+    }
+
     @GetMapping("/reportPeriod/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<List<IncomePeriodGraphDTO>> getPeriodReportIncome(@PathVariable Long id, @RequestParam Map<String,String> params){
         CottageOwner owner = cottageOwnerService.findOne(id);
         List<Cottage> offers = cottageService.getCottagesByOwner(owner);
@@ -514,6 +576,26 @@ public class ReservationController {
         }
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/reportPeriod/ship/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<IncomePeriodGraphDTO>> getPeriodReportIncomeShip(@PathVariable Long id, @RequestParam Map<String,String> params){
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<Ship> offers = shipService.getShipsByOwner(owner);
+        List<IncomePeriodGraphDTO> dto = new ArrayList<>();
+        System.out.println("datummmm"+params.get("start_date"));
+
+        LocalDate start = LocalDate.parse(params.get("start_date"));
+        LocalDate end = LocalDate.parse(params.get("end_date"));
+        for(Ship c : offers){
+            List<Reservation> resForPeriod = reservationService.getReservationForPeriod(c.getId(),params.get("start_date"),params.get("end_date"));
+            double prices = getPrices(resForPeriod);
+            dto.add(new IncomePeriodGraphDTO(c.getName(),prices));
+            System.out.println("datumiiii"+resForPeriod.size());
+        }
+        return ResponseEntity.ok(dto);
+    }
+
 
     private double getPrices(List<Reservation> reservations){
         double prices = 0;
@@ -541,10 +623,10 @@ public class ReservationController {
 	}
 
     @PostMapping(value = "reserve")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
-            Reservation r = reservationService.makeReservation(reserveEntityDTO);
+            Reservation r = reservationService.makeReservation(reserveEntityDTO); //mora i cena da se setuje na 0 ako je obicna, mora da postoji cena zbog brze rezervacije
            // reservationService.sendMailAboutReservation(r.getClient(), r);
             return ResponseEntity.ok(new ReserveEntityResponseDTO());
         }catch (AlreadyCanceled ac){

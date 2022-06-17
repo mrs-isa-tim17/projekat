@@ -1,6 +1,7 @@
 <template>
-  <div class="container" >
-    <ownerHeader></ownerHeader>
+  <ownerHeader></ownerHeader>
+  <div class="container mt-2" >
+    <p style="font-size: 30px;font-weight: bold;">Nerealizovane rezervacije za brod {{this.name}}</p>
     <div v-if="!allReservations" style="color:red;">Nema trenutnih rezervacija</div> <!--??????????-->
     <div class="p-2" v-for="(r) in allReservations"  :key="r.id">
       <shipOwnerFutureReservationsElement :reservation="r"></shipOwnerFutureReservationsElement>
@@ -18,14 +19,16 @@ export default {
   data(){
     return {
       allReservations: null,
+      name:""
     }
   },
-  mounted(){
+  created(){
     let offerId = this.$route.params.id;
     console.log(offerId);
     ReservationService.getFutureReservations(offerId)
         .then((response)=>{
           this.allReservations= response.data;
+          this.name = this.allReservations[0].name;
           console.log(this.allReservations);
         })
   },

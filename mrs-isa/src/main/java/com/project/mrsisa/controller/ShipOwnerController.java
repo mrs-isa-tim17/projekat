@@ -66,6 +66,7 @@ public class ShipOwnerController {
 	    public ResponseEntity<ShipOwnerProfileResponseDTO> updateShipOwner(@PathVariable Long id, @RequestBody ShipOwnerProfileResponseDTO shipOwnerDTO){
 	        
 	        ShipOwner so = null;
+			ShipOwner updatedOwner = null;
 	       try {
 	        so = shipOwnerService.findOne(id);
 	        if (so == null) {
@@ -84,13 +85,13 @@ public class ShipOwnerController {
 	        so.getAddress().setLatitude(shipOwnerDTO.getLatitude());
 	        so.getAddress().setLongitude(shipOwnerDTO.getLongitude());
 
-	        shipOwnerService.save(so);
+	        updatedOwner = shipOwnerService.save(so);
 	        
 	       }catch (Exception e) {
 			e.printStackTrace();
 	       }
 
-	       return new ResponseEntity<ShipOwnerProfileResponseDTO>(new ShipOwnerProfileResponseDTO(so, 5), HttpStatus.OK);
+	       return new ResponseEntity<ShipOwnerProfileResponseDTO>(new ShipOwnerProfileResponseDTO(updatedOwner), HttpStatus.OK);
 	    }
 
 		@PostMapping("{id}/free")

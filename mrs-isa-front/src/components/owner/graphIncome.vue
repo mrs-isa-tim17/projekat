@@ -87,7 +87,7 @@ export default {
       var end = document.getElementById('end').value;
       ReservationService.getReservationsPeriod(this.coId,start,end).then((response)=> {
         console.log(response.data);
-        this.chartData.push(['Vikendice', 'Rezervacije']);
+        this.chartData.push(['Ponude', 'Rezervacije']);
         for(let i=0;i<response.data.length;i++){
           this.chartData.push([response.data[i].offerName,response.data[i].price]);
           console.log(this.chartData);

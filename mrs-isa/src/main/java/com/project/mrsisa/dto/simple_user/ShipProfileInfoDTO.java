@@ -1,6 +1,7 @@
 package com.project.mrsisa.dto.simple_user;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.domain.NavigationEquipment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,28 +9,28 @@ import java.util.List;
 public class ShipProfileInfoDTO {
 
     private Long id;
-    private String name;
+    private java.lang.String name;
 
     private double longitude;
     private double latitude;
 
-    private String description;
+    private java.lang.String description;
 
-    private List<String> behavioralRules;
-    private List<String> images;
-    private List<String> additionalServices;
+    private List<java.lang.String> behavioralRules;
+    private List<java.lang.String> images;
+    private List<java.lang.String> additionalServices;
     private List<Double> additionalServicesPrice;
 
     private double price;
     private double rating;
 
     private int capacity;
-    private List<String> fishingEquipments;
+    private List<java.lang.String> fishingEquipments;
 
     //osnonvne informacije o brodu
-    private String type;
+    private java.lang.String type;
     private double length;
-    private String engineDesignation;
+    private java.lang.String engineDesignation;
     private double enginePower;
     private double maxSpeed;
     private NavigationEquipment navigationEquipment;
@@ -53,21 +54,21 @@ public class ShipProfileInfoDTO {
     }
 
     public void setBehavioralRulesFromBehaviourRuleObject(List<BehaviorRule> behavioralRules) {
-        this.behavioralRules = new ArrayList<String>();
+        this.behavioralRules = new ArrayList<java.lang.String>();
         for (BehaviorRule i : behavioralRules){
             this.behavioralRules.add(i.getText());
         }
     }
 
     public void setImagesFromImageObjects(List<Image> images) {
-        this.images = new ArrayList<String>();
+        this.images = new ArrayList<java.lang.String>();
         for (Image i : images){
             this.images.add(i.getPath());
         }
     }
 
     public void setAdditionalServicesFromAdditionalServiceObject(List<AdditionalServices> additionalServices) {
-        this.additionalServices = new ArrayList<String>();
+        this.additionalServices = new ArrayList<java.lang.String>();
         for (AdditionalServices i : additionalServices){
             this.additionalServices.add(i.getName());
         }
@@ -78,7 +79,7 @@ public class ShipProfileInfoDTO {
     }
 
     public void setAdditionalServicesFromFishingEquipmentObject(List<FishingEquipment> fishingEquipments) {
-        this.fishingEquipments = new ArrayList<String>();
+        this.fishingEquipments = new ArrayList<java.lang.String>();
         for (FishingEquipment i : fishingEquipments){
             this.fishingEquipments.add(i.getName());
         }
@@ -92,11 +93,11 @@ public class ShipProfileInfoDTO {
         this.id = id;
     }
 
-    public String getName() {
+    public java.lang.String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(java.lang.String name) {
         this.name = name;
     }
 
@@ -116,35 +117,35 @@ public class ShipProfileInfoDTO {
         this.latitude = latitude;
     }
 
-    public String getDescription() {
+    public java.lang.String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(java.lang.String description) {
         this.description = description;
     }
 
-    public List<String> getBehavioralRules() {
+    public List<java.lang.String> getBehavioralRules() {
         return behavioralRules;
     }
 
-    public void setBehavioralRules(List<String> behavioralRules) {
+    public void setBehavioralRules(List<java.lang.String> behavioralRules) {
         this.behavioralRules = behavioralRules;
     }
 
-    public List<String> getImages() {
+    public List<java.lang.String> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<java.lang.String> images) {
         this.images = images;
     }
 
-    public List<String> getAdditionalServices() {
+    public List<java.lang.String> getAdditionalServices() {
         return additionalServices;
     }
 
-    public void setAdditionalServices(List<String> additionalServices) {
+    public void setAdditionalServices(List<java.lang.String> additionalServices) {
         this.additionalServices = additionalServices;
     }
 
@@ -172,19 +173,19 @@ public class ShipProfileInfoDTO {
         this.capacity = capacity;
     }
 
-    public List<String> getFishingEquipments() {
+    public List<java.lang.String> getFishingEquipments() {
         return fishingEquipments;
     }
 
-    public void setFishingEquipments(List<String> fishingEquipments) {
+    public void setFishingEquipments(List<java.lang.String> fishingEquipments) {
         this.fishingEquipments = fishingEquipments;
     }
 
-    public String getType() {
+    public java.lang.String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(java.lang.String type) {
         this.type = type;
     }
 
@@ -196,11 +197,11 @@ public class ShipProfileInfoDTO {
         this.length = length;
     }
 
-    public String getEngineDesignation() {
+    public java.lang.String getEngineDesignation() {
         return engineDesignation;
     }
 
-    public void setEngineDesignation(String engineDesignation) {
+    public void setEngineDesignation(java.lang.String engineDesignation) {
         this.engineDesignation = engineDesignation;
     }
 

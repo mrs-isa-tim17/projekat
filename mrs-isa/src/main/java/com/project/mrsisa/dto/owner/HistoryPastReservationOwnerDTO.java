@@ -174,14 +174,21 @@ public class HistoryPastReservationOwnerDTO {
     public HistoryPastReservationOwnerDTO(Reservation r) {
         this.reservationId = r.getId();
         this.id = r.getOffer().getId();
+        System.out.println("id"+this.id);
         DateToStringConverter converter = new DateToStringConverter();
-        this.startDate = converter.convert(r.getStartDate());
-        this.endDate = converter.convert(r.getEndDate());
+        this.startDate = converter.convert(r.getStartDateTime());
+        System.out.println("id"+this.startDate);
+
+        this.endDate = converter.convert(r.getEndDateTime());
+        System.out.println("id"+this.endDate);
+
         this.quickReservation = r.isQuick();
         this.canceled = r.isCanceled();
         this.price = r.getPrice();
+
+       System.out.println("klijent" + r.getClient().getId());
         this.clientId = r.getClient().getId();
-        // this.guestsNumber = r.getGuestsNumber();
+        //this.guestsNumber = r.getGuestsNumber();
         this.name = r.getOffer().getName();
         this.longitude = r.getOffer().getAddress().getLongitude();
         this.latitude = r.getOffer().getAddress().getLatitude();

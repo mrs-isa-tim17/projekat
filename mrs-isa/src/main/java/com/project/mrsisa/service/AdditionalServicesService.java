@@ -37,4 +37,8 @@ public class AdditionalServicesService {
 	public List<AdditionalServices> findBySaleAppointmentId(Long id){
 		return additionalServicesRepository.findAllBySaleAppointmentId(id);
 	}
+
+	public void remove(Long id) {
+		additionalServicesRepository.deleteById(id);
+	}
 }

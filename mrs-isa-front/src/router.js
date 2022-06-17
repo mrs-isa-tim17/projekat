@@ -50,10 +50,17 @@ const router = createRouter({
         {path:'/owner/calendar',component:()=>import("./components/owner/cottage_owner/calendarCottageOwner")},
         {path:'/owner/quickReservation',component:()=>import("./components/owner/cottage_owner/quickReservation")},
         {path:'/owner/newReservation',component:()=>import("./components/owner/cottage_owner/newReservationForClient")},
+        {path:'/ship/newRes',component:()=>import("./components/owner/ship_owner/newShipReservationForClient")},
         {path:'/cottage/detail/:id',component:()=>import("./components/owner/cottage_owner/cottageDetail")},
         {path:'/ship/add',component:() => import("./components/ship_owner/addShip.vue")},
         { path: '/cottage/update/:id',component:()=>import("./components/owner/cottage_owner/updateCottage")},
         { path: '/ship/update/:id',component:()=>import("./components/ship_owner/updateShip")},
+        {path:'/ship/detail/:id',component:()=>import("./components/owner/ship_owner/shipDetail")},
+        {path:'/ship/calendar',component:()=>import("./components/owner/ship_owner/calendarForShipOwner")},
+        {path:'/ship/quickRes',component:()=>import("./components/owner/ship_owner/quickReservationShip")},
+        {path:'/ship/report/graphIncome',component:()=>import("./components/owner/ship_owner/graphIncomeShip")},
+        {path:'/ship/report/graphReservations',component:()=>import("./components/owner/ship_owner/graphReservationShip")},
+
 
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},

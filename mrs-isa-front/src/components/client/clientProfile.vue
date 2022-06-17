@@ -17,7 +17,7 @@
           <b>Email: </b>{{client.email}}<br>
           <b>Broj telefona: </b>{{client.phoneNumber}}<br>
           <b>Kategorija: </b>{{client.userType}}<br>
-          <b>Broj loyality poena: </b>{{client.loyalityPoints}}<br>
+          <b>Broj loyality poena: </b>{{client.loyaltyPoints}}<br>
           <b>Penali: </b>{{client.penaltyNumber}}<br>
         </div>
         <div class="modal-footer">

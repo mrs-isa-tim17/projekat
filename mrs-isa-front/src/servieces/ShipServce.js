@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Config from "../config.json";
+//import authHeader from "@/servieces/authHeader";
 
 const SHIP_API_BASE_URL = Config.BASE_URL + '/ship/site';
 
@@ -41,6 +42,7 @@ class ShipServce{
         console.log(offerId);
         return axios.get(SHIP_API_BASE_URL + '/calendar/reservation/' + offerId);
     }
+
 }
 
 export default new ShipServce();

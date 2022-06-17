@@ -17,7 +17,10 @@ public class PricelistService {
 	
 	public Pricelist save(Pricelist pricelist) {
 		return pricelistRepository.save(pricelist);
+
 	}
+
+
 	
 	public List<Pricelist> findAll(){
 		return pricelistRepository.findAll();
