@@ -103,7 +103,7 @@ public class UserService {
                 return userRepository.save(a);
             case 3:
                 CottageOwner co = new CottageOwner();
-                co = (CottageOwner) fillUserAttributes(co, userRequest);
+                co = (CottageOwner) fillUserAttributes(co, userRequest); //gde ide request objasnjenje??
                 RegistrationRequest rrCO = makeRegistrationRequest(co);
                 co.setRegistrationRequest(rrCO);
                 return userRepository.save(co);
