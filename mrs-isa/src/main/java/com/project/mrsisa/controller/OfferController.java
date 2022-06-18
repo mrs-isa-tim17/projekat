@@ -31,12 +31,10 @@ public class OfferController {
                 long days = ChronoUnit.DAYS.between(req.getFromDate().toLocalDate(), req.getUntilDate().toLocalDate());//req.getUntilDate() - req.getFromDate();
                 price = days * req.getPrice();
             } else if (req.getType().equals("adventure")) {
-                long minutes = ChronoUnit.MINUTES.between(req.getFromDate(), req.getUntilDate());//req.getUntilDate() - req.getFromDate();
-                System.out.println(minutes);
-                price = minutes / 60.0 * req.getPrice();
+                long hours = ChronoUnit.HOURS.between(req.getFromDate(), req.getUntilDate());//req.getUntilDate() - req.getFromDate();
+                price = hours / 24 * req.getPrice();
             } else if (req.getType().equals("ship")) {
                 long minutes = ChronoUnit.MINUTES.between(req.getFromDate(), req.getUntilDate());//req.getUntilDate() - req.getFromDate();
-                System.out.println(minutes);
                 price = minutes / 60.0 * req.getPrice();
             }
 

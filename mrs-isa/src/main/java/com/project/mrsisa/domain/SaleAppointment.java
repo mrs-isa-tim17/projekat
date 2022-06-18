@@ -145,6 +145,12 @@ public class SaleAppointment {
 	}
 
     public LocalDateTime getEndSaleDate() {
-		return this.startSaleDate.plusHours((long) duration);//u cemu cuva vikendica?
+		if (offerType == OfferType.SHIP){
+			return this.startSaleDate.plusDays((long) duration);//dani - brod
+		}else if (offerType == OfferType.COTTAGE){
+			return this.startSaleDate.plusDays((long) duration);//dani - vikendica?
+		}else {
+			return this.startSaleDate.plusHours((long) duration);//sati - avantura?
+		}
     }
 }

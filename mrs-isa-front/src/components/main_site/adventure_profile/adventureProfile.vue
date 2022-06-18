@@ -43,6 +43,7 @@ import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import adventureServce from "@/servieces/AdventureServce";
 import AdventureInfoDisplay from "@/components/main_site/adventure_profile/adventureInfoDisplay";
+import swal from "sweetalert2";
 
 export default {
   name: "shipProfile",
@@ -52,6 +53,18 @@ export default {
         this.offerId = this.$route.params.id;
         adventureServce.getAdvanture(this.offerId).then((response) => {
           this.offer = response.data;
+          if (this.offer.id === null){
+            swal.fire({
+              title: "Upozerenje",
+              text: "Tražena avantura ne postoji",
+              background:'white',
+              color:'black',
+              confirmButtonColor:'#FECDA6'})
+                .then((result) => {
+                  if (result.isConfirmed)
+                    this.$router.back();
+                });
+          }
           this.infoKey++;
           console.log(this.offer);
         })

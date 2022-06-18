@@ -31,6 +31,11 @@ public class LoyaltyPointsService {
 		return loyaltyPointsRepository.findActivePointsByType(user.getValue());
 	}
 
-
+	public LoyaltyPoints findCurrentLoyaltyPointForUser(UserTypeLoyaltyPoints type){
+		List<LoyaltyPoints> res = loyaltyPointsRepository.findCurrentActivePointsByType(type.getValue());
+		if (res.size() > 0)
+			return res.get(0);
+		return null;
+	}
 
 }

@@ -1,6 +1,22 @@
 <template>
   <div class="card" style="width: 18rem;">
-    <div class="card-body">
+    <div class="card-body" v-if="this.scale1.userType==='REGULAR'">
+      <label class="card-title">{{scale1.userType}}</label> <img :src="this.getImage()" style="max-width: 50px; max-height: 50px">
+      <br>
+      <label class="card-text m-2" >{{discountLabel}} </label> <input type="number" v-model="scale1.discount" style="max-width: 50px"> <label>%</label>
+      <label class="card-text m-2">{{trasholdLabel}} </label> <input type="number" :disabled="true" v-model="scale1.trashold" style="max-width: 50px">
+      <p class="card-text m-2" >{{fromDateLabel}}  </p> <Datepicker v-model="scale1.startDate"></Datepicker>
+      <p class="card-text m-2">{{userRole}} {{roleClientSerbian(scale1.role)}}</p>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-primary me-md-2" type="button" @click="defineNewScale">Izmeni</button>
+      </div>
+
+
+    </div>
+
+
+    <div class="card-body"  v-if="this.scale1.userType!=='REGULAR'">
 
       <label class="card-title">{{scale1.userType}}</label> <img :src="this.getImage()" style="max-width: 50px; max-height: 50px">
       <br>

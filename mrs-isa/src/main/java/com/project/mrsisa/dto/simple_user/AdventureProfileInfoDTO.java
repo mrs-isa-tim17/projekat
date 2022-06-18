@@ -27,6 +27,10 @@ public class AdventureProfileInfoDTO {
     private int capacity;
     private List<String> fishingEquipments;
 
+    public AdventureProfileInfoDTO(){
+
+    }
+
     public AdventureProfileInfoDTO(Adventure c) {
         this.id = c.getId();
         this.name = c.getName();

@@ -127,6 +127,9 @@ public class AdventureController {
 	public ResponseEntity<List<OfferForHomePageViewDTO>> getAdventuresForHomePage(){
 		List<Adventure> adventures = adventureService.findAll();
 		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		if (adventures.size() > 6){
+			adventures = adventures.subList(0, 5);
+		}
 		for (Adventure c : adventures) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
@@ -203,6 +206,12 @@ public class AdventureController {
 	@GetMapping(value = "/detail/all/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<AdventureDTO>> getAdventuresByOwner(@PathVariable Long id) {
+		
+		List<AdventureDTO> adventuredDTO = getAdventuresForOwner(id);
+		return new ResponseEntity<>(adventuredDTO, HttpStatus.OK);
+	}
+	
+	private List<AdventureDTO> getAdventuresForOwner(Long id){
 		FishingInstructor instructor = fishingInstructorService.findOne(id);
 		List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
 
@@ -212,21 +221,24 @@ public class AdventureController {
 			adventureDTO.add(formAdventureDTO(adventure));
 			System.out.println("avanturaaaaaa" + adventure.getId() + adventure.getName());
 		}
-		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
+		return adventureDTO;
 	}
 	
-
-	
-	@GetMapping(value="/detail/reservation/{id}")
+	@GetMapping(value="/detail/reservation/{adventureId}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long id){
+	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long adventureId){
 		
 		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventureId);
+		System.out.println("Stigne ovde");
 		for(Reservation reservation: reservations) {
+			if(reservation.getClient() == null) {
+				continue;
+			}
 			Client client = (Client) userService.findById(reservation.getClient().getId());
+			Adventure adventure = adventureService.findOneById(adventureId);
 			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
-					reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick());
+					reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick(), adventure.getName());
 			
 			reservationsForOwner.add(reservationForOwner);
 		}
@@ -234,6 +246,33 @@ public class AdventureController {
 		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
 	}
 		
+	
+	@GetMapping(value="/detail/reservation/all/{ownerId}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<ReservationForOwnerDTO>> getAllOwnersReservations(@PathVariable Long ownerId){
+		System.out.println("STIGNEEE");
+		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
+		
+		List<AdventureDTO> allAdventures = getAdventuresForOwner(ownerId);
+		System.out.println("STIGNEEE");
+		for(AdventureDTO adventure : allAdventures) {
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventure.getId());
+			for(Reservation reservation: reservations) {
+				if(reservation.getClient() == null) {
+					continue;
+				}
+				Client client = (Client) userService.findById(reservation.getClient().getId());
+				ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
+						reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick(), adventure.getName());
+				
+				reservationsForOwner.add(reservationForOwner);
+			}
+		}
+
+		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
+	}
+	
+	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
 		Adventure adventure = new Adventure();
@@ -247,6 +286,10 @@ public class AdventureController {
 		adventure.setDeleted(false);
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
+		
+		FishingInstructor fi = fishingInstructorService.findOne(adventureDTO.getInstructorId());
+		
+		adventure.setOwner(fi);
 		
 		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
 		for(String rule : adventureDTO.getBehaviorRules())
@@ -318,7 +361,7 @@ public class AdventureController {
 		List<Image> images = imageService.findAllByAdventureId(adventureId);
 		List<FishingEquipment> fishEquipment = fishingEquipmentService.findAllByAdventureId(adventureId);
 		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(adventureId);
-		List<ExperienceReview> experience =  experienceReviewService.findAllByOfferId(adventureId);
+		List<ExperienceReview> experience =  experienceReviewService.findAllApprovedByOfferId(adventureId);
 		List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(adventureId);
 		Pricelist pricelist = pricelistService.findOffersCurrentPriceById(adventureId);
 		double price = pricelist.getPrice();
@@ -330,7 +373,7 @@ public class AdventureController {
 		System.out.println("experience review siye : "  + experience.size());
 		System.out.println("addition siye : "  + additionalServices.size());
 		System.out.println("OVDE");
-		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price);
+		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price, adventure.getOwner().getId());
 			
 		System.out.println(adventureDTO);
 		return adventureDTO;
@@ -574,21 +617,26 @@ public class AdventureController {
 
 	@GetMapping(value = "/site/{id}")
 	public ResponseEntity<AdventureProfileInfoDTO> getAdventureDisplayForProfile(@PathVariable long id) {
-		Adventure c = adventureService.findOneById(id);
-		AdventureProfileInfoDTO adventuresDTO = new AdventureProfileInfoDTO(c);
-		adventuresDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
-		adventuresDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
-		adventuresDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
-		adventuresDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.ADVENTURE));
-		adventuresDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
-		return new ResponseEntity<AdventureProfileInfoDTO>(adventuresDTO, HttpStatus.OK);
+		try {
+			Adventure c = adventureService.findOneById(id);
+			AdventureProfileInfoDTO adventuresDTO = new AdventureProfileInfoDTO(c);
+			adventuresDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+			adventuresDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+			adventuresDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+			adventuresDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+			adventuresDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.ADVENTURE));
+			adventuresDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
+			return new ResponseEntity<AdventureProfileInfoDTO>(adventuresDTO, HttpStatus.OK);
+		}catch (Exception e){
+			return ResponseEntity.ok(new AdventureProfileInfoDTO());
+		}
+
 	}
 
 
 	@PostMapping(value = "/site/review/{id}")
 	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromAdvanture(@PathVariable long id, @RequestBody PaginationDTO paginationDTO) {
-		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReview> er = experienceReviewService.findAllApprovedByOfferId(id);
 		ExperienceReviewDTO size = new ExperienceReviewDTO();
 		size.setListSize(er.size());
 		er = er.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(er.size()));

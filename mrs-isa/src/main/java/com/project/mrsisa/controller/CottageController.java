@@ -120,6 +120,9 @@ public class CottageController {
 	public ResponseEntity<List<OfferForHomePageViewDTO>> getCottagesForHomePage() {
 		List<Cottage> cottages = cottageService.findActiveCottages();
 		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		if (cottages.size() > 6){
+			cottages = cottages.subList(0, 5);
+		}
 		for (Cottage c : cottages) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
@@ -434,20 +437,25 @@ public class CottageController {
 
 	@GetMapping(value = "/site/{id}")
 	public ResponseEntity<CottageProfileInfoDTO> getCottageDisplayForProfile(@PathVariable long id) {
-		Cottage c = cottageService.findOne(id);
-		CottageProfileInfoDTO cottageDTO = new CottageProfileInfoDTO(c);
-		cottageDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
-		cottageDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
-		cottageDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
-		cottageDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		cottageDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
-		return new ResponseEntity<CottageProfileInfoDTO>(cottageDTO, HttpStatus.OK);
+		try {
+			Cottage c = cottageService.findOne(id);
+			CottageProfileInfoDTO cottageDTO = new CottageProfileInfoDTO(c);
+			cottageDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+			cottageDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+			cottageDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+			cottageDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+			cottageDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.COTTAGE));
+			return new ResponseEntity<CottageProfileInfoDTO>(cottageDTO, HttpStatus.OK);
+
+		}catch (Exception e){
+			return ResponseEntity.ok(new CottageProfileInfoDTO());
+		}
 	}
 
 
 	@PostMapping(value = "/site/review/{id}")
 	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromCottage(@PathVariable long id, @RequestBody PaginationDTO paginationDTO) {
-		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReview> er = experienceReviewService.findAllApprovedByOfferId(id);
 		ExperienceReviewDTO size = new ExperienceReviewDTO();
 		size.setListSize(er.size());
 		er = er.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(er.size()));

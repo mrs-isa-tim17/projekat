@@ -170,7 +170,13 @@ export default {
       }
       else{
         ClientServce.updateClient(this.clientID, this.client)
-            .then("Success");
+            .then(
+                swal.fire({
+                  icon: 'success',
+                  title: 'Uspešno ste promenile svoje podatke.',
+                  showConfirmButton: false,
+                  timer: 1500
+                }));
         //this.client.name, this.client.surname, this.client.password,
         //this.client.phoneNumber, this.client.city, this.client.country, this.client.address
         //axios

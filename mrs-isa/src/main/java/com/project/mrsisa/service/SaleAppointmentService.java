@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.project.mrsisa.converter.LocalDateTimeToString;
-import com.project.mrsisa.domain.Client;
-import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
 import com.project.mrsisa.exception.NotDefinedValue;
 import com.project.mrsisa.exception.TooHighPenaltyNumber;
@@ -18,7 +17,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.project.mrsisa.domain.SaleAppointment;
 import com.project.mrsisa.repository.SaleAppointmentRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +40,18 @@ public class SaleAppointmentService {
 	@Autowired
 	private Environment env;
 
+	@Autowired
+	private CottageService cottageService;
+
+	@Autowired
+	private ShipService shipService;
+
+	@Autowired
+	private AdventureService adventureService;
+
+	@Autowired
+	private DeleteRequestService deleteRequestService;
+
 	public List<SaleAppointment> findAll(){
 		return saleAppointmentRepository.findAll();
 	}
@@ -63,31 +73,33 @@ public class SaleAppointmentService {
 		SaleAppointment sa = findOneById(dto.getSaleAppointmentId());
 		Reservation r = reservationService.findOneById(sa.getReservation().getId());
 		if (r == null){
-			System.out.println("ne postoji rez");
 			throw new NotDefinedValue("Ne postoji rezervacija sa datom identifikatorom");
 		}
 		sa.setReserved(true);
 		save(sa);
 		//Reservation r = new Reservation();
 		Client c = clientService.findOne(dto.getClientId());
+		if (deleteRequestService.getIfUserMadeDeleteRequest(r.getClient().getId())){
+			throw new NotDefinedValue("Napravili ste zahtev za brisanje naloga, dok zahtev ne bude odbijen, nećete moći da rezervišete");
+		}
 		if (c.getPenaltyNumber() >= 3)
 			throw new TooHighPenaltyNumber("Zbog broja penala ste onemogućeni da rezervišete.");
-		System.out.println("Panel ok");
 		r.setClient(c);
-		//r.setStartDateTime(sa.getStartSaleDate());
-		//r.setEndDateTime(sa.getStartSaleDate().plusHours((long) sa.getDuration()));
-		//r.setPrice(sa.getDiscount());
-		//r.setOfferType(sa.getOfferType());
-		//r.setReviewed(false);
-		//r.setQuick(true);
-		//r.setCanceled(false);
-		//r.setClient(c);
-		//r.setOffer(sa.getOffer());//pukne?
-		//r.setShipOwnerPresent(false);
 		try {
 			reservationService.save(r);
+			reservationService.addLoyaltyPointsToClient(c);
+			Offer o = null;
+			if (r.getOfferType() == OfferType.COTTAGE){
+				o = cottageService.findOne(r.getOffer().getId());
+			}else if (r.getOfferType() == OfferType.SHIP){
+				o = shipService.findOne(r.getOffer().getId());
+			}else if (r.getOfferType() == OfferType.ADVENTURE){
+				o = adventureService.findOneById(r.getOffer().getId());
+			}
+			reservationService.addLoyaltyPointsToOwner(o, r.getOfferType());
 		}catch (Exception e){
 			e.printStackTrace();
+			throw new NotDefinedValue("Greška se desilo prilikom napravljanje rezervacije");
 		}
 		System.out.println("");
 		try{

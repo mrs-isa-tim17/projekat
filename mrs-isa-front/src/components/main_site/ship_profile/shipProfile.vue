@@ -45,6 +45,7 @@ import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import ShipInfoDisplay from "@/components/main_site/ship_profile/shipInfoDisplay";
 import shipServce from "@/servieces/ShipServce";
+import swal from "sweetalert2";
 export default {
   name: "shipProfile",
   components: {ShipInfoDisplay, BirdVueMap, OfferCarousel, ClientHeader, BasicHeader},
@@ -53,9 +54,19 @@ export default {
         this.offerId = this.$route.params.id;
         shipServce.getShip(this.offerId).then((response) => {
           this.offer = response.data;
+          if (this.offer.id === null){
+            swal.fire({
+              title: "Upozerenje",
+              text: "Traženi brod ne postoji",
+              background:'white',
+              color:'black',
+              confirmButtonColor:'#FECDA6'})
+                .then((result) => {
+                  if (result.isConfirmed)
+                    this.$router.back();
+                });
+          }
           this.infoKey++;
-          console.log("SHIP:");
-          console.log(this.offer);
         })
 
         try{

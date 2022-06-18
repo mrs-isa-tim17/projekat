@@ -42,16 +42,30 @@ import ClientHeader from "@/components/client/clientHeader";
 import cottageServce from "@/servieces/CottageServce";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import CottageInfoDisplay from "@/components/main_site/cottage_profile/cottageInfoDisplay";
+import swal from "sweetalert2";
 export default {
   name: "cottageProfile",
   components: {CottageInfoDisplay, BirdVueMap, ClientHeader, BasicHeader, OfferCarousel},
   created:
       function () {
         this.offerId = this.$route.params.id;
-          cottageServce.getCottage(this.offerId).then((response) => {
-            this.offer = response.data;
-            console.log(this.offer);
-            this.infoDisplayKey++;
+          cottageServce.getCottage(this.offerId)
+              .then((response) => {
+                this.offer = response.data;
+                if (this.offer.id === null){
+                  swal.fire({
+                    title: "Upozerenje",
+                    text: "Tražena vikendica ne postoji",
+                    background:'white',
+                    color:'black',
+                    confirmButtonColor:'#FECDA6'})
+                      .then((result) => {
+                        if (result.isConfirmed)
+                          this.$router.back();
+                      });
+                  }
+
+                this.infoDisplayKey++;
           })
 
         try{

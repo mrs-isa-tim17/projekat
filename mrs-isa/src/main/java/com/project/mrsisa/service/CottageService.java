@@ -1,7 +1,7 @@
 package com.project.mrsisa.service;
 
 import java.util.List;
-;
+
 import com.project.mrsisa.domain.Offer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

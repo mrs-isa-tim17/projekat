@@ -51,7 +51,7 @@ public class ClientService {
 		try {
 			Offer cottage = cottageService.findOne(offerId);
 			subs.add(cottage);
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 		try {
@@ -59,7 +59,7 @@ public class ClientService {
 			if (ship != null) {
 				subs.add(ship);
 			}
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 		try {
@@ -67,7 +67,7 @@ public class ClientService {
 			if (adventure != null) {
 				subs.add(adventure);
 			}
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 
@@ -125,11 +125,11 @@ public class ClientService {
 		List<Offer> subs = cottageService.findAllByClientId(clientId);
 		subs.addAll(shipService.findAllByClientId(clientId));
 		subs.addAll(adventureService.findAllByClientId(c));
-
+		System.out.println(offerId);
 		try {
 			Cottage cottage = cottageService.findOne(offerId);
 			subs.remove(cottage);
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 		try {
@@ -137,7 +137,7 @@ public class ClientService {
 			if (ship != null) {
 				subs.remove(ship);
 			}
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 		try {
@@ -145,7 +145,7 @@ public class ClientService {
 			if (adventure != null) {
 				subs.remove(adventure);
 			}
-		}catch (NullPointerException npe){
+		}catch (Exception npe){
 
 		}
 		c.setSubscriptions(subs);
