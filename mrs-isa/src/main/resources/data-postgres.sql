@@ -493,6 +493,13 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
   (false, '20.06.2022', 0, 4000, false, false, '08.06.2022.', 1, 1, false);
+  
+  
+ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id,ship_owner_present) values
+    (false, '30.06.2022', 2, 10000, false, false, '14.06.2022.', 1, 2,false);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+  (false, '30.06.2022', 2, 12000, false, false, '14.06.2022.', 1, 2, false);
 
   insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '20.06.2022', 0, 4000, false, false, '08.06.2022.', 1, 1, false);
@@ -527,8 +534,8 @@ insert into complaint (version, offer_type, status, text, client_id, offer_id, r
 
 insert into period_unavailability (start_date, end_date, offer_id) values ('03.06.2022. 20:00', '06.06.2022. 08:00', 2);
 
-
-insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
+-- samo zbog testiranja komentarisem 
+--insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog jer se vise ne bavim ovim poslom.', 2);
 insert into delete_request (version, status, text, user_id) values (0, 0, 'Zelim da obrisem nalog.', 3);
 insert into delete_request (version, status, text, user_id) values (0, 0, 'Molim da mi se obrise nalog.', 5);
 

@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -140,7 +143,7 @@ public class ReservationService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
-        if (reserveEntityDTO.getClientId() == null){
+        if (reserveEntityDTO.getClientId() == -1){
             r.setClient(null);
         }else{
             r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));
@@ -366,5 +369,16 @@ public class ReservationService {
 
     public void setPricelistService(PricelistService pricelistService) {
         this.pricelistService = pricelistService;
+    }
+    public List<Reservation> getReservationsForPeriod(LocalDate startDate, LocalDate endDate){
+    	return reservationRepository.getReservationsForPeriod(startDate, endDate);
+    }
+    
+    public List<Reservation>findAllQuickReservationsForOffer(Long id){
+    	return reservationRepository.findAllQuickReservationsForOffer(id);
+    }
+    
+    public List<Reservation> findAllOrdinaryReservationsForOffer(Long id){
+    	return reservationRepository.findAllOrdinaryReservationsForOffer(id);
     }
 }

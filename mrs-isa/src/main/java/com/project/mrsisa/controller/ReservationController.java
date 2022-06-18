@@ -65,6 +65,10 @@ public class ReservationController {
     @Autowired
     private AdventureService adventureService;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private FishingInstructorService fishingInstructorService;
 
 
     @RequestMapping(value = "/reservations/future/{id}")
@@ -385,36 +389,80 @@ public class ReservationController {
     }
 
     @RequestMapping("/reportYearly/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<ReservationsYearlyGraphDTO>> getYearlyReport(@PathVariable Long id) {
-        CottageOwner owner = cottageOwnerService.findOne(id);
-        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+    	User user = userService.findById(id);
         List<ReservationsYearlyGraphDTO> resGraphDTO = new ArrayList<>();
-        for (Cottage c : offers) {
-            LocalDate dateNow = LocalDate.now();
-            LocalDate dateStart = dateNow.minusYears(1);
-            int yearStart = dateStart.getYear();
-            int monthStart = dateStart.getMonthValue();
-            List<Integer> numbers = new ArrayList<>();
-            List<String> monthYear = new ArrayList<>();
-            for (int i = monthStart; i < 13; i++) {
-                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
-                numbers.add(resForMonthAndYear.size());
-                String monthYearString = getMonthYear(i,yearStart);
-                monthYear.add(monthYearString);
+    	switch (user.getRoleId().intValue()) {
+		case 3:   // cotage owner
+	        CottageOwner owner = cottageOwnerService.findOne(id);
+	        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+	        for (Cottage c : offers) {
+	            LocalDate dateNow = LocalDate.now();
+	            LocalDate dateStart = dateNow.minusYears(1);
+	            int yearStart = dateStart.getYear();
+	            int monthStart = dateStart.getMonthValue();
+	            List<Integer> numbers = new ArrayList<>();
+	            List<String> monthYear = new ArrayList<>();
+	            for (int i = monthStart; i < 13; i++) {
+	                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
+	                numbers.add(resForMonthAndYear.size());
+	                String monthYearString = getMonthYear(i,yearStart);
+	                monthYear.add(monthYearString);
 
-            }
-            yearStart++;
-            for (int i = 1; i < dateNow.getMonthValue() + 1; i++) {
-                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
-                numbers.add(resForMonthAndYear.size());
-                String monthYearString = getMonthYear(i,yearStart);;
-                monthYear.add(monthYearString);
+	            }
+	            yearStart++;
+	            for (int i = 1; i < dateNow.getMonthValue() + 1; i++) {
+	                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(c.getId(), i, yearStart);
+	                numbers.add(resForMonthAndYear.size());
+	                String monthYearString = getMonthYear(i,yearStart);;
+	                monthYear.add(monthYearString);
 
-            }
-            resGraphDTO.add(new ReservationsYearlyGraphDTO(monthYear, numbers, c.getName()));
-        }
-        return ResponseEntity.ok(resGraphDTO);
+	            }
+	            resGraphDTO.add(new ReservationsYearlyGraphDTO(monthYear, numbers, c.getName()));
+	        }
+	        return ResponseEntity.ok(resGraphDTO);
+			
+
+		case 4:  //ship owner
+			break;
+			
+		case 5:  // fish instructor
+			 FishingInstructor instructor = fishingInstructorService.findOne(id);
+		        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+		        for (Adventure a : adventures) {
+		            LocalDate dateNow = LocalDate.now();
+		            LocalDate dateStart = dateNow.minusYears(1);
+		            int yearStart = dateStart.getYear();
+		            int monthStart = dateStart.getMonthValue();
+		            List<Integer> numbers = new ArrayList<>();
+		            List<String> monthYear = new ArrayList<>();
+		            for (int i = monthStart; i < 13; i++) {
+		                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(a.getId(), i, yearStart);
+		                numbers.add(resForMonthAndYear.size());
+		                String monthYearString = getMonthYear(i,yearStart);
+		                monthYear.add(monthYearString);
+
+		            }
+		            yearStart++;
+		            for (int i = 1; i < dateNow.getMonthValue() + 1; i++) {
+		                List<Reservation> resForMonthAndYear = reservationService.getReservationsForMonthAndYear(a.getId(), i, yearStart);
+		                numbers.add(resForMonthAndYear.size());
+		                String monthYearString = getMonthYear(i,yearStart);;
+		                monthYear.add(monthYearString);
+
+		            }
+		            resGraphDTO.add(new ReservationsYearlyGraphDTO(monthYear, numbers, a.getName()));
+		        }
+		        return ResponseEntity.ok(resGraphDTO);
+
+		default:
+			return ResponseEntity.ok(resGraphDTO);
+		}
+    	return ResponseEntity.ok(resGraphDTO);
+    
+    	
+
     }
 
     @RequestMapping("/reportYearly/ship/{id}")
@@ -507,16 +555,38 @@ public class ReservationController {
     }
 
     @RequestMapping("/reportMonthly/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<ReservationMonthlyGraphDTO>> getMonthlyReport(@PathVariable Long id){
-        CottageOwner owner = cottageOwnerService.findOne(id);
-        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+    	User user = userService.findById(id);
         List<ReservationMonthlyGraphDTO> dto = new ArrayList<>();
-        for(Cottage c : offers){
-            List<Reservation> resForMonth = reservationService.getReservationForMonth(c.getId());
-            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForMonth.size()));
-        }
-        return ResponseEntity.ok(dto);
+    	
+    	switch (user.getRoleId().intValue()) {
+		case 3:  // cotage  	
+	        CottageOwner owner = cottageOwnerService.findOne(id);
+	        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+	        for(Cottage c : offers){
+	            List<Reservation> resForMonth = reservationService.getReservationForMonth(c.getId());
+	            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForMonth.size()));
+	        }
+	        return ResponseEntity.ok(dto);
+			
+		case 4:  //ship
+			
+			break;
+		case 5:  // instructor
+	        FishingInstructor instructor = fishingInstructorService.findOne(id);
+	        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+	        for(Adventure a : adventures){
+	            List<Reservation> resForMonth = reservationService.getReservationForMonth(a.getId());
+	            dto.add(new ReservationMonthlyGraphDTO(a.getName(),resForMonth.size()));
+	        }
+	        return ResponseEntity.ok(dto);
+			
+		default:
+			return ResponseEntity.ok(dto);
+		}
+    	return ResponseEntity.ok(dto);
+
     }
 
     @RequestMapping("/reportMonthly/ship/{id}")
@@ -533,16 +603,38 @@ public class ReservationController {
     }
 
     @RequestMapping("/reportWeekly/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<ReservationMonthlyGraphDTO>> getWeeklyReport(@PathVariable Long id){
-        CottageOwner owner = cottageOwnerService.findOne(id);
-        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+    	User user = userService.findById(id);
         List<ReservationMonthlyGraphDTO> dto = new ArrayList<>();
-        for(Cottage c : offers){
-            List<Reservation> resForWeek = reservationService.getReservationForWeek(c.getId());
-            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForWeek.size()));
-        }
+
+    	switch (user.getRoleId().intValue()) {
+		case 3:  // cottage
+	        CottageOwner owner = cottageOwnerService.findOne(id);
+	        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+	        for(Cottage c : offers){
+	            List<Reservation> resForWeek = reservationService.getReservationForWeek(c.getId());
+	            dto.add(new ReservationMonthlyGraphDTO(c.getName(),resForWeek.size()));
+	        }
+	        return ResponseEntity.ok(dto);
+
+		case 4:	// ship
+			break;
+		case 5:	// fish
+	        FishingInstructor instructor = fishingInstructorService.findOne(id);
+	        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+	        for(Adventure a : adventures){
+	            List<Reservation> resForWeek = reservationService.getReservationForWeek(a.getId());
+	            dto.add(new ReservationMonthlyGraphDTO(a.getName(),resForWeek.size()));
+	        }
+	        return ResponseEntity.ok(dto);
+
+		default:
+			break;
+		}
+    	
         return ResponseEntity.ok(dto);
+
     }
 
     @RequestMapping("/reportWeekly/ship/{id}")
@@ -559,22 +651,49 @@ public class ReservationController {
     }
 
     @GetMapping("/reportPeriod/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<IncomePeriodGraphDTO>> getPeriodReportIncome(@PathVariable Long id, @RequestParam Map<String,String> params){
-        CottageOwner owner = cottageOwnerService.findOne(id);
-        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+    	User user = userService.findById(id);
         List<IncomePeriodGraphDTO> dto = new ArrayList<>();
-        System.out.println("datummmm"+params.get("start_date"));
-
         LocalDate start = LocalDate.parse(params.get("start_date"));
         LocalDate end = LocalDate.parse(params.get("end_date"));
-        for(Cottage c : offers){
-            List<Reservation> resForPeriod = reservationService.getReservationForPeriod(c.getId(),params.get("start_date"),params.get("end_date"));
-            double prices = getPrices(resForPeriod);
-            dto.add(new IncomePeriodGraphDTO(c.getName(),prices));
-            System.out.println("datumiiii"+resForPeriod.size());
-        }
-        return ResponseEntity.ok(dto);
+    	switch (user.getRoleId().intValue()) {
+		case 3:  // cottage
+	    	CottageOwner owner = cottageOwnerService.findOne(id);
+	        List<Cottage> offers = cottageService.getCottagesByOwner(owner);
+	        System.out.println("datummmm"+params.get("start_date"));
+
+
+	        for(Cottage c : offers){
+	            List<Reservation> resForPeriod = reservationService.getReservationForPeriod(c.getId(),params.get("start_date"),params.get("end_date"));
+	            double prices = getPrices(resForPeriod);
+	            dto.add(new IncomePeriodGraphDTO(c.getName(),prices));
+	            System.out.println("datumiiii"+resForPeriod.size());
+	        }
+	        return ResponseEntity.ok(dto);
+
+		case 4:  // ship
+			
+			break;
+		case 5:  // instructor
+	    	FishingInstructor instructor = fishingInstructorService.findOne(id);
+	        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+	        System.out.println("datummmm"+params.get("start_date"));
+
+
+	        for(Adventure a : adventures){
+	            List<Reservation> resForPeriod = reservationService.getReservationForPeriod(a.getId(),params.get("start_date"),params.get("end_date"));
+	            double prices = getPrices(resForPeriod);
+	            dto.add(new IncomePeriodGraphDTO(a.getName(),prices));
+	            System.out.println("datumiiii"+resForPeriod.size());
+	        }
+	        return ResponseEntity.ok(dto);
+
+		default:
+			 return ResponseEntity.ok(dto);
+		}
+    	
+    	 return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/reportPeriod/ship/{id}")
@@ -623,7 +742,7 @@ public class ReservationController {
 	}
 
     @PostMapping(value = "reserve")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
             Reservation r = reservationService.makeReservation(reserveEntityDTO); //mora i cena da se setuje na 0 ako je obicna, mora da postoji cena zbog brze rezervacije

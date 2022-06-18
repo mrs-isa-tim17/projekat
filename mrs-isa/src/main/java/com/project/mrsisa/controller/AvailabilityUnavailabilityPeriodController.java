@@ -109,9 +109,9 @@ public class AvailabilityUnavailabilityPeriodController {
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
 		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<Reservation> reservations = reservationService.findAllOrdinaryReservationsForOffer(id);
 
-		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
+		List<Reservation> actions = reservationService.findAllQuickReservationsForOffer(id);
 
 		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations, actions);
 

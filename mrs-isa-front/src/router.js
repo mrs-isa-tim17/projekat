@@ -19,6 +19,11 @@ const router = createRouter({
         { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
         { path: '/adventure/update/:type/:pre', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
         { path: '/adventure/reservations/:type', component: ()=> import("./components/fishing_instructor/reservationsForOwner")},
+        { path: '/instructor/reservations/all', component:()=>import("./components/fishing_instructor/historyReservations")},
+        { path: '/instructor/new/reservation', component:()=>import("./components/fishing_instructor/reservationForClient")},
+        { path: '/instructor/profile/change', component:()=>import("./components/fishing_instructor/editProfileInstructor")},
+        { path: '/instructor/graph/income', component:()=>import("./components/fishing_instructor/instructorGraphIncome")},
+        { path: '/instructor/graph/reservations', component:()=>import("./components/fishing_instructor/instructorGraphReservations")},
 
         { path: '/book/site/home', component: () => import("./components/main_site/main_home_page/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
@@ -81,7 +86,9 @@ const router = createRouter({
         {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
         {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")},
         {path: '/admin/register/new', component:()=>import("./components/admin/registerNewAdmin")},
-        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")}
+        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")},
+        {path: '/admin/change/profile', component:()=>import("./components/admin/editProfileAdmin")},
+        {path: '/admin/business/report', component:()=>import("./components/admin/businessReport")},
     ]
 });
 

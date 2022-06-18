@@ -1,5 +1,6 @@
 package com.project.mrsisa.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class PercentageOfEarningsService {
 		return percentageOfEarningsRepository.findActivePercentage();
 	}
 
+	public PercentageOfEarnings getPercentageOfEarningsForDate(LocalDate date) {
+		return percentageOfEarningsRepository.getPercentageOfEarningsForDate(date);
+	}
 
 	
 }

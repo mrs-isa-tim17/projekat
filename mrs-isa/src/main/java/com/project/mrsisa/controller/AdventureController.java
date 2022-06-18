@@ -203,6 +203,12 @@ public class AdventureController {
 	@GetMapping(value = "/detail/all/{id}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
 	public ResponseEntity<List<AdventureDTO>> getAdventuresByOwner(@PathVariable Long id) {
+		
+		List<AdventureDTO> adventuredDTO = getAdventuresForOwner(id);
+		return new ResponseEntity<>(adventuredDTO, HttpStatus.OK);
+	}
+	
+	private List<AdventureDTO> getAdventuresForOwner(Long id){
 		FishingInstructor instructor = fishingInstructorService.findOne(id);
 		List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
 
@@ -212,21 +218,24 @@ public class AdventureController {
 			adventureDTO.add(formAdventureDTO(adventure));
 			System.out.println("avanturaaaaaa" + adventure.getId() + adventure.getName());
 		}
-		return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
+		return adventureDTO;
 	}
 	
-
-	
-	@GetMapping(value="/detail/reservation/{id}")
+	@GetMapping(value="/detail/reservation/{adventureId}")
 	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
-	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long id){
+	public ResponseEntity<List<ReservationForOwnerDTO>> getReservationsForAdventure(@PathVariable Long adventureId){
 		
 		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventureId);
+		System.out.println("Stigne ovde");
 		for(Reservation reservation: reservations) {
+			if(reservation.getClient() == null) {
+				continue;
+			}
 			Client client = (Client) userService.findById(reservation.getClient().getId());
+			Adventure adventure = adventureService.findOneById(adventureId);
 			ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
-					reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick());
+					reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick(), adventure.getName());
 			
 			reservationsForOwner.add(reservationForOwner);
 		}
@@ -234,6 +243,33 @@ public class AdventureController {
 		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
 	}
 		
+	
+	@GetMapping(value="/detail/reservation/all/{ownerId}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR')")
+	public ResponseEntity<List<ReservationForOwnerDTO>> getAllOwnersReservations(@PathVariable Long ownerId){
+		System.out.println("STIGNEEE");
+		List<ReservationForOwnerDTO> reservationsForOwner = new ArrayList<ReservationForOwnerDTO>();
+		
+		List<AdventureDTO> allAdventures = getAdventuresForOwner(ownerId);
+		System.out.println("STIGNEEE");
+		for(AdventureDTO adventure : allAdventures) {
+			List<Reservation> reservations = reservationService.getAllReservationsForOffer(adventure.getId());
+			for(Reservation reservation: reservations) {
+				if(reservation.getClient() == null) {
+					continue;
+				}
+				Client client = (Client) userService.findById(reservation.getClient().getId());
+				ReservationForOwnerDTO reservationForOwner = new ReservationForOwnerDTO(reservation.getId(), client.getId(),client.getName(), client.getSurname(), 
+						reservation.getStartDateTime(), reservation.getEndDateTime(), reservation.isQuick(), adventure.getName());
+				
+				reservationsForOwner.add(reservationForOwner);
+			}
+		}
+
+		return new ResponseEntity<>(reservationsForOwner , HttpStatus.OK);
+	}
+	
+	
 	private Adventure formAdventure(AdventureDTO adventureDTO) {
 		
 		Adventure adventure = new Adventure();
@@ -247,6 +283,10 @@ public class AdventureController {
 		adventure.setDeleted(false);
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
+		
+		FishingInstructor fi = fishingInstructorService.findOne(adventureDTO.getInstructorId());
+		
+		adventure.setOwner(fi);
 		
 		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
 		for(String rule : adventureDTO.getBehaviorRules())
@@ -330,7 +370,7 @@ public class AdventureController {
 		System.out.println("experience review siye : "  + experience.size());
 		System.out.println("addition siye : "  + additionalServices.size());
 		System.out.println("OVDE");
-		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price);
+		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price, adventure.getOwner().getId());
 			
 		System.out.println(adventureDTO);
 		return adventureDTO;
