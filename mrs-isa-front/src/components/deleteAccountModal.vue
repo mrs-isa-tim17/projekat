@@ -1,11 +1,11 @@
 <template>
-  <button id="delete" type="button" @click="openForm"  class="btn btn-secondary my-2" data-bs-toggle="modal" :data-bs-target=modalId>
+  <button id="delete" type="button" @click="openForm"  class="btn btn-secondary my-2" data-bs-toggle="modal" style="max-width: 200pt;" :data-bs-target=modalId>
     Brisanje naloga
   </button>
 
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
-      <div class="modal-content" style="background-color:white">
+      <div class="modal-content"  style="background-color:#31708E;color:whitesmoke;">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" >{{header}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

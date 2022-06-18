@@ -1,5 +1,6 @@
 package com.project.mrsisa.controller;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,11 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -120,19 +119,83 @@ public class ShipController {
 		return ResponseEntity.ok(cottagesDTO);
 	}
 
-	@PostMapping(consumes = "application/json")
+	@PostMapping(value="/save")
+	@PreAuthorize("hasRole('SHIP_OWNER')")
 	public ResponseEntity<ShipDTO> saveShip(@RequestBody ShipDTO shipDTO) {
 
 		Ship ship = new Ship();
-		ship.setId(shipDTO.getId());
-		ship.setAddress(shipDTO.getAddress());
-		ship.setOwner(shipDTO.getOwner());
+		Address a = new Address();
+		a.setLatitude(shipDTO.getLatitude());
+		a.setLongitude(shipDTO.getLongitude());
+		ship.setAddress(a);
+		ShipOwner owner = shipOwnerService.findOne(shipDTO.getOwnerId());
+		ship.setEngineDesignation(shipDTO.getEngineDesignation());
+		ship.setEnginePower(shipDTO.getEnginePower());
+		ship.setType(shipDTO.getType());
+		ship.setLength(shipDTO.getLength());
+		ship.setMaxSpeed(shipDTO.getMaxSpeed());
+
+		ship.setOwner(owner);
 		ship.setName(shipDTO.getName());
 		ship.setDescription(shipDTO.getDescription());
-		ship.setDeleted(shipDTO.isDeleted());
+		ship.setDeleted(false);
+		Pricelist newPricelist = new Pricelist();
+		newPricelist.setStartDate(LocalDate.now());
+		newPricelist.setOffer(ship);
+		newPricelist.setEndDate(null);
+		newPricelist.setPrice(shipDTO.getPrice());
+		pricelistService.save(newPricelist);
+		ship.setCapacity(shipDTO.getCapacity());
+		ship.setNavigationEquipment(NavigationEquipment.RADAR);
+		List<String> newAddServicesString = shipDTO.getAdditionalServices();
+		List<AdditionalServices> aService = new ArrayList<AdditionalServices>();
+		for(String as : newAddServicesString)
+		{
+			aService.add(additionalServicesService.findOneByName(as));
+		}
+		ship.setAdditionalServices(aService);
+
+		List<String> newFishEqString = shipDTO.getFishingEquipment();
+		List<FishingEquipment> fishEq = new ArrayList<FishingEquipment>();
+		for(String as : newFishEqString)
+		{
+			fishEq.add(fishingEquipmentService.findOneByName(as));
+		}
+		ship.setFishingEquipments(fishEq);
+
+		List<String> newBehRuleString = shipDTO.getBehavioralRules();
+		List<BehaviorRule> behRules = new ArrayList<>();
+		for(String br : newBehRuleString){
+			behRules.add(behaviorRuleService.findOneByText(br));
+		}
+		ship.setBehaviorRules(behRules);
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
+		List<Double> percents =  shipDTO.getPercents();
+		CancelCondition c1 = new CancelCondition(5, percents.get(0));
+		cancelConditions.add(c1);
+		cancelConditionService.save(c1);
+
+		CancelCondition c2 = new CancelCondition(10, percents.get(1));
+		cancelConditions.add(c2);
+		cancelConditionService.save(c2);
+
+		CancelCondition c3 = new CancelCondition(15, percents.get(2));
+		cancelConditions.add(c3);
+		cancelConditionService.save(c3);
+
+		CancelCondition c4 = new CancelCondition(20, percents.get(3));
+		cancelConditions.add(c4);
+		cancelConditionService.save(c4);
+		ship.setCancelCondition(cancelConditions);
+
+
+
+
+
+		//jos promena, slike, pravila..
 
 		ship = shipService.save(ship);
-		return new ResponseEntity<>(new ShipDTO(ship), HttpStatus.CREATED);
+		return new ResponseEntity<>(new ShipDTO(ship, shipDTO.getPrice()), HttpStatus.CREATED);
 	}
 	
 	
@@ -148,15 +211,20 @@ public class ShipController {
 		return new ResponseEntity<>(shipDTO, HttpStatus.OK);
 	}
 	
-    @PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
-	@DeleteMapping(value = "/delete/{id}")
+
+	@PostMapping(value = "/delete/{id}")
+	@PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteShip(@PathVariable Long id) {
+
+
+
 		return ResponseEntity.ok(shipService.deleteShip(id));
 		/*Ship ship = shipService.findOne(id);
 		System.out.println("brisiiii");
 		if ((ship != null) && ((reservationService.haveFutureReservations(id))==false)) {
 				ship.setDeleted(true);
 				shipService.save(ship);
+				System.out.println("OBrisiiii");
 				return new ResponseEntity<>(true, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(false, HttpStatus.OK);
@@ -164,24 +232,102 @@ public class ShipController {
 	}
 	
 	
-	@PutMapping(value="/update",consumes = "application/json")
-	public ResponseEntity<ShipDTO> updateShip(@RequestBody ShipDTO shipDTO) {
+	@PostMapping(value="/update/{id}",consumes = "application/json")
+	@PreAuthorize("hasRole('SHIP_OWNER')")
+	public ResponseEntity<ShipDTO> updateShip(@PathVariable Long id, @RequestBody ShipDTO shipDTO) {
 
-		Ship ship = shipService.findOne(shipDTO.getId());
+		Ship ship = shipService.findOne(id);
 
 		if (ship == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		ship.setId(shipDTO.getId());
-		ship.setAddress(shipDTO.getAddress());
-		ship.setOwner(shipDTO.getOwner());
+		ship.getAddress().setLatitude(shipDTO.getLatitude());
+		ship.getAddress().setLongitude(shipDTO.getLongitude());
+
 		ship.setName(shipDTO.getName());
 		ship.setDescription(shipDTO.getDescription());
 		ship.setDeleted(shipDTO.isDeleted());
-	
+        if(pricelistService.findOffersCurrentPriceById(shipDTO.getId()).getPrice() != shipDTO.getPrice()){
+            Pricelist pricelist = pricelistService.findOneById(shipDTO.getPriceListId());
+            pricelist.setEndDate(LocalDate.now());
+            Pricelist updated = pricelistService.save(pricelist);
+            System.out.println("cenaaaa  id: "  + updated.getId());
+            Pricelist newPricelist = new Pricelist();
+            newPricelist.setStartDate(LocalDate.now());
+            newPricelist.setEndDate(null);
+            newPricelist.setPrice(shipDTO.getPrice());
+            newPricelist.setOffer(ship);
+            System.out.println("NOVOOOOOa  id: "  + newPricelist.getStartDate());
+            System.out.println("NOVOOOOOa  id: "  + newPricelist.getEndDate());
+            pricelistService.save(newPricelist);
+        }
+		ShipOwner owner = shipOwnerService.findOne(shipDTO.getOwnerId());
+		ship.setOwner(owner);
+
+		ship.setCapacity(shipDTO.getCapacity());
+
+		List<java.lang.String> fishEq = shipDTO.getFishingEquipment();
+		List<FishingEquipment> fishingEquipments = new ArrayList<>();
+		for(String fe : fishEq){
+			fishingEquipments.add(new FishingEquipment(fe));
+		}
+		ship.setFishingEquipments(fishingEquipments);
+		List<java.lang.String> newAddServicesString = shipDTO.getAdditionalServices();
+        System.out.println("addditional" + newAddServicesString.size());
+		List<AdditionalServices> aService = new ArrayList<AdditionalServices>();
+		for(String as : newAddServicesString)
+		{
+			aService.add(additionalServicesService.findOneByName(as));
+			System.out.println("aadddd" + aService.get(0).getId());
+		}
+		ship.setAdditionalServices(aService);
+
+		List<String> newBehRuleString = shipDTO.getBehavioralRules();
+		List<BehaviorRule> behRules = new ArrayList<>();
+		for(String br : newBehRuleString){
+			behRules.add(behaviorRuleService.findOneByText(br));
+		}
+		ship.setBehaviorRules(behRules);
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
+		List<Double> percents =  shipDTO.getPercents();
+		CancelCondition c1 = new CancelCondition(5, percents.get(0));
+		cancelConditions.add(c1);
+		cancelConditionService.save(c1);
+
+		CancelCondition c2 = new CancelCondition(10, percents.get(1));
+		cancelConditions.add(c2);
+		cancelConditionService.save(c2);
+
+		CancelCondition c3 = new CancelCondition(15, percents.get(2));
+		cancelConditions.add(c3);
+		cancelConditionService.save(c3);
+
+		CancelCondition c4 = new CancelCondition(20, percents.get(3));
+		cancelConditions.add(c4);
+		cancelConditionService.save(c4);
+		ship.setCancelCondition(cancelConditions);
+		ship.setNavigationEquipment(NavigationEquipment.valueOf(getValueOfNavEq(shipDTO.getNavigationEquipment())));
+
 		//jos promena, slike, pravila..
-		ship =  shipService.save(ship);
-		return new ResponseEntity<>(new ShipDTO(ship), HttpStatus.OK);
+		Ship updatedShip=  shipService.save(ship);
+		for(AdditionalServices a : updatedShip.getAdditionalServices()){
+			System.out.println("aaddsss" + a.getName());
+		}
+		return new ResponseEntity<>(new ShipDTO(updatedShip,shipDTO.getPrice()), HttpStatus.OK);
+	}
+
+	private int getValueOfNavEq(String navEq){
+		switch (navEq){
+			case "GPS":
+				return 0;
+			case "radar":
+				return 1;
+			case "VHF radio":
+				return 2;
+			default:
+				return 3;
+				}
 	}
 
 	@GetMapping(value = "/detail/{id}")
@@ -199,7 +345,11 @@ public class ShipController {
 		List<BehaviorRule> rules = behaviorRuleService.findAllByOfferId(ship.getId());
 		List<Image> images = imageService.findAllByOfferId(ship.getId());
 		List<CancelCondition> cancelConditions = cancelConditionService.findAllByOfferId(ship.getId());
-		FindShipDTO shipDTO = new FindShipDTO(ship,images,rules,cancelConditions);
+		List<FishingEquipment> fishingEquipments = fishingEquipmentService.findAllByAdventureId(ship.getId());
+		Pricelist pricelist = pricelistService.findOffersCurrentPriceById(ship.getId());
+		System.out.println(pricelist.getId());
+		List<AdditionalServices> additionalServices = additionalServicesService.findAllByOfferId(ship.getId());
+		FindShipDTO shipDTO = new FindShipDTO(ship,images,rules,cancelConditions,fishingEquipments,pricelist,additionalServices);
 
 		return new ResponseEntity<FindShipDTO>(shipDTO, HttpStatus.OK);
 	}
@@ -452,4 +602,6 @@ public class ShipController {
 		return new ResponseEntity<>(adminOffers, HttpStatus.OK);
 		
 	}
+
+
 }

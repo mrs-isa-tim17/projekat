@@ -47,7 +47,7 @@ public class AvailabilityUnavailabilityPeriodController {
 
 	
 	@PostMapping(value = "/availability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		//System.out.println("MILICAAA");
 		
@@ -64,7 +64,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 	
 	@PostMapping(value = "/unavailability/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<Boolean> defineUnavailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		
 		PeriodUnavailability periodUnavailability = new PeriodUnavailability();
@@ -109,9 +109,9 @@ public class AvailabilityUnavailabilityPeriodController {
 	public ResponseEntity<List<StartEndDateDTO>> getAvailabilityPeriodsForOffer(@PathVariable Long id) {
 		List<PeriodAvailability> availability = periodAvailabilityService.getListOfAvailbilityForOffer(id);
 		List<PeriodUnavailability> unavailability = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);
-		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
+		List<Reservation> reservations = reservationService.findAllOrdinaryReservationsForOffer(id);
 
-		List<SaleAppointment> actions = saleAppointmentService.findAllByOfferId(id);
+		List<Reservation> actions = reservationService.findAllQuickReservationsForOffer(id);
 
 		List<StartEndDateDTO> intersectionAll = periodAvailabilityService.intersectionPeriodsForAvailability(availability, unavailability, reservations, actions);
 
@@ -121,7 +121,7 @@ public class AvailabilityUnavailabilityPeriodController {
 	
 
 	@GetMapping(value="/unavailability/all/{id}")
-	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER')or hasRole('SHIP_OWNER')")
 	public ResponseEntity<List<StartEndDateDTO>> getUnavailabilityPeriodsForOffer(@PathVariable Long id) {
 
 		List<PeriodUnavailability> unavailabilityPeriods = periodUnavailabilityService.getListOfUnavailbilityForOffer(id);

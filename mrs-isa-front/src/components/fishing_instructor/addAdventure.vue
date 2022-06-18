@@ -10,17 +10,17 @@
           <div class="p-2">
             <label>{{ adventureNameLabel }}</label>
             <br>
-            <input type="text" ref="input" v-model="adventure.name" size="25">
+            <input type="text" ref="input" v-model="adventure.name" size="25" style="max-width: 200px;">
           </div>
           <div class="p-2">
             <label>{{ priceLabel }}</label>
             <br>
-            <input type="text" ref="input" v-model="adventure.price" size="25">
+            <input type="number" step="any" v-model="adventure.price" size="25" style="max-width: 200px;">
           </div>
           <div class="p-2">
             <label>{{ descriptionLabel }}</label>
             <br>
-            <textarea type="text" ref="input" v-model="adventure.description" size="25">
+            <textarea type="text" ref="input" v-model="adventure.description" size="25" style="max-width: 200px; max-height: 400px;">
             </textarea>
 
 
@@ -48,13 +48,13 @@
           <div class="p-2">
             <label>{{ capacityLabel }}</label>
             <br>
-            <input type="number" ref="input" v-model="adventure.capacity" size="25">
+            <input type="number" ref="input" v-model="adventure.capacity" size="25" style="max-width: 200px;">
           </div>
 
           <div class="p-2">
             <label>{{ biographyLabel }}</label>
             <br>
-            <textarea type="text" ref="input" v-model="adventure.instructorBiography" size="25">
+            <textarea type="text" ref="input" v-model="adventure.instructorBiography" size="25" style="max-width: 200px; max-height: 400px;">
             </textarea>
           </div>
           <br>
@@ -145,8 +145,8 @@
       </div>
     </div>
     <div align="right">
-      <botton id="add" class="col-1 btn btn-primary  btn-md  me-md-2" @click="addAdventure">Dodaj</botton>
-      <botton class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</botton>
+      <button id="add" class="col-1 btn btn-primary  btn-md  me-md-2" @click="addAdventure">Dodaj</button>
+      <button class="col-1 btn btn-secondary  btn-md  me-md-2" @click="back">Odustani</button>
     </div>
   </div>
 
@@ -191,12 +191,33 @@ export default {
       console.log(lon, lat)
     },
 
+    isDouble(x) {
+      if (typeof x == 'number' && !isNaN(x)) {
+        if (Number.isInteger(x)) {
+          return true;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    },
+
     addAdventure() {
       console.log(this.adventure);
       if (this.adventure.name === "" || this.adventure.capacity == null || this.adventure.instructorBiography === "" || this.adventure.description === "") {
         document.getElementById("message").innerText = this.message;
         document.getElementById("message").style.color = 'red';
+      }
+      else if (this.isDouble(this.adventure.price)===false){
+        document.getElementById("message").innerText = "Unesite cenu brojčano";
+        document.getElementById("message").style.color = 'red';
+      }
+      else if (this.isDouble(this.adventure.capacity)===false){
+        document.getElementById("message").innerText = "unesite kapacitet brojčano";
+        document.getElementById("message").style.color = 'red';
       } else {
+        this.adventure.instructorId = JSON.parse(localStorage.user).id;
         AdventureService.saveAdventure(this.adventure).then((response) => {
           this.adventure = response.data;
           document.getElementById("message").innerText = this.successMessage;
@@ -288,6 +309,7 @@ export default {
         p3: "0",
         p4: "0",
         experienceReviews: [],
+        instructorId:""
       },
       behRules: [],
       addServices: [],

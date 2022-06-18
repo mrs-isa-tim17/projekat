@@ -30,6 +30,12 @@ public class ClientController {
     private CottageOwnerService cottageOwnerService;
 	@Autowired
     private CottageService cottageService;
+
+    @Autowired
+    private ShipService shipService;
+
+    @Autowired
+    private ShipOwnerService shipOwnerService;
     @Autowired
     private ClientService clientService;
 	@Autowired
@@ -38,6 +44,12 @@ public class ClientController {
     private TokenUtils tokenUtils;
     @Autowired
     private DeleteRequestService deleteRequestService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FishingInstructorService fishingInstructorService;
+    @Autowired
+    private AdventureService adventureService;
 
     @GetMapping("/verify/{code}")
     public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
@@ -122,16 +134,83 @@ public class ClientController {
     @GetMapping(value = "/current/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
-        CottageOwner owner = cottageOwnerService.findOne(id);
+    	User user = userService.findById(id);
+    	Long roleId = user.getRoleId();
+	    List<String> emails = new ArrayList<>();
+
+    	
+    	List<CurrentClientDTO> current = new ArrayList<>();
+    	switch (roleId.intValue()) {
+		case 3:    // cottage owner
+			 CottageOwner owner = cottageOwnerService.findOne(id);
+		    //    List<String> emails = new ArrayList<>();
+		        List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
+		        
+		        for(Cottage c : cottages){
+		            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(c.getId());
+		            for(Reservation r : reservations){
+		                System.out.println("rez" + r.getId());
+		                Client client = clientService.findOne(r.getClient().getId());
+		                CurrentClientDTO currentdto = new CurrentClientDTO(client,c,r);
+		                current.add(currentdto);
+		               /* if(!emails.contains(currentdto.getClientEmail())){
+		                    current.add(currentdto);
+		                    emails.add(currentdto.getClientEmail());
+		                }*/
+		            }
+		        }
+		        for(CurrentClientDTO currenttt : current){
+		            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+		        }
+
+		        return new ResponseEntity<>(current,HttpStatus.OK);
+
+		        
+
+		case 4:  // ship owner
+			break;
+			
+			
+		case 5:  // fishinstructor
+			FishingInstructor instructor = fishingInstructorService.findOne(id);
+	        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+	        for(Adventure a : adventures){
+	            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(a.getId());
+	            for(Reservation r : reservations){
+	                System.out.println("rez" + r.getId());
+	                Client client = clientService.findOne(r.getClient().getId());
+	                CurrentClientDTO currentdto = new CurrentClientDTO(client, a, r);
+	                current.add(currentdto);
+	            }
+	        }
+	        for(CurrentClientDTO currenttt : current){
+	            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+	        }
+
+	        return new ResponseEntity<>(current,HttpStatus.OK);
+		       
+
+		default:
+			return new ResponseEntity<>(current,HttpStatus.OK);
+		}
+    	
+    	return new ResponseEntity<>(current,HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/ship/current/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<CurrentClientDTO>> getCurrentShipClients(@PathVariable Long id){
+        ShipOwner owner = shipOwnerService.findOne(id);
         List<String> emails = new ArrayList<>();
-        List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
+        List<Ship> ships = shipService.getShipsByOwner(owner);
         List<CurrentClientDTO> current = new ArrayList<>();
-        for(Cottage c : cottages){
-            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(c.getId());
+        for(Ship s : ships){
+            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(s.getId());
             for(Reservation r : reservations){
                 System.out.println("rez" + r.getId());
                 Client client = clientService.findOne(r.getClient().getId());
-                CurrentClientDTO currentdto = new CurrentClientDTO(client,c,r);
+                CurrentClientDTO currentdto = new CurrentClientDTO(client,s,r);
                 current.add(currentdto);
                /* if(!emails.contains(currentdto.getClientEmail())){
                     current.add(currentdto);

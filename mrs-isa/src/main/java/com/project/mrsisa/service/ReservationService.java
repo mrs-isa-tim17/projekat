@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -150,7 +153,9 @@ public class ReservationService {
 
 	public boolean haveFutureReservations(Long offerId) {
 		List<Reservation> futureReservations = reservationRepository.findFutureReservationHistory(offerId);
+        System.out.println("nema rezzz" + futureReservations.size());
 		if(futureReservations.size()==0) {
+            System.out.println("nema rezzz");
 			return false;
 		}
 		return true;
@@ -159,7 +164,7 @@ public class ReservationService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
-        if (reserveEntityDTO.getClientId() == null){
+        if (reserveEntityDTO.getClientId() == -1){
             r.setClient(null);
         }else{
             r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));
@@ -257,11 +262,13 @@ public class ReservationService {
         r.setStartDateTime(reserveEntityDTO.getFromDate());
         r.setEndDateTime(reserveEntityDTO.getUntilDate());
         r.setAdditionalServices(additionalServices);
-        double price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
-        if (price == 0)
-            throw new NotDefinedValue("Izračunavanje cene je neuspešno");
+        double price = reserveEntityDTO.getPrice();
+        r.setQuick(true);
+        if (price == 0) {//0 je ako je obicna rezervacija, quick je false ako je obicna
+            price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
+            r.setQuick(false);
+        }
         r.setPrice(price);
-        r.setQuick(false);
         r.setCanceled(false);
         //r.setClient(client);
         r.setOffer(o);
@@ -300,12 +307,16 @@ public class ReservationService {
             if (offerType == OfferType.COTTAGE) {
                 long days = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
                 price = days * pricelistService.getCurrentPriceOfOffer(o.getId());
+
             } else if (offerType == OfferType.ADVENTURE) {
                 long hours = ChronoUnit.HOURS.between(startDateTime, endDateTime);//req.getUntilDate() - req.getFromDate();
                 price = hours / 24 * pricelistService.getCurrentPriceOfOffer(o.getId());
             } else if (offerType == OfferType.SHIP) {
-                long minutes = ChronoUnit.MINUTES.between(startDateTime, startDateTime);//req.getUntilDate() - req.getFromDate();
-                price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
+                long minutes = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
+                System.out.println("minutiii" + minutes);
+                System.out.println("minutiii" + minutes);
+                price = minutes  * pricelistService.getCurrentPriceOfOffer(o.getId());
+                System.out.println("minutiii" + price);
             }
             price = addAdditionalServicesToPrice(price, additionalServices);
             return price;
@@ -427,5 +438,18 @@ public class ReservationService {
 
     public List<Reservation> getFutureActiveReservationsForClient(Long id) {
         return reservationRepository.getFutureActiveReservationsForClient(id);
+
+    }
+
+    public List<Reservation> getReservationsForPeriod(LocalDate startDate, LocalDate endDate){
+    	return reservationRepository.getReservationsForPeriod(startDate, endDate);
+    }
+    
+    public List<Reservation>findAllQuickReservationsForOffer(Long id){
+    	return reservationRepository.findAllQuickReservationsForOffer(id);
+    }
+    
+    public List<Reservation> findAllOrdinaryReservationsForOffer(Long id){
+    	return reservationRepository.findAllOrdinaryReservationsForOffer(id);
     }
 }

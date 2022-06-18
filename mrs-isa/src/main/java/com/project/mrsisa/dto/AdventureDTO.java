@@ -1,6 +1,7 @@
 package com.project.mrsisa.dto;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AdventureDTO {
 	
     private double longitude;
     private double latitude;
-    
+    private LocalDate startDatePrice;
 	private String description;
 	private String instructorBiography;
 
@@ -40,6 +41,10 @@ public class AdventureDTO {
 
 	private double price;
 	private int capacity;
+
+	private Long priceListId;
+	
+	private Long instructorId;
 	
 	
 	public AdventureDTO() {
@@ -53,7 +58,7 @@ public class AdventureDTO {
 	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
-			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price) {
+			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price, Long instructorId) {
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
@@ -71,6 +76,8 @@ public class AdventureDTO {
 		this.cancelConditions =new ArrayList<String>();
 		this.experienceReviews = new ArrayList<String>();
 		this.additionalServices = new ArrayList<String>();
+		
+		this.instructorId = instructorId;
 		
 		this.days = new ArrayList<String>();
 		//this.percentage = new ArrayList<String>();
@@ -94,7 +101,7 @@ public class AdventureDTO {
 			switch (cc.getDays()) {
 			case 5:
 				this.p1 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "% od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 3 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "% od ukupne cene rezervacije.");
 				break;
 			case 10:
 				this.p2 = String.valueOf(cc.getPrecent());
@@ -123,8 +130,31 @@ public class AdventureDTO {
 			this.additionalServices.add(as.getName());
 		}	
 	}
-	
-	
+
+	public LocalDate getStartDatePrice() {
+		return startDatePrice;
+	}
+
+	public Long getPriceListId() {
+		return priceListId;
+	}
+
+	public void setPriceListId(Long priceListId) {
+		this.priceListId = priceListId;
+	}
+
+	public void setStartDatePrice(LocalDate startDatePrice) {
+		this.startDatePrice = startDatePrice;
+	}
+
+	public List<String> getBehavioralRules() {
+		return behavioralRules;
+	}
+
+	public void setBehavioralRules(List<String> behavioralRules) {
+		this.behavioralRules = behavioralRules;
+	}
+
 	public String getInstructorBiography() {
 		return instructorBiography;
 	}
@@ -263,10 +293,16 @@ public class AdventureDTO {
 	public void setDays(List<String> days) {
 		this.days = days;
 	}
-	
-
 
 	
+	public Long getInstructorId() {
+		return instructorId;
+	}
+
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
+	}
+
 	public String getP1() {
 		return p1;
 	}

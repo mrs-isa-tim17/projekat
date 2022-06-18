@@ -9,13 +9,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" >
-          <div v-for="(s,i) in this.checked_services" :key="i" >
-            <input type="checkbox" width="20" height="20"  @change="checkService(s)" checked>{{s}}
-          </div>
           <div v-for="(s,i) in this.services_for_show" :key="i" >
             <input type="checkbox" width="20" height="20"  @change="checkService(s)">{{s}}
-
           </div>
+
           <div class="modal-footer" style="background-color:#31708E">
             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editServices" class="btn btn-primary">Izmeni</button>
@@ -37,7 +34,9 @@ export default {
       function () {
 
         this.modalId = "#" + this.index;
-        console.log(this.servicesList);
+        this.services_for_show = this.servicesList;
+
+        /*console.log(this.servicesList);
         for(let i=0;i<this.allServices.length;i++){
           if((this.servicesList.includes(this.allServices[i]))){
             this.checked_services.push(this.allServices[i]);
@@ -48,13 +47,15 @@ export default {
             console.log(this.services_for_show);
           }
         }
-        console.log(this.checked_services);
+        console.log(this.checked_services);*/
       },
   methods: {
 
     openForm() {
 
       var modalToggle = document.getElementById(this.index);
+      this.services_for_show = this.servicesList;
+      console.log(this.services_for_show);
       ///myModal.show(modalToggle)
       $('#' + this.index).show(modalToggle);
       $('#' + this.index).focus(modalToggle);
@@ -73,9 +74,6 @@ export default {
       }
       else{
         this.checked_services.push(s);
-        var ind = this.services_for_show.indexOf(s);
-        this.services_for_show.splice(ind,1);
-        console.log(this.services_for_show);
       }
     },
 

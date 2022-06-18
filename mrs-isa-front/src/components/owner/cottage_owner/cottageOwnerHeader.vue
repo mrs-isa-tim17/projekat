@@ -85,12 +85,7 @@ export default {
 </script>
 
 <style scoped>
-.dropdown{
-  padding-right:100px;
-}
-a{
-  color: red;
-}
+
 .dropbtn {
   background:none;
   color: white;

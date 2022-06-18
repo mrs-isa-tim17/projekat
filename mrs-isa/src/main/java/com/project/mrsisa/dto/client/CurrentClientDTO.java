@@ -1,8 +1,10 @@
 package com.project.mrsisa.dto.client;
 
+import com.project.mrsisa.domain.Adventure;
 import com.project.mrsisa.domain.Client;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.domain.Ship;
 
 import java.time.LocalDate;
 
@@ -26,6 +28,28 @@ public class CurrentClientDTO {
         this.startDate = r.getStartDate();
         this.endDate = r.getEndDate();
         this.cottageId = cottage.getId();
+    }
+    
+    public CurrentClientDTO(Client client, Adventure adventure, Reservation r) {
+    	 this.clientEmail = client.getEmail();
+         this.clientName = client.getName();
+         this.clientSurname = client.getSurname();
+         this.offerName = adventure.getName();
+         this.clientId = client.getId();
+         this.startDate = r.getStartDate();
+         this.endDate = r.getEndDate();
+         this.cottageId = adventure.getId();
+    }
+
+    public CurrentClientDTO(Client client, Ship ship, Reservation r) {
+        this.clientEmail = client.getEmail();
+        this.clientName = client.getName();
+        this.clientSurname = client.getSurname();
+        this.offerName = ship.getName();
+        this.clientId = client.getId();
+        this.startDate = r.getStartDate();
+        this.endDate = r.getEndDate();
+        this.cottageId = ship.getId();
     }
 
     public String getClientEmail() {

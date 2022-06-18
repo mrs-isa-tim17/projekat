@@ -160,24 +160,24 @@ public class CottageController {
 		cottage.setAdditionalServices(additionalService);
 
 		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
-
-		CancelCondition c1 = new CancelCondition(5, Double.parseDouble(cottageDTO.getPercent1()));
+		List<String> percents =  cottageDTO.getPercents();
+		CancelCondition c1 = new CancelCondition(5, Double.parseDouble(percents.get(0)));
 		cancelConditions.add(c1);
 		cancelConditionService.save(c1);
 
-		CancelCondition c2 = new CancelCondition(10, Double.parseDouble(cottageDTO.getPercent2()));
+		CancelCondition c2 = new CancelCondition(10, Double.parseDouble(percents.get(1)));
 		cancelConditions.add(c2);
 		cancelConditionService.save(c2);
 
-		CancelCondition c3 = new CancelCondition(15, Double.parseDouble(cottageDTO.getPercent3()));
+		CancelCondition c3 = new CancelCondition(15, Double.parseDouble(percents.get(2)));
 		cancelConditions.add(c3);
 		cancelConditionService.save(c3);
 
-		CancelCondition c4 = new CancelCondition(20, Double.parseDouble(cottageDTO.getPercent4()));
+		CancelCondition c4 = new CancelCondition(20, Double.parseDouble(percents.get(3)));
 		cancelConditions.add(c4);
 		cancelConditionService.save(c4);
 
-		Pricelist pricelist = new Pricelist(cottageDTO.getPrice());
+		Pricelist pricelist = new Pricelist(cottageDTO.getPrice(),cottageDTO.getStartDatePrice());
 		pricelist.setOffer(cottage);
 
 		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();

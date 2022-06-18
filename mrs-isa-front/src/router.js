@@ -19,6 +19,11 @@ const router = createRouter({
         { path: '/adventure/add', component: ()=> import("./components/fishing_instructor/addAdventure")},
         { path: '/adventure/update/:type/:pre', component: ()=> import("./components/fishing_instructor/updateAdventure.vue")},
         { path: '/adventure/reservations/:type', component: ()=> import("./components/fishing_instructor/reservationsForOwner")},
+        { path: '/instructor/reservations/all', component:()=>import("./components/fishing_instructor/historyReservations")},
+        { path: '/instructor/new/reservation', component:()=>import("./components/fishing_instructor/reservationForClient")},
+        { path: '/instructor/profile/change', component:()=>import("./components/fishing_instructor/editProfileInstructor")},
+        { path: '/instructor/graph/income', component:()=>import("./components/fishing_instructor/instructorGraphIncome")},
+        { path: '/instructor/graph/reservations', component:()=>import("./components/fishing_instructor/instructorGraphReservations")},
 
         { path: '/book/site/home', component: () => import("./components/main_site/main_home_page/homePage.vue")},
         { path: '/book/site/login', component: () => import("./components/login.vue")},
@@ -50,10 +55,17 @@ const router = createRouter({
         {path:'/owner/calendar',component:()=>import("./components/owner/cottage_owner/calendarCottageOwner")},
         {path:'/owner/quickReservation',component:()=>import("./components/owner/cottage_owner/quickReservation")},
         {path:'/owner/newReservation',component:()=>import("./components/owner/cottage_owner/newReservationForClient")},
+        {path:'/ship/newRes',component:()=>import("./components/owner/ship_owner/newShipReservationForClient")},
         {path:'/cottage/detail/:id',component:()=>import("./components/owner/cottage_owner/cottageDetail")},
         {path:'/ship/add',component:() => import("./components/ship_owner/addShip.vue")},
         { path: '/cottage/update/:id',component:()=>import("./components/owner/cottage_owner/updateCottage")},
         { path: '/ship/update/:id',component:()=>import("./components/ship_owner/updateShip")},
+        {path:'/ship/detail/:id',component:()=>import("./components/owner/ship_owner/shipDetail")},
+        {path:'/ship/calendar',component:()=>import("./components/owner/ship_owner/calendarForShipOwner")},
+        {path:'/ship/quickRes',component:()=>import("./components/owner/ship_owner/quickReservationShip")},
+        {path:'/ship/report/graphIncome',component:()=>import("./components/owner/ship_owner/graphIncomeShip")},
+        {path:'/ship/report/graphReservations',component:()=>import("./components/owner/ship_owner/graphReservationShip")},
+
 
 
         {path:'/admin/home', component:()=>import("./components/admin/adminHomePage")},
@@ -74,7 +86,9 @@ const router = createRouter({
         {path: '/admin/revisions', component:()=>import("./components/admin/revisions")},
         {path: '/admin/reports', component:()=>import("./components/admin/reservationReports")},
         {path: '/admin/register/new', component:()=>import("./components/admin/registerNewAdmin")},
-        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")}
+        {path: '/admin/change/password', component:()=>import("./components/admin/adminChangePassword")},
+        {path: '/admin/change/profile', component:()=>import("./components/admin/editProfileAdmin")},
+        {path: '/admin/business/report', component:()=>import("./components/admin/businessReport")},
     ]
 });
 

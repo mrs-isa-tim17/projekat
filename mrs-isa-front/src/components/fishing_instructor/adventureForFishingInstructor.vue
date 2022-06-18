@@ -84,7 +84,8 @@
             <Datepicker v-model="availabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodAvailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button"
+                    @click="DefinePeriodAvailability">Definiši period
               dostupnosti
             </button>
           </div>
@@ -100,7 +101,8 @@
             <Datepicker v-model="unavailabilityDate.end"></Datepicker>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="DefinePeriodUnavailability">Definiši period
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button"
+                    @click="DefinePeriodUnavailability">Definiši period
               nedostupnosti
             </button>
           </div>
@@ -109,7 +111,8 @@
           <div class="col-8">
           </div>
           <div class="col-4">
-            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="ShowReservations">Rezervacije
+            <button class="btn btn-primary me-md-2" style="min-width: 137px" type="button" @click="ShowReservations">
+              Rezervacije
             </button>
           </div>
         </div>
@@ -209,7 +212,7 @@ export default {
       this.calendarKey++;
     })
 
-    SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) =>{
+    SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) => {
       this.actions = response.data;
       this.calendarKey--;
     })
@@ -251,6 +254,8 @@ export default {
     DefinePeriodAvailability() {
       if (this.availabilityDate.start === "" || this.availabilityDate.end === "") {
         this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
+      } else if (this.availabilityDate.start > this.availabilityDate.end) {
+        this.fireAlertOn("Početni datum je pre krajnjeg. Proverite unose", false, "Upozorenje");
       } else {
         PeriodAvailabilityUnavailabilityService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
           this.availDateAns = response.data;
@@ -289,8 +294,11 @@ export default {
 
       if (this.unavailabilityDate.start === "" || this.unavailabilityDate.end === "") {
         this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
+      } else if (this.unavailabilityDate.start > this.unavailabilityDate.end) {
+        this.fireAlertOn("Početni datum je pre krajnjeg. Proverite unose", false, "Upozorenje")
       } else {
-        PeriodAvailabilityUnavailabilityService.defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
+        PeriodAvailabilityUnavailabilityService
+            .defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
           this.unavailDateAns = response.data;
           this.calendarKey--;
 
@@ -320,23 +328,28 @@ export default {
           console.log(error.config);
         });
       }
-    },
+    }
+    ,
 
     ShowReservations() {
       console.log(this.currentId);
       this.$router.push('/adventure/reservations/' + this.currentId);
-    },
+    }
+    ,
 
     generateModalId(id) {
       return "m" + id;
-    },
+    }
+    ,
 
     generateButtonId(id) {
       return "button" + id;
-    },
+    }
+    ,
 
 
-  },
+  }
+  ,
   data() {
     return {
       currentId: 0,
@@ -361,12 +374,12 @@ export default {
       availabilityDate: {
         start: "",
         end: "",
-        offerType:"adventure"
+        offerType: "adventure"
       },
       unavailabilityDate: {
         start: "",
         end: "",
-        offerType:"adventure"
+        offerType: "adventure"
       },
       labelStartDate: "Početni datum",
       labelEndDate: "Krajnji datum",
@@ -377,7 +390,7 @@ export default {
       availabilityPeriod: [],
       unavailabilityPeriod: [],
       reservations: [],
-      actions:[],
+      actions: [],
       calendarKey: 1,
       period: {
         start: "",

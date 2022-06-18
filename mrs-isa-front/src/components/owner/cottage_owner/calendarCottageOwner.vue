@@ -26,6 +26,7 @@ import CottageService from "@/servieces/cottage_owner/CottageService";
 import PeriodAvailabilityUnavailabilityService from "@/servieces/PeriodAvailabilityUnavailabilityService";
 import DefinePeriod from "@/components/owner/cottage_owner/definePeriod";
 import swal from "sweetalert2";
+import ShipServce from "@/servieces/ShipServce";
 export default {
   name: "calendarCottageOwner",
   components:{DefinePeriod, calendar,cottageOwnerHeader},
@@ -129,6 +130,29 @@ export default {
         this.calendarKey++;
       })
     },
+
+    showCalendarAfterDefine(cottageId){
+
+      PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(cottageId).then((response) => {
+        this.availabilityPeriod = response.data;
+        console.log(this.availabilityPeriod);
+        console.log(response.data);
+        this.calendarKey++;
+      });
+      PeriodAvailabilityUnavailabilityService.getUnavailabilityPeriods(cottageId).then((response) => {
+        this.unavailabilityPeriod = response.data;
+        console.log("nedostupno iz fish");
+        console.log(this.unavailabilityPeriod);
+        console.log(response.data);
+        this.calendarKey++;
+
+      })
+      ShipServce.getReservationsForShip(cottageId).then((response) => {
+        this.reservations = response.data;
+        console.log(this.reservations);
+        this.calendarKey++;
+      })
+    },
     defineUnavailabilityPeriod(periodDate){
       this.periodData.start = periodDate.start;
       this.periodData.end = periodDate.end;
@@ -139,6 +163,7 @@ export default {
         if (this.unavailDateAns === true) {
           swal.fire({title:'Uspešno ste dodali period nedostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
           this.calendarKey--;
+          this.showCalendarAfterDefine(this.cottageId);
         } else {
           swal.fire({title:'Nije moguće dodati uneti period nedostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
         }
@@ -176,6 +201,7 @@ export default {
         console.log(this.availDateAns)
 
         if (this.availDateAns === true) {
+          this.showCalendarAfterDefine(this.cottageId);
           swal.fire({title:'Uspešno ste dodali period dostupnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
           this.calendarKey++;
         } else {

@@ -41,7 +41,7 @@
               <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
             </div>
             <div class="col-4">
-              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :offer="cottage" :button_name="btnDeleteName"></deleteCottageModal>
+              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :offer="cottage" :button_name="btnDeleteName" :type="offerType"></deleteCottageModal>
             </div>
           <div class="col-4">
             <div class="dropdown">
@@ -81,7 +81,8 @@ export default {
       DeleteHeader:"Brisanje vikendice",
       deleteId:"deleteCottage",
       btnDeleteName:"Obriši vikendicu",
-      rating:null
+      rating:null,
+      offerType:"cottage"
 
     }
   },
@@ -94,12 +95,14 @@ export default {
     ReviewServce.getRating(this.cottage.id).then((response) =>
     {
       this.rating = response.data;
+      console.log(this.rating);
     })
   },
   methods:{
     openModel() {
 
       $('#' + this.index).modal('show');
+      console.log(this.rating);
     },
     updateDataPage(){
       this.$router.push('/cottage/update/' + this.cottage.id);

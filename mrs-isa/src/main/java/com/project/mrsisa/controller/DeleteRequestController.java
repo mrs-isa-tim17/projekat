@@ -36,7 +36,7 @@ public class DeleteRequestController {
     private RoleService roleService;
     
     @PostMapping("/delete/{id}")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('FISHINSTRUCTOR')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('FISHINSTRUCTOR') or hasRole('SHIP_OWNER') or hasRole('COTTAGE_OWNER')")
     public ResponseEntity<Boolean> deleteAccountRequest(@PathVariable("id") long id, @RequestBody DeleteRequestDTO deleteRequestDTO) {
         User u = userService.findById(id);
         DeleteRequest old = deleteRequestService.findOneByUser(id);

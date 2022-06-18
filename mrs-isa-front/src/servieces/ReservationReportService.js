@@ -12,6 +12,13 @@ class ReservationReportService{
         });
     }
 
+
+    haveReservationReport(id) {
+        return axios.get(RESERVATION_REPORT_API_BASE_URL+'/check/'+id,  {
+            headers: authHeader()
+        });
+    }
+
     getUnprocessedReservationReports(){
         return axios.get(RESERVATION_REPORT_API_BASE_URL + '/unprocessed',{
             headers: authHeader()
@@ -29,6 +36,7 @@ class ReservationReportService{
             headers: authHeader()
         });
     }
+
 
 
 }

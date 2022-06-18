@@ -22,6 +22,8 @@ export default {
   created() {
     let type = this.$route.params.type
     this.currentAdventureId = this.$route.params.type
+    console.log("adventure id");
+    console.log(type);
     AdventureService.getReservationsForAdventure(type).then((response) =>{
     this.reservations = response.data;
     console.log(this.reservation);
@@ -32,7 +34,7 @@ export default {
       currentAdventureId:"",
       reservations: [],
       reservation:{
-        reservationId:"",
+        id:"",
         clientId:"",
         clientName : "",
         clientSurname : "",

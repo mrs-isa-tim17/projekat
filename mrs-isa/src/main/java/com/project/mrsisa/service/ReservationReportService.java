@@ -29,6 +29,13 @@ public class ReservationReportService {
     public ReservationReport save(ReservationReport rr){
         return reservationReportRepository.save(rr);
     }
+
+
+
+    public ReservationReport haveReservationReport(Long id){
+        return reservationReportRepository.haveReservationReport(id);
+    }
+
     
     public List<ReservationReport> findUnprocessedReport(){
     	return reservationReportRepository.findUnprocessedReport();
@@ -167,4 +174,5 @@ public class ReservationReportService {
         System.out.println("Poslat mail");
 	
 	}
+
 }

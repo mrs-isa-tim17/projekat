@@ -54,7 +54,7 @@ public class ReservationReportController {
     
 
     @PostMapping(value="/save", consumes = "application/json")
-    @PreAuthorize("hasRole('COTTAGE_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ReservationReportDTO> saveReservationReport(@RequestBody ReservationReportDTO reportDTO){
         ReservationReport report = new ReservationReport();
         report.setReportText(reportDTO.getReport());
@@ -74,6 +74,19 @@ public class ReservationReportController {
         report = reservationReportService.save(report);
         return new ResponseEntity<>(new ReservationReportDTO(report), HttpStatus.CREATED);
     }
+
+
+    @GetMapping(value="/check/{id}")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    public ResponseEntity<Boolean> haveReservationReport(@PathVariable Long id){
+        ReservationReport rp = reservationReportService.haveReservationReport(id);
+
+        if(rp == null){
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(true,HttpStatus.OK);
+    }
+
     
     
     @GetMapping(value="/unprocessed")
@@ -174,4 +187,5 @@ public class ReservationReportController {
     return new ResponseEntity<>(t, HttpStatus.OK);
     }
     
+
 }

@@ -10,12 +10,9 @@
         </div>
         <div class="modal-body" >
           <div v-for="(s,i) in behaviorList" :key="i" >
-            <input type="checkbox" width="20" height="20"  @change="checkRule(s)" checked>{{s}}
-          </div>
-          <div v-for="(s,i) in behavior_for_show" :key="i" >
             <input type="checkbox" width="20" height="20"  @change="checkRule(s)">{{s}}
-
           </div>
+
           <div class="modal-footer" style="background-color:#31708E">
             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editRules" class="btn btn-primary">Izmeni</button>
@@ -37,15 +34,7 @@ export default {
         console.log(this.index);
         this.modalId = "#" + this.index;
         console.log(this.behaviorList);
-        for(let i=0;i<this.allBehavior.length;i++){
 
-          if((this.behaviorList.includes(this.allBehavior[i]))){
-            this.checked_behavior.push(this.allBehavior[i]);
-          }
-          else{
-            this.behavior_for_show.push(this.allBehavior[i]);
-          }
-        }
       },
   methods: {
 
@@ -62,7 +51,6 @@ export default {
       if(this.checked_behavior.includes(s)){
         var i = this.checked_behavior.indexOf(s);
         this.checked_behavior.splice(i,1);
-
       }
       else{
         this.checked_behavior.push(s);

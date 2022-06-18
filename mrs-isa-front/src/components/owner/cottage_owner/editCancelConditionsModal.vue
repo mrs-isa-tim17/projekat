@@ -52,12 +52,25 @@ export default {
       $('#' + this.index).focus(modalToggle);
     },
     editCC() {
-      this.new_percents.push(this.p1);
-      this.new_percents.push(this.p2);
-      this.new_percents.push(this.p3);
-      this.new_percents.push(this.p4);
+      if(this.p1 == ""){
+        this.p1 = 0;
+      }
+      else if(this.p2 == ""){
+        this.p2 = 0;
+      }
+      else if(this.p3 == ""){
+        this.p3=0;
+      }
+      else if(this.p4 == ""){
+        this.p4=0;
+      }
+      this.new_percents.push(parseInt(this.p1));
+      this.new_percents.push(parseInt(this.p2));
+      this.new_percents.push(parseInt(this.p3));
+      this.new_percents.push(parseInt(this.p4));
 
       this.$emit('edit-cancel-condition', this.new_percents);
+      console.log(this.new_percents);
       const modal = document.getElementById(this.index);
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
@@ -72,10 +85,10 @@ export default {
   data() {
     return {
       modalId: "",
-      p1:"",
-      p2:"",
-      p3:"",
-      p4:"",
+      p1:0,
+      p2:0,
+      p3:0,
+      p4:0,
       new_percents:[]
 
     }

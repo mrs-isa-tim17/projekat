@@ -25,7 +25,7 @@ public class BehaviorRuleController {
 	
 
 	@GetMapping(value = "/all")
-    @PreAuthorize("hasRole('FISHINSTRUCTOR')")
+    @PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<List<String>> getBehaviorRules(){
 		List<BehaviorRule> rules = behaviorRuleService.findAll();
 		List<String> rulesDTO = new ArrayList<String>();

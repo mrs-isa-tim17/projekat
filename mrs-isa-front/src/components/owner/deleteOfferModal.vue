@@ -6,16 +6,16 @@
 
   <div class="modal fade" :id=index tabindex="-1" aria-labelledby="deleteCottageModal" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="background-color:#687864">
+      <div class="modal-content" style="background-color:#31708E;color:whitesmoke;">
         <div class="modal-header">
           <h5 class="modal-title" id="deleteCottageModal">{{header}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Da li ste sigurni da želite da obrišete Vašu ponudu <b> {{offer.name}}</b>?
+          Da li ste sigurni da želite da obrišete Vašu ponudu <b>{{this.offer.name}}</b>?
           <div class="modal-footer">
             <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
-            <button type="button" @click="deleteCottage" class="btn btn-primary">Potvrdi</button>
+            <button type="button" @click="deleteOffer" class="btn btn-primary">Potvrdi</button>
           </div>
         </div>
       </div>
@@ -26,10 +26,12 @@
 <script>
 import $ from "jquery";
 import CottageService from "@/servieces/cottage_owner/CottageService";
+import swal from "sweetalert2";
+import ShipService from "@/servieces/ship_owner/ShipService";
 
 export default {
   name: "deleteCottageModal",
-  props: ["offer", "index", "header","button_name"],
+  props: ["offer","index", "header","button_name","type"],
   created:
       function () {
         console.log(this.index);
@@ -39,15 +41,25 @@ export default {
     openForm(){
       console.log("forma");
       var modalToggle = document.getElementById(this.index);
+
       ///myModal.show(modalToggle)
+
+
+      console.log(this.offer);
       $('#'+this.index).show(modalToggle);
       $('#'+this.index).focus(modalToggle);
     },
-    deleteCottage(){
-      CottageService.deleteCottage(this.cottage.id).then((response) =>
+    deleteOffer(){
+      console.log(this.type);
+      if(this.type == "cottage"){
+      CottageService.deleteCottage(this.offer.id).then((response) =>
       {
+        console.log(this.offer.id);
         if(response.data){
-          document.getElementById("successChange").style.visibility = 'visible';
+         swal.fire("");
+        }
+        else{
+          swal.fire("Ne možete obrisati vikendicu, postoje nerealizovane rezervacije!");
         }
 
       }
@@ -62,10 +74,38 @@ export default {
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
     }
+      else if(this.type =="ship"){
+        console.log(this.offer.id);
+        ShipService.deleteShip(this.offer.id).then((response) =>
+            {
+              console.log(this.offer.id);
+              console.log(response.data);
+              if(response.data){
+                console.log(this.offer.id);
+                swal.fire("Obrisano!");
+              }
+              else{
+                swal.fire("Ne možete obrisati brod, postoje nerealizovane rezervacije!");
+              }
+
+            }
+        )
+        const modal = document.getElementById(this.index);
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.setAttribute('style', 'display: none');
+        const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+        // remove opened modal backdrop
+        document.body.removeChild(modalBackdrops[0]);
+        document.body.style.overflow = 'auto';
+      }
+    }
   },
   data(){
     return{
-      modalId:""
+      modalId:"",
+
     }
   }
 }

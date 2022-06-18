@@ -1,5 +1,6 @@
 package com.project.mrsisa.dto.cottage;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.project.mrsisa.domain.Cottage;
@@ -18,6 +19,8 @@ public class CreateUpdateCottageDTO {
 	private double longitude;
     private double latitude;
     private double price;
+
+	private LocalDate startDatePrice;
 	private List<String> behavioralRules;
 	private List<String> images;
 	private List<String> cancelConditions;
@@ -26,10 +29,7 @@ public class CreateUpdateCottageDTO {
 	private List<String> imagesPath;
 	
 	private List<String> days;
-	private String percent1;
-	private String percent2;
-	private String percent3;
-	private String percent4;
+	private List<String> percents;
 	
 	
     public List<String> getImagesPath() {
@@ -48,6 +48,14 @@ public class CreateUpdateCottageDTO {
 		this.price = price;
 	}
 
+	public LocalDate getStartDatePrice() {
+		return startDatePrice;
+	}
+
+	public void setStartDatePrice(LocalDate startDatePrice) {
+		this.startDatePrice = startDatePrice;
+	}
+
 	public List<String> getDays() {
 		return days;
 	}
@@ -56,36 +64,13 @@ public class CreateUpdateCottageDTO {
 		this.days = days;
 	}
 
-	public String getPercent1() {
-		return percent1;
+
+	public List<String> getPercents() {
+		return percents;
 	}
 
-	public void setPercent1(String percent1) {
-		this.percent1 = percent1;
-	}
-
-	public String getPercent2() {
-		return percent2;
-	}
-
-	public void setPercent2(String percent2) {
-		this.percent2 = percent2;
-	}
-
-	public String getPercent3() {
-		return percent3;
-	}
-
-	public void setPercent3(String percent3) {
-		this.percent3 = percent3;
-	}
-
-	public String getPercent4() {
-		return percent4;
-	}
-
-	public void setPercent4(String percent4) {
-		this.percent4 = percent4;
+	public void setPercents(List<String> percents) {
+		this.percents = percents;
 	}
 
 	public double getLatitude() {

@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Ship extends Offer  implements Serializable {
@@ -24,7 +17,7 @@ public class Ship extends Offer  implements Serializable {
 	private double length;
 	
 	@Column(nullable=false)
-	private String engineDesignation;	
+	private String engineDesignation;
 	
 	@Column(nullable=false)
 	private double enginePower;
@@ -38,18 +31,19 @@ public class Ship extends Offer  implements Serializable {
 	@Column(nullable=false)
 	private int capacity;
 
-	@OneToMany(mappedBy = "ship", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany
+	@JoinTable(name = "fishingEquipmentsShip", joinColumns=@JoinColumn(name = "ship_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "fishing_equipment_id", referencedColumnName = "id"))
 	private List<FishingEquipment> fishingEquipments;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "owner")
 	private ShipOwner owner;
 	
-	public String getType() {
+	public java.lang.String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(java.lang.String type) {
 		this.type = type;
 	}
 
@@ -61,11 +55,11 @@ public class Ship extends Offer  implements Serializable {
 		this.length = length;
 	}
 
-	public String getEngineDesignation() {
+	public java.lang.String getEngineDesignation() {
 		return engineDesignation;
 	}
 
-	public void setEngineDesignation(String engineDesignation) {
+	public void setEngineDesignation(java.lang.String engineDesignation) {
 		this.engineDesignation = engineDesignation;
 	}
 
@@ -102,7 +96,7 @@ public class Ship extends Offer  implements Serializable {
 	}
 
 	public List<FishingEquipment> getFishingEquipments() {
-		return Collections.unmodifiableList(fishingEquipments);
+		return fishingEquipments;
 	}
 
 	public void setFishingEquipments(List<FishingEquipment> fishingEquipments) {

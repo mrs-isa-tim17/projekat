@@ -166,8 +166,8 @@ public class HistoryFutureReservationOwnerDTO {
         this.reservationId = r.getId();
         this.id = r.getOffer().getId();
         DateToStringConverter converter = new DateToStringConverter();
-        this.startDate = converter.convert(r.getStartDate());
-        this.endDate = converter.convert(r.getEndDate());
+        this.startDate = converter.convert(r.getStartDateTime());
+        this.endDate = converter.convert(r.getEndDateTime());
         this.quickReservation = r.isQuick();
         this.canceled = r.isCanceled();
         this.price = r.getPrice();

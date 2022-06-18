@@ -34,6 +34,12 @@ class ClientServce{
         });
     }
 
+    getCurrentShipClients(ownerId){
+        return axios.get(CLIENT_API_BASE_URL+'/ship/current/'+ownerId, {
+            headers: authHeader()
+        });
+    }
+
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{
