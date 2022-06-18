@@ -73,7 +73,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findAllQuickReservationsForOffer(Long id);
     
     @Transactional
-    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1 and not canceled and quick is false order by r.start_date", nativeQuery = true)
+    @Query(value="SELECT * from reservation r WHERE r.offer_id=?1 and not canceled and not quick order by r.start_date", nativeQuery = true)
     List<Reservation> findAllOrdinaryReservationsForOffer(Long id);
 
 }
