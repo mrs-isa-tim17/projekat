@@ -309,7 +309,8 @@ export default {
         p3: "0",
         p4: "0",
         experienceReviews: [],
-        instructorId:""
+        instructorId:"",
+        priceListId:""
       },
       behRules: [],
       addServices: [],

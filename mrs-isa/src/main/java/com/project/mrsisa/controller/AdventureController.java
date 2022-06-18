@@ -370,7 +370,7 @@ public class AdventureController {
 		System.out.println("experience review siye : "  + experience.size());
 		System.out.println("addition siye : "  + additionalServices.size());
 		System.out.println("OVDE");
-		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price, adventure.getOwner().getId());
+		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price, adventure.getOwner().getId(), pricelist.getId());
 			
 		System.out.println(adventureDTO);
 		return adventureDTO;
@@ -434,19 +434,21 @@ public class AdventureController {
 		adventure.setCancelCondition(cCondition);
 		
 
-		/*Pricelist pricelist = new Pricelist(adventureDTO.getPrice(),adventureDTO.getStartDatePrice());
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice(), LocalDate.now());
 		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(adventureDTO.getId());
 		for(Pricelist p : pricelists) 
 		{
+			System.out.println("CENAAaa" + p.getPrice() + " " + p.getId() + " " + p.getStartDate() + "  " + p.getEndDate());
 			if(p.getEndDate() == null) {
 				p.setEndDate(LocalDate.now());
 			}
 		}
-		pricelists.add(pricelist);
 		pricelist.setOffer(adventure);
-		adventure.setPricelists(pricelists);*/
+		pricelist.setStartDate(LocalDate.now());
+		pricelists.add(pricelist);
+		adventure.setPricelists(pricelists);   
 
-		Pricelist pricelist = pricelistService.findOneById(adventureDTO.getPriceListId());
+	/*	Pricelist pricelist = pricelistService.findOneById(adventureDTO.getPriceListId());
 		pricelist.setEndDate(LocalDate.now());
 		Pricelist updated = pricelistService.save(pricelist);
 		System.out.println("cenaaaa  id: "  + updated.getId());
@@ -455,7 +457,9 @@ public class AdventureController {
 		newPricelist.setEndDate(null);
 		newPricelist.setPrice(adventureDTO.getPrice());
 		newPricelist.setOffer(adventure);
-		pricelistService.save(newPricelist);
+		pricelistService.save(newPricelist); */
+		
+		
 		adventure.setImages(adventureDTO.getImagesAdventure());  // kasnije
 		
 	return adventure;
