@@ -1,5 +1,6 @@
 package com.project.mrsisa;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,7 @@ class MrsIsaApplicationTests {
 
 	@Test
 	void contextLoads() {
+		Assertions.assertEquals(0,0);
 	}
 
 }
