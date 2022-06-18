@@ -4,11 +4,11 @@
     <div class="col" style="min-width: 300px;">
       <label class="my-1" style="color: #31708E;"> Osnovne informacije: </label>
       <br>
-      <label class="my-1">&nbsp;&nbsp;Date: {{getDateTimeFormat(saleAppointment.startDateTime)}}</label>
+      <label class="my-1">&nbsp;&nbsp;Datum: {{getDateTimeFormat(saleAppointment.startDateTime)}}</label>
       <br>
-      <label class="my-1">&nbsp;&nbsp;Duration: {{saleAppointment.duration}}</label>
+      <label class="my-1">&nbsp;&nbsp;Trajanje: {{saleAppointment.duration}}</label>
       <br>
-      <label class="my-1">&nbsp;&nbsp;People quantity: {{saleAppointment.peopleQuantity}}</label>
+      <label class="my-1">&nbsp;&nbsp;Broj osoba: {{saleAppointment.peopleQuantity}}</label>
       <br>
       <label class="my-1">&nbsp;&nbsp;Cena: {{saleAppointment.price}}</label>
     </div>

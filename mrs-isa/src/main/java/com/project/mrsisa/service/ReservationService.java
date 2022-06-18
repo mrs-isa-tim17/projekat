@@ -69,6 +69,27 @@ public class ReservationService {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private LoyaltyPointsService loyaltyPointsService;
+
+    @Autowired
+    private LoyaltyScaleService loyaltyScaleService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CottageOwnerService cottageOwnerService;
+
+    @Autowired
+    private ShipOwnerService shipOwnerService;
+
+    @Autowired
+    private FishingInstructorService fishingInstructorService;
+
+    @Autowired
+    private DeleteRequestService deleteRequestService;
+
     public List<Reservation> getCottageHistoryReservation(Long id){
         return reservationRepository.findCottageReservationHistory(id, OfferType.COTTAGE.getValue());
     }
@@ -142,18 +163,62 @@ public class ReservationService {
             r.setClient(null);
         }else{
             r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));
+            if (deleteRequestService.getIfUserMadeDeleteRequest(r.getClient().getId())){
+                throw new NotDefinedValue("Napravili ste zahtev za brisanje naloga, dok zahtev ne bude odbijen, nećete moći da rezervišete");
+            }
             if (r.getClient().getPenaltyNumber() >= 3)
                 throw new TooHighPenaltyNumber("Zbog broja penala ste onemogućeni da rezervišete.");
             if (checkIfCanceledReservationWithSameParametars(r.getClient(), reserveEntityDTO))
                 throw new AlreadyCanceled("Već je otkazao rezervaciju sa istim parametrima");
         }
         reserveEntity(reserveEntityDTO, r);
+        if (r.getClient() != null) {
+            addLoyaltyPointsToClient(r.getClient());
+            addLoyaltyPointsToOwner(r.getOffer(), r.getOfferType());
+        }
         return r;
         //if (r.getClient() != null)
         //    sendMailAboutReservation(r.getClient(), r);
     }
 
-//throws NotDefinedValue, NotAvailable, MailSendException
+    public void addLoyaltyPointsToOwner(Offer offer, OfferType offerType) {
+        User offerer = new User();
+        List<LoyaltyScale> currentLoyaltyScaleToClient = new ArrayList<>();
+        if (offerType == OfferType.COTTAGE){
+            Cottage c = (Cottage) offer;
+            offerer = cottageOwnerService.findOne(c.getOwner().getId());
+        }else if (offerType == OfferType.SHIP){
+            Ship c = (Ship) offer;
+            offerer = shipOwnerService.findOne(c.getOwner().getId());
+        }else if (offerType == OfferType.ADVENTURE){
+            Adventure c = (Adventure) offer;
+            offerer = fishingInstructorService.findOne(c.getOwner().getId());
+        }
+        LoyaltyPoints currentLoyaltyPointsToClient = loyaltyPointsService.findCurrentLoyaltyPointForUser(UserTypeLoyaltyPoints.OFFERER);
+        offerer.setLoyaltyPoints((int) (offerer.getLoyaltyPoints() + currentLoyaltyPointsToClient.getPoints()));
+        currentLoyaltyScaleToClient = loyaltyScaleService.findCurrentLoyaltyScaleForUser(offerer.getRoleId());
+        for (LoyaltyScale ls : currentLoyaltyScaleToClient){
+            if (offerer.getLoyaltyPoints() > ls.getTrashhold() && offerer.getUserType().getValue() < ls.getUserType().getValue() ){
+                offerer.setUserType(ls.getUserType());
+                userService.save(offerer);
+                break;
+            }
+        }
+    }
+
+    public void addLoyaltyPointsToClient(Client client) {
+        LoyaltyPoints currentLoyaltyPointsToClient = loyaltyPointsService.findCurrentLoyaltyPointForUser(UserTypeLoyaltyPoints.CLIENT);
+        client.setLoyaltyPoints((int) (client.getLoyaltyPoints() + currentLoyaltyPointsToClient.getPoints()));
+        List<LoyaltyScale> currentLoyaltyScaleToClient = loyaltyScaleService.findCurrentLoyaltyScaleForUser(client.getRoleId());
+        for (LoyaltyScale ls : currentLoyaltyScaleToClient){
+            if (client.getLoyaltyPoints() > ls.getTrashhold() && client.getUserType().getValue() < ls.getUserType().getValue() ){
+                client.setUserType(ls.getUserType());
+                clientService.save(client);
+                break;
+            }
+        }
+    }
+
     @SneakyThrows
     public void reserveEntity(ReserveEntityDTO reserveEntityDTO, Reservation r) {
         Offer o;
@@ -236,8 +301,8 @@ public class ReservationService {
                 long days = ChronoUnit.DAYS.between(startDateTime.toLocalDate(), endDateTime.toLocalDate());//req.getUntilDate() - req.getFromDate();
                 price = days * pricelistService.getCurrentPriceOfOffer(o.getId());
             } else if (offerType == OfferType.ADVENTURE) {
-                long minutes = ChronoUnit.MINUTES.between(startDateTime, endDateTime);//req.getUntilDate() - req.getFromDate();
-                price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
+                long hours = ChronoUnit.HOURS.between(startDateTime, endDateTime);//req.getUntilDate() - req.getFromDate();
+                price = hours / 24 * pricelistService.getCurrentPriceOfOffer(o.getId());
             } else if (offerType == OfferType.SHIP) {
                 long minutes = ChronoUnit.MINUTES.between(startDateTime, startDateTime);//req.getUntilDate() - req.getFromDate();
                 price = minutes / 60.0 * pricelistService.getCurrentPriceOfOffer(o.getId());
@@ -358,5 +423,9 @@ public class ReservationService {
 
     public void setPricelistService(PricelistService pricelistService) {
         this.pricelistService = pricelistService;
+    }
+
+    public List<Reservation> getFutureActiveReservationsForClient(Long id) {
+        return reservationRepository.getFutureActiveReservationsForClient(id);
     }
 }

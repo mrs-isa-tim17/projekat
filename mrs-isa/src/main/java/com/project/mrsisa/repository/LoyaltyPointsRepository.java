@@ -20,6 +20,8 @@ public interface LoyaltyPointsRepository  extends JpaRepository<LoyaltyPoints, L
 	@Query(value="SELECT * from loyalty_points l WHERE l.user_type_loyalty_points=?1 and l.end_date is null order by start_date", nativeQuery = true)
 	public LoyaltyPoints findActivePointsByType(int value);
 
+	@Query(value="SELECT * from loyalty_points l WHERE l.user_type_loyalty_points=?1 and (l.end_date is null or l.end_date > CURRENT_DATE) order by start_date", nativeQuery = true)
+	public List<LoyaltyPoints> findCurrentActivePointsByType(int value);
 
 
 }

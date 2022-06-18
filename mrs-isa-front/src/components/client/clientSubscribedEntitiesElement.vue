@@ -55,7 +55,7 @@ export default {
             this.$emit('rerender');
             Swal.fire({
               icon: 'success',
-              title: 'Uspešno ste otkazali rezervaciju.',
+              title: 'Uspešno ste odpratili entitet.',
               showConfirmButton: false,
               timer: 1500
           })});

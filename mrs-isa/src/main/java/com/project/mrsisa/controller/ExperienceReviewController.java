@@ -4,7 +4,6 @@ import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.ExperienceReviewAdminDTO;
 import com.project.mrsisa.dto.ExperienceReviewDTO;
 import com.project.mrsisa.dto.client.OfferReviewedDTO;
-import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,7 +69,7 @@ public class ExperienceReviewController {
     @PreAuthorize("hasRole('COTTAGE_OWNER')")
     public ResponseEntity<List<ExperienceReviewDTO>>getExperienceReviews(@PathVariable Long id){
         List<ExperienceReviewDTO> dto = new ArrayList<>();
-        List<ExperienceReview> reviews = experienceReviewService.findAllByOfferId(id);
+        List<ExperienceReview> reviews = experienceReviewService.findAllApprovedByOfferId(id);
         for(ExperienceReview er : reviews){
             Client client = clientService.findOne(er.getClient().getId());
             dto.add(new ExperienceReviewDTO(er,client));
@@ -83,7 +82,7 @@ public class ExperienceReviewController {
     @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHING_INSTRUCTOR')")
     public ResponseEntity<Double>getRating(@PathVariable Long id){
         double rating = 0;
-        List<ExperienceReview> reviews = experienceReviewService.findAllByOfferId(id);
+        List<ExperienceReview> reviews = experienceReviewService.findAllApprovedByOfferId(id);
         for(ExperienceReview er : reviews){
             rating += er.getRate();
         }

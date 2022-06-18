@@ -60,6 +60,7 @@ public class ComplaintController {
         complaint.setClient(cl);
         if (complaintOnOfferDTO.getText() == "") complaint.setText(null);
         else complaint.setText(complaintOnOfferDTO.getText());
+        complaint.setReservation(reservationService.findOneById(complaintOnOfferDTO.getReservationId()));
         complaintService.save(complaint);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -86,11 +87,11 @@ public class ComplaintController {
 				
                 cottage = cottageService.findOne(c.getOffer().getId());
                 offerName = cottage.getName();
-            	owner =  userService.findById(cottage.getId());
+            	owner =  userService.findById(cottage.getOwner().getId());
 			}else if (c.getOfferType() == OfferType.SHIP) {
                 ship = (Ship) shipService.findOne(c.getOffer().getId());
                 offerName = ship.getName();
-				owner =  userService.findById(ship.getId());
+				owner =  userService.findById(ship.getOwner().getId());
 			}
             else if (c.getOfferType() == OfferType.ADVENTURE) {
                 adventure = adventureService.findOneById(c.getOffer().getId());

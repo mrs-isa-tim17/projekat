@@ -59,4 +59,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date > CURRENT_DATE", nativeQuery = true)
     List<Reservation> getUpcomingReservationsForClient(long id);
+
+    @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date > CURRENT_DATE and not canceled", nativeQuery = true)
+    List getFutureActiveReservationsForClient(Long id);
 }

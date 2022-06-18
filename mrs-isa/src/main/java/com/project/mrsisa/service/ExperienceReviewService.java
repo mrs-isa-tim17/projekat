@@ -49,7 +49,7 @@ public class ExperienceReviewService {
 	}
 
 	@Transactional
-	public List<ExperienceReview> findAllByOfferId(Long id){
+	public List<ExperienceReview> findAllApprovedByOfferId(Long id){
 		List<ExperienceReview> exRevs = experienceReviewRepository.findAllByOfferId(id);
 		for (ExperienceReview e: exRevs) {
 			e.setClient(clientService.findOne(e.getClient().getId()));

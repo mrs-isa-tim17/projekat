@@ -5,6 +5,7 @@ public class ComplaintOnOfferDTO {
     private long clientID;
     private String text;
     private int offerType;
+    private long reservationId;
 
     public ComplaintOnOfferDTO() {
     }
@@ -39,5 +40,13 @@ public class ComplaintOnOfferDTO {
 
     public void setOfferType(int offerType) {
         this.offerType = offerType;
+    }
+
+    public long getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(long reservationId) {
+        this.reservationId = reservationId;
     }
 }

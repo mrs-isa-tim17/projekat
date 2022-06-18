@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface DeleteRequestRepository extends JpaRepository<DeleteRequest, Long> {
 
     @Transactional
-    @Query(value = "SELECT * FROM delete_request p WHERE p.user_id = ?1",
+    @Query(value = "SELECT * FROM delete_request p WHERE p.user_id = ?1 and p.status=0",
             nativeQuery = true)
     DeleteRequest findByUserRef(Long id);
     

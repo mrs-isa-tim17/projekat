@@ -109,6 +109,9 @@ public class ShipController {
 	public ResponseEntity<List<OfferForHomePageViewDTO>> getShipsForHomePage(){
 		List<Ship> ships = shipService.findActiveShips();
 		List<OfferForHomePageViewDTO> cottagesDTO = new ArrayList<>();
+		if (ships.size() > 6){
+			ships = ships.subList(0, 5);
+		}
 		for (Ship c : ships) {
 			c.setImages(imageService.findAllByOfferId(c.getId()));
 			OfferForHomePageViewDTO dto = new OfferForHomePageViewDTO(c);
@@ -366,20 +369,24 @@ public class ShipController {
 
 	@GetMapping(value = "/site/{id}")
 	public ResponseEntity<ShipProfileInfoDTO> getShipDisplayForProfile(@PathVariable long id) {
-		Ship c = shipService.findOne(id);
-		ShipProfileInfoDTO shipProfileInfoDTO = new ShipProfileInfoDTO(c);
-		shipProfileInfoDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
-		shipProfileInfoDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
-		shipProfileInfoDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
-		shipProfileInfoDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
-		shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.SHIP));
-		shipProfileInfoDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
-		return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
+		try {
+			Ship c = shipService.findOne(id);
+			ShipProfileInfoDTO shipProfileInfoDTO = new ShipProfileInfoDTO(c);
+			shipProfileInfoDTO.setImagesFromImageObjects(imageService.findAllByOfferId(id));
+			shipProfileInfoDTO.setPrice(pricelistService.getCurrentPriceOfOffer(id));
+			shipProfileInfoDTO.setBehavioralRulesFromBehaviourRuleObject(behaviorRuleService.findAllByOfferId(id));
+			shipProfileInfoDTO.setAdditionalServicesFromAdditionalServiceObject(additionalServicesService.findAllByOfferId(id));
+			shipProfileInfoDTO.setRating(experienceReviewService.getReatingByOfferId(c.getId(), OfferType.SHIP));
+			shipProfileInfoDTO.setAdditionalServicesFromFishingEquipmentObject(fishingEquipmentService.findAllByAdventureId(id));
+			return new ResponseEntity<ShipProfileInfoDTO>(shipProfileInfoDTO, HttpStatus.OK);
+		}catch (Exception e){
+			return ResponseEntity.ok(new ShipProfileInfoDTO());
+		}
 	}
 
 	@PostMapping(value = "/site/review/{id}")
 	public ResponseEntity<List<ExperienceReviewDTO>> getExperienceReviesFromShip(@PathVariable long id, @RequestBody PaginationDTO paginationDTO) {
-		List<ExperienceReview> er = experienceReviewService.findAllByOfferId(id);
+		List<ExperienceReview> er = experienceReviewService.findAllApprovedByOfferId(id);
 		ExperienceReviewDTO size = new ExperienceReviewDTO();
 		size.setListSize(er.size());
 		er = er.subList(paginationDTO.getFromElement(), paginationDTO.getUntilElement(er.size()));
