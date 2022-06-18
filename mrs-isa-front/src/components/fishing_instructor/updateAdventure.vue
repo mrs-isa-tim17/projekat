@@ -349,6 +349,7 @@ export default {
           p3: 0,
           p4: 0,
           experienceReviews: [],
+          priceListId:""
         },
 
         behRules: [],

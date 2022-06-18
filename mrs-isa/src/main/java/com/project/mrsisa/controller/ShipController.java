@@ -249,7 +249,7 @@ public class ShipController {
 		ship.setDescription(shipDTO.getDescription());
 		ship.setDeleted(shipDTO.isDeleted());
         if(pricelistService.findOffersCurrentPriceById(shipDTO.getId()).getPrice() != shipDTO.getPrice()){
-            Pricelist pricelist = pricelistService.findOneById(shipDTO.getPriceListId());
+       /*     Pricelist pricelist = pricelistService.findOneById(shipDTO.getPriceListId());
             pricelist.setEndDate(LocalDate.now());
             Pricelist updated = pricelistService.save(pricelist);
             System.out.println("cenaaaa  id: "  + updated.getId());
@@ -261,6 +261,21 @@ public class ShipController {
             System.out.println("NOVOOOOOa  id: "  + newPricelist.getStartDate());
             System.out.println("NOVOOOOOa  id: "  + newPricelist.getEndDate());
             pricelistService.save(newPricelist);
+            */
+        	
+    		Pricelist pricelist = new Pricelist(shipDTO.getPrice(), LocalDate.now());
+    		List<Pricelist> pricelists = pricelistService.findAllByAdventureId(shipDTO.getId());
+    		for(Pricelist p : pricelists) 
+    		{
+    			System.out.println("CENAAaa" + p.getPrice() + " " + p.getId() + " " + p.getStartDate() + "  " + p.getEndDate());
+    			if(p.getEndDate() == null) {
+    				p.setEndDate(LocalDate.now());
+    			}
+    		}
+    		pricelist.setOffer(ship);
+    		pricelist.setStartDate(LocalDate.now());
+    		pricelists.add(pricelist);
+    		ship.setPricelists(pricelists);   
         }
 		ShipOwner owner = shipOwnerService.findOne(shipDTO.getOwnerId());
 		ship.setOwner(owner);

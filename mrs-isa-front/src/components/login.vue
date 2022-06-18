@@ -1,18 +1,21 @@
 <template>
-  <div>
+
     <basic-header></basic-header>
-    <div id="login">
-      <br>
-      <div class="">
-        <img src="../assets/icons/user.png">
-        <br>
-        <br>
-      </div>
 
-      <div class="container">
 
+
+      <div class="container mt-5">
+        <p style="font-size: 30px;color:#31708E;font-weight: bold">Prijava</p>
+        <!--<div class="">
+
+          <img src="../assets/icons/user.png">
+          <br>
+          <br>
+        </div>-->
+        <i class="fa fa-envelope icon"></i>
         <input type="text" placeholder="Unesite email" id="uname" required><br>
         <br>
+        <i class="fa fa-key icon"></i>
         <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
         <br>
         <button type="submit" @click="login">Prijavite se</button>
@@ -21,8 +24,7 @@
       </div>
 
 
-    </div>
-  </div>
+
 </template>
 <script>
 import loginServce from "@/servieces/LoginServce";
@@ -103,7 +105,7 @@ export default {
   font-size: 20px;
   padding: 20px;
   width: 50%;
-  height: 70%;
+  height: 60%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -138,8 +140,8 @@ img {
 
 /* Full-width inputs */
 input[type=text], input[type=password] {
-  width: 60%;
-  padding: 12px 20px;
+  width: 400pt;
+  padding: 12px 10px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
@@ -154,7 +156,7 @@ button {
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 60%;
+  width: 400pt;
 }
 
 /* Add a hover effect for buttons */
@@ -195,6 +197,15 @@ img.avatar {
 /* Add padding to containers */
 .container {
 
+
+}
+
+i{
+  padding:16px;
+  background: #5085A5;
+  color: white;
+  width: 40px;
+  text-align: center;
 
 }
 
