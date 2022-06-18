@@ -48,7 +48,7 @@ public class PeriodAvailabilitySerivce {
 	}
 
 	
-	public List<StartEndDateDTO> intersectionPeriodsForAvailability(List<PeriodAvailability> availability, List<PeriodUnavailability> unavailability, List<Reservation> reservations, List<SaleAppointment> actions){
+	public List<StartEndDateDTO> intersectionPeriodsForAvailability(List<PeriodAvailability> availability, List<PeriodUnavailability> unavailability, List<Reservation> reservations, List<Reservation> actions){
 		
 		List<StartEndDateTimeDefineDTO> availabilityIntersectionUnavailability = new ArrayList<StartEndDateTimeDefineDTO>();				
 		LocalDateTime current = null;
@@ -61,10 +61,10 @@ public class PeriodAvailabilitySerivce {
 			dto.setEnd(r.getEndDateTime());
 			actionsReservations.add(dto);
 		}
-		for (SaleAppointment sa : actions){
+		for (Reservation re : actions){
 			HelpObjectDateTime dto = new HelpObjectDateTime();
-			dto.setStart(sa.getStartSaleDate());
-			dto.setEnd(sa.getStartSaleDate().plusHours((long) sa.getDuration()));
+			dto.setStart(re.getStartDateTime());
+			dto.setEnd(re.getEndDateTime());
 			actionsReservations.add(dto);
 		}
 

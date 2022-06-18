@@ -41,6 +41,8 @@ public class AdventureDTO {
 	private double price;
 	private int capacity;
 	
+	private Long instructorId;
+	
 	
 	public AdventureDTO() {
 		this.behavioralRules = new ArrayList<String>();
@@ -53,7 +55,7 @@ public class AdventureDTO {
 	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
-			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price) {
+			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price, Long instructorId) {
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
@@ -71,6 +73,8 @@ public class AdventureDTO {
 		this.cancelConditions =new ArrayList<String>();
 		this.experienceReviews = new ArrayList<String>();
 		this.additionalServices = new ArrayList<String>();
+		
+		this.instructorId = instructorId;
 		
 		this.days = new ArrayList<String>();
 		//this.percentage = new ArrayList<String>();
@@ -94,7 +98,7 @@ public class AdventureDTO {
 			switch (cc.getDays()) {
 			case 5:
 				this.p1 = String.valueOf(cc.getPrecent());
-				this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "% od ukupne cene rezervacije.");
+				this.cancelConditions.add("Za otkazni rok od 3 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "% od ukupne cene rezervacije.");
 				break;
 			case 10:
 				this.p2 = String.valueOf(cc.getPrecent());
@@ -263,10 +267,16 @@ public class AdventureDTO {
 	public void setDays(List<String> days) {
 		this.days = days;
 	}
-	
-
 
 	
+	public Long getInstructorId() {
+		return instructorId;
+	}
+
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
+	}
+
 	public String getP1() {
 		return p1;
 	}

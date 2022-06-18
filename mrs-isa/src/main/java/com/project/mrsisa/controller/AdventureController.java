@@ -284,6 +284,10 @@ public class AdventureController {
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
 		
+		FishingInstructor fi = fishingInstructorService.findOne(adventureDTO.getInstructorId());
+		
+		adventure.setOwner(fi);
+		
 		List<BehaviorRule> behavoirRules = new ArrayList<BehaviorRule>();
 		for(String rule : adventureDTO.getBehaviorRules())
 		{
@@ -366,7 +370,7 @@ public class AdventureController {
 		System.out.println("experience review siye : "  + experience.size());
 		System.out.println("addition siye : "  + additionalServices.size());
 		System.out.println("OVDE");
-		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price);
+		AdventureDTO adventureDTO = new AdventureDTO(adventure, behaviorRules, images, fishEquipment, cancelConditions, experience, additionalServices, price, adventure.getOwner().getId());
 			
 		System.out.println(adventureDTO);
 		return adventureDTO;

@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -363,5 +364,13 @@ public class ReservationService {
     }
     public List<Reservation> getReservationsForPeriod(LocalDate startDate, LocalDate endDate){
     	return reservationRepository.getReservationsForPeriod(startDate, endDate);
+    }
+    
+    public List<Reservation>findAllQuickReservationsForOffer(Long id){
+    	return reservationRepository.findAllQuickReservationsForOffer(id);
+    }
+    
+    public List<Reservation> findAllOrdinaryReservationsForOffer(Long id){
+    	return reservationRepository.findAllOrdinaryReservationsForOffer(id);
     }
 }
