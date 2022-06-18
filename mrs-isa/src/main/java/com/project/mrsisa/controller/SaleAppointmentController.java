@@ -286,12 +286,12 @@ public class SaleAppointmentController {
 		List<StartEndDateDTO> quickReservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<SaleAppointment> apponiments = saleAppointmentService.findAllByOfferId(id);
-		for(SaleAppointment sale : apponiments) {
+		List<Reservation> apponiments = reservationService.findAllQuickReservationsForOffer(id);
+		for(Reservation sale : apponiments) {
 			
-			LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
+			//LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
 			
-			StartEndDateDTO period = new StartEndDateDTO(sale.getStartSaleDate().format(formatter), end.format(formatter), adventure.getName());
+			StartEndDateDTO period = new StartEndDateDTO(sale.getStartDateTime().format(formatter), sale.getEndDateTime().format(formatter), adventure.getName());
 			quickReservationPeriods.add(period);
 		}
 		

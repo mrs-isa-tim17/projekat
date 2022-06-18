@@ -9,6 +9,7 @@ import com.project.mrsisa.dto.AdminDeletingRequestDTO;
 import com.project.mrsisa.dto.DeleteRequestDTO;
 import com.project.mrsisa.dto.TextDTO;
 import com.project.mrsisa.service.DeleteRequestService;
+import com.project.mrsisa.service.ReservationService;
 import com.project.mrsisa.service.RoleService;
 import com.project.mrsisa.service.UserService;
 
@@ -34,11 +35,19 @@ public class DeleteRequestController {
     private DeleteRequestService deleteRequestService;
     @Autowired
     private RoleService roleService;
+	@Autowired
+	private ReservationService reservationService;
     
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('FISHINSTRUCTOR') or hasRole('SHIP_OWNER') or hasRole('COTTAGE_OWNER')")
     public ResponseEntity<Boolean> deleteAccountRequest(@PathVariable("id") long id, @RequestBody DeleteRequestDTO deleteRequestDTO) {
         User u = userService.findById(id);
+		if (u.getRoleId() == 1){
+			if (reservationService.getFutureActiveReservationsForClient(u.getId()).size() > 0){
+				return ResponseEntity.ok(false);
+			}
+		}
+
         DeleteRequest old = deleteRequestService.findOneByUser(id);
         if (old != null)
             return ResponseEntity.ok(false);
