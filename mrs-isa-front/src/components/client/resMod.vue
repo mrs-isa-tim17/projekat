@@ -131,7 +131,7 @@ export default {
             let res = response.data
             if (res.successfull){
               swal.fire({
-                title: "Uspešsno",
+                title: "Uspešno",
                 text: "Uspešno je sačvana rezervacija, mejl je poslatu na vaš mejl, za potvrdu.",
                 background:'white',
                 color:'black',
@@ -144,6 +144,7 @@ export default {
                 color:'black',
                 confirmButtonColor:'#FECDA6'});
             }
+            this.closeModal();
           });
     },
     callOfferService(){

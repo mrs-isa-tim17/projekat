@@ -12,9 +12,9 @@
           @blur="validateInput"
       />
     </div>
-    <div class="ui basic label pointing red" v-if="errors.name" style="color:red;font-size:15px;">
+    <p class="ui basic label pointing red" v-if="errors.name" style="color:red;font-size:15px;">
       {{ errors.name }}
-    </div>
+    </p>
   </div>
 </template>
 

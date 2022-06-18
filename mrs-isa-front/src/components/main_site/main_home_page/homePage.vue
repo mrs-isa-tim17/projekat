@@ -1,6 +1,6 @@
 <template>
   <basic-header></basic-header>
-    <div class="px-5 p-5">
+    <div class="px-5">
 
       <HomePageOffers :key="siteHomePage" @rerender="forceRerender"></HomePageOffers>
     </div>

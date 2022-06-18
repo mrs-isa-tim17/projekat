@@ -16,11 +16,12 @@ public interface ExperienceReviewRepository extends JpaRepository<ExperienceRevi
 	public Page<ExperienceReview> findAll(Pageable pageable);
 
 	public ExperienceReview findOneById(Long id);
-	
-	public List<ExperienceReview> findAllByOfferId(Long id);
+
+    @Query(value="SELECT * FROM experience_review r WHERE r.offer_id=?1 and r.status = 1", nativeQuery=true)
+    public List<ExperienceReview> findAllByOfferId(Long id);
 
     //@Transactional//status reviewa
-    @Query(value = "SELECT AVG(rate) FROM experience_review p WHERE p.offer_id = ?1 and p.rate <> -1 and p.offer_type = ?2",
+    @Query(value = "SELECT AVG(rate) FROM experience_review p WHERE p.offer_id = ?1 and p.rate <> -1 and p.offer_type = ?2 and p.status = 1",
             nativeQuery = true)
     Optional<Double> findOffersCurrentPriceById(Long offerId, int offerType);
 

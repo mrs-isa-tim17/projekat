@@ -8,7 +8,7 @@ public class UserRequest {
 	//private Long id;
 
 	//private String username;
-
+	private String requestMessage; //za vlasnike
 	private String password;
 
 	private String name;
@@ -91,4 +91,11 @@ public class UserRequest {
 		this.email = email;
 	}
 
+	public String getRequestMessage() {
+		return requestMessage;
+	}
+
+	public void setRequestMessage(String requestMessage) {
+		this.requestMessage = requestMessage;
+	}
 }

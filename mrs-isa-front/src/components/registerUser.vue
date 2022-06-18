@@ -1,41 +1,59 @@
 <template>
-  <div>
     <basic-header></basic-header>
-  <section class="signup-view">
-  <div>
-      <div id="left">
+  <div class="container">
+  <div class="row mt-3">
+    <p style="text-align: center;color:#31708E">Registracija korisnika</p>
+      <div class="col-6">
         <NameField v-model="user.name" /><br>
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
         <PasswordAgainField v-model="user.password" /><br>
         <PhoneField v-model="user.phoneNumber" /><br>
+
         <i class="fa fa-users"></i>
-        <select name="role" id="roles" @change="changeUserType">
-          <option style="color:grey;" value="" disabled selected>Vrsta korisnika</option>
+        <select name="role" id="roles" @change="changeUserType" style="width:300px;height:30px;">
+          <option style="color:grey;" value="" disabled selected hidden>Vrsta korisnika</option>
           <option value="1">Klijent</option>
-          <option value="3">Vlasnik vikendice</option>
+          <option value="3" >Vlasnik vikendice</option>
           <option value="4">Vlasnik broda</option>
           <option value="5">Instruktor</option>
-        </select>
-
-      </div>
-      <div id="right" style="margin-left:700px; margin-bottom:280px;">
-        <label> Izaberite Vašu adresu</label>
+        </select><br><br>
+        <textarea id="request" placeholder="Obrazloženje registracije" v-model="user.requestMessage" style="width:300px;height:100px;" disabled></textarea>
+</div>
+      <div class="col-6" >
+        <p style="text-align: left;font-size: 15px;color:#31708E;">Izaberite Vašu adresu</p>
         <open-maps :lon="user.longitude" :lat="user.latitude" @coordinate-changed="updateCoordinats" style="width: 400px; height: 400px;"></open-maps>
-      </div>
-        <div class="footer">
+
       <button class="ui button red fluid big"
           @click="signUpButtonPressed"
           :disabled="isSignupButtonDisabled"
-              style="float:right;width:200px;background-color: #31708E;margin-bottom: 60px;">
+              style="float:right;max-width:300px;background-color: #31708E;font-size:20px;color:whitesmoke;margin-bottom: 60px;">
         Registruj se
       </button>
         </div>
+      </div>
+  </div>
 
-  </div>
-  </section>
-  </div>
+  <!--  <div> <div class="modal fade"  :id=index role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+
 </template>
 
 <script>
@@ -55,6 +73,7 @@ import PasswordAgainField from "@/components/registration_components/PasswordAga
 import basicHeader from "@/components/main_site/main_home_page/basicHeader";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
+
 
 export default {
   components: {
@@ -76,7 +95,8 @@ export default {
       password: "",
       userRole: "",
       longitude: 0,
-      latitude: 0
+      latitude: 0,
+      requestMessage:""
     });
 
     const { errors } = useFormValidation();
@@ -88,6 +108,12 @@ export default {
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
+  data(){
+    return{
+      text:"",
+      index:""
+    }
+  },
   methods:{
     updateCoordinats(lon, lat){
       this.user.longitude = lon;
@@ -96,51 +122,22 @@ export default {
     },
     changeUserType(){
       this.user.userRole = document.getElementById("roles").value;
+      if(this.user.userRole != '1'){
+        console.log("nije");
+        console.log(document.getElementById("request").disabled);
+        document.getElementById("request").disabled = false;
+        console.log(document.getElementById("request").disabled);
+      }
+      else{
+        document.getElementById("request").disabled = true;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.signup-view {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
-#left{
-  border: 1px solid black;
-  text-align:center;
-  background-color:#687864;
-  font-size: 20px;
-  padding: 40px;
-  width: 40%;
-  height:70%;
-  position: absolute;
-  left: 30%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-}
-
-#right{
-
-}
-.footer{
-  bottom:50px;
-  position:absolute;
-  width:80%;
-  left:60px;
-
-}
-#cancel{
-  float:left;
-  left:30px;
-  width:150px;
-  color:white;
-  background-color:red;
-}
 
 p{
   font-size: 30px;
@@ -148,10 +145,7 @@ p{
   color:white;
   top:0px;
 }
-select{
-  width:300px;
-  height:35px;
-}
+
 i{
   padding: 7px;
   background: #5085A5;
@@ -159,5 +153,6 @@ i{
   min-width: 30px;
   text-align: center;
 }
+
 
 </style>

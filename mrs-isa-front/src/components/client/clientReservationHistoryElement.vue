@@ -102,7 +102,8 @@ export default {
         offerId : this.cottage.id,
         clientID : JSON.parse(localStorage.user).id,
         text : value,
-        offerType : this.cottage.offerType
+        offerType : this.cottage.offerType,
+        reservationId: this.cottage.reservationId
       }
       console.log(complaint);
       console.log(complaint);

@@ -87,7 +87,7 @@ public class ClientController {
 		e.printStackTrace();
        }
         
-        LoyaltyScale ls = loyaltyScaleService.loyaltyScalesGreaterMinimumTrashhold(client.getLoyaltyPoints());
+        LoyaltyScale ls = loyaltyScaleService.findCurrentLoyaltyScaleByUserType(client.getRoleId(), client.getUserType());//findCurrentLoyaltyScaleForUser(1);//loyaltyScalesGreaterMinimumTrashhold(client.getLoyaltyPoints());
         int discount;
         if (ls == null) {
         	discount = 0;

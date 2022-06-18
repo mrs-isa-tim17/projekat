@@ -11,9 +11,6 @@ import javax.persistence.*;
 public class Client extends User {
 	@Column(name="penaltyNumber", nullable=true)
 	private int penaltyNumber;
-	
-	//@Column(name="isAuthenticated", nullable=true)
-	//private boolean isAuthenticated;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "subscriptions", inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
