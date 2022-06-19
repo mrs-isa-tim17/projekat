@@ -131,18 +131,19 @@ public class RegistrationRequestService {
         }
 
         request.setStatus(ProcessingStatus.APPROVED);
-
+        
         String text = "";
         response.setSuccessfull(false);
         try {
             save(request);
-
+            
             User u = userService.findById(request.getUserRef().getId());
             u.setEnabled(true);
             userService.save(u);
 
             response.setSuccessfull(true);
             response.setText("" + request.getUserRef().getId());
+            
         }catch (ObjectOptimisticLockingFailureException changedException){
             response.setSuccessfull(false);
             response.setText("Neko je odradio zahtev pre tebe");
@@ -158,7 +159,10 @@ public class RegistrationRequestService {
         TextDTO response = new TextDTO();
 
         RegistrationRequest request = findOneById(id);
-
+        System.out.println("REquuuuuest");
+        System.out.println(request.getId());
+        System.out.println(request.getRegistrationType());
+        System.out.println(request.getStatus());
 
         if (request == null) {
             response.setText("Zahtev nije pronađen");
@@ -172,12 +176,20 @@ public class RegistrationRequestService {
 
         request.setStatus(ProcessingStatus.REJECTED);
 
+        System.out.println("STATUUSSSS");
+        System.out.println(request.getStatus());
+        
         String text = "";
         response.setSuccessfull(false);
         try {
             save(request);
+            System.out.println(request.getStatus());
+            
             response.setSuccessfull(true);
             response.setText("" + request.getUserRef().getId());
+            
+            System.out.println(response.getText());
+            System.out.println(response.isSuccessfull());
         }catch (ObjectOptimisticLockingFailureException changedException){
             response.setSuccessfull(false);
             response.setText("Neko je odradio zahtev pre tebe");

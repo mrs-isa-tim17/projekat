@@ -36,3 +36,22 @@ insert into period_availability (end_date, start_date, offer_id) values ('20.12.
 insert into period_unavailability (end_date, start_date, offer_id) values ('31.12.2022','01.12.2022',1);
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 1500, '01.01.2021.', 1);
+
+
+
+insert into address (longitude, latitude) values (19, 44);
+insert into address (longitude, latitude) values (19, 43);
+insert into address (longitude, latitude) values (42, -30);
+
+insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
+	(nextval('offer_seq'), false, 'Jezero je puno ribe.', 'Pecanje na Sotskom jezeru', 4, 3, 'Im the best instructor ever', 2);
+	
+insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
+	(nextval('offer_seq'), false, 'Najbolje skijaske staze', 'Planinarenje Kopaonik', 5, 2, 'Im the best instructor ever', 2);
+
+insert into adventure (id, deleted, description, name, address_id, capacity, instructor_biography, owner) values
+	(nextval('offer_seq'), true, 'Nezaboravno iskustvo', 'Rafting Tarom', 6, 1, 'Im the best instructor ever', 2);
+
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+   (false, '30.09.2022', 2, 10000, false, false, '20.09.2022.', 1, 2,false);
+

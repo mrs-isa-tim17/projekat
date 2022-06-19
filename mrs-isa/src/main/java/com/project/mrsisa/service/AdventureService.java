@@ -93,6 +93,14 @@ public class AdventureService {
 		LOG.info("Adventure: " + id + " removed from cache!");
 	}
 
+	public void setAdventureRepository(AdventureRepository adventureRepository) {
+		this.adventureRepository = adventureRepository;
+	}
+
+	public void setReservationService(ReservationService reservationService) {
+		this.reservationService = reservationService;
+	}
+
 /*	public Adventure fetchAdventureWithOther(Long id) {
 		return adventureRepository.fetchAdventureWithOther(id);
 	}*/
