@@ -2,10 +2,7 @@ package com.project.mrsisa.controller;
 
 import com.project.mrsisa.domain.Admin;
 import com.project.mrsisa.domain.User;
-import com.project.mrsisa.dto.JwtAuthenticationRequest;
-import com.project.mrsisa.dto.PasswordDTO;
-import com.project.mrsisa.dto.UserRequest;
-import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.dto.*;
 import com.project.mrsisa.exception.ResourceConflictException;
 import com.project.mrsisa.service.UserService;
 import com.project.mrsisa.util.TokenUtils;
@@ -92,16 +89,27 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<TextDTO> addUser(@RequestBody UserRequest userRequest) {
+		TextDTO textDTO = new TextDTO();
+		try{
 
-		User existUser = this.userService.findByUsername(userRequest.getEmail());
+			User existUser = this.userService.findByUsername(userRequest.getEmail());
 
-		if (existUser != null) {
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			if (existUser != null) {
+				textDTO.setSuccessfull(false);
+				textDTO.setText("Korisnik sa datom email adresom već postoji");
+				return new ResponseEntity<>(textDTO, HttpStatus.OK);
+			}
+			User user = this.userService.save(userRequest);
+
+			textDTO.setSuccessfull(true);
+			textDTO.setText("");
+			return new ResponseEntity<>(textDTO, HttpStatus.CREATED);
+		}catch (Exception e){
+			textDTO.setSuccessfull(false);
+			textDTO.setText("Iz nekog razloga nismo bili u stanju da Vas registriramo, molimo Vas pokušavajte kasnije");
+			return new ResponseEntity<>(textDTO, HttpStatus.OK);
 		}
-		User user = this.userService.save(userRequest);
-
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 	
 	@SuppressWarnings("deprecation")

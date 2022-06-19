@@ -602,8 +602,8 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
 
 
 
-insert into registration_request (registration_type, status, user_id, version) values (0, 0, 3,1);
-insert into registration_request (registration_type, status, user_id, version) values (1, 0, 4,1);
+insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 3,1, 'Hocu da koristim aplikaciju');
+insert into registration_request (registration_type, status, user_id, version,request_message) values (1, 0, 4,1, 'Imam entitete koje bih reklamisala ovde');
 
 
 
@@ -708,4 +708,4 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	'+3815828', 'Markovic', 0,28, '2017-10-01 21:58:58.508-07', 3,
 	null, false);
 
-insert into registration_request (registration_type, status, user_id, version) values (0, 0, 9,1);
+insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 9,1, 'PA imam vikendice, a ja hocu novac');
