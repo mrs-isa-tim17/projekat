@@ -73,6 +73,7 @@ import PasswordAgainField from "@/components/registration_components/PasswordAga
 import basicHeader from "@/components/main_site/main_home_page/basicHeader";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
+import swal from "sweetalert2";
 
 
 export default {
@@ -104,7 +105,44 @@ export default {
 
     const signUpButtonPressed = () => {
       console.log(user);
-      loginServce.registration(user);
+      loginServce.registration(user)
+          .then((response) => {
+            console.log("REGISTER");
+            console.log(user.userRole);
+            console.log(response.data);
+            if (response.data.successfull){
+              if (user.userRole === "1"){
+                swal.fire({
+                  title: "Uspešno",
+                  text: "Uspešno ste se registrovali, na vašu imejl adresu smo poslali mejl, molimo Vas verifikujte adresu." ,
+                  background: 'white',
+                  color: 'black',
+                  confirmButtonColor: '#8DF172',
+                  timer:3000,
+                });
+              }else {
+                swal.fire({
+                  title: "Uspešno",
+                  text: "Uspešno ste se registrovali, vaš zahtev je poslat adminu, molimo Vas sačekate da on odobri vaš zahtev." ,
+                  background: 'white',
+                  color: 'black',
+                  confirmButtonColor: '#8DF172',
+                  timer:3000,
+                });
+              }
+              //uspesno
+            }else{
+              swal.fire({
+                title: "Neuspešno",
+                text: response.data.text,
+                background: 'white',
+                color: 'black',
+                confirmButtonColor: '#FECDA6',
+                timer:1500,
+              });
+            }
+          })
+          .catch(console.log("PROBLEM"));
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
