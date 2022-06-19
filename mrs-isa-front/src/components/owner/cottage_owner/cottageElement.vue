@@ -36,7 +36,7 @@
             </div>
           </div>
         <br>
-          <div class="row">
+          <div class="row mb-2">
             <div class="col-4">
               <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
             </div>

@@ -2,138 +2,80 @@
 
     <cottageOwnerHeader></cottageOwnerHeader>
 
- <div id="dataForm" class="row">
-       <div class="column">
-       <label>Naziv vikendice</label><br>
-       <input id="name" name="name" type="text" style="width: 250px;margin-left:0px;" v-model="cottage.name" ><br>
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-3">
+
+         <input id="name" name="name" type="text" placeholder="Naziv vikendice" style="width: 200px;margin-left:0px;" v-model="cottage.name" ><br>
          <br>
          <label>Adresa vikendice</label><br>
-         <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 250px; height: 250px; margin-left:30px;"></open-maps>
-       <br>
-         <label>Opis vikendice</label><br>
-         <textarea id="description" name="description" type="text" rows="5" cols="26" v-model="cottage.description"></textarea> <br>
+         <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 200px; height: 200px; margin-left:50px;"></open-maps>
          <br>
-         </div>
-       <div class="column">
-       <label>Broj soba:  </label>
-       <input id="roomsNumber" name="roomsNumber" type="number" size="6" style="width:100px;margin-left: 10px;" v-model="cottage.roomQuantity"><br><br>
-         <label>Kapacitet:  </label>
-         <input type="number" ref="input"  size="30" style="width:100px;margin-left: 10px;" v-model="cottage.bedQuantity"><br><br>
-       <label style="margin-left: 27px;">Cena:  </label>
-       <input id="price" name="price" type="text" style="width:100px;margin-left: 10px;" v-model="cottage.price"><br>
-         </div>
-
-       <div class="column" >
-         <label for="formFile" class="form-label">Slike vikendice</label><br>
-         <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
+         <textarea placeholder="Promotivni opis vikendice" id="description" name="description" type="text" rows="5" cols="26" v-model="cottage.description"></textarea> <br>
          <br>
-         <div id="equipment">
-           Dodatne usluge
-           <div align="left" class="checkBox">
-             <div class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq1 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq1>{{eq1}}</label>
-             </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq2 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq2>
-                 {{eq2}}
-               </label>
-               </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq3 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq3>
-                 {{eq3}}
-               </label>
-             </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq4 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq4>
-                 {{eq4}}
-               </label>
-             </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq5 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq5>
-                 {{eq5}}
-               </label>
-             </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq6 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq6>
-                 {{eq6}}
-               </label>
-             </div>
-             <div align="left" class="form-check">
-               <input class="form-check-input" type="checkbox" :value=eq7 id="flexCheckDefault"
-                      v-model="cottage.additionalEquipment">
-               <label class="form-check-label" :for=eq7>
-                 {{eq7}}
-               </label>
-             </div>
-           </div>
-         </div>
-         <br>
-
-
-         <div id="behaviorRules">
-         <br>
-         Pravila ponašanja<br>
-           <div class="checkBox">
-         <div align="left" class="form-check">
-           <input class="form-check-input" type="checkbox" :value=br1 id="flexCheckDefault"
-                  v-model="cottage.behavioralRules">
-           <label class="form-check-label" :for=br1>
-             {{br1}}
-           </label>
-         </div>
-         <div align="left" class="form-check">
-           <input class="form-check-input" type="checkbox" :value=br2 id="flexCheckDefault"
-                  v-model="cottage.behavioralRules">
-           <label class="form-check-label" :for=br2>
-             {{br2}}
-           </label>
-         </div>
        </div>
-           </div>
-         <button id="addButton" style="margin-top:50px;" @click="addCottage">Dodaj</button><br>
-         <br>
-         <button id="cancelButton" @click="back">Odustani</button><br>
+      <div class="col-3">
+        <input id="type" name="type" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.roomQuantity" placeholder="Broj soba"><br>
+        <br>
+        <input id="length" name="length" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.bedQuantity" placeholder="Kapacitet"><br>
+        <br>
+        <input id="engine_designation" name="engine_designation" type="text" style="max-width:200px;margin-left: 10px;" placeholder="Cena" v-model="cottage.price"><br>
+        <br>
+        <label for="formFile" class="form-label">Slike broda</label><br>
+        <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
+        </div>
+      <div class="col-3" >
 
-         </div>
+        <div class="checkBox mt-2">
+          <b>Pravila ponašanja</b><br>
+          <div  v-for="(s,i) in this.behRules" :key="i">
 
-       <div class="column">
-         <label> Uslovi otkazivanja rezervacije</label>
-         <br>
+            <input type="checkbox" width="20" height="20"  @change="checkBehRule(s)">{{s}}
 
-         <div class="p-2" style="border-style: solid; border-width: medium;">
+          </div>
+        </div>
+        <br>
+        <div class=" checkBox mt-2">
+          <b>Dodatne usluge</b><br>
+          <div  v-for="(s,i) in this.addServices"  :key="i">
+            <input type="checkbox" width="20" height="20"  @change="checkAddService(s)">{{s}}
+          </div>
+        </div>
 
-           <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
-                                                                                               v-model="cottage.percentage[0]"
-                                                                                               size="15"/> %
-             ukupnog iznosa</p>
-           <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
-                                                                                               v-model="cottage.percentage[1]"
-                                                                                               size="15"/> %
-             ukupnog iznosa</p>
-           <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
-                                                                                               v-model="cottage.percentage[2]"
-                                                                                               size="15"/> %
-             ukupnog iznosa</p>
-           <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
-                                                                                               v-model="cottage.percentage[3]"
-                                                                                               size="15"/> %
-             ukupnog iznosa</p>
+        <br>
 
-         </div>
-       </div>
-       <br>
+      </div>
+      <div class="col-3">
+        <label> <b>Uslovi otkazivanja rezervacije</b></label>
+        <br>
+
+        <div class="p-2" style="border-style: solid; border-width: medium;">
+
+          <p>Za odustanak od rezervacije u roku <b>manje od 5</b> dana plaća se <input type="number"
+                                                                                       v-model="cottage.percents[0]"
+                                                                                       size="15"/> %
+            ukupnog iznosa</p>
+          <p>Za odustanak od rezervacije u roku <b>više od 5</b> dana plaća se <input type="number"
+                                                                                      v-model="cottage.percents[1]"
+                                                                                      size="15"/> %
+            ukupnog iznosa</p>
+          <p>Za odustanak od rezervacije u roku <b>više od 10</b> dana plaća se <input type="number"
+                                                                                       v-model="cottage.percents[2]"
+                                                                                       size="15"/> %
+            ukupnog iznosa</p>
+          <p>Za odustanak od rezervacije u roku <b>više od 15</b> dana plaća se <input type="number"
+                                                                                       v-model="cottage.percents[3]"
+                                                                                       size="15"/> %
+            ukupnog iznosa</p>
+
+        </div>
+      </div>
+      <br>
+
+      <button id="cancelButton" @click="back">Odustani</button>
+      <button id="addButton" @click="addCottage">Dodaj</button>
+    </div>
+
 
    </div>
 
@@ -153,6 +95,10 @@ import "vue-step-wizard/dist/vue-step-wizard.css";
 
 import CottageService from "@/servieces/cottage_owner/CottageService";
 import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader"
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
+
+import BehaviorRulesService from "@/servieces/BehaviorRulesService";
+import swal from "sweetalert2";
 export default {
   name: "addCottage",
   components:{
@@ -169,27 +115,114 @@ export default {
         console.log(lon, lat)
       },
     addCottage(){
-        CottageService.saveCottage(this.cottage);
-        alert("Dodata vikendica!");
-        this.$router.push('/owner/cottages');
+      this.cottage.ownerId =JSON.parse(localStorage.user).id;
+        if(this.Validate()) {
+
+          CottageService.saveCottage(this.cottage).then((response) => {
+            console.log(response.data);
+            if (this.cottage.name === response.data.name) { //bar ta provera
+              swal.fire({
+                title: 'Nova vikendica je uspešno dodata!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+              this.$router.push('/cottageOwner/home');
+            } else {
+              swal.fire({
+                title: 'Nova vikendica nije dodata!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            }
+          })
+        }
              },
+    checkAddService(s){
+      if(this.cottage.additionalServices.includes(s)){
+        var i = this.cottage.additionalServices.indexOf(s);
+        this.cottage.additionalServices.splice(i,1);
+
+      }
+      else{
+        this.cottage.additionalServices.push(s);
+      }
+    },
+    checkBehRule(s){
+      if(this.cottage.behavioralRules.includes(s)){
+        var i = this.cottage.behavioralRules.indexOf(s);
+        this.cottage.behavioralRules.splice(i,1);
+
+      }
+      else{
+        this.cottage.behavioralRules.push(s);
+      }
+    },
+    Validate(){
+      if(this.cottage.name === ""){
+        swal.fire({title:'Unesite naziv broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.longitude==0 && this.cottage.latitude==0){
+        swal.fire({title:'Izaberite adresu!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.type === ""){
+        swal.fire({title:'Unesite tip broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.length ===""){
+        swal.fire({title:'Unesite dužinu broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.engineDesignation===""){
+        swal.fire({title:'Unesite oznaku motora!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.enginePower===""){
+        swal.fire({title:'Unesite snagu motora!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.maxSpeed===""){
+        swal.fire({title:'Unesite maksimalnu brzinu broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.capacity===""){
+        swal.fire({title:'Unesite kapacitet broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.price===""){
+        swal.fire({title:'Unesite cenu!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.behavioralRules.length == 0){
+        swal.fire({title:'Pravila ponašanja nisu izabrana!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.additionalServices.length == 0){
+        swal.fire({title:'Dodatne usluge nisu izabrane!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+      else if(this.cottage.description ==""){
+        swal.fire({title:'Unesite opis broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        return false;
+      }
+
+      else{
+        return true;
+      }
+    },
     back(){
-      this.$router.push('/owner/cottages');
+      this.$router.push('/cottageOwner/home');
     }
   },
   data(){
     return{
-      eq1:"bazen",
-      eq2:"parking",
-      eq3:"kablovska TV",
-      eq4:"WiFi",
-      eq5:"društvene igre",
-      eq6:"besplatne pešačke ture",
-      eq7:"bickili",
-      br1:"zabranjeno pušenje",
-      br2:"volimo ljubimce",
+      addServices:null,
+      behRules:null,
       cottage: {
-        ownerId:3,
+        ownerId:"",
         name: "",
         longitude:0,
         latitude:0,
@@ -200,12 +233,29 @@ export default {
         price: "",
         bedQuantity: "",
         roomQuantity:"",
-        additionalEquipment: [],
+        additionalServices: [],
         days: ['5', '10', '15', '20'],
-        percentage: ['0', '0', '0', '0'],
+        percents: ['0', '0', '0', '0'],
         experienceReviews: [],
       }
     }
+  },
+  created() {
+    AdditionalServicesService.getAll().then((response)=>
+        {
+          this.addServices = response.data;
+          console.log(this.addServices);
+        }
+
+    );
+
+
+
+    BehaviorRulesService.getAll().then((response)=>
+        {
+          this.behRules = response.data;
+        }
+    )
   }
 }
 </script>
@@ -226,18 +276,27 @@ export default {
   color: #5F9F9F;
 }
 
+
 .checkBox{
   border:2px solid #ccc; width:300px; height: 100px; overflow-y: scroll;
   float:left;
+  text-align: left;
+  padding-left:10pt;
 }
 #addButton{
   width:200px;
+  margin-left:50px;
 
-
+}
+button{
+  color:whitesmoke;
+  background-color: #31708E;
+  border-color: #31708E;
+  font-size:20px;
 }
 #cancelButton{
   width:200px;
-
+  margin-left: 400px;
 }
 #behaviorRules{
 

@@ -176,6 +176,13 @@ export default {
       d1:"",d2:"",d3:"",d4:"",
       p1:"",p2:"",p3:"",p4:"",
       cottage: {
+
+        bedQuantity: "",
+        roomQuantity: "",
+        additionalServices: [],
+        days: [],
+        percents:[],
+        experienceReviews: [],
         id: "",
         name: "",
         longitude: 0,
@@ -184,13 +191,8 @@ export default {
         behavioralRules: [],
         images: [],
         price: "",
-        priceStartDate:"",
-        bedQuantity: "",
-        roomQuantity: "",
-        additionalServices: [],
-        days: [],
-        percents:[],
-        experienceReviews: [],
+        priceListId:""
+
       },
       width: 600,
       height: 400,

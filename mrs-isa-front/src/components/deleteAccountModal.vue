@@ -49,32 +49,32 @@ export default {
     sendRequest(){
       this.clientID = JSON.parse(localStorage.user).id;//this.$route.params.id;
       if (this.text === ""){
-        let p = document.getElementById('emptyError');
-        p.style.visibility= "visible";
-        return;
+        swal.fire({title:'Unesite razlog brisanja!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
-      let resObj = {
-        reason: this.text
-      }
-      deleteRequestServce.makeDeleteRequest(this.clientID, resObj)
-          .then(response => {
-            let success = response.data;
-            if (success) {
-              swal.fire({
-                title: "Uspešno",
-                text: "Uspešno smo poslali zahtev za brisanje naloga.",
-                background: 'white',
-                color: 'black',
-                confirmButtonColor: 'lightgreen'
-              });
-            }else{
-              swal.fire({
-                title: "Neuspešno",
-                text: "Već ste poslali zahtev za brisanje naloga.",
-                background: 'white',
-                color: 'black',
-                confirmButtonColor: '#F9A26A'
-              });
+      else{
+
+        let resObj = {
+          reason: this.text
+        }
+        deleteRequestServce.makeDeleteRequest(this.clientID, resObj)
+            .then(response => {
+              let success = response.data;
+              if (success) {
+                swal.fire({
+                  title: "Uspešno",
+                  text: "Uspešno smo poslali zahtev za brisanje naloga.",
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              }else{
+                swal.fire({
+                  title: "Neuspešno",
+                  text: "Već ste poslali zahtev za brisanje naloga.",
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
             }
           })
 
@@ -95,7 +95,7 @@ export default {
       text: ""
     }
   }
-}
+}}
 
 </script>
 

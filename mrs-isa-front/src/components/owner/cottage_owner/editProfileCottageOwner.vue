@@ -1,17 +1,22 @@
 <template>
-  <div class="container">
   <cottageOwnerHeader></cottageOwnerHeader>
-    <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Uspesno izmenjeno!
+  <div class="container">
+
+    <div class="row mt-5">
+      <div class="col-3">
+      </div>
+      <div class="col-3">
+        <changePasswordModal
+            :index="buttonId" :owner="updatedOwner" :header="changePassHeader" @input-new-password="changePassword"></changePasswordModal>
+      </div>
+      <div class="col-3">
+        <deleteAccountModal :index="deleteAcc" :header="deleteHeader" :textModal="text"></deleteAccountModal>
+      </div>
     </div>
-    <div class="alert alert-danger alert-dismissible fade show" id="notSuccessChangePass" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Lozinka nije uspesno izmenjena!
-    </div>
-    <div class="row">
+    <div class="row mt-5">
       <div class="col-4  d-flex justify-content-center" style=" border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
+          <b>Loyality program</b><br>
           <disabledInputField :label="numLoyaltyPointsLabel" :info="owner.loyaltyPoints"> </disabledInputField>
           <disabledInputField :label="userCategoryLabel" :info="owner.userType"> </disabledInputField>
           <label>Pogodnosti</label>
@@ -21,28 +26,25 @@
       </div>
 
 
-      <div class="col-8 d-flex justify-content-center" style="border-style: solid; border-width: medium;
+      <div class="col-8 d-flex " style="border-style: solid; border-width: medium;
                                                 background-color: #88BBD6;">
-        <div class="row d-flex justify-content-center" style="">
-          <div class="col-4 d-flex justify-content-center">
+        <div class="row d-flex " style="">
+          <div class="col-2"></div>
+          <div class="col-4 d-flex ">
             <div>
 
               <div class="p-2">
                 <label >Ime</label>
                 <br>
-                <input type="text" ref="input" v-model="owner.name" size="25" required>
+                <input type="text" ref="input" v-model="updatedOwner.name" size="25" required>
                 <br>
-                <p id="nameEmpty" v-if="this.owner.name == ''" style="color: red;"> Ime mora da postoji </p>
-                <p v-if="this.owner.name[0] == this.owner.name[0].toLowerCase()" style="color: red;"> Ime mora da počinje velikim slovom </p>
-
               </div>
 
               <div class="p-2">
                 <label >Prezime</label>
                 <br>
-                <input type="text" ref="input" v-model="owner.surname" size="25" required>
-                <p v-if="this.owner.surname == ''" style="color: red;"> Prezime mora da postoji</p>
-                <p  v-if="this.owner.surname[0] == this.owner.surname[0].toLowerCase()" style="color: red;"> Prezime mora da počinje velikim slovom </p>
+                <input type="text" ref="input" v-model="updatedOwner.surname" size="25" required>
+
               </div>
 
 
@@ -51,32 +53,31 @@
               <div class="p-2">
                 <label >Broj telefona</label>
                 <br>
-                <input type="text" ref="input" v-model="owner.phoneNumber" size="25" required>
-                <p v-if="this.owner.phoneNumber == ''" style="color: red;"> Broj telefona mora da postoji</p>
-              </div>
+                <input type="text" ref="input" v-model="updatedOwner.phoneNumber" size="25" required>
 
-              <div class="p-2">
-                <changePasswordModal
-                    :index="buttonId" :header="changePassHeader" @input-new-password="changePassword"></changePasswordModal>
-                <br><br>
-                <deleteAccountModal :index="deleteAcc" :header="deleteHeader" :textModal="text"></deleteAccountModal>
+              </div>
             </div>
           </div>
-        </div>
-
-          <div class="col-4 d-flex justify-content-right">
+          <div class="col-1"></div>
+          <div class="col-4 d-flex justify-content-right mt-3">
             <div>
 
-              <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps>
-              <div style="margin-top: 20px;">
-                <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
-                <button type="button" class="btn" @click="updateProfile" style="background-color:#3399FF;">Promeni</button>
-              </div>
-            </div>
+              <open-maps :lon="updatedOwner.longitude" :lat="updatedOwner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps></div>
           </div>
+
+          <div class="row mt-3 mb-2">
+            <div class="col-3"></div>
+            <div class="col-2"></div>
+
+            <button type="button" class="btn" @click="cancel" style="background-color:#3399FF; max-width: 100pt;margin-right: 20pt;">Odustani</button>
+            <button type="button" class="btn" @click="updateProfile" style="background-color:#3399FF;max-width: 100pt;">Promeni</button>
+
           </div>
+          <br>
+          <br>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -102,6 +103,7 @@ export default {
             .then((response) => {
               console.log(response);
               this.owner = response.data;
+              this.updatedOwner = response.data;
             })
             .catch(function (error) {
               console.log(error.toJSON());
@@ -124,8 +126,12 @@ export default {
             });
       },
   mounted() {
-    this.backup = [this.owner.name, this.owner.surname, this.owner.phoneNumber, this.owner.password,
-      this.owner.country, this.owner.longitude, this.owner.latitude];
+    this.updatedOwner.name = this.owner.name;
+    this.updatedOwner.surname = this.owner.surname;
+    this.updatedOwner.phoneNumber = this.owner.phoneNumber;
+    this.updatedOwner.password = this.owner.password;
+    this.updatedOwner.longitude = this.owner.longitude;
+    this.updatedOwner.latitude = this.owner.latitude;
   },
   data(){
     return{
@@ -138,6 +144,19 @@ export default {
       numLoyaltyPointsLabel:"Broj poena",
       userCategoryLabel:"Tip korisnika",
       emailLabel:"Email",
+      updatedOwner:{
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        userType: "",
+        loyaltyPoints: "",
+        penaltyNumber: "",
+        benefits: "",
+        longitude: 0,
+        latitude: 0
+      },
       owner:{
         name: "",
         surname: "",
@@ -166,22 +185,25 @@ export default {
       console.log(lon, lat)
     },
     updateProfile(){
-      CottageOwnerService.updateOwner(this.coID,this.owner).then("Success");
-      swal.fire({title:'Uspešno izmenjeno!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-      this.backup[0] = this.owner.name;
-      this.backup[1] = this.owner.surname;
-      this.backup[2] = this.owner.phoneNumber;
-      this.backup[3] = this.owner.password;
-      this.backup[4] = this.owner.longitude;
-      this.backup[5] = this.owner.latitude;
+      CottageOwnerService.updateOwner(this.coID,this.updatedOwner).then((response)=>
+      {
+        if(response.data.name === this.updatedOwner.name && response.data.surname === this.updatedOwner.surname && response.data.phoneNumber === this.updatedOwner.phoneNumber){
+          swal.fire("Uspešno izmenjeni podaci!");
+        }
+        else{
+          swal.fire("Podaci nisu uspešno izmenjeni!");
+        }
+      })
     },
     cancel(){
-      this.owner.name = this.backup[0];
-      this.owner.surname = this.backup[1];
-      this.owner.phoneNumber = this.backup[2];
-      this.owner.password = this.backup[3];
-      this.owner.longitude = this.backup[4];
-      this.owner.latitude = this.backup[5];
+      console.log(this.owner.name);
+      this.updatedOwner.name = this.owner.name;
+      this.updatedOwner.surname = this.owner.surname;
+      this.updatedOwner.phoneNumber = this.owner.phoneNumber;
+      this.updatedOwner.password = this.owner.password;
+      this.updatedOwner.longitude = this.owner.longitude;
+      this.updatedOwner.latitude = this.owner.latitude;
+      this.$router.push('/shipOwner/home');
     },
     changePassword(old_password, new_password){
       this.coID = JSON.parse(localStorage.user).id;

@@ -56,14 +56,13 @@ export default {
       {
         console.log(this.offer.id);
         if(response.data){
-         swal.fire("");
+          swal.fire({title:'Obrisana vikendica!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+          this.$router.push('/cottageOwner/home');
         }
         else{
-          swal.fire("Ne možete obrisati vikendicu, postoje nerealizovane rezervacije!");
+          swal.fire({title:'Ne možete obrisati vikendicu, postoje nerealizovane rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
         }
-
-      }
-      )
+      })
       const modal = document.getElementById(this.index);
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
@@ -82,10 +81,11 @@ export default {
               console.log(response.data);
               if(response.data){
                 console.log(this.offer.id);
-                swal.fire("Obrisano!");
+                swal.fire({title:'Obrisan brod!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+                this.$router.push('/shipOwner/home');
               }
               else{
-                swal.fire("Ne možete obrisati brod, postoje nerealizovane rezervacije!");
+                swal.fire({title:'Ne možete obrisati brod, postoje nerealizovane rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
               }
 
             }

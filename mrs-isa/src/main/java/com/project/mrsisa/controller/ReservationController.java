@@ -96,16 +96,19 @@ public class ReservationController {
     @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<List<HistoryPastReservationOwnerDTO>> getAllPastReservationForOffer(@PathVariable Long id) {
 
-
         List<HistoryPastReservationOwnerDTO> reservationsDTO = new ArrayList<HistoryPastReservationOwnerDTO>();
         List<Reservation> pastReservations = reservationService.getPastHistoryReservation(id);
+        for(Reservation r : pastReservations){
+            System.out.println("ressss" + r.getOfferType().getValue() + "   ");
+        }
         for (Reservation r : pastReservations) {
             if (r.getOfferType() == OfferType.COTTAGE) {
+                System.out.println("ressss" + r.getOfferType().getValue());
                 r.setOffer(cottageService.findOne(id));
 
             } else if (r.getOfferType() == OfferType.ADVENTURE) {
                 //poziv adventureService.findOne
-            } else { //ship
+            } else if(r.getOfferType() == OfferType.SHIP){ //ship
                 r.setOffer(shipService.findOne(id));
             }
             r.getOffer().setImages(imageService.findAllByOfferId(id));

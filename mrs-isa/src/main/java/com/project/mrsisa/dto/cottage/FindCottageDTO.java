@@ -17,6 +17,7 @@ public class FindCottageDTO implements Serializable{
 	    private int roomQuantity;
 	    private int bedQuantity;
 	    private Long id;
+		private Long priceListId;
 	    private String name;
 	    private double longitude;
 	    private double latitude;
@@ -48,6 +49,8 @@ public class FindCottageDTO implements Serializable{
 	        this.description=cottage.getDescription();
 	        this.deleted=cottage.isDeleted();
 	        this.id=cottage.getId();
+
+			this.priceListId = pricelist.getId();
 	        
 	        behavioralRules = new ArrayList<String>();
 	        
@@ -203,6 +206,14 @@ public class FindCottageDTO implements Serializable{
 
 	public double getPrice() {
 		return price;
+	}
+
+	public Long getPriceListId() {
+		return priceListId;
+	}
+
+	public void setPriceListId(Long priceListId) {
+		this.priceListId = priceListId;
 	}
 
 	public void setPrice(double price) {

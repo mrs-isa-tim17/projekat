@@ -17,7 +17,7 @@
 
             </div>
         <div class="col-3">
-          <p  style="font-weight: bold;">{{this.status}}</p>
+          <p  style="font-weight: bold;">{{this.status}}</p><br>
           <p  style="font-weight: bold;">{{this.reported}}</p>
         </div>
 
@@ -33,7 +33,7 @@
 import clientProfile from "@/components/client/clientProfile";
 import ClientServce from "@/servieces/ClientServce";
 import reservationReport from "@/components/owner/cottage_owner/reservationReport";
-//import ReservationReportService from "@/servieces/ReservationReportService";
+import ReservationReportService from "@/servieces/ReservationReportService";
 export default {
   name: "shipOwnerPastReservationsElement",
   props: ["reservation"],
@@ -78,11 +78,12 @@ export default {
         }
     );
 
-    /*ReservationReportService.haveReservationReport(this.reservation.id).then((response) => {
+    ReservationReportService.haveReservationReport(this.reservation.id).then((response) => {
       if (response.data) {
         console.log(response.data);
         this.reported = "Ocenjeno";
-      }*/
+      }});
+    console.log(this.reported);
 
   },
 }

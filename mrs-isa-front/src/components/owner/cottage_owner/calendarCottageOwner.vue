@@ -4,6 +4,11 @@
     <div style="display: inline-block" v-for="(c,i) in allCottages" :key="i" data-inline="true">
       <button @click="showCalendar(i)">{{c.name}}</button>&nbsp;
     </div><br><br>
+    <div class="row mb-3" style="font-size: 30px;">
+      <div class="col-4"></div>
+      <div class="col-5">
+        {{this.cottageName}}</div>
+    </div>
     <div class="row">
       <div class="col-3"></div>
       <div class="col-3">
@@ -35,9 +40,12 @@ export default {
     CottageService.getCottageByOwner(this.coID)
       .then((response) => {
           this.allCottages = response.data;
-          console.log(this.allCottages);
+          this.cottageId = this.allCottages[0].id;
+          this.cottageName = this.allCottages[0].name;
+          console.log(this.allCottages[0]);
+        this.showCalendar(0);
         })
-    this.cottageId = 3;
+
     PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.cottageId).then((response) => {
       this.availabilityPeriod = response.data;
       console.log(this.availabilityPeriod);
@@ -86,6 +94,7 @@ export default {
       reservations:[],
       allCottages:[],
       cottageId:"",
+      cottageName:"",
       calendarKey:0,
       actions:[],
       buttonNameAvailability:"Definiši period dostupnosti",
@@ -107,6 +116,7 @@ export default {
     showCalendar(i){
       console.log(i);
       console.log(this.allCottages[i]);
+      this.cottageName = this.allCottages[i].name;
       this.cottageId=this.allCottages[i].id;
       console.log(this.cottageId);
       console.log(this.cottageId);

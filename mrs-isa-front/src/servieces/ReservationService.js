@@ -65,6 +65,17 @@ class ReservationService{
         }
         return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/ship/' + ownerId, config);
     }
+
+    getReservationsPeriod(ownerId,start,end){
+        let config = {
+            headers: authHeader(),
+            params: {
+                start_date: start,
+                end_date: end
+            }
+        }
+        return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/' + ownerId, config);
+    }
 }
 
 export default new ReservationService();

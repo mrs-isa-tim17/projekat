@@ -1,7 +1,7 @@
 <template>
   <ownerHeader></ownerHeader>
   <div class="container" >
-
+    <p style="font-size: 30px;font-weight: bold;">Nerealizovane rezervacije za vikendicu {{this.name}}</p>
     <div v-if="!allReservations" style="color:red;">Nema trenutnih rezervacija</div> <!--??????????-->
     <div class="p-2" v-for="(r) in allReservations"  :key="r.id">
       <cottageOwnerFutureReservationsElement :reservation="r"></cottageOwnerFutureReservationsElement>
@@ -22,6 +22,7 @@ export default {
 
     return {
       allReservations: null,
+      name:""
     }
   },
   mounted(){
@@ -30,6 +31,7 @@ export default {
     ReservationService.getFutureReservations(offerId)
         .then((response)=>{
           this.allReservations= response.data;
+          this.name = this.allReservations[0].name;
           console.log(this.allReservations);
         })
   },

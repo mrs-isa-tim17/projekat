@@ -1,5 +1,7 @@
 package com.project.mrsisa.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.ShipDTO;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.cottage.FindCottagesDTO;
 import com.project.mrsisa.dto.simple_user.CottageFilterParamsDTO;
@@ -148,6 +151,7 @@ public class CottageController {
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
 		cottage.setDeleted(cottageDTO.isDeleted());
+		cottage.setOwner(cottageOwnerService.findOne(cottageDTO.getOwnerId()));
 		List<BehaviorRule> rules = new ArrayList<BehaviorRule>();
 		for (String rule : cottageDTO.getBehavioralRules()) {
 			rules.add(behaviorRuleService.findOneByText(rule));
@@ -160,24 +164,24 @@ public class CottageController {
 		cottage.setAdditionalServices(additionalService);
 
 		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
-		List<String> percents =  cottageDTO.getPercents();
-		CancelCondition c1 = new CancelCondition(5, Double.parseDouble(percents.get(0)));
+		List<Double> percents =  cottageDTO.getPercents();
+		CancelCondition c1 = new CancelCondition(5, percents.get(0));
 		cancelConditions.add(c1);
 		cancelConditionService.save(c1);
 
-		CancelCondition c2 = new CancelCondition(10, Double.parseDouble(percents.get(1)));
+		CancelCondition c2 = new CancelCondition(10, percents.get(1));
 		cancelConditions.add(c2);
 		cancelConditionService.save(c2);
 
-		CancelCondition c3 = new CancelCondition(15, Double.parseDouble(percents.get(2)));
+		CancelCondition c3 = new CancelCondition(15, percents.get(2));
 		cancelConditions.add(c3);
 		cancelConditionService.save(c3);
 
-		CancelCondition c4 = new CancelCondition(20, Double.parseDouble(percents.get(3)));
+		CancelCondition c4 = new CancelCondition(20, percents.get(3));
 		cancelConditions.add(c4);
 		cancelConditionService.save(c4);
 
-		Pricelist pricelist = new Pricelist(cottageDTO.getPrice(),cottageDTO.getStartDatePrice());
+		Pricelist pricelist = new Pricelist(cottageDTO.getPrice(), LocalDate.now());
 		pricelist.setOffer(cottage);
 
 		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
@@ -186,6 +190,8 @@ public class CottageController {
 
 		cottage.setCancelCondition(cancelConditions);
 		cottage = cottageService.save(cottage);
+		System.out.println(cottage.getId());
+		System.out.println(cottage.getName());
 		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.CREATED);
 	}
 
@@ -241,9 +247,11 @@ public class CottageController {
 		
 		
 		for (Cottage c : cottages) {
-			 List<Image> images = imageService.findAllByOfferId(c.getId());
-			 double price = pricelistService.getCurrentPriceOfOffer(c.getId());
-			 cottagesDTO.add(new FindCottagesDTO(c,images,price));
+			if(!c.isDeleted()) {
+				List<Image> images = imageService.findAllByOfferId(c.getId());
+				double price = pricelistService.getCurrentPriceOfOffer(c.getId());
+				cottagesDTO.add(new FindCottagesDTO(c, images, price));
+			}
 
 		}
 		return new ResponseEntity<>(cottagesDTO, HttpStatus.OK);
@@ -264,10 +272,9 @@ public class CottageController {
 		}*/
 	}
 
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/update")
-	public ResponseEntity<CreateUpdateCottageDTO> updateCottage(@RequestBody CreateUpdateCottageDTO cottageDTO) {
-
-
+	@PostMapping(value="/update/{id}",consumes = "application/json")
+	@PreAuthorize("hasRole('COTTAGE_OWNER')")
+	public ResponseEntity<CreateUpdateCottageDTO> updateCottage(@PathVariable Long id,@RequestBody CreateUpdateCottageDTO cottageDTO) {
 		Cottage cottage = cottageService.findOne(cottageDTO.getId());
 
 		if (cottage == null) {
@@ -279,10 +286,72 @@ public class CottageController {
 		cottage.setBedQuantity(cottageDTO.getBedQuantity());
 		cottage.setName(cottageDTO.getName());
 		cottage.setDescription(cottageDTO.getDescription());
+		cottage.setName(cottageDTO.getName());
+		cottage.setId(cottageDTO.getId());
+		cottage.getAddress().setLatitude(cottageDTO.getLatitude());
+		cottage.getAddress().setLongitude(cottageDTO.getLongitude());
+
+		if(pricelistService.findOffersCurrentPriceById(cottageDTO.getId()).getPrice() != cottageDTO.getPrice()){
+			Pricelist pricelist = pricelistService.findOneById(cottageDTO.getPriceListId());
+			pricelist.setEndDate(LocalDate.now());
+			Pricelist updated = pricelistService.save(pricelist);
+			System.out.println("cenaaaa  id: "  + updated.getId());
+			Pricelist newPricelist = new Pricelist();
+			newPricelist.setStartDate(LocalDate.now());
+			newPricelist.setEndDate(null);
+			newPricelist.setPrice(cottageDTO.getPrice());
+			newPricelist.setOffer(cottage);
+			System.out.println("NOVOOOOOa  id: "  + newPricelist.getStartDate());
+			System.out.println("NOVOOOOOa  id: "  + newPricelist.getEndDate());
+			pricelistService.save(newPricelist);
+		}
+		CottageOwner owner = cottageOwnerService.findOne(cottageDTO.getOwnerId());
+		cottage.setOwner(owner);
 
 
-		cottage = cottageService.save(cottage);
-		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.OK);
+		List<java.lang.String> newAddServicesString = cottageDTO.getAdditionalServices();
+		System.out.println("addditional" + newAddServicesString.size());
+		List<AdditionalServices> aService = new ArrayList<AdditionalServices>();
+		for(String as : newAddServicesString)
+		{
+			aService.add(additionalServicesService.findOneByName(as));
+			System.out.println("aadddd" + aService.get(0).getId());
+		}
+		cottage.setAdditionalServices(aService);
+
+		List<String> newBehRuleString = cottageDTO.getBehavioralRules();
+		List<BehaviorRule> behRules = new ArrayList<>();
+		for(String br : newBehRuleString){
+			behRules.add(behaviorRuleService.findOneByText(br));
+		}
+		cottage.setBehaviorRules(behRules);
+		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
+		List<Double> percents =  cottageDTO.getPercents();
+		CancelCondition c1 = new CancelCondition(5, percents.get(0));
+		cancelConditions.add(c1);
+		cancelConditionService.save(c1);
+
+		CancelCondition c2 = new CancelCondition(10, percents.get(1));
+		cancelConditions.add(c2);
+		cancelConditionService.save(c2);
+
+		CancelCondition c3 = new CancelCondition(15, percents.get(2));
+		cancelConditions.add(c3);
+		cancelConditionService.save(c3);
+
+		CancelCondition c4 = new CancelCondition(20, percents.get(3));
+		cancelConditions.add(c4);
+		cancelConditionService.save(c4);
+		cottage.setCancelCondition(cancelConditions);
+
+
+		//jos promena, slike, pravila..
+		Cottage updatedCottage =  cottageService.save(cottage);
+		cottageService.removeOneFromCacheById(cottage.getId());
+		for(AdditionalServices a : updatedCottage.getAdditionalServices()){
+			System.out.println("aaddsss" + a.getName());
+		}
+		return new ResponseEntity<>(new CreateUpdateCottageDTO(updatedCottage,cottageDTO.getPrice()), HttpStatus.OK);
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "/site/filter")
