@@ -20,8 +20,10 @@
         <td>{{request.surname}}</td>
         <td>{{this.showRegistrationType(request.registrationType)}}</td>
         <td>{{request.email}}</td>
-        <td> <button :id="generateApproveId(request.id)" class="btn btn-primary" @click="ApproveRegistration(request.id)"> Prihvati
-        </button> <registrationRequestModal :index="generateRejectId(request.id)" :header="this.modalHeader" :requestId="request.id" :btnId="generateModalId(request.id)" btnText="Odbij" @reject-text="RejectRegistration"> </registrationRequestModal> </td>
+        <td>
+          <registrationRequestModal :index="generateRejectId(request.id)" :header="this.modalHeader" :requestId="request.id"
+                                    :btnId="generateModalId(request.id)" btnText="Detalji" @reject-text="RejectRegistration"
+                                    @approve-reg-req-text="ApproveRegistration" :request-message="request.registrationMessage"> </registrationRequestModal> </td>
         <td><h6 :id="request.id"></h6></td>
       </tr>
       </tbody>
@@ -63,7 +65,6 @@ export default {
     },
     handleApproveAnswer(id){
       if (this.answer.successfull){
-        document.getElementById("prihvati"+id).style.visibility="hidden";
         document.getElementById(id).innerText = "Uspešno ste prihvatili registraciju."
 
         document.getElementById("odbij"+id).style.visibility="hidden";
@@ -79,7 +80,6 @@ export default {
     },
     handleRejectAnswer(id){
       if (this.answer.successfull){
-        document.getElementById("prihvati"+id).style.visibility="hidden";
         document.getElementById(id).innerText = "Uspešno ste odbili registraciju.";
         document.getElementById(id).style.color="red";
         document.getElementById("odbij"+id).style.visibility="hidden";

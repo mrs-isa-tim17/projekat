@@ -17,7 +17,7 @@
             <div class="col-3">
               <label>{{ this.labelStartDateTime }}</label>
             </div>
-            <div class="col-9">c
+            <div class="col-9">
               <Datepicker v-model="saleAppointmentDTO.startDateTime"></Datepicker>
             </div>
           </div>
@@ -152,15 +152,20 @@ export default {
         SaleAppointmentService.defineSaleAppointmentForOffer(this.adventure.id, this.saleAppointmentDTO).then((response) => {
           this.returnMessage = response.data;
           this.fireAlertOn(this.returnMessage.text);
+          console.log(this.returnMessage);
 
-          const modal = document.getElementById(this.index);
-          modal.classList.remove('show');
-          modal.setAttribute('aria-hidden', 'true');
-          modal.setAttribute('style', 'display: none');
-          const modalBackdrops = document.getElementsByClassName('modal-backdrop');
-          // remove opened modal backdrop
-          document.body.removeChild(modalBackdrops[0]);
-          document.body.style.overflow = 'auto';
+          if(this.returnMessage.successfull === true) {
+            const modal = document.getElementById(this.index);
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.setAttribute('style', 'display: none');
+            const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+            // remove opened modal backdrop
+            document.body.removeChild(modalBackdrops[0]);
+            document.body.style.overflow = 'auto';
+
+            this.$emit('rerender-def');
+          }
 
 
         }).catch(function (error) {
@@ -185,12 +190,14 @@ export default {
       } else {
         this.fireAlertOn("Unesite pravilno podatke");
       }
+
     },
 
     Validate() {
+      let today = new Date();
       if (this.saleAppointmentDTO.offerId === "" || this.saleAppointmentDTO.price === "" ||
           this.saleAppointmentDTO.duration === "" || this.saleAppointmentDTO.peopleQuantity === ""
-          || this.saleAppointmentDTO.startDateTime === "") {
+          || this.saleAppointmentDTO.startDateTime === "" || this.saleAppointmentDTO.startDateTime<today) {
         return false;
       } else if (this.isInt(this.saleAppointmentDTO.peopleQuantity) === false) {
         return false;
@@ -249,7 +256,8 @@ export default {
       },
       listAddition: [],
       returnMessage: {
-        text:""
+        text:"",
+        successfull:false
       },
       mapKey: 0,
       key:0,

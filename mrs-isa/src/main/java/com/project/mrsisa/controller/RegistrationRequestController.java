@@ -77,7 +77,7 @@ public class RegistrationRequestController {
 				u = shipOwnerService.findOne(request.getUserRef().getId());
 			}
 			System.out.println(request.getRegistrationType().toString());
-			registrationRequestDTO.add(new RegistrationRequestDTO(u.getName(), u.getSurname(), request.getRegistrationType().toString(), u.getEmail(), request.getId()));
+			registrationRequestDTO.add(new RegistrationRequestDTO(u.getName(), u.getSurname(), request.getRegistrationType().toString(), u.getEmail(), request.getId(), request.getRequestMessage()));
 		}
 		return new ResponseEntity<>(registrationRequestDTO, HttpStatus.OK);
 	}

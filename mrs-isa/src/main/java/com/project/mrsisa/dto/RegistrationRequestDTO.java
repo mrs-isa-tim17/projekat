@@ -7,18 +7,20 @@ public class RegistrationRequestDTO {
 	private String surname;
 	private String registrationType;
 	private String email;
+	private String registrationMessage;
 	
 	public RegistrationRequestDTO() {
 		
 	}
 	
-	public RegistrationRequestDTO(String name, String surname, String registrationType, String email, Long id) {
+	public RegistrationRequestDTO(String name, String surname, String registrationType, String email, Long id, String registrationMessage) {
 		super();
 		this.id = id.toString();
 		this.name = name;
 		this.surname = surname;
 		this.registrationType = registrationType;
 		this.email = email;
+		this.registrationMessage = registrationMessage;
 	}
 	
 	
@@ -52,6 +54,14 @@ public class RegistrationRequestDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getRegistrationMessage() {
+		return registrationMessage;
+	}
+
+	public void setRegistrationMessage(String registrationMessage) {
+		this.registrationMessage = registrationMessage;
 	}
 	
 	

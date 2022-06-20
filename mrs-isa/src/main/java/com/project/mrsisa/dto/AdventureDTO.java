@@ -58,7 +58,8 @@ public class AdventureDTO {
 	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
-			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price, Long instructorId, Long priceListId) {
+			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices ,
+			double price, Long instructorId, Long priceListId) {
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
@@ -406,6 +407,8 @@ public class AdventureDTO {
 	public List<Image> getImagesAdventure(){
 		return new ArrayList<Image>();
 	}
+
+	
 }
 
 

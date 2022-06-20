@@ -11,13 +11,16 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
+          <h6 style="text-align:left">Obrazloženje korisnika:</h6>
+          <p> {{requestMessage}}</p>
+          <h6 style="text-align:left"> Vaše obrazloženje u slučaju odbijanja zahteva: </h6>
           <textarea id="text" class="my-4" rows="4" cols="40" name="text" v-model="textDTO.text"></textarea>
           <h6 id="message"></h6>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
-          <button type="button" class="btn btn-primary" @click="Reject">Pošalji</button>
+          <button type="button" class="btn btn-primary" @click="Approve">Prihvati</button>
+          <button type="button" class="btn btn-primary" @click="Reject">Odbij</button>
         </div>
       </div>
     </div>
@@ -30,7 +33,7 @@ import swal from "sweetalert2";
 
 export default {
   name: "inputTextModal",
-  props:["index","header", "requestId", "btnId", "btnText"],
+  props:["index","header", "requestId", "btnId", "btnText", "requestMessage"],
   created:
       function () {
         this.modalId = "#"+this.index;
@@ -58,7 +61,7 @@ export default {
     },
 
     Reject(){
-      if(this.text===""){
+      if(this.textDTO.text===""){
         this.fireAlertOn("Unesite obrazloženje.");
       }else {
         const modal = document.getElementById(this.index);
@@ -75,6 +78,19 @@ export default {
 
       }
     },
+
+    Approve(){
+      const modal = document.getElementById(this.index);
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('style', 'display: none');
+      const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+      // remove opened modal backdrop
+      document.body.removeChild(modalBackdrops[0]);
+      document.body.style.overflow = 'auto';
+
+      this.$emit('approve-reg-req-text', this.requestId);
+    }
 
   },
   data(){

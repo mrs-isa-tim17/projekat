@@ -277,7 +277,7 @@ export default {
         this.$router.push('/instructor/adventures');
       } else if (this.$route.params.pre === "2") {
         let id = this.$route.params.type
-        this.$router.push('/adventures/detail/:' + id);
+        this.$router.push('/adventures/detail/' + id);
       }
     }
       /* }

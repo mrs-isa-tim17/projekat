@@ -133,13 +133,18 @@ public class SaleAppointmentController {
 				e1.printStackTrace();
 			} catch (Exception e1) {
 				e1.printStackTrace();
-				return new ResponseEntity<>(new TextDTO("Za ovaj period je već napravljena rezervacija od strane klijenta.") , HttpStatus.OK);
+				TextDTO t1 = new TextDTO("Za ovaj period je već napravljena rezervacija od strane klijenta.") ;
+				t1.setSuccessfull(false);
+				return new ResponseEntity<>(t1, HttpStatus.OK);
 			}
-			
-			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
+			TextDTO t2 = new TextDTO("Uspešno dodata akcija") ;
+			t2.setSuccessfull(true);
+			return new ResponseEntity<>(t2, HttpStatus.CREATED);
 		}
 		else {
-			return new ResponseEntity<>(new TextDTO("Definistite akciju u periodu dostupnosti") , HttpStatus.OK);
+			TextDTO t3 = new TextDTO("Definistite akciju u periodu dostupnosti") ;
+			t3.setSuccessfull(false);
+			return new ResponseEntity<>(t3, HttpStatus.OK);
 			
 		}
 	}
@@ -286,12 +291,12 @@ public class SaleAppointmentController {
 		List<StartEndDateDTO> quickReservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> apponiments = reservationService.findAllQuickReservationsForOffer(id);
-		for(Reservation sale : apponiments) {
+		List<SaleAppointment> apponiments = saleAppointmentService.findAllByOfferId(id);
+		for(SaleAppointment sale : apponiments) {
 			
-			//LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
+			LocalDateTime end  = sale.getStartSaleDate().plusHours((long) sale.getDuration() +2);
 			
-			StartEndDateDTO period = new StartEndDateDTO(sale.getStartDateTime().format(formatter), sale.getEndDateTime().format(formatter), adventure.getName());
+			StartEndDateDTO period = new StartEndDateDTO(sale.getStartSaleDate().format(formatter), end.format(formatter), adventure.getName());
 			quickReservationPeriods.add(period);
 		}
 		
