@@ -11,7 +11,7 @@
     </div>
 
     <div class="p-2" v-for="(c) in allCottages"  :key="c.id">
-      <cottageElement :cottage="c"></cottageElement>
+      <cottageElement  @rerender="forceRerendering" :cottage="c"></cottageElement>
     </div>
   </div>
 
@@ -39,10 +39,17 @@ export default {
 
 
   },
+  mounted() {
+    this.filtered();
+  },
+
 
   methods: {
     addCottagePage() {
       this.$router.push('/cottage/add');
+    },
+    forceRerendering(){
+      window.location.reload();
     },
     filtered(){
         this.coID = JSON.parse(localStorage.user).id;//this.$route.params.id;

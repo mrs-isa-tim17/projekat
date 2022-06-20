@@ -41,7 +41,7 @@
               <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
             </div>
             <div class="col-4">
-              <deleteCottageModal :header="DeleteHeader" :index="deleteId" :offer="cottage" :button_name="btnDeleteName" :type="offerType"></deleteCottageModal>
+              <deleteCottageModal @accept="deleteCottage" :header="DeleteHeader" :index="deleteId" :offer="cottage" :button_name="btnDeleteName" :type="offerType"></deleteCottageModal>
             </div>
           <div class="col-4">
             <div class="dropdown">
@@ -79,7 +79,7 @@ export default {
       updateId:"updateCottage",
       image:"",
       DeleteHeader:"Brisanje vikendice",
-      deleteId:"deleteCottage",
+      deleteId:"",
       btnDeleteName:"Obriši vikendicu",
       rating:null,
       offerType:"cottage"
@@ -92,6 +92,7 @@ export default {
     }else {
       this.image = "icons/ship.png";
     }
+    this.deleteId = "delete" + this.cottage.id;
     ReviewServce.getRating(this.cottage.id).then((response) =>
     {
       this.rating = response.data;
@@ -103,6 +104,10 @@ export default {
 
       $('#' + this.index).modal('show');
       console.log(this.rating);
+    },
+    deleteCottage(){
+      console.log("emituj");
+      this.$emit("rerender");
     },
     updateDataPage(){
       this.$router.push('/cottage/update/' + this.cottage.id);

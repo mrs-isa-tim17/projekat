@@ -37,7 +37,7 @@
               <button class="btn" style="font-size: 15px;font-weight: bold;color:white;" @click="detailPage"> Detalji i izmene</button>
             </div>
             <div class="col-4">
-              <deleteOfferModal  :header="DeleteHeader" :index="deleteId" :offer="ship" :button_name="btnDeleteName" :type="TypeOffer"></deleteOfferModal>
+              <deleteOfferModal @accept="deleteShip" :header="DeleteHeader" :index="deleteId" :offer="ship" :button_name="btnDeleteName" :type="TypeOffer"></deleteOfferModal>
             </div>
             <div class="col-4">
               <div class="dropdown">
@@ -60,7 +60,6 @@
 
 <script>
 import $ from "jquery";
-import ShipService from "@/servieces/ship_owner/ShipService";
 import deleteOfferModal from "@/components/owner/deleteOfferModal";
 import StarRating from 'vue-star-rating'
 import ReviewServce from "@/servieces/ReviewServce";
@@ -99,7 +98,9 @@ export default {
       $('#' + this.index).modal('show');
     },
     deleteShip(){
-      ShipService.deleteShip(this.ship.id);
+        console.log("emituj");
+        this.$emit("rerender");
+
     },
     updateDataPage(){
       this.$router.push('/ship/update/' + this.ship.id);

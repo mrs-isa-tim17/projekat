@@ -333,7 +333,7 @@ export default {
     },
     editDescription(description) {
       if (description === this.ship.description) {
-        swal.fire({title: 'Opis nije izmenjen!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+        swal.fire({title: 'Opis je isti!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
       } else {
         this.ship.description = description;
         ShipService.updateShip(this.ship.id, this.ship).then((response)=>{

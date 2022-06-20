@@ -29,8 +29,8 @@ class CottageService{
         });
     }
 
-    updateCottage(cottage){
-        return axios.post(COTTAGEE_API_BASE_URL + 'update', cottage,{
+    updateCottage(cottage,id){
+        return axios.post(COTTAGEE_API_BASE_URL + 'update/' + id, cottage,{
             headers: authHeader()
         });
 

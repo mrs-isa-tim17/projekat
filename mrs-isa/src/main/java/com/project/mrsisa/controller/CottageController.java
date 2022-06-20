@@ -275,7 +275,7 @@ public class CottageController {
 	@PostMapping(value="/update/{id}",consumes = "application/json")
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
 	public ResponseEntity<CreateUpdateCottageDTO> updateCottage(@PathVariable Long id,@RequestBody CreateUpdateCottageDTO cottageDTO) {
-		Cottage cottage = cottageService.findOne(cottageDTO.getId());
+		Cottage cottage = cottageService.findOne(id);
 
 		if (cottage == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -292,7 +292,18 @@ public class CottageController {
 		cottage.getAddress().setLongitude(cottageDTO.getLongitude());
 
 		if(pricelistService.findOffersCurrentPriceById(cottageDTO.getId()).getPrice() != cottageDTO.getPrice()){
-			Pricelist pricelist = pricelistService.findOneById(cottageDTO.getPriceListId());
+			Pricelist pricelist = new Pricelist(cottageDTO.getPrice(),LocalDate.now());
+			List<Pricelist> pricelists = pricelistService.findAllByAdventureId(cottageDTO.getId());
+			for(Pricelist p : pricelists)
+			{
+				if(p.getEndDate() == null) {
+					p.setEndDate(LocalDate.now());
+				}
+			}
+			pricelists.add(pricelist);
+			pricelist.setOffer(cottage);
+			cottage.setPricelists(pricelists);
+			/*Pricelist pricelist = pricelistService.findOneById(cottageDTO.getPriceListId());
 			pricelist.setEndDate(LocalDate.now());
 			Pricelist updated = pricelistService.save(pricelist);
 			System.out.println("cenaaaa  id: "  + updated.getId());
@@ -303,10 +314,10 @@ public class CottageController {
 			newPricelist.setOffer(cottage);
 			System.out.println("NOVOOOOOa  id: "  + newPricelist.getStartDate());
 			System.out.println("NOVOOOOOa  id: "  + newPricelist.getEndDate());
-			pricelistService.save(newPricelist);
+			pricelistService.save(newPricelist);*/
 		}
-		CottageOwner owner = cottageOwnerService.findOne(cottageDTO.getOwnerId());
-		cottage.setOwner(owner);
+		/*CottageOwner owner = cottageOwnerService.findOne(cottageDTO.getOwnerId());
+		cottage.setOwner(owner);*/
 
 
 		List<java.lang.String> newAddServicesString = cottageDTO.getAdditionalServices();

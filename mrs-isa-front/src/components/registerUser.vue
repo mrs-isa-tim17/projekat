@@ -8,7 +8,7 @@
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
-        <PasswordAgainField v-model="user.password" /><br>
+        <PasswordAgainField :password="user.password" /><br>
         <PhoneField v-model="user.phoneNumber" /><br>
 
         <i class="fa fa-users"></i>
@@ -73,6 +73,7 @@ import PasswordAgainField from "@/components/registration_components/PasswordAga
 import basicHeader from "@/components/main_site/main_home_page/basicHeader";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
+import swal from "sweetalert2";
 
 
 export default {
@@ -104,7 +105,15 @@ export default {
 
     const signUpButtonPressed = () => {
       console.log(user);
-      loginServce.registration(user);
+      loginServce.registration(user).then((response)=>{
+        console.log(response.data);
+        if(user.name == response.data.name){
+          swal.fire({title:'Vaš zahtev za registraciju je prosleđen administratoru. Čeka se odgovor!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Došlo je do greške!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      });
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },

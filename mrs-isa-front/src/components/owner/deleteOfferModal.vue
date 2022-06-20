@@ -35,6 +35,7 @@ export default {
   created:
       function () {
         console.log(this.index);
+        console.log(this.offer);
         this.modalId = "#"+this.index;
       },
   methods:{
@@ -56,6 +57,8 @@ export default {
       {
         console.log(this.offer.id);
         if(response.data){
+          this.accept=true;
+          this.$emit("accept",this.accept);
           swal.fire({title:'Obrisana vikendica!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
           this.$router.push('/cottageOwner/home');
         }
@@ -77,9 +80,12 @@ export default {
         console.log(this.offer.id);
         ShipService.deleteShip(this.offer.id).then((response) =>
             {
+
               console.log(this.offer.id);
               console.log(response.data);
               if(response.data){
+                this.accept=true;
+                this.$emit("accept",this.accept);
                 console.log(this.offer.id);
                 swal.fire({title:'Obrisan brod!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
                 this.$router.push('/shipOwner/home');
@@ -105,6 +111,7 @@ export default {
   data(){
     return{
       modalId:"",
+      accept:false,
 
     }
   }

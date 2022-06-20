@@ -6,7 +6,7 @@
     <div class="row mt-5">
       <div class="col-3">
 
-         <input id="name" name="name" type="text" placeholder="Naziv vikendice" style="width: 200px;margin-left:0px;" v-model="cottage.name" ><br>
+         <input id="name" name="name" type="text" placeholder="Naziv vikendice" style="width: 200px;margin-left:0px;" v-model="cottage.name" @blur="checkName"><br>
          <br>
          <label>Adresa vikendice</label><br>
          <open-maps :lon="cottage.longitude" :lat="cottage.latitude" @coordinate-changed="updateCoordinats" style="width: 200px; height: 200px; margin-left:50px;"></open-maps>
@@ -15,11 +15,11 @@
          <br>
        </div>
       <div class="col-3">
-        <input id="type" name="type" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.roomQuantity" placeholder="Broj soba"><br>
+        <input id="type" name="type" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.roomQuantity" @blur="checkRoomQuantity" placeholder="Broj soba"><br>
         <br>
-        <input id="length" name="length" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.bedQuantity" placeholder="Kapacitet"><br>
+        <input id="length" name="length" type="text" style="max-width:200px;margin-left: 10px;" v-model="cottage.bedQuantity" @blur="checkCapacity" placeholder="Kapacitet"><br>
         <br>
-        <input id="engine_designation" name="engine_designation" type="text" style="max-width:200px;margin-left: 10px;" placeholder="Cena" v-model="cottage.price"><br>
+        <input id="engine_designation" name="engine_designation" type="text" style="max-width:200px;margin-left: 10px;" @blur="checkPrice" placeholder="Cena" v-model="cottage.price"><br>
         <br>
         <label for="formFile" class="form-label">Slike broda</label><br>
         <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
@@ -114,6 +114,34 @@ export default {
         this.cottage.latitude = lat;
         console.log(lon, lat)
       },
+    checkName(){
+      if(this.cottage.name === ""){
+        swal.fire({title:'Unesite naziv broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }},
+    checkRoomQuantity(){
+      if(this.cottage.roomQuantity === ""){
+        swal.fire({title:'Unesite broj soba!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.roomQuantity))){
+        swal.fire({title:'Polje Broj soba mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      },
+    checkCapacity(){
+      if(this.cottage.bedQuantity === ""){
+        swal.fire({title:'Unesite kapacitet!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.bedQuantity))){
+        swal.fire({title:'Polje Kapacitet mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+    },
+    checkPrice(){
+      if(this.cottage.price === ""){
+        swal.fire({title:'Unesite cenu!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.price))){
+        swal.fire({title:'Polje Cena mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+    },
     addCottage(){
       this.cottage.ownerId =JSON.parse(localStorage.user).id;
         if(this.Validate()) {
@@ -207,6 +235,15 @@ export default {
       else if(this.cottage.description ==""){
         swal.fire({title:'Unesite opis broda!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
         return false;
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.roomQuantity))){
+        swal.fire({title:'Polje Broj soba mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.bedQuantity))){
+        swal.fire({title:'Polje Kapacitet mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(!Number.isInteger(parseInt(this.cottage.price))){
+        swal.fire({title:'Polje Cena mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
 
       else{

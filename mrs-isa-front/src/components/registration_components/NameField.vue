@@ -22,6 +22,7 @@
 import { ref } from "vue";
 import useFormValidation from "@/validations/useFormValidation";
 export default {
+
   setup() {
     let input = ref("");
     const { validateNameField, errors } = useFormValidation();
@@ -30,6 +31,7 @@ export default {
     };
     return { input, errors, validateInput };
   },
+
 };
 </script>
 

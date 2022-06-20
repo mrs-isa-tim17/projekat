@@ -8,7 +8,7 @@ const errors = reactive({});
 export default function useFormValidation() {
 
 
-    const { isEmpty, minLength, isEmail, isNum } = useValidators();
+    const { isEmpty, minLength, isEmail, isNum, isEqual } = useValidators();
 
     const validateNameField = (fieldName, fieldValue) => {
         errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 4)
@@ -42,8 +42,9 @@ export default function useFormValidation() {
         errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 8)
     }
 
-    const validatePasswordAgainField = (fieldName, fieldValue) => {
-        errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 8)
+    const validatePasswordAgainField = (fieldName, fieldValue,password) => {
+        errors[fieldName] = !fieldValue ? minLength(fieldName, fieldValue, 8) : isEqual(password,fieldValue)
+        console.log(isEqual(password,fieldValue));
     }
    /* const validatePasswordConfirm = (password, passwordAgain) =>{
         errors[passwordAgain] = isEqual(password,passwordAgain):minLength(fieldName, fieldValue, 8);
