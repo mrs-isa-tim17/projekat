@@ -65,6 +65,12 @@ class ReservationService{
         }
         return axios.get(RESERVATION_API_BASE_URL + '/reportPeriod/ship/' + ownerId, config);
     }
+
+    getAllOrdinaryReservationsForOffer(currentId) {
+        return axios.get(RESERVATION_API_BASE_URL + '/reservation/periods/ordinary/' + currentId, {
+            headers: authHeader()
+        });
+    }
 }
 
 export default new ReservationService();

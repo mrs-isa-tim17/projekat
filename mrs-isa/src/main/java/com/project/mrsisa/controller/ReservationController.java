@@ -732,7 +732,7 @@ public class ReservationController {
 		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
 		
 		Adventure adventure = adventureService.findOneById(id);
-		List<Reservation> reservations = reservationService.findAllOrdinaryReservationsForOffer(id);
+		List<Reservation> reservations = reservationService.getAllReservationsForOffer(id);
 		for(Reservation r : reservations) {
 			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
 			reservationPeriods.add(period);
@@ -745,7 +745,7 @@ public class ReservationController {
     @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ReserveEntityResponseDTO> reserveEntity(@RequestBody ReserveEntityDTO reserveEntityDTO){
         try{
-            Reservation r = reservationService.makeReservation(reserveEntityDTO); //mora i cena da se setuje na 0 ako je obicna, mora da postoji cena zbog brze rezervacije
+            Reservation r = reservationService.makeReservation(reserveEntityDTO, false); //mora i cena da se setuje na 0 ako je obicna, mora da postoji cena zbog brze rezervacije
            // reservationService.sendMailAboutReservation(r.getClient(), r);
             return ResponseEntity.ok(new ReserveEntityResponseDTO());
         }catch (AlreadyCanceled ac){
@@ -787,6 +787,21 @@ public class ReservationController {
             return ResponseEntity.ok(success);
         }
     }
+    
+	@GetMapping(value="/reservation/periods/ordinary/{id}")
+	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('ROLE_COTTAGE_OWNER') or hasRole('ROLE_SHIP_OWNER')")
+	public ResponseEntity<List<StartEndDateDTO>> getOrdinaryReservationPeriods(@PathVariable Long id){
+		List<StartEndDateDTO> reservationPeriods = new ArrayList<StartEndDateDTO>();
+		
+		Adventure adventure = adventureService.findOneById(id);
+		List<Reservation> reservations = reservationService.findAllOrdinaryReservationsForOffer(id);
+		for(Reservation r : reservations) {
+			StartEndDateDTO period = new StartEndDateDTO(r.getStartDate().atStartOfDay().format(formatter), r.getEndDate().atStartOfDay().format(formatter), adventure.getName());
+			reservationPeriods.add(period);
+		}
+		
+		return new ResponseEntity<>(reservationPeriods, HttpStatus.OK);
+	}
 }
 
 
