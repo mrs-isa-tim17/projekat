@@ -17,7 +17,8 @@
         <div>
           <images-carousel :image_paths="adventure.images"></images-carousel>
         </div>
-
+        <hr>
+        <h4 align="left">ocena: {{ rate.toFixed(1) }}</h4>
         <hr>
         <h4 align="left"> cena: {{ adventure.price }} </h4>
         <h4 align="left"> maksimalan broj osoba: {{ adventure.capacity }} </h4>
@@ -74,6 +75,13 @@
                   :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations"
                   :actions="this.actions"></calendar>
         <br>
+        <div align="left">
+          <label style="color: #4FC358">Zelena boja - periodi dostupnosti</label><br>
+          <label style="color: #F86C53">Narandžasta boja - periodi nedostupnosti</label><br>
+          <label style="color: #2593F5">Plava boja - obične rezervacije</label><br>
+          <label style="color: #B691E4">Ljubičasta boja - brze rezervacije</label><br>
+        </div>
+
         <div class="row p-3">
           <div class="col-4">
             <label>{{ this.labelStartDate }}</label>
@@ -90,6 +98,8 @@
             </button>
           </div>
         </div>
+
+
 
         <div class="row p-3">
           <div class="col-4">
@@ -124,7 +134,8 @@
             <actionModal :index="generateModalId(this.currentId)" :header="defineActionModalHeader"
                          :adventure="this.adventure"
                          :btnId="generateButtonId(this.currentId)" btnText="Definiši akciju"
-                         :key="this.key"></actionModal>
+                         :key="this.key"
+                         @rerender-def="forceRerendering"></actionModal>
           </div>
         </div>
       </div>
@@ -146,6 +157,7 @@ import ActionModal from "@/components/fishing_instructor/actionModal";
 import swal from "sweetalert2";
 import ReservationService from "@/servieces/ReservationService";
 import SaleAppointmentService from "@/servieces/SaleAppointmentService";
+import ReviewServce from "@/servieces/ReviewServce";
 
 
 export default {
@@ -207,14 +219,24 @@ export default {
       this.calendarKey--;
     })
 
-    ReservationService.getAllReservationsForOffer(this.currentId).then((response) => {
+    ReservationService.getAllOrdinaryReservationsForOffer(this.currentId).then((response) => {
+      console.log("reservations")
       this.reservations = response.data;
       this.calendarKey++;
+      console.log(this.reservations);
     })
 
     SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) => {
+      console.log("actions");
       this.actions = response.data;
       this.calendarKey--;
+      console.log(this.actions);
+    })
+
+    ReviewServce.getRating(this.currentId).then((response) => {
+      this.rate = response.data;
+      console.log("Rate");
+      console.log(this.rate);
     })
 
 
@@ -239,7 +261,8 @@ export default {
           text: eventText,
           background: 'white',
           color: 'black',
-          confirmButtonColor: '#8DF172'
+          confirmButtonColor: '#8DF172',
+          timer: 2000
         });
       } else {
         swal.fire({
@@ -251,22 +274,58 @@ export default {
         });
       }
     },
-    DefinePeriodAvailability() {
+    forceRerendering() {
+      window.location.reload()
+      this.myKey += 1;
+    },
+
+    validateUnavailInputDate() {
+      let today = new Date();
+      if (this.unavailabilityDate.start === "" || this.unavailabilityDate.end === "") {
+        this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
+        return false;
+      } else if (this.unavailabilityDate.start > this.unavailabilityDate.end) {
+        this.fireAlertOn("Početni datum je pre krajnjeg. Proverite unose", false, "Upozorenje")
+        return false;
+      } else if (this.unavailabilityDate.start < today || this.unavailabilityDate.end < today) {
+        this.fireAlertOn("Unesite datume u budućnosti", false, "Upozorenje");
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+
+    validateAvailInputDate() {
+      let today = new Date();
       if (this.availabilityDate.start === "" || this.availabilityDate.end === "") {
         this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
+        return false;
       } else if (this.availabilityDate.start > this.availabilityDate.end) {
         this.fireAlertOn("Početni datum je pre krajnjeg. Proverite unose", false, "Upozorenje");
+        return false;
+      } else if (this.availabilityDate.start < today || this.availabilityDate.end < today) {
+        this.fireAlertOn("Unesite datume u budućnosti", false, "Upozorenje");
+        return false;
       } else {
+        return true;
+      }
+    },
+
+    DefinePeriodAvailability() {
+      if (this.validateAvailInputDate()) {
         PeriodAvailabilityUnavailabilityService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
           this.availDateAns = response.data;
-          this.calendarKey++;
+
           console.log(this.availDateAns)
 
-          if (this.availDateAns === true) {
+          if (this.availDateAns) {
             this.fireAlertOn("Uspešno ste dodali period dostupnosti.", true, "Obaveštenje");
+            setTimeout(this.forceRerendering, 500);
           } else {
             this.fireAlertOn("Niste uspeli da dodate period dostupnosti.", false, "Obaveštenje");
           }
+          this.calendarKey++;
 
         }).catch(function (error) {
           console.log(error.toJSON());
@@ -291,22 +350,19 @@ export default {
     },
 
     DefinePeriodUnavailability() {
-
-      if (this.unavailabilityDate.start === "" || this.unavailabilityDate.end === "") {
-        this.fireAlertOn("Unesite početni i krajnji datum", false, "Upozorenje");
-      } else if (this.unavailabilityDate.start > this.unavailabilityDate.end) {
-        this.fireAlertOn("Početni datum je pre krajnjeg. Proverite unose", false, "Upozorenje")
-      } else {
+      if (this.validateUnavailInputDate())
+      {
         PeriodAvailabilityUnavailabilityService
             .defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
           this.unavailDateAns = response.data;
-          this.calendarKey--;
 
-          if (this.unavailDateAns === true) {
+          if (this.unavailDateAns) {
             this.fireAlertOn("Uspešno ste dodali period nedostupnosti.", true, "Obaveštenje");
+            setTimeout(this.forceRerendering, 500);
           } else {
             this.fireAlertOn("Niste uspeli da dodate period nedostupnosti.", false, "Obaveštenje");
           }
+          this.calendarKey--;
 
         }).catch(function (error) {
           console.log(error.toJSON());
@@ -400,7 +456,8 @@ export default {
       },
 
       defineActionModalHeader: "Definisanje akcije",
-      key: 0
+      key: 0,
+      rate: 0.0,
 
     }
   }

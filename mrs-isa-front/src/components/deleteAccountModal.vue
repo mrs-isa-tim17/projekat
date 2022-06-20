@@ -75,6 +75,7 @@ export default {
                   color: '#687864',
                   confirmButtonColor: '#687864'
                 });
+
             }
           })
 

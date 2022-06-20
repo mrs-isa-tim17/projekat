@@ -43,7 +43,7 @@ export default {
       clientProfileHeader: "Profil klijenta",
       clientProfileId: "clientProfile",
       reportHeader: "Izveštaj o rezervaciji",
-      reportId: "reportReservation",
+      reportId: "",
       status: "",
       reported: "",
       client: {
@@ -70,22 +70,26 @@ export default {
       this.status = "Obična rezervacija"
     }
 
-
+   this.reportId = "report" + this.reservation.reservationId;
+    console.log(this.reportId);
 
     ClientServce.getClient(this.reservation.clientId).then((response)=>
         {
           this.client = response.data;
-
+          console.log(this.client);
         }
     );
 
     ReservationReportService.haveReservationReport(this.reservation.id).then((response) => {
+      console.log(this.reservation.id);
+
       if (response.data) {
         this.reported = "Ocenjeno";
+        console.log(response.data);
       }
       else{
       this.reported ="";
-      console.log("nijee");
+
       }
     });
 

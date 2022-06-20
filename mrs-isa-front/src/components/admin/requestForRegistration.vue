@@ -64,7 +64,8 @@ export default {
         name:"",
         surname:"",
         email:"",
-        registrationType:""
+        registrationType:"",
+        registrationMessage:"",
       }
 
     }

@@ -58,7 +58,8 @@ public class AdventureDTO {
 	}
 
 	public AdventureDTO(Adventure adventure, List<BehaviorRule> behavior, List<Image> images, List<FishingEquipment> fishingEquipments,
-			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices , double price, Long instructorId) {
+			List<CancelCondition> cancelConditions, List<ExperienceReview> experience, List<AdditionalServices> additionalServices ,
+			double price, Long instructorId, Long priceListId) {
 		
 		this.id = adventure.getId();
 		this.name = adventure.getName();
@@ -78,6 +79,7 @@ public class AdventureDTO {
 		this.additionalServices = new ArrayList<String>();
 		
 		this.instructorId = instructorId;
+		this.priceListId = priceListId;
 		
 		this.days = new ArrayList<String>();
 		//this.percentage = new ArrayList<String>();
@@ -405,6 +407,8 @@ public class AdventureDTO {
 	public List<Image> getImagesAdventure(){
 		return new ArrayList<Image>();
 	}
+
+	
 }
 
 

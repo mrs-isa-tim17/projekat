@@ -102,6 +102,8 @@ export default {
         days: ['5', '10', '15', '20'],
         percentage: ['0', '0', '0', '0'],
         experienceReviews: [],
+        priceListId:"",
+        instructorId: ""
       },
       myKey: 1,
       search: ""

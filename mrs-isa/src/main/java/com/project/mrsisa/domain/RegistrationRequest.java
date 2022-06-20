@@ -20,6 +20,9 @@ public class RegistrationRequest {
 	
 	@Enumerated
 	private ProcessingStatus status;
+
+	@Column(nullable = false)
+	private String requestMessage;
 	
 	
 	public User getUserRef() {
@@ -53,5 +56,13 @@ public class RegistrationRequest {
 
 	public Integer getVersion() {
 		return version;
+	}
+
+	public String getRequestMessage() {
+		return requestMessage;
+	}
+
+	public void setRequestMessage(String requestMessage) {
+		this.requestMessage = requestMessage;
 	}
 }

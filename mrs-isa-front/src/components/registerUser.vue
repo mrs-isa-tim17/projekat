@@ -8,7 +8,7 @@
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
-        <PasswordAgainField :password="user.password" /><br>
+        <PasswordAgainField id="passwordAgain"/><br>
         <PhoneField v-model="user.phoneNumber" /><br>
 
         <i class="fa fa-users"></i>
@@ -19,7 +19,7 @@
           <option value="4">Vlasnik broda</option>
           <option value="5">Instruktor</option>
         </select><br><br>
-        <textarea id="request" placeholder="Obrazloženje registracije" v-model="user.requestMessage" style="width:300px;height:100px;" disabled></textarea>
+        <textarea id="request" placeholder="Obrazloženje registracije"  style="width:300px;height:100px;" disabled></textarea>
 </div>
       <div class="col-6" >
         <p style="text-align: left;font-size: 15px;color:#31708E;">Izaberite Vašu adresu</p>
@@ -91,29 +91,125 @@ export default {
   setup() {
     let user = reactive({
       name: "",
+      surname:"",
       email: "",
       phoneNumber: "",
       password: "",
       userRole: "",
       longitude: 0,
       latitude: 0,
-      requestMessage:""
+      requestMessage:"klijent"
     });
 
     const { errors } = useFormValidation();
     const { isSignupButtonDisabled } = useSubmitButton(user, errors);
 
     const signUpButtonPressed = () => {
-      console.log(user);
-      loginServce.registration(user).then((response)=>{
-        console.log(response.data);
-        if(user.name == response.data.name){
-          swal.fire({title:'Vaš zahtev za registraciju je prosleđen administratoru. Čeka se odgovor!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Došlo je do greške!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-      });
+
+      if (user.userRole === "1") {
+        user.requestMessage = "";
+      } else {
+        user.requestMessage = document.getElementById("request").value;
+      }
+      if (user.name == "") {
+        swal.fire({title: 'Unesite ime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.surname == "") {
+        swal.fire({title: 'Unesite prezime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.email == "") {
+        swal.fire({title: 'Unesite email!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.phoneNumber == "") {
+        swal.fire({
+          title: 'Unesite broj telefona!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.password == "") {
+        swal.fire({
+          title: 'Unesite lozinku ponovo!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (document.getElementById("passwordAgain").value == "") {
+        swal.fire({
+          title: 'Unesite lozinku ponovo!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.longitude == "" && user.latitude == "") {
+        swal.fire({title: 'Unesite adresu!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.userRole != 1 && user.requestMessage == "") {
+        swal.fire({
+          title: 'Unesite obrazloženje!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.userRole == "") {
+        swal.fire({
+          title: 'Izaberite vrstu korisnika!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.password == document.getElementById("passwordAgain").value) {
+        console.log(document.getElementById("passwordAgain").value);
+        swal.fire({
+          title: 'Lozinke se ne poklapaju!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (!Number.isInteger(parseInt(user.phoneNumber))) {
+        swal.fire({
+          title: 'Polje broj telefona treba da sadrži samo brojeve!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else {
+
+        loginServce.registration(user)
+            .then((response) => {
+              console.log("REGISTER");
+              console.log(user.userRole);
+              console.log(response.data);
+              if (response.data.successfull) {
+                if (user.userRole === "1") {
+                  swal.fire({
+                    title: "Uspešno",
+                    text: "Uspešno ste se registrovali, na vašu imejl adresu smo poslali mejl, molimo Vas verifikujte adresu.",
+                    background: 'white',
+                    color: 'black',
+                    confirmButtonColor: '#8DF172',
+                    timer: 3000,
+                  });
+                } else {
+                  swal.fire({
+                    title: "Uspešno",
+                    text: "Uspešno ste se registrovali, vaš zahtev je poslat adminu, molimo Vas sačekate da on odobri vaš zahtev.",
+                    background: 'white',
+                    color: 'black',
+                    confirmButtonColor: '#8DF172',
+                    timer: 3000,
+                  });
+                }
+                //uspesno
+              } else {
+                swal.fire({
+                  title: "Neuspešno",
+                  text: response.data.text,
+                  background: 'white',
+                  color: 'black',
+                  confirmButtonColor: '#FECDA6',
+                  timer: 1500,
+                });
+              }
+            })
+            .catch(console.log("PROBLEM"));
+      }
     };
     return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
