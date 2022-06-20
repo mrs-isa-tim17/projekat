@@ -75,6 +75,13 @@
                   :unavailability-period="this.unavailabilityPeriod" :reservations="this.reservations"
                   :actions="this.actions"></calendar>
         <br>
+        <div align="left">
+          <label style="color: #4FC358">Zelena boja - periodi dostupnosti</label><br>
+          <label style="color: #F86C53">Narandžasta boja - periodi nedostupnosti</label><br>
+          <label style="color: #2593F5">Plava boja - obične rezervacije</label><br>
+          <label style="color: #B691E4">Ljubičasta boja - brze rezervacije</label><br>
+        </div>
+
         <div class="row p-3">
           <div class="col-4">
             <label>{{ this.labelStartDate }}</label>
@@ -91,6 +98,8 @@
             </button>
           </div>
         </div>
+
+
 
         <div class="row p-3">
           <div class="col-4">
@@ -210,18 +219,24 @@ export default {
       this.calendarKey--;
     })
 
-    ReservationService.getAllReservationsForOffer(this.currentId).then((response) => {
+    ReservationService.getAllOrdinaryReservationsForOffer(this.currentId).then((response) => {
+      console.log("reservations")
       this.reservations = response.data;
       this.calendarKey++;
+      console.log(this.reservations);
     })
 
     SaleAppointmentService.gatAllSaleAppontmentsForOffer(this.currentId).then((response) => {
+      console.log("actions");
       this.actions = response.data;
       this.calendarKey--;
+      console.log(this.actions);
     })
 
     ReviewServce.getRating(this.currentId).then((response) => {
       this.rate = response.data;
+      console.log("Rate");
+      console.log(this.rate);
     })
 
 
@@ -301,16 +316,16 @@ export default {
       if (this.validateAvailInputDate()) {
         PeriodAvailabilityUnavailabilityService.defineAvailability(this.currentId, this.availabilityDate).then((response) => {
           this.availDateAns = response.data;
-          this.calendarKey++;
 
           console.log(this.availDateAns)
 
-          if (this.availDateAns === true) {
+          if (this.availDateAns) {
             this.fireAlertOn("Uspešno ste dodali period dostupnosti.", true, "Obaveštenje");
-            this.forceRerendering();
+            setTimeout(this.forceRerendering, 500);
           } else {
             this.fireAlertOn("Niste uspeli da dodate period dostupnosti.", false, "Obaveštenje");
           }
+          this.calendarKey++;
 
         }).catch(function (error) {
           console.log(error.toJSON());
@@ -340,15 +355,14 @@ export default {
         PeriodAvailabilityUnavailabilityService
             .defineUnavailability(this.currentId, this.unavailabilityDate).then((response) => {
           this.unavailDateAns = response.data;
-          this.calendarKey--;
 
-
-          if (this.unavailDateAns === true) {
+          if (this.unavailDateAns) {
             this.fireAlertOn("Uspešno ste dodali period nedostupnosti.", true, "Obaveštenje");
-            this.forceRerendering();
+            setTimeout(this.forceRerendering, 500);
           } else {
             this.fireAlertOn("Niste uspeli da dodate period nedostupnosti.", false, "Obaveštenje");
           }
+          this.calendarKey--;
 
         }).catch(function (error) {
           console.log(error.toJSON());

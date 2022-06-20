@@ -162,8 +162,9 @@ public class ReservationService {
 	}
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
+    public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO, boolean quick) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
+        r.setQuick(quick);
         if (reserveEntityDTO.getClientId() == -1){
             r.setClient(null);
         }else{
@@ -264,9 +265,14 @@ public class ReservationService {
         r.setAdditionalServices(additionalServices);
         double price = reserveEntityDTO.getPrice();
         r.setQuick(true);
+
+        
         if (price == 0) {//0 je ako je obicna rezervacija, quick je false ako je obicna
             price = countPriceOfReservation(r.getOfferType(), o, r.getStartDateTime(), r.getEndDateTime(), additionalServices);
-            r.setQuick(false);
+            if (price == 0){
+                throw new NotDefinedValue("Nešto je pošlo po zlu kod izračunavanja cene");
+            }
+            r.setQuick(false); 
         }
         r.setPrice(price);
         r.setCanceled(false);

@@ -96,8 +96,8 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	--123
 insert into users (type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
-	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milos', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
-	'+3817885', 'Milosevic', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
+	('FI', nextval('user_seq'), false, 'milan.milanovi@example.com', 0, 'Milan', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milanovi', 0, 2, '2017-10-01 18:57:58.508-07',5, true);
 insert into users(type, id, deleted, email, loyalty_points, name, password,
 	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
 	('CO', nextval('user_seq'), false, 'anastasijas@email.com', 0, 'Anastasija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
@@ -130,6 +130,17 @@ insert into users(type, id, deleted, email, loyalty_points, name, password,
 	('AD', nextval('user_seq'), false, 'mika@email.com', 0, 'Mika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3853252', 'Mikić', 0, 79, '2017-10-01 18:57:58.508-07',2,true, false);
 
+
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
+	('FI', nextval('user_seq'), false, 'milos.milosevi@example.com', 0, 'Milos', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Milosevic', 0, 30, '2017-10-01 18:57:58.508-07',5, true);
+	
+insert into users (type, id, deleted, email, loyalty_points, name, password,
+	phonenumber, surname, user_type, address_id,last_password_reset_date, role_id, enabled) values
+	('FI', nextval('user_seq'), false, 'miroslav.miroslavljev@example.com', 0, 'Miroslav', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
+	'+3817885', 'Miroslavljev', 0, 31, '2017-10-01 18:57:58.508-07',5, true);
+	
 --------COTTAGE
 	
 insert into cottage (id, deleted,description, name, address_id, bed_quantity, room_quantity, owner) values
@@ -191,12 +202,12 @@ insert into adventure (id, deleted, description, name, address_id, capacity,
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Sava', 'Sava', 14, 2,
-	'Oxfort oxfort oxy foxy roxfort', 2);
+	'Oxfort oxfort oxy foxy roxfort', 9);
 
 insert into adventure (id, deleted, description, name, address_id, capacity,
     instructor_biography, owner) values
 	(nextval('offer_seq'), false, 'Comfy on the Tisa', 'Comfy on the Tisa', 15, 6,
-	'Instruktor instruktor instruktor, najbolji na svetu', 2);
+	'Instruktor instruktor instruktor, najbolji na svetu', 10);
 
 
 
@@ -455,6 +466,17 @@ insert into experience_review (rate, status, text, client_id, offer_id, offer_ty
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 8, 2);
 
 
+--experience review za avanture
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 2, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Sve pohvale,odlično.', 1, 2, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 11, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Bilo bi dobro da je bolji šator.', 1, 12, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 13, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Bilo bi dobro da je bolji šator.', 1, 14, 2);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 14, 2);
+
+
+
 
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 12000, '29.04.2022.', 2);
@@ -707,5 +729,8 @@ insert into users (type, id, deleted, email, loyalty_points, name, password,
 	('CO', nextval('user_seq'), false, 'nov.cottage.owner@gmail.com', 0, 'Marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',
 	'+3815828', 'Markovic', 0,28, '2017-10-01 21:58:58.508-07', 3,
 	null, false);
+	
+		
+
 
 insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 9,1, 'PA imam vikendice, a ja hocu novac');

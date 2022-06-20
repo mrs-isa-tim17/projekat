@@ -79,7 +79,7 @@ public class ExperienceReviewController {
     }
 
     @GetMapping(value="/rate/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHING_INSTRUCTOR')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<Double>getRating(@PathVariable Long id){
         double rating = 0;
         List<ExperienceReview> reviews = experienceReviewService.findAllApprovedByOfferId(id);
@@ -87,6 +87,9 @@ public class ExperienceReviewController {
             rating += er.getRate();
         }
         rating = rating / reviews.size();
+        if(reviews.size() == 0) {
+        	return new ResponseEntity<>(0.0, HttpStatus.OK);
+        }
         return new ResponseEntity<>(rating, HttpStatus.OK);
     }
     
