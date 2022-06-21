@@ -21,12 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.dto.ship.FindShipDTO;
 import com.project.mrsisa.dto.AdminOfferDTO;
@@ -214,7 +209,7 @@ public class ShipController {
 	}
 	
 
-	@PostMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/delete/{id}")
 	@PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteShip(@PathVariable Long id) {
 

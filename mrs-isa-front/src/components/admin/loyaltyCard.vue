@@ -37,6 +37,7 @@
 <script>
 import Datepicker from "@vuepic/vue-datepicker";
 import LoyaltyProgramService from "@/servieces/LoyaltyProgramService";
+import swal from "sweetalert2";
 
 export default {
   name: "loyaltyCard",
@@ -51,10 +52,36 @@ export default {
   },
 
   methods:{
+    fireAlertOn(eventText, ok){
+      if(ok){
+        swal.fire({
+          title: "Upozerenje",
+          text: eventText,
+          background: 'white',
+          color: 'black',
+          confirmButtonColor: '#D4F172'
+        });
+
+      }else {
+        swal.fire({
+          title: "Upozerenje",
+          text: eventText,
+          background: 'white',
+          color: 'black',
+          confirmButtonColor: '#FECDA6'
+        });
+      }
+    },
+
     defineNewScale(){
-        LoyaltyProgramService.defineNewScale(this.scale1.id, this.scale1).then((response)=>{
+      let today = new Date();
+      if(this.scale1.startDate < today){
+        this.fireAlertOn("Datum mora biti u budućnosti.", false)
+      }else {
+        LoyaltyProgramService.defineNewScale(this.scale1.id, this.scale1).then((response) => {
           this.scale1 = response.data;
           console.log(response);
+          this.fireAlertOn("Uspešno izmenjena skala.", true);
         }).catch(function (error) {
           console.log(error.toJSON());
           if (error.response) {
@@ -75,7 +102,7 @@ export default {
           console.log(error.config);
 
         });
-
+      }
     },
 
     getImage(){

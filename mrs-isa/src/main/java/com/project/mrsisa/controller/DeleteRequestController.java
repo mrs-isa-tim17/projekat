@@ -1,17 +1,10 @@
 package com.project.mrsisa.controller;
 
-import com.project.mrsisa.domain.DeleteRequest;
-import com.project.mrsisa.domain.ProcessingStatus;
-import com.project.mrsisa.domain.RegistrationRequest;
-import com.project.mrsisa.domain.Role;
-import com.project.mrsisa.domain.User;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.AdminDeletingRequestDTO;
 import com.project.mrsisa.dto.DeleteRequestDTO;
 import com.project.mrsisa.dto.TextDTO;
-import com.project.mrsisa.service.DeleteRequestService;
-import com.project.mrsisa.service.ReservationService;
-import com.project.mrsisa.service.RoleService;
-import com.project.mrsisa.service.UserService;
+import com.project.mrsisa.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +30,18 @@ public class DeleteRequestController {
     private RoleService roleService;
 	@Autowired
 	private ReservationService reservationService;
+	@Autowired
+	private CottageService cottageService;
+	@Autowired
+	private CottageOwnerService cottageOwnerService;
+	@Autowired
+	private ShipOwnerService shipOwnerService;
+	@Autowired
+	private ShipService shipService;
+	@Autowired
+	private FishingInstructorService fishingInstructorService;
+	@Autowired
+	private AdventureService adventureService;
     
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('CLIENT') or hasRole('FISHINSTRUCTOR') or hasRole('SHIP_OWNER') or hasRole('COTTAGE_OWNER')")
@@ -45,6 +50,33 @@ public class DeleteRequestController {
 		if (u.getRoleId() == 1){
 			if (reservationService.getFutureActiveReservationsForClient(u.getId()).size() > 0){
 				return ResponseEntity.ok(false);
+			}
+		}
+		else if (u.getRoleId() == 3){ // co
+			CottageOwner owner = cottageOwnerService.findOne(u.getId());
+			List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
+			for (Cottage c : cottages){
+				if(reservationService.getFutureHistoryReservation(c.getId()).size()>0){
+					return ResponseEntity.ok(false);
+				}
+			}
+		}
+		else if (u.getRoleId() == 4){ // ship
+			ShipOwner shipOwner = shipOwnerService.findOne(u.getId());
+			List<Ship> ships = shipService.getShipsByOwner(shipOwner);
+			for (Ship c : ships){
+				if(reservationService.getFutureHistoryReservation(c.getId()).size()>0){
+					return ResponseEntity.ok(false);
+				}
+			}
+		}
+		else if (u.getRoleId() == 5){ // fi
+			FishingInstructor instructor = fishingInstructorService.findOne(u.getId());
+			List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+			for (Adventure c : adventures){
+				if(reservationService.getFutureHistoryReservation(c.getId()).size()>0){
+					return ResponseEntity.ok(false);
+				}
 			}
 		}
 

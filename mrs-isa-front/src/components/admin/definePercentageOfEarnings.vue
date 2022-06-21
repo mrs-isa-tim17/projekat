@@ -81,8 +81,16 @@ export default {
       });
     },
 
+    validateDate(date) {
+      let today = new Date();
+      if (date < today){
+        return false;
+      }
+      return true;
+    },
+
     DefinePercentage() {
-      if (this.isDouble(this.percentageDTO.percentage)) {
+      if (this.isDouble(this.percentageDTO.percentage) && this.validateDate(this.percentageDTO.startDate)) {
         PercentageService.defineNewPercentage(this.percentageDTO).then((response) => {
           this.percentageDTO = response.data;
           this.myKey++;
@@ -111,7 +119,7 @@ export default {
         });
       }
       else{
-        this.fireAlertOn("Unesite brojčanu vrednost procenta");
+        this.fireAlertOn("Unesite brojčanu vrednost procenta i datum mora biti u budućnosti");
       }
     },
 

@@ -58,6 +58,8 @@ export default {
     loadClient() {
       document.getElementById("client").classList.add("active");
       document.getElementById("owner").classList.remove("active");
+
+
       LoyaltyProgramService.getPointsForUser('CLIENT').then((response) => {
         this.type = "client"
         this.points = response.data;
