@@ -211,14 +211,22 @@ public class ShipDTO {
 		}*/
 
 		List<CancelCondition> cc = ship.getCancelCondition();
-		List<Integer> days = new ArrayList<>();
+		days = new ArrayList<>();
 		days.add(5);
 		days.add(10);
 		days.add(15);
 		days.add(20);
 		percents = new ArrayList<>();
-		for(CancelCondition c : cc){
-			percents.add(c.getPrecent());
+		if(cc.size() == 0){
+			percents.add(0.0);
+			percents.add(0.0);
+			percents.add(0.0);
+			percents.add(0.0);
+		}
+		else {
+			for (CancelCondition c : cc) {
+				percents.add(c.getPrecent());
+			}
 		}
 		System.out.print("idddd" + ship.getId());
 		price = newPrice;

@@ -11,7 +11,7 @@
         <div class="modal-body" >
           <textarea  rows="3" cols="35" type="text" v-model="descriptionOffer"/>
           <div class="modal-footer" style="background-color:#31708E">
-            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
+            <button type="button" @click="back" class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editDescription" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
@@ -25,7 +25,7 @@ import $ from "jquery";
 
 export default {
   name: "editOfferDescription",
-  props: ["description", "index", "header"],
+  props: ["offerId","description", "index", "header"],
   created:
       function () {
         console.log(this.index);
@@ -35,6 +35,7 @@ export default {
     openForm() {
       console.log("forma");
       this.descriptionOffer=this.description;
+      this.id = this.offerId;
       var modalToggle = document.getElementById(this.index);
       ///myModal.show(modalToggle)
       $('#' + this.index).show(modalToggle);
@@ -51,12 +52,24 @@ export default {
       // remove opened modal backdrop
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
+    },
+    back(){
+      const modal = document.getElementById(this.index);
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('style', 'display: none');
+      const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+      // remove opened modal backdrop
+      document.body.removeChild(modalBackdrops[0]);
+      document.body.style.overflow = 'auto';
     }
   },
   data(){
     return{
       modalId:"",
       descriptionOffer:"",
+      id:""
     }
   }
 

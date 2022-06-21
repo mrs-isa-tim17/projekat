@@ -468,9 +468,9 @@ insert into cancel_condition_offer (offer_id, cancel_condition_id) values (7, 28
 
 
 
-insert into image (path, offer_id) values('/img/adventure/Drina1.jpg', 2);
-insert into image (path, offer_id) values('/img/adventure/Drina2.jpg', 2);
-insert into image (path, offer_id) values('/img/adventure/Drina3.jpg', 2);
+insert into image (path, offer_id) values('/Drina1.jpg', 2);
+insert into image (path, offer_id) values('/Drina2.jpg', 2);
+insert into image (path, offer_id) values('/Drina3.jpg', 2);
 
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 0, 'Prelepa tura, sve pohvale.', 1, 2, 2);
 
@@ -509,55 +509,59 @@ insert into experience_review (rate, status, text, client_id, offer_id, offer_ty
 
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 5000, '29.04.2022.', 2);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 3000, '30.05.2022.', 1);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 3500, '30.05.2022.', 5);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 3600, '30.05.2022.', 6);
 insert into pricelist (end_date, price, start_date, offer_id) values ('30.05.2022.', 4000, '29.04.2022.', 7);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 4000, '30.05.2022.', 7);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 5000, '29.04.2022.', 8);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 5000, '29.04.2022.', 9);
+insert into pricelist (end_date, price, start_date, offer_id) values (null, 5000, '29.04.2022.', 10);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 2000, '29.04.2022.', 11);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 1234, '29.04.2022.', 12);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 9876, '29.04.2022.', 13);
 insert into pricelist (end_date, price, start_date, offer_id) values (null, 2500, '29.04.2022.', 14);
 
 
-insert into image (path, offer_id) values ('/img/cottage/meda/meda.jpg', 1);
---insert into image (path, offer_id) values ('/img/cottage/meda/meda1.jpg', 1);
-insert into image (path, offer_id) values ('/img/cottage/meda/meda2.jpg', 1);
+insert into image (path, offer_id) values ('/meda.jpg', 1);
+insert into image (path, offer_id) values ('/meda1.jpg', 1);
+insert into image (path, offer_id) values ('/meda2.jpg', 1);
 --insert into image (path, offer_id) values ('/img/cottage/3/132308681.jpg', 2);
-insert into image (path, offer_id) values ('/img/cottage/suma/suma.jpg', 3);
-insert into image (path, offer_id) values ('/img/cottage/suma/suma1.jpg', 3);
-insert into image (path, offer_id) values ('/img/cottage/kedar/kedar.jpg', 4);
-insert into image (path, offer_id) values ('/img/cottage/kedar/kedar1.jpg', 4);
-insert into image (path, offer_id) values ('/img/cottage/kedar/kedar2.jpg', 4);
-insert into image (path, offer_id) values ('/img/cottage/holiday/holiday.jpg', 5);
-insert into image (path, offer_id) values ('/img/cottage/holiday/holiday1.jpg', 5);
-insert into image (path, offer_id) values ('/img/cottage/bogut/bogut.jpg', 6);
-insert into image (path, offer_id) values ('/img/cottage/bogut/bogut1.jpg', 6);
-insert into image (path, offer_id) values ('/img/cottage/bogut/bogut2.jpg', 6);
+insert into image (path, offer_id) values ('/suma.jpg', 3);
+insert into image (path, offer_id) values ('/suma1.jpg', 3);
+insert into image (path, offer_id) values ('/kedar.jpg', 4);
+insert into image (path, offer_id) values ('/kedar1.jpg', 4);
+insert into image (path, offer_id) values ('/kedar2.jpg', 4);
+insert into image (path, offer_id) values ('/holiday.jpg', 5);
+insert into image (path, offer_id) values ('/holiday1.jpg', 5);
+insert into image (path, offer_id) values ('/bogut.jpg', 6);
+insert into image (path, offer_id) values ('/bogut1.jpg', 6);
+insert into image (path, offer_id) values ('/bogut2.jpg', 6);
 
-insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus.jpg', 7);
-insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus1.jpg', 7);
-insert into image (path, offer_id) values ('/img/ship/nimbus/nimbus2.jpg',7);
-insert into image (path, offer_id) values ('/img/ship/dionis/dionis.jpg',8);
-insert into image (path, offer_id) values ('/img/ship/dionis/dionis1.jpg',8);
-insert into image (path, offer_id) values ('/img/ship/party/party.jpg',9);
-insert into image (path, offer_id) values ('/img/ship/party/party2.jpg',9);
-insert into image (path, offer_id) values ('/img/ship/party/party1.jpg',9);
-insert into image (path, offer_id) values ('/img/ship/silverstar/silverstar1.jpg',10);
-insert into image (path, offer_id) values ('/img/ship/silverstar/silverstar.jpg',10);
-insert into image (path, offer_id) values ('/img/cottage/4/238068376.jpg', 1);
-insert into image (path, offer_id) values ('/img/cottage/3/132308681.jpg', 3);
-insert into image (path, offer_id) values ('/img/cottage/1/331714665.jpg', 4);
-insert into image (path, offer_id) values ('/img/cottage/2/169294777.jpg', 5);
-insert into image (path, offer_id) values ('/img/cottage/1/331714665.jpg', 6);
+insert into image (path, offer_id) values ('/nimbus.jpg', 7);
+insert into image (path, offer_id) values ('/nimbus1.jpg', 7);
+insert into image (path, offer_id) values ('/nimbus2.jpg',7);
+insert into image (path, offer_id) values ('/dionis.jpg',8);
+insert into image (path, offer_id) values ('/dionis1.jpg',8);
+insert into image (path, offer_id) values ('/party.jpg',9);
+insert into image (path, offer_id) values ('/party2.jpg',9);
+insert into image (path, offer_id) values ('/party1.jpg',9);
+insert into image (path, offer_id) values ('/silverstar1.jpg',10);
+insert into image (path, offer_id) values ('/silverstar.jpg',10);
+insert into image (path, offer_id) values ('/238068376.jpg', 1);
+insert into image (path, offer_id) values ('/132308681.jpg', 3);
+insert into image (path, offer_id) values ('/331714665.jpg', 4);
+insert into image (path, offer_id) values ('/169294777.jpg', 5);
+insert into image (path, offer_id) values ('/331714665.jpg', 6);
 
-insert into image (path, offer_id) values ('/img/ship/4/41.jpg', 7);
-insert into image (path, offer_id) values ('/img/ship/3/31.jpg', 10);
-insert into image (path, offer_id) values ('/img/ship/2/21.jpg', 9);
-insert into image (path, offer_id) values ('/img/ship/1/11.jpg', 8);
+insert into image (path, offer_id) values ('/41.jpg', 7);
+insert into image (path, offer_id) values ('/31.jpg', 10);
+insert into image (path, offer_id) values ('/21.jpg', 9);
+insert into image (path, offer_id) values ('/11.jpg', 8);
 
-insert into image (path, offer_id) values ('/img/instructor/206076_pecanje_zalazak_sunca.jpg', 13);
-insert into image (path, offer_id) values ('/img/instructor/images.jpg', 14);
-insert into image (path, offer_id) values ('/img/instructor/906z513_PECANJE2310pog.jpg', 11);
-insert into image (path, offer_id) values ('/img/instructor/maxresdefault.jpg', 12);
+insert into image (path, offer_id) values ('/206076_pecanje_zalazak_sunca.jpg', 13);
+insert into image (path, offer_id) values ('/images.jpg', 14);
+insert into image (path, offer_id) values ('/906z513_PECANJE2310pog.jpg', 11);
+insert into image (path, offer_id) values ('/maxresdefault.jpg', 12);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (true, '17.02.2022', 0, 50000, false, false, '14.02.2022.', 1, 4,false);
@@ -575,8 +579,9 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '27.05.2022', 2, 5000, false, false, '26.05.2022.', 12, 2,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '29.08.2022', 0, 5000, false, false, '28.08.2022.', 13, 1,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '29.05.2022', 0, 5000, false, false, '28.05.2022.', 13, 1,false);
-
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '26.06.2022', 0, 42542, false, false, '20.06.2022.', 1, 1,false);
 

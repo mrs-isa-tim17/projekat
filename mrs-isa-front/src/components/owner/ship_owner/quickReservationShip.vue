@@ -175,8 +175,8 @@ export default {
     },
     Validate() {
 
-      if (this.value === null) {
-        swal.fire("Niste odabrali vikendicu!");
+      if(this.value === null){
+        swal.fire("Niste odabrali brod!");
         return false;
       } else if (this.date === null) {
         swal.fire("Niste odabrali datum!");

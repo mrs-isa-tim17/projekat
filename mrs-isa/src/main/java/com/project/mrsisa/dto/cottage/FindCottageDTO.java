@@ -67,8 +67,8 @@ public class FindCottageDTO implements Serializable{
 			percents = new ArrayList<Double>();
 	        for(CancelCondition cc : conditions) {
 
-	        	this.days.add(cc.getDays());
-				this.percents.add(cc.getPrecent());
+	        	days.add(cc.getDays());
+				percents.add(cc.getPrecent());
 
 				}
 			System.out.println(this.days);

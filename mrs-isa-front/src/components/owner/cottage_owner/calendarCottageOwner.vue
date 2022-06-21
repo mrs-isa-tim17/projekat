@@ -116,8 +116,10 @@ export default {
     showCalendar(i){
       console.log(i);
       console.log(this.allCottages[i]);
-      this.cottageName = this.allCottages[i].name;
-      this.cottageId=this.allCottages[i].id;
+      if(this.allCottages.length > 0) {
+        this.cottageName = this.allCottages[i].name;
+        this.cottageId = this.allCottages[i].id;
+      }
       console.log(this.cottageId);
       console.log(this.cottageId);
       PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.cottageId).then((response) => {

@@ -12,7 +12,7 @@
           <input type="text" v-model="numberOffer"/>
 
           <div class="modal-footer" style="background-color:#31708E">
-            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
+            <button type="button" @click="back" class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editName" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
@@ -27,7 +27,7 @@ import swal from "sweetalert2";
 
 export default {
   name: "editPriceModal",
-  props: ["price", "index", "header"],
+  props: ["offerId","price", "index", "header"],
   created:
       function () {
         console.log(this.index);
@@ -38,7 +38,7 @@ export default {
     openForm() {
       console.log("forma");
       this.numberOffer = this.price;
-
+      this.id = this.offerId;
       var modalToggle = document.getElementById(this.index);
       ///myModal.show(modalToggle)
       $('#' + this.index).show(modalToggle);
@@ -61,6 +61,17 @@ export default {
         document.body.removeChild(modalBackdrops[0]);
         document.body.style.overflow = 'auto';
       }
+    },
+    back(){
+      const modal = document.getElementById(this.index);
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('style', 'display: none');
+      const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+      // remove opened modal backdrop
+      document.body.removeChild(modalBackdrops[0]);
+      document.body.style.overflow = 'auto';
     }
   },
   data() {
@@ -68,7 +79,8 @@ export default {
       modalId: "",
       numberOffer:"",
       dateStart:"",
-      firstDate:""
+      firstDate:"",
+      id:""
     }
   }
 }

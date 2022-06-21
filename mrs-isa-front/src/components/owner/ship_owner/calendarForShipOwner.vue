@@ -44,8 +44,10 @@ export default {
           this.allShips = response.data;
           console.log(this.allShips);
         })
-    this.shipId = 7;
-    this.shipName ="Nimbus 3100";
+    if(this.allShips <0) {
+      this.shipId = this.allShips[0].id;
+      this.shipName = this.allShips[0].name;
+    }
     PeriodAvailabilityUnavailabilityService.getAvailabilityPeriods(this.shipId).then((response) => {
       this.availabilityPeriod = response.data;
       console.log(this.availabilityPeriod);

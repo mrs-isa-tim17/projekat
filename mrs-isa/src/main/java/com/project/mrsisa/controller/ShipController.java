@@ -308,22 +308,25 @@ public class ShipController {
 		ship.setBehaviorRules(behRules);
 		List<CancelCondition> cancelConditions = new ArrayList<CancelCondition>();
 		List<Double> percents =  shipDTO.getPercents();
-		CancelCondition c1 = new CancelCondition(5, percents.get(0));
-		cancelConditions.add(c1);
-		cancelConditionService.save(c1);
+	    if(percents.size() > 0) {
+			CancelCondition c1 = new CancelCondition(5, percents.get(0));
+			cancelConditions.add(c1);
+			cancelConditionService.save(c1);
 
-		CancelCondition c2 = new CancelCondition(10, percents.get(1));
-		cancelConditions.add(c2);
-		cancelConditionService.save(c2);
+			CancelCondition c2 = new CancelCondition(10, percents.get(1));
+			cancelConditions.add(c2);
+			cancelConditionService.save(c2);
 
-		CancelCondition c3 = new CancelCondition(15, percents.get(2));
-		cancelConditions.add(c3);
-		cancelConditionService.save(c3);
+			CancelCondition c3 = new CancelCondition(15, percents.get(2));
+			cancelConditions.add(c3);
+			cancelConditionService.save(c3);
 
-		CancelCondition c4 = new CancelCondition(20, percents.get(3));
-		cancelConditions.add(c4);
-		cancelConditionService.save(c4);
+			CancelCondition c4 = new CancelCondition(20, percents.get(3));
+			cancelConditions.add(c4);
+			cancelConditionService.save(c4);
+		}
 		ship.setCancelCondition(cancelConditions);
+
 		ship.setNavigationEquipment(NavigationEquipment.valueOf(getValueOfNavEq(shipDTO.getNavigationEquipment())));
 
 		//jos promena, slike, pravila..

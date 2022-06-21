@@ -8,7 +8,7 @@
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
-        <PasswordAgainField id="passwordAgain" :password="user.password"/><br>
+        <PasswordAgainField id="passwordAgain" v-model="passwordAgain" :password="user.password"/><br>
         <PhoneField v-model="user.phoneNumber" /><br>
 
         <i class="fa fa-users"></i>
@@ -56,12 +56,9 @@
 </template>
 
 <script>
-import { reactive } from "vue";
 
 
 
-import useFormValidation from "@/validations/useFormValidation";
-import useSubmitButton from "@/validations/useSubmitButton";
 
 import NameField from "@/components/registration_components/NameField";
 import EmailField from "@/components/registration_components/EmailField";
@@ -73,7 +70,7 @@ import basicHeader from "@/components/main_site/main_home_page/basicHeader";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
 import swal from "sweetalert2";
-
+import useValidators from "@/validations/validators";
 
 export default {
   components: {
@@ -87,157 +84,204 @@ export default {
     basicHeader
   },
 
-  setup() {
-    let user = reactive({
-      name: "",
-      surname:"",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      userRole: "",
-      longitude: 0,
-      latitude: 0,
-      requestMessage:"klijent"
-    });
 
-    const { errors } = useFormValidation();
-    const { isSignupButtonDisabled } = useSubmitButton(user, errors);
 
-    const signUpButtonPressed = () => {
 
-      if (user.userRole === "1") {
-        user.requestMessage = "";
-      } else {
-        user.requestMessage = document.getElementById("request").value;
-      }
-      if (user.name == "") {
-        swal.fire({title: 'Unesite ime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
-      } else if (user.surname == "") {
-        swal.fire({title: 'Unesite prezime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
-      } else if (user.email == "") {
-        swal.fire({title: 'Unesite email!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
-      } else if (user.phoneNumber == "") {
-        swal.fire({
-          title: 'Unesite broj telefona!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (user.password == "") {
-        swal.fire({
-          title: 'Unesite lozinku ponovo!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (document.getElementById("passwordAgain").value == "") {
-        swal.fire({
-          title: 'Unesite lozinku ponovo!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (user.longitude == "" && user.latitude == "") {
-        swal.fire({title: 'Unesite adresu!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
-      } else if (user.userRole != 1 && user.requestMessage == "") {
-        swal.fire({
-          title: 'Unesite obrazloženje!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (user.userRole == "") {
-        swal.fire({
-          title: 'Izaberite vrstu korisnika!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (user.password == document.getElementById("passwordAgain").value) {
-        console.log(document.getElementById("passwordAgain").value);
-        swal.fire({
-          title: 'Lozinke se ne poklapaju!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else if (!Number.isInteger(parseInt(user.phoneNumber))) {
-        swal.fire({
-          title: 'Polje broj telefona treba da sadrži samo brojeve!',
-          background: 'white',
-          color: '#687864',
-          confirmButtonColor: '#687864'
-        });
-      } else {
 
-        loginServce.registration(user)
-            .then((response) => {
-              console.log("REGISTER");
-              console.log(user.userRole);
-              console.log(response.data);
-              if (response.data.successfull) {
-                if (user.userRole === "1") {
-                  swal.fire({
-                    title: "Uspešno",
-                    text: "Uspešno ste se registrovali, na vašu imejl adresu smo poslali mejl, molimo Vas verifikujte adresu.",
-                    background: 'white',
-                    color: 'black',
-                    confirmButtonColor: '#8DF172',
-                    timer: 3000,
-                  });
-                } else {
-                  swal.fire({
-                    title: "Uspešno",
-                    text: "Uspešno ste se registrovali, vaš zahtev je poslat adminu, molimo Vas sačekate da on odobri vaš zahtev.",
-                    background: 'white',
-                    color: 'black',
-                    confirmButtonColor: '#8DF172',
-                    timer: 3000,
-                  });
-                }
-                //uspesno
-              } else {
+methods: {
+  signUpButtonPressed() {
+
+    if (this.user.userRole === "1") {
+      this.user.requestMessage = "";
+    } else {
+      this.user.requestMessage = document.getElementById("request").value;
+    }
+    if (this.user.name == "") {
+      swal.fire({title: 'Unesite ime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+
+    } else if (this.user.surname == "") {
+      swal.fire({title: 'Unesite prezime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+    } else if (this.user.email == "") {
+      swal.fire({title: 'Unesite email!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+    } else if (this.user.phoneNumber == "") {
+      swal.fire({
+        title: 'Unesite broj telefona!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (this.user.password == "") {
+      swal.fire({
+        title: 'Unesite lozinku ponovo!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (document.getElementById("passwordAgain").value == "") {
+      swal.fire({
+        title: 'Unesite lozinku ponovo!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (this.user.longitude == "" && this.user.latitude == "") {
+      swal.fire({title: 'Unesite adresu!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+    } else if (this.user.userRole != 1 && this.user.requestMessage == "") {
+      swal.fire({
+        title: 'Unesite obrazloženje!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (this.user.userRole == "") {
+      swal.fire({
+        title: 'Izaberite vrstu korisnika!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (this.user.password == document.getElementById("passwordAgain").value) {
+      console.log(document.getElementById("passwordAgain").value);
+      swal.fire({
+        title: 'Lozinke se ne poklapaju!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    } else if (!Number.isInteger(parseInt(this.user.phoneNumber))) {
+      swal.fire({
+        title: 'Polje broj telefona treba da sadrži samo brojeve!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    }
+    else if(useValidators().isEmail("email", this.user.email) == "Nije ispravan email."){
+      swal.fire({
+        title: 'Nije ispravan email!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    }
+    else if(this.user.password.length < 4){
+      swal.fire({
+        title: 'Polje lozinka mora imati minimum 4 karaktera!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+    }
+    else if(this.passwordAgain.length < 4){
+      swal.fire({
+        title: 'Polje lozinka ponovo mora imati minimum 4 karaktera!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+
+    }
+    else if(this.user.name.length < 2){
+      swal.fire({
+        title: 'Polje ime mora imati minimum 2 karaktera!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+
+    }
+    else if(this.user.surname.length < 2){
+      swal.fire({
+        title: 'Polje prezime mora imati minimum 2 karaktera!',
+        background: 'white',
+        color: '#687864',
+        confirmButtonColor: '#687864'
+      });
+
+    }
+
+    else {
+console.log("ispravno");
+      loginServce.registration(this.user)
+          .then((response) => {
+            console.log("REGISTER");
+            console.log(this.user.userRole);
+            console.log(response.data);
+            if (response.data.successfull) {
+              if (this.user.userRole === "1") {
                 swal.fire({
-                  title: "Neuspešno",
-                  text: response.data.text,
+                  title: "Uspešno",
+                  text: "Uspešno ste se registrovali, na vašu imejl adresu smo poslali mejl, molimo Vas verifikujte adresu.",
                   background: 'white',
                   color: 'black',
-                  confirmButtonColor: '#FECDA6',
-                  timer: 1500,
+                  confirmButtonColor: '#8DF172',
+                  timer: 3000,
+                });
+              } else {
+                swal.fire({
+                  title: "Uspešno",
+                  text: "Uspešno ste se registrovali, vaš zahtev je poslat adminu, molimo Vas sačekate da on odobri vaš zahtev.",
+                  background: 'white',
+                  color: 'black',
+                  confirmButtonColor: '#8DF172',
+                  timer: 3000,
                 });
               }
-            })
-            .catch(console.log("PROBLEM"));
-      }
-    };
-    return { user, signUpButtonPressed, isSignupButtonDisabled };
-  },
-  data(){
-    return{
-      text:"",
-      index:""
+              //uspesno
+            } else {
+              swal.fire({
+                title: "Neuspešno",
+                text: response.data.text,
+                background: 'white',
+                color: 'black',
+                confirmButtonColor: '#FECDA6',
+                timer: 1500,
+              });
+            }
+          })
+          .catch(console.log("PROBLEM"));
     }
   },
-  methods:{
-    updateCoordinats(lon, lat){
+    updateCoordinats(lon, lat)
+    {
       this.user.longitude = lon;
       this.user.latitude = lat;
       console.log(lon, lat)
     },
-    changeUserType(){
+    changeUserType()
+    {
       this.user.userRole = document.getElementById("roles").value;
-      if(this.user.userRole != '1'){
+      if (this.user.userRole != '1') {
         console.log("nije");
         console.log(document.getElementById("request").disabled);
         document.getElementById("request").disabled = false;
         console.log(document.getElementById("request").disabled);
-      }
-      else{
+      } else {
         document.getElementById("request").disabled = true;
       }
     }
   }
-};
+,
+  data() {
+    return {
+      text: "",
+      index: "",
+      user: {
+        name: "",
+        surname: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        userRole: "",
+        longitude: 0,
+        latitude: 0,
+        requestMessage: "klijent"
+      },
+      passwordAgain:""
+    }
+  },
+}
+
 </script>
 
 <style scoped>

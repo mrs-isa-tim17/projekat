@@ -14,7 +14,7 @@
           </div>
 
           <div class="modal-footer" style="background-color:#31708E">
-            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
+            <button type="button"  @click="back" class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editEq" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
@@ -81,6 +81,17 @@ export default {
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
 
+    },
+    back(){
+      const modal = document.getElementById(this.index);
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('style', 'display: none');
+      const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+      // remove opened modal backdrop
+      document.body.removeChild(modalBackdrops[0]);
+      document.body.style.overflow = 'auto';
     }
   },
   data(){

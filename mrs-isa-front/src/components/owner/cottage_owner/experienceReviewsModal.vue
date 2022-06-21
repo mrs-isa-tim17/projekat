@@ -8,11 +8,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="scrollable modal-body" >
+          <p id="noReview"></p>
           <div class=" p-2" v-for="(er,i) in allReviews"  :key="i">
          <div class="d-flex justify-content-center mw-90" >
             <div class="card mb-3 mw-90" style="width: 90%;">
               <div class=" row g-0" style="text-align:left; background-color: whitesmoke;color:#31708E;">
-                  <p>{{er.text}}</p>
+                  <p>Komentar: {{er.text}}</p>
                   <p>Ocena: {{er.rate}}</p>
                 <p>Klijent: {{er.clientName}} {{er.clientSurname}}</p>
               </div>
@@ -36,11 +37,17 @@ export default {
   created(){
         console.log(this.index);
         console.log(this.cottage);
-        this.offerId = this.cottage.id;
+        this.offerId = this.cottage;
         this.modalId = "#" + this.index;
         console.log(this.offerId);
         ReviewServce.getReviews(this.offerId).then((response)=> {
-              this.allReviews = response.data;
+              if (response.data.length == 0) {
+                document.getElementById("noReview").innerText = "Trenutno nema recenzija gostiju!"
+              } else {
+
+                console.log(response.data);
+                this.allReviews = response.data;
+              }
             }
         )
 

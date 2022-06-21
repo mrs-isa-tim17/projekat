@@ -10,11 +10,11 @@
         </div>
         <div class="modal-body" >
           <div v-for="(s,i) in this.services_for_show" :key="i" >
-            <input type="checkbox" width="20" height="20"  @change="checkService(s)">{{s}}
+            <input type="checkbox" name="service" width="20" height="20"  @change="checkService(s)">{{s}}
           </div>
 
           <div class="modal-footer" style="background-color:#31708E">
-            <button type="button"  class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
+            <button type="button" @click="back" class="btn btn-secondary" data-dismiss="modal">Otkaži</button>
             <button type="button" @click="editServices" class="btn btn-primary">Izmeni</button>
           </div>
         </div>
@@ -29,13 +29,17 @@ import $ from "jquery";
 export default {
 
   name: "editOfferServicesModal",
-  props: ["servicesList", "index", "header"],
+  props: ["offerId","servicesList", "index", "header"],
   created:
       function () {
 
         this.modalId = "#" + this.index;
         this.services_for_show = this.servicesList;
-
+        console.log(this.checked_services);
+        for(let i=0;i<this.checked_services.length;i++){
+          console.log(this.checked_services[i]);
+          this.checkService(this.checked_services[i]);
+        }
         /*console.log(this.servicesList);
         for(let i=0;i<this.allServices.length;i++){
           if((this.servicesList.includes(this.allServices[i]))){
@@ -55,6 +59,7 @@ export default {
 
       var modalToggle = document.getElementById(this.index);
       this.services_for_show = this.servicesList;
+      this.id = this.offerId;
       console.log(this.services_for_show);
       ///myModal.show(modalToggle)
       $('#' + this.index).show(modalToggle);
@@ -67,7 +72,7 @@ export default {
         console.log(i);
         console.log(this.checked_services[i]);
         this.checked_services.splice(i,1);
-        this.services_for_show.push(s);
+        //this.services_for_show.push(s);
         console.log("odcekirano");
         console.log(s);
         console.log(this.checked_services);
@@ -80,6 +85,7 @@ export default {
     editServices() {
       console.log(this.checked_services);
       this.$emit('edit-services', this.checked_services);
+
       const modal = document.getElementById(this.index);
       modal.classList.remove('show');
       modal.setAttribute('aria-hidden', 'true');
@@ -90,7 +96,18 @@ export default {
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
 
-    }
+    },
+    back(){
+      const modal = document.getElementById(this.index);
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('style', 'display: none');
+      const modalBackdrops = document.getElementsByClassName('modal-backdrop');
+
+      // remove opened modal backdrop
+      document.body.removeChild(modalBackdrops[0]);
+      document.body.style.overflow = 'auto';
+    },
   },
   data(){
     return{
@@ -105,7 +122,8 @@ export default {
         "teretana",
         ],
       services_for_show:[],
-      checked_services:[]
+      checked_services:[],
+      id:""
     }
   }
 }

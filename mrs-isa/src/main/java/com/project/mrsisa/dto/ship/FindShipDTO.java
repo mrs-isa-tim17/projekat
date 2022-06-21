@@ -185,12 +185,23 @@ public class FindShipDTO {
             behavioralRules.add(br.getText());
         }
 
-        days = new ArrayList<Integer>();
-        percents = new ArrayList<Double>();
-        for(CancelCondition cc : conditions) {
-            this.days.add(cc.getDays());
-            this.percents.add(cc.getPrecent());
+        days = new ArrayList<>();
+        days.add(5);
+        days.add(10);
+        days.add(15);
+        days.add(20);
+        percents = new ArrayList<>();
+        if(conditions.size() == 0){
+            percents.add(0.0);
+            percents.add(0.0);
+            percents.add(0.0);
+            percents.add(0.0);
+        }
+        else {
+            for (CancelCondition c : conditions) {
+                percents.add(c.getPrecent());
             }
+        }
 
         navigationEquipment = getNavEq(ship.getNavigationEquipment().getValue());
 

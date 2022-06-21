@@ -190,9 +190,19 @@ public class CottageController {
 		cottage.setPricelists(pricelists);
 
 		cottage.setCancelCondition(cancelConditions);
-		cottage = cottageService.save(cottage);
+
 		System.out.println(cottage.getId());
 		System.out.println(cottage.getName());
+		List<Image> images = new ArrayList<>();
+		for(String img : cottageDTO.getImages()){
+			System.out.println("imageee"+img);
+			Image image = new Image();
+			image.setOffer(cottage);
+			image.setPath("/"+img);
+			images.add(image);
+		}
+		cottage.setImages(images);
+		cottage = cottageService.save(cottage);
 		return new ResponseEntity<>(new CreateUpdateCottageDTO(cottage), HttpStatus.CREATED);
 	}
 
@@ -280,6 +290,11 @@ public class CottageController {
 
 		if (cottage == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(reservationService.haveFutureReservations(id)){
+			CreateUpdateCottageDTO dto = new CreateUpdateCottageDTO();
+			dto.setId(null);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		}
 
 		if (reservationService.haveFutureReservations(cottage.getId())){
