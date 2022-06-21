@@ -69,11 +69,15 @@ export default {
     definePeriod(){
       console.log(this.periodDate.start);
       console.log(this.periodDate.end);
+      let today = new Date();
       if(this.periodDate.start === "" || this.periodDate.end === ""){
         swal.fire({title:'Unesite i početni i krajnji datum!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
       else if(this.periodDate.end - this.periodDate.start < 1){
         swal.fire({title:'Krajnji datum ne može biti pre početnog!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else if(this.periodDate.end < today || this.periodDate.start){
+        swal.fire({title:'Unesite datume u budućnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
       else {
         this.$emit('define-period', this.periodDate);

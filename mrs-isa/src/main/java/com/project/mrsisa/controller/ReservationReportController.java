@@ -77,7 +77,7 @@ public class ReservationReportController {
 
 
     @GetMapping(value="/check/{id}")
-    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<Boolean> haveReservationReport(@PathVariable Long id){
         ReservationReport rp = reservationReportService.haveReservationReport(id);
 

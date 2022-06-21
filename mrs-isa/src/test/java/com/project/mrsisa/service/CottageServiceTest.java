@@ -59,7 +59,7 @@ public class CottageServiceTest {
         cottageList.add(cottage);
         co.setCottages(cottageList);
         cottage.setOwner(co);
-        when(cottageRepositoryMock.findByOwner()).thenReturn(Arrays.asList(new Student(DB_ID, DB_INDEX, DB_FIRST_NAME, DB_LAST_NAME)));
+       /* when(cottageRepositoryMock.findByOwner()).thenReturn(Arrays.asList(new Student(DB_ID, DB_INDEX, DB_FIRST_NAME, DB_LAST_NAME)));
         when(studentRepositoryMock.save(student)).thenReturn(student);
 
         // 2. Akcija

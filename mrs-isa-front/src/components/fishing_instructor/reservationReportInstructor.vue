@@ -1,5 +1,5 @@
 <template>
-  <button id="client" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
+  <button :id="buttonId" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
     Izveštaj o rezervaciji
   </button>
 
@@ -13,7 +13,7 @@
         <div class="modal-body" >
           <div class="row">
             <div class="col">
-            <textarea  rows="5" cols="35" name="text" v-model="reservationReport.report" placeholder="Unesite komentar"></textarea>
+              <textarea  rows="5" cols="35" name="text" v-model="reservationReport.report" placeholder="Unesite komentar"></textarea>
               <notifications
                   group="foo-css"
                   position="bottom left"
@@ -21,8 +21,8 @@
               />
             </div>
             <div class="col" style="text-align: left">
-            <input  style="height:18px;width:18px;" type="checkbox" id="penallty"  v-model="reservationReport.suggestedPenallty">
-            <label for="penallty"> Predlažem da klijent dobije 1 penal</label><br><br>
+              <input  style="height:18px;width:18px;" type="checkbox" id="penallty"  v-model="reservationReport.suggestedPenallty">
+              <label for="penallty"> Predlažem da klijent dobije 1 penal</label><br><br>
               <input style="height:18px;width:18px;" type="checkbox" id="unarrived"  v-model="reservationReport.unarrivedClient">
               <label for="unarrived">Klijent nije došao</label>
             </div>
@@ -44,14 +44,25 @@ import $ from "jquery";
 import ReservationReportService from "@/servieces/ReservationReportService";
 import swal from "sweetalert2";
 export default {
-  name: "reservationReport",
+  name: "reservationReportInstructor",
   props:["index","header","reservation","client"],
-  created:
-      function () {
-        console.log(this.index);
-        this.modalId = "#"+this.index;
-        console.log(this.reservation);
-      },
+  created(){
+    console.log(this.index);
+    this.buttonId = "button" + this.reservation.id;
+    this.modalId = "#"+this.index;
+
+    ReservationReportService.haveReservationReport(this.reservation.id).then((response)=>
+    {
+      console.log(this.reservation.id);
+      if(response.data){
+        console.log(response.data);
+        var button = document.getElementById(this.buttonId);
+        button.disabled = true;
+        console.log(button.disabled);
+      }
+    })
+
+  },
   methods: {
     openForm() {
       console.log("forma");
@@ -61,12 +72,14 @@ export default {
       $('#' + this.index).focus(modalToggle);
     },
     sendReport(){
-      console.log(this.reservationReport);
+      console.log(this.reservation);
       ReservationReportService.saveReservationReport(this.reservationReport).then((response)=>
-      {console.log(response.data);}
+          {console.log(response.data);
+            var button = document.getElementById(this.buttonId);
+            button.disabled = true;
+            swal.fire("Uspesno poslat izvestaj!")
+          }
       );
-
-
 
 
       const modal = document.getElementById(this.index);
@@ -76,7 +89,7 @@ export default {
       const modalBackdrops = document.getElementsByClassName('modal-backdrop');
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
-      swal.fire({title:'Uspešno dodat izveštaj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+
     }
 
   },
@@ -87,7 +100,8 @@ export default {
         reservationId:this.reservation.id,
         report:"",
         suggestedPenallty:false,
-        unarrivedClient:false
+        unarrivedClient:false,
+        buttonId:""
       }
     }
   }

@@ -72,7 +72,7 @@ export default {
       $('#' + this.index).focus(modalToggle);
     },
     sendReport(){
-      console.log(this.reservationReport);
+      console.log(this.reservation);
       ReservationReportService.saveReservationReport(this.reservationReport).then((response)=>
       {console.log(response.data);
         var button = document.getElementById(this.buttonId);

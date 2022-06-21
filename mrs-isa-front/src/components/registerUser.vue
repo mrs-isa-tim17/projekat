@@ -8,7 +8,7 @@
         <LastNameField v-model="user.surname"/><br>
         <EmailField v-model="user.email" /><br>
         <PasswordField v-model="user.password" /><br>
-        <PasswordAgainField id="passwordAgain"/><br>
+        <PasswordAgainField id="passwordAgain" :password="user.password"/><br>
         <PhoneField v-model="user.phoneNumber" /><br>
 
         <i class="fa fa-users"></i>
