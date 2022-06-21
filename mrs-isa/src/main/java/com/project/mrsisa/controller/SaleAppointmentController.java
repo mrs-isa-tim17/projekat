@@ -127,7 +127,7 @@ public class SaleAppointmentController {
 				saleAppointment.setAdditionalServices(additionalServices);
 				
 				saleAppointmentService.save(saleAppointment);
-	//			clientService.sendNotification(adventure, saleAppointment);
+				clientService.sendNotification(adventure, saleAppointment);
 			
 			} catch (MailSendException e1) {
 				// TODO Auto-generated catch block
@@ -335,6 +335,7 @@ public class SaleAppointmentController {
 			res.setExplanation(th.getMessage());
 			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
 		}catch (Exception e){
+			e.printStackTrace();
 			res.setSuccessful(false);
 			res.setExplanation("Došlo je do greške, probajte da rezervišete malo kasnije");
 			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);

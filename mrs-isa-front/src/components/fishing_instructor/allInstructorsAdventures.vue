@@ -15,7 +15,7 @@
     </div>
     <div class="p-2" v-for="adventure  in adventures" :key="adventure">
       <simple-adventure :adventure="adventure" :path=getImage(adventure) :key="myKey"
-                        @rerender="forceRerendering(adventure)"></simple-adventure>
+                        @rerender="catchDeleteEvent()"></simple-adventure>
     </div>
 
   </div>
@@ -49,6 +49,11 @@ export default {
       window.location.reload()
       this.myKey += 1;
     },
+
+    catchDeleteEvent() {
+      setTimeout(this.forceRerendering, 500);
+    },
+
     goToAddAdventure() {
       this.$router.push('/adventure/add');
     },

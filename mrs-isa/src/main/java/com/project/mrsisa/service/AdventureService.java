@@ -46,7 +46,7 @@ public class AdventureService {
 
 	@Cacheable("adventure")
 	public Adventure findOneById(Long id) {
-		LOG.info("Product with id: " + id + " successfully cached!");
+		LOG.info("Adventure with id: " + id + " successfully cached!");
 		return adventureRepository.findOneById(id);
 	}
 	
@@ -85,7 +85,7 @@ public class AdventureService {
 
 	@CacheEvict(cacheNames = {"adventure"}, allEntries = true)
 	public void removeFromCache(){
-		LOG.info("Products removed from cache!");
+		LOG.info("Adventures removed from cache!");
 	}
 
 	@CacheEvict(cacheNames = {"adventure"},key = "#id")

@@ -136,9 +136,18 @@ export default {
       this.mapKey++;
     },
 
-    fireAlertOn(eventText){
+    fireAlertOn(eventText) {
+      swal.fire({
+        title: "Obaveštenje",
+        text: eventText,
+        background: 'white',
+        color: 'black',
+        confirmButtonColor: '#FECDA6'
+      });
+    },
+      fireAlertOnSuccess(eventText){
         swal.fire({
-          title: "Obaveštenje",
+          title: "Uspešno",
           text: eventText,
           background: 'white',
           color: 'black',
@@ -151,10 +160,11 @@ export default {
       if (this.Validate()) {
         SaleAppointmentService.defineSaleAppointmentForOffer(this.adventure.id, this.saleAppointmentDTO).then((response) => {
           this.returnMessage = response.data;
-          this.fireAlertOn(this.returnMessage.text);
+
           console.log(this.returnMessage);
 
           if(this.returnMessage.successfull === true) {
+            this.fireAlertOnSuccess(this.returnMessage.text);
             const modal = document.getElementById(this.index);
             modal.classList.remove('show');
             modal.setAttribute('aria-hidden', 'true');
@@ -165,6 +175,8 @@ export default {
             document.body.style.overflow = 'auto';
 
             this.$emit('rerender-def');
+          }else{
+            this.fireAlertOn(this.returnMessage.text);
           }
 
 
