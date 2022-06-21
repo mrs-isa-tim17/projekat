@@ -58,8 +58,7 @@
           </td>
           <td>
             <div v-show="this.lastReservation(reservation)">
-              <reservationReport :index="getIndexReport(reservation.id)" :header="this.headerReport"
-                                 :reservation="reservation" :client="this.client"></reservationReport>
+              <reservation-report-instructor  :header="headerReport" :reservation="reservation" :client="getClient(reservation)" :index="getIndexReport(reservation.id)"></reservation-report-instructor>
             </div>
           </td>
 
@@ -75,13 +74,15 @@
 
 <script>
 import ClientProfile from "@/components/client/clientProfile";
-import reservationReport from "@/components/reservationReport";
+import ReservationReportInstructor from "@/components/fishing_instructor/reservationReportInstructor";
+import ClientServce from "@/servieces/ClientServce";
+
 
 export default {
   name: "simpleReservation",
   components: {
     ClientProfile,
-    reservationReport,
+    ReservationReportInstructor,
   },
   props: ["reservations"],
 
@@ -95,9 +96,20 @@ export default {
     getIndex(id) {
       return this.indexPr + id;
     },
+    getClient(reservation)
+    {
+      ClientServce.getClient(reservation.clientId).then((response)=>
+          {
+            this.client = response.data;
+            console.log(this.client);
+          }
+      );
+    },
 
     getIndexReport(id) {
-      return this.indexReport + id;
+      this.indexReport="";
+      this.indexReport = "report" + id;
+      return this.indexReport;
     },
     lastReservation(reservation) {
       let today = new Date();
