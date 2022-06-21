@@ -59,7 +59,7 @@ export default {
     },
 
     Answer(){
-      if(this.text===""){
+      if(this.textDTO.text===""){
         this.fireAlertOn("Unesite odgovor.");
       }else {
         const modal = document.getElementById(this.index);

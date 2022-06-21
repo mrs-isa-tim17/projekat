@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.StartEndDateDTO;
+import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.ship.FindShipsByOwnerDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
@@ -242,6 +243,11 @@ public class ShipController {
 		if (ship == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		if (reservationService.haveFutureReservations(ship.getId())){
+			shipDTO.setId(null);
+			return new ResponseEntity<>(shipDTO, HttpStatus.OK);
+		}
+
 		ship.setId(shipDTO.getId());
 		ship.getAddress().setLatitude(shipDTO.getLatitude());
 		ship.getAddress().setLongitude(shipDTO.getLongitude());

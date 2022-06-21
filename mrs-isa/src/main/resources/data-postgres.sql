@@ -578,16 +578,16 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
     (false, '29.05.2022', 0, 5000, false, false, '28.05.2022.', 13, 1,false);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '6.06.2022', 0, 42542, false, false, '4.06.2022.', 1, 1,false);
+    (false, '26.06.2022', 0, 42542, false, false, '20.06.2022.', 1, 1,false);
 
 
-insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id, ship_owner_present) values
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '26.04.2022', 0, 4000, false, false, '23.04.2022.', 1, 3,false);
-insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id, ship_owner_present) values
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '03.05.2022', 0, 4000, false, false, '01.05.2022.', 12, 3,false);
 
-insert into reservation (canceled, start_date, offer_type, price, quick, reviewed, end_date, client_id, offer_id, ship_owner_present) values
-    (false, '07.05.2022', 0, 4000, false, false, '03.06.2022.', 13, 4,false);
+insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
+    (false, '27.06.2022', 0, 4000, false, false, '20.06.2022.', 13, 4,false);
 
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '17.01.2022', 0, 100, false, false, '11.01.2022.', 12, 5,false);
@@ -747,4 +747,4 @@ insert into reservation_report(version, report_text, penallty, reservation_id, c
 		
 
 
-insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 9,1, 'PA imam vikendice, a ja hocu novac');
+insert into registration_request (registration_type, status, user_id, version,request_message) values (2, 0, 9,1, 'Avanturiste');

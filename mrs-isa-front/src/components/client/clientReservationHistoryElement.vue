@@ -20,9 +20,9 @@
                 </div>
 
                 <div class="col">
-                  Od: {{cottage.startDate}}
+                  Od: {{getDateFormat(cottage.startDate)}}
                   <br>
-                  Do: {{cottage.endDate}}
+                  Do: {{getDateFormat(cottage.endDate)}}
                   <br>
                   Cena: {{cottage.price}} din
                   <br>
@@ -62,6 +62,7 @@ import modalWithTextArea from "@/components/modalWithTextArea";
 import modalWithTextAreaAndRating from "@/components/modalWithTextAreaAndRating";
 import reviewServce from "@/servieces/ReviewServce";
 import complaintServce from "@/servieces/ComplaintServce";
+import Swal from "sweetalert2";
 export default {
   name: "clientReservationHistoryElement",
   components: {
@@ -77,6 +78,12 @@ export default {
     }
   },
   methods : {
+    getDateFormat(date) {
+      console.log("REZERVACIJA");
+      console.log(date);
+      let d = date[8] +date[9] + ". " +date[5]+date[6] + ". " +  date[0] +date[1]+date[2]+date[3] + ". " + date[11] + date[12] + ":" + date[14] + date[15];
+      return d;
+    },
     goToOffer(){
       this.$router.push('/book/' + this.type + '/site/' + +this.cottage.id);
     },
@@ -93,7 +100,12 @@ export default {
       }
       console.log(review);
       reviewServce.offerReviewed(review).then(() => {
-
+        Swal.fire({
+          icon: 'success',
+          title: 'Revizija je poslato',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.$emit('reviewed', this.cottage.reservationId);
       })
     },
@@ -108,7 +120,12 @@ export default {
       console.log(complaint);
       console.log(complaint);
       complaintServce.complaintOnOffer(complaint).then(() => {
-
+        Swal.fire({
+          icon: 'success',
+          title: 'Žalbe je poslato',
+          showConfirmButton: false,
+          timer: 1500
+        });
       })
     }
   },

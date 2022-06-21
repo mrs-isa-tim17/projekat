@@ -20,14 +20,15 @@
           <div class="p-2">
             <label>{{ descriptionLabel }}</label>
             <br>
-            <textarea type="text" ref="input" v-model="adventure.description" size="25" style="max-width: 200px; max-height: 400px;">
+            <textarea type="text" ref="input" v-model="adventure.description" size="25"
+                      style="max-width: 200px; max-height: 400px;">
             </textarea>
           </div>
 
           <div>
-            <label>{{addressLabel}} </label>
-          <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
-                      style="width: 400px; height: 400px; visibility: visible"></openLayers>
+            <label>{{ addressLabel }} </label>
+            <openLayers :lon="adventure.longitude" :lat="adventure.latitude" @coordinate-changed="updateCoordinats"
+                        style="width: 400px; height: 400px; visibility: visible"></openLayers>
 
           </div>
 
@@ -41,7 +42,7 @@
           <div class="p-2">
             <div class="mb-3">
               <label for="formFile" class="form-label">{{ imgLabel }}</label>
-              <input class="form-control" type="file"  id="formFile" >
+              <input class="form-control" type="file" id="formFile">
             </div>
           </div>
 
@@ -54,7 +55,8 @@
           <div class="p-2">
             <label>{{ biographyLabel }}</label>
             <br>
-            <textarea type="text" ref="input" v-model="adventure.instructorBiography" size="25" style="max-width: 200px; max-height: 400px">
+            <textarea type="text" ref="input" v-model="adventure.instructorBiography" size="25"
+                      style="max-width: 200px; max-height: 400px">
             </textarea>
           </div>
           <br>
@@ -131,8 +133,8 @@
                                                                                       size="15"/> %
               ukupnog iznosa</p>
             <p>Za odustanak od rezervacije <b>16</b> i više dana pre termina plaća se <input type="number"
-                                                                                      v-model="adventure.p4"
-                                                                                      size="15"/> %
+                                                                                             v-model="adventure.p4"
+                                                                                             size="15"/> %
               ukupnog iznosa</p>
 
           </div>
@@ -158,6 +160,7 @@ import openLayers from "@/components/VueMaps";
 import BehaviorRulesService from "@/servieces/BehaviorRulesService";
 import AdditionalServicesService from "@/servieces/AdditionalServicesService";
 import FishingEquipmentService from "@/servieces/FishingEquipmentService";
+import swal from "sweetalert2";
 
 export default {
   name: "updateAdventure",
@@ -219,23 +222,31 @@ export default {
       if (this.adventure.name === "" || this.adventure.capacity == null || this.adventure.instructorBiography === "" || this.adventure.description === "") {
         document.getElementById("message").innerText = this.message;
         document.getElementById("message").style.color = 'red';
-      } else if (this.isDouble(this.adventure.price)===false){
+      } else if (this.isDouble(this.adventure.price) === false) {
         document.getElementById("message").innerText = "Unesite cenu brojčano";
         document.getElementById("message").style.color = 'red';
-      }
-      else if (this.isDouble(this.adventure.capacity)===false){
+      } else if (this.isDouble(this.adventure.capacity) === false) {
         document.getElementById("message").innerText = "unesite kapacitet brojčano";
         document.getElementById("message").style.color = 'red';
-      }
-      else {
+      } else {
         //axios
         AdventureService.updateAdventure(this.adventure).then((response) => {
           this.adventure = response.data;
-          document.getElementById("message").style.color = 'green';
-          document.getElementById("message").innerText = this.successMessage;
-          console.log(this.adventure);
-          //    this.$router.push('/instructor/adventures/')
-          this.disable = false;
+          if (this.adventure.id === null) {
+            swal.fire({
+              title: "Neuspešno",
+              text: "Avantura ima rezervacije",
+              background: 'white',
+              color: 'black',
+              confirmButtonColor: '#FECDA6'
+            });
+          } else {
+            document.getElementById("message").style.color = 'green';
+            document.getElementById("message").innerText = this.successMessage;
+            console.log(this.adventure);
+            //    this.$router.push('/instructor/adventures/')
+            this.disable = false;
+          }
         }).catch(function (error) {
           console.log(error.toJSON());
           if (error.response) {
@@ -281,83 +292,83 @@ export default {
         this.$router.push('/adventures/detail/' + id);
       }
     }
-      /* }
-     , mounted() {
-       this.backup = [this.adventure.name, this.adventure.description, this.adventure.instructorBiography, this.adventure.capacity,
-         this.adventure.price];*/
+    /* }
+   , mounted() {
+     this.backup = [this.adventure.name, this.adventure.description, this.adventure.instructorBiography, this.adventure.capacity,
+       this.adventure.price];*/
 
   },
-    data() {
-      return {
-        disable: false,
+  data() {
+    return {
+      disable: false,
 
-        message: "Obavezno polje",
-        errorMessage: "Obavezno polje",
-        successMessage: "Uspešno izmenjena avantura",
+      message: "Obavezno polje",
+      errorMessage: "Obavezno polje",
+      successMessage: "Uspešno izmenjena avantura",
 
-        adventureNameLabel: "Naziv avanture*",
-        addressLabel: "Adresa*",
+      adventureNameLabel: "Naziv avanture*",
+      addressLabel: "Adresa*",
 
-        descriptionLabel: "Opis avanture*",
-        imgLabel: "Fotografije",
-        priceLabel: "Cena*",
-        capacityLabel: "Kapacitet*",
-        biographyLabel: "Biografija instruktora*",
+      descriptionLabel: "Opis avanture*",
+      imgLabel: "Fotografije",
+      priceLabel: "Cena*",
+      capacityLabel: "Kapacitet*",
+      biographyLabel: "Biografija instruktora*",
 
-        ruleLabel: "Pravila ponašanja*",
-        fishingEquipmentLabel: "Pecaroška oprema*",
-        additionalEquipmentLabel: "Dodatna oprema*",
-        cancelConditionsLabel: "Uslovi otkaza*",
+      ruleLabel: "Pravila ponašanja*",
+      fishingEquipmentLabel: "Pecaroška oprema*",
+      additionalEquipmentLabel: "Dodatna oprema*",
+      cancelConditionsLabel: "Uslovi otkaza*",
 
 
-        rule1: "dozvoljeno pecanje",
-        rule2: "zabranjeno pecanje",
-        rule3: "dozvoljeno kupanje",
-        rule4: "zabranjeno kupanje",
-        rule5: "volimo ljubimce",
+      rule1: "dozvoljeno pecanje",
+      rule2: "zabranjeno pecanje",
+      rule3: "dozvoljeno kupanje",
+      rule4: "zabranjeno kupanje",
+      rule5: "volimo ljubimce",
 
-        fishingEquipment1: "štapovi",
-        fishingEquipment2: "mamac",
-        fishingEquipment3: "udice",
-        fishingEquipment4: "čamac",
+      fishingEquipment1: "štapovi",
+      fishingEquipment2: "mamac",
+      fishingEquipment3: "udice",
+      fishingEquipment4: "čamac",
 
-        additionalEquipment1: "kabanica",
-        additionalEquipment2: "baterijska lampa",
+      additionalEquipment1: "kabanica",
+      additionalEquipment2: "baterijska lampa",
 
-        cancelRule1: "od manje 5",
-        cancelRule2: "od više 5",
-        cancelRule3: "od više 10",
-        cancelRule4: "od više 15",
-        cancelRule5: "od više 20",
+      cancelRule1: "od manje 5",
+      cancelRule2: "od više 5",
+      cancelRule3: "od više 10",
+      cancelRule4: "od više 15",
+      cancelRule5: "od više 20",
 
-        adventure: {
-          id: 2,
-          name: "",
-          latitude: "",
-          longitude: "",
-          description: "",
-          behaviorRules: [],
-          images: [],
-          fishingEquipment: [],
-          cancelConditions: [],
-          price: "",
-          capacity: "",
-          instructorBiography: "",
-          additionalServices: [],
-          days: ['5', '10', '15', '20'],
-          p1: 0,
-          p2: 0,
-          p3: 0,
-          p4: 0,
-          experienceReviews: [],
-          priceListId:""
-        },
+      adventure: {
+        id: 2,
+        name: "",
+        latitude: "",
+        longitude: "",
+        description: "",
+        behaviorRules: [],
+        images: [],
+        fishingEquipment: [],
+        cancelConditions: [],
+        price: "",
+        capacity: "",
+        instructorBiography: "",
+        additionalServices: [],
+        days: ['5', '10', '15', '20'],
+        p1: 0,
+        p2: 0,
+        p3: 0,
+        p4: 0,
+        experienceReviews: [],
+        priceListId: ""
+      },
 
-        behRules: [],
-        addServices: [],
-        fishEquip: [],
-      }
+      behRules: [],
+      addServices: [],
+      fishEquip: [],
     }
+  }
 }
 </script>
 

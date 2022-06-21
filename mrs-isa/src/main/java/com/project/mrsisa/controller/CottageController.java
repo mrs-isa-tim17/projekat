@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.project.mrsisa.domain.*;
+import com.project.mrsisa.dto.AdventureDTO;
 import com.project.mrsisa.dto.ShipDTO;
 import com.project.mrsisa.dto.StartEndDateDTO;
 import com.project.mrsisa.dto.cottage.FindCottagesDTO;
@@ -279,6 +280,11 @@ public class CottageController {
 
 		if (cottage == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (reservationService.haveFutureReservations(cottage.getId())){
+			cottageDTO.setId(null);
+			return new ResponseEntity<>(cottageDTO, HttpStatus.OK);
 		}
 
 		//cottage.setAddress(cottageDTO.getAddress());

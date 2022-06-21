@@ -69,6 +69,8 @@ public class RegistrationRequestController {
 			System.out.println("RRR");
 			System.out.println(request.getUserRef().getId());
 			User u = null;
+			System.out.println("ZAHTEV ZA REG");
+			System.out.println(request.getUserRef().getId());
 			if(request.getRegistrationType()==RegistrationType.COTTAGE_OWNER) {
 				u = cottageOwnerService.findOne(request.getUserRef().getId());
 			}else if(request.getRegistrationType()==RegistrationType.FISHING_INSTRUCTOR) {

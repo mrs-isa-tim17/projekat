@@ -87,13 +87,13 @@ export default {
     this.coID = JSON.parse(localStorage.user).id;
     console.log("klijent id");
     console.log(this.coID);
-    ClientServce.getCurrentClients(this.coID).then((response)=>
-    {
+    ClientServce.getCurrentClients(this.coID).then((response)=> {
       this.currentClients = response.data;
       console.log(this.currentClients);
-      for(let i=0;i<response.data.length;i++)
-          var emailCottage = response.data[i].clientEmail + " " + response.data[i].offerName;
+      for (let i = 0; i < response.data.length; i++) {
+      var emailCottage = response.data[i].clientEmail + " " + response.data[i].offerName;
       this.clientEmails.push(emailCottage);
+      }
     })
     console.log(this.clientEmails);
 
