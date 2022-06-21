@@ -33,8 +33,7 @@ import ReviewServce from "@/servieces/ReviewServce";
 export default {
   name: "experienceReviewsModal",
   props: ["cottage", "index", "header"],
-  created:
-      function () {
+  created(){
         console.log(this.index);
         console.log(this.cottage);
         this.offerId = this.cottage.id;

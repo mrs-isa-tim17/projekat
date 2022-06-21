@@ -13,6 +13,7 @@ class ReviewServce{
     }
 
     getReviews(id){
+        console.log(id);
         return axios.get(REVIEW_API_BASE_URL+'/all/'+id, {
             headers: authHeader()
         });

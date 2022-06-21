@@ -20,7 +20,6 @@ public class PricelistService {
 
 	}
 
-
 	
 	public List<Pricelist> findAll(){
 		return pricelistRepository.findAll();

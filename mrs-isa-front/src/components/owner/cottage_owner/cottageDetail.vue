@@ -6,7 +6,7 @@
         <br><br><br>
         <star-rating :rating="rating" :round-start-rating="false" style="width: 15px;"></star-rating>
     <!--    <star-rating :rating="4" :starWidth="20" :star-style="config "></star-rating><br>    -->
-       <experience-reviews-modal :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.cottage"></experience-reviews-modal><br><br>
+       <experience-reviews-modal :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.cottage"></experience-reviews-modal><br><br>
 
       </div>
       <div class="col-sm-7 align-content-center" >
@@ -76,7 +76,7 @@
 
         <div class="col-8" style="font-weight: bold;color:red;">Uslovi otkazivanja rezervacije</div>
             <div class="col-4">
-            <edit-cancel-conditions-modal :key="ccKey" :header="editCCHeader" :index="editCCIndex" :offer="cottage" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal></div>
+            <edit-cancel-conditions-modal :header="editCCHeader" :index="editCCIndex" :offer="cottage" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal></div>
          <br>
           <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d1}} dana pre početka, mora se uplatiti {{this.p1}}% od ukupne cene rezervacije.</p>
         <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d2}} dana pre početka, mora se uplatiti {{this.p2}}% od ukupne cene rezervacije.</p>
@@ -143,24 +143,26 @@ export default {
     //FontAwesomeIcon
     // VueGallerySlideshow
   },
-  created:
-      function () {
-        let id = this.$route.params.id
+  created(){
+        let id = this.$route.params.id;
+    console.log(id);
         CottageService.getCottage(id).then((response) => {
           this.cottage = response.data;
+          console.log(response.data);
           this.reviewKey++;
           this.ccKey++;
+        })
           for (let i = 0; i < this.cottage.images.length; i++) {
 
             var img = "@/assets/" + this.cottage.images[i];
 
             this.imagesCottage.push(img);
-          }})
+          }
           ReviewServce.getRating(id).then((response) =>
           {
             this.rating = response.data;
           })
-          console.log(this.cottage);
+          console.log(this.cottage.name);
           console.log(this.cottage.additionalServices);
           this.p1=this.cottage.percents[0];
           this.p2=this.cottage.percents[1];
@@ -174,7 +176,7 @@ export default {
         AdditionalServicesService.getAll().then((response)=>
             {
               this.services = response.data;
-              console.log(this.addServices);
+              console.log(this.services);
             }
 
         );
@@ -191,13 +193,11 @@ export default {
       ccKey:0,
       d1:"",d2:"",d3:"",d4:"",
       p1:"",p2:"",p3:"",p4:"",
-
       cottage: {
-
         bedQuantity: "",
         roomQuantity: "",
         additionalServices: [],
-        days: [],
+        days: [5,10,15,20],
         percents:[],
         experienceReviews: [],
         id: "",

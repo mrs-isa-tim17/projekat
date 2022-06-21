@@ -161,7 +161,7 @@ export default {
   },
   created:
       function () {
-        let id = this.$route.params.id
+        let id = this.$route.params.id;
         ShipService.getShip(id).then((response) => {
           console.log(response.data);
           this.ship = response.data;

@@ -2,8 +2,8 @@ package com.project.mrsisa.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
-import com.project.mrsisa.domain.AdditionalServices;
 import com.project.mrsisa.domain.Offer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +26,7 @@ public interface CottageRepository extends  JpaRepository<Cottage, Long>{
 	
 	public List<Cottage> findByOwner(CottageOwner owner);
 
+	public Optional<Cottage> findById(Long id);
 
 	@Transactional
     @Query(value = "SELECT * FROM cottage c WHERE c.deleted is false", nativeQuery = true)
