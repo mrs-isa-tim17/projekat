@@ -63,14 +63,14 @@ public class CottageServiceTest {
         when(studentRepositoryMock.save(student)).thenReturn(student);
 
         // 2. Akcija
-        int dbSizeBeforeAdd = studentService.findAll().size();
+        //int dbSizeBeforeAdd = studentService.findAll().size();
 
-        Student dbStudent = studentService.save(student);
+        //Student dbStudent = studentService.save(student);
 
-        when(studentRepositoryMock.findAll()).thenReturn(Arrays.asList(new Student(DB_ID, DB_INDEX, DB_FIRST_NAME, DB_LAST_NAME), student));
+        //when(studentRepositoryMock.findAll()).thenReturn(Arrays.asList(new Student(DB_ID, DB_INDEX, DB_FIRST_NAME, DB_LAST_NAME), student));
 
         // 3. Verifikacija: asertacije i/ili verifikacija interakcije sa mock objektima
-        assertThat(dbStudent).isNotNull();*/
+        ///assertThat(dbStudent).isNotNull();*/
     }
 
 

@@ -61,7 +61,7 @@ export default {
       this.$router.push('/book/' + this.offer.offerType.toLowerCase() + '/site/' + +this.offer.offerId);
     },
     formatDate(date){
-      return date[2] + ". " + date[1] + ". " + date[0] + " " + date[3] + ":" + date[4];
+      return date[2] + ". " + date[1] + ". " + date[0] + "." + " " + date[3] + ":" + date[4];
     },
     cancelReservation(){
       Swal.fire({

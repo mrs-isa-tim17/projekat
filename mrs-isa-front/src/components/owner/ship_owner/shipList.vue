@@ -11,7 +11,7 @@
   </div>
     <p style="font-size: 30px;">{{message}}</p>
     <div class="p-2" v-for="(s) in allShips"  :key="s.id">
-      <shipElement :ship="s"></shipElement>
+      <shipElement :ship="s" @rerender="forceRerendering"></shipElement>
     </div>
   </div>
 </template>

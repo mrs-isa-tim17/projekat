@@ -163,7 +163,11 @@ public class AdventureController {
 		System.out.println("update controler");
 		
 		Adventure adventure = adventureService.findOneById(adventureDTO.getId());
-	
+
+		if (reservationService.haveFutureReservations(adventure.getId())){
+			adventureDTO.setId(null);
+			return new ResponseEntity<>(adventureDTO, HttpStatus.OK);
+		}
 		
 		if (adventure == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

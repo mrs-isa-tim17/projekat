@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.StartEndDateDTO;
+import com.project.mrsisa.dto.cottage.CreateUpdateCottageDTO;
 import com.project.mrsisa.dto.ship.FindShipsByOwnerDTO;
 import com.project.mrsisa.dto.simple_user.OfferForHomePageViewDTO;
 import com.project.mrsisa.dto.simple_user.ShipForListViewDTO;
@@ -20,12 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.dto.ship.FindShipDTO;
 import com.project.mrsisa.dto.AdminOfferDTO;
@@ -213,7 +209,7 @@ public class ShipController {
 	}
 	
 
-	@PostMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/delete/{id}")
 	@PreAuthorize("hasRole('SHIP_OWNER') or hasRole('ADMIN')")
 	public ResponseEntity<Boolean> deleteShip(@PathVariable Long id) {
 
@@ -242,6 +238,11 @@ public class ShipController {
 		if (ship == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		if (reservationService.haveFutureReservations(ship.getId())){
+			shipDTO.setId(null);
+			return new ResponseEntity<>(shipDTO, HttpStatus.OK);
+		}
+
 		ship.setId(shipDTO.getId());
 		ship.getAddress().setLatitude(shipDTO.getLatitude());
 		ship.getAddress().setLongitude(shipDTO.getLongitude());

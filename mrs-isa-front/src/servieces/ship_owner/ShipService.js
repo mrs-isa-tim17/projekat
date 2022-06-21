@@ -37,7 +37,7 @@ class ShipService{
     }
     deleteShip(shipId){
 
-        return axios.post(SHIP_OWNER_API_BASE_URL + 'delete/'+ shipId,{
+        return axios.delete(SHIP_OWNER_API_BASE_URL + 'delete/'+ shipId,{
             headers: authHeader()
         });
     }

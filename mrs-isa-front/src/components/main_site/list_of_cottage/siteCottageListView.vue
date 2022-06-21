@@ -33,7 +33,7 @@
   </div>
 
   <div class="row">
-    <div class="col-3" style="width: 240px;">
+    <div class="col-3">
       <site-cottage-search-nav @filter="filterCottages"></site-cottage-search-nav>
     </div>
     <div class="col">

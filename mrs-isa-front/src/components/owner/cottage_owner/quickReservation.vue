@@ -64,6 +64,7 @@ import Multiselect from '@vueform/multiselect'
 import swal from "sweetalert2";
 import SaleAppointmentService from "@/servieces/SaleAppointmentService";
 import Datepicker from "@vuepic/vue-datepicker";
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
 
 export default {
   name: "quickReservation",
@@ -78,7 +79,13 @@ export default {
             this.cottagesName.push(response.data[i].name);
           console.log(this.cottagesName);
         });
+    AdditionalServicesService.getAll().then((response)=>
+        {
+          this.allSystemServices = response.data;
 
+        }
+
+    );
 
 
   },
@@ -101,7 +108,7 @@ export default {
         "spa": "fas fa-spa text-black",
         "teretana": "fas fa-dumbbell text-black",
       },
-      allSystemServices:["restoran","doručak","bar","wifi","bazen","spa","teretana"],
+      allSystemServices:[],
       saleAppointmentDTO: {
         id: "",
         offerId: "",

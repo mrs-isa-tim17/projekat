@@ -11,7 +11,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
             <li class="nav-item">
-              <a class="nav-link" :href="homeLink" style="color:white;font-size:20px;">Home</a>
+              <a class="nav-link" :href="homeLink" style="color:white;font-size:20px;">Početna strana</a>
             </li>
             <li class="nav-item">
               <div class="dropdown">

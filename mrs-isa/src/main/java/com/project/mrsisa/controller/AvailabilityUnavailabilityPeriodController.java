@@ -50,10 +50,21 @@ public class AvailabilityUnavailabilityPeriodController {
 	@PreAuthorize("hasRole('FISHINSTRUCTOR') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
 	public ResponseEntity<Boolean> defineAvailabilityPeriod(@PathVariable Long id, @RequestBody StartEndDateTimeDefineDTO startEndDateTimeDefineDTO){
 		//System.out.println("MILICAAA");
-		
 		PeriodAvailability periodAvailability = new PeriodAvailability();
-		Adventure adventure = adventureService.findOneById(id);
-		periodAvailability.setOffer(adventure);
+
+		if(startEndDateTimeDefineDTO.getOfferType().equals("cottage")){
+			Cottage cottage = cottageService.findOne(id);
+			periodAvailability.setOffer(cottage);
+		}
+		else if(startEndDateTimeDefineDTO.getOfferType().equals("ship")){
+			Ship ship = shipService.findOne(id);
+			periodAvailability.setOffer(ship);
+		}
+		else{
+			Adventure adventure = adventureService.findOneById(id);
+			periodAvailability.setOffer(adventure);
+		}
+
 		periodAvailability.setStartDate(startEndDateTimeDefineDTO.getStart().plusHours(2));
 		periodAvailability.setEndDate(startEndDateTimeDefineDTO.getEnd().plusHours(2));
 		

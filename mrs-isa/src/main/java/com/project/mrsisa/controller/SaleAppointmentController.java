@@ -179,6 +179,7 @@ public class SaleAppointmentController {
 				additionalServices.add(as);
 			}
 			saleAppointment.setOffer(cottage);
+			saleAppointment.setOfferType(OfferType.COTTAGE);
 			saleAppointment.setAdditionalServices(additionalServices);
 			saleAppointment.setPeopleQuantity(cottage.getBedQuantity());
 			ReserveEntityDTO reserveDTO = new ReserveEntityDTO();
@@ -193,6 +194,12 @@ public class SaleAppointmentController {
 			Reservation r = reservationService.makeReservation(reserveDTO,true);
 			saleAppointment.setReservation(r);
 			saleAppointmentService.save(saleAppointment);
+			try {
+				clientService.sendNotification(cottage, saleAppointment);
+			} catch (UnsupportedEncodingException e) {
+				return new ResponseEntity<>(new TextDTO("Pratoici nisu obavešteni o vašoj brzoj rezervaciji.") , HttpStatus.OK);
+			}
+
 			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
 		}
 		else {
@@ -242,7 +249,13 @@ public class SaleAppointmentController {
 			reserveDTO.setPrice(saleAppointmentDTO.getPrice());
 			Reservation r = reservationService.makeReservation(reserveDTO, true);
 			saleAppointment.setReservation(r);
+			saleAppointment.setOfferType(OfferType.SHIP);
 			saleAppointmentService.save(saleAppointment);
+			try {
+				clientService.sendNotification(ship, saleAppointment);
+			} catch (UnsupportedEncodingException e) {
+				return new ResponseEntity<>(new TextDTO("Pratoici nisu obavešteni o vašoj brzoj rezervaciji.") , HttpStatus.OK);
+			}
 			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
 		}
 		else {

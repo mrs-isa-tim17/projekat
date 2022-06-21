@@ -261,7 +261,7 @@ public class ReservationService {
         o.setPeriodUnavailabilities(periodUnavailabilityService.getListOfUnavailability(o.getId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()));
         boolean res = offerService.isGloballyFree(o, reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
         if (!res){
-            throw new NotAvailable("Neko je stigao pre");
+            throw new NotAvailable("Rezervacija za izabrani period nije moguća.");
         }
         List<AdditionalServices> additionalServices = formAdditionalServices(reserveEntityDTO.getChosenAdditionalServices());
         r.setStartDateTime(reserveEntityDTO.getFromDate());
