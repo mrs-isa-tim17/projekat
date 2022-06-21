@@ -70,10 +70,10 @@ export default {
               }else{
                 swal.fire({
                   title: "Neuspešno",
-                  text: "Već ste poslali zahtev za brisanje naloga.",
+                  text: "Nije moguće poslati zahtev za brisanje naloga.",
                   background: 'white',
                   color: '#687864',
-                  confirmButtonColor: '#687864'
+                  confirmButtonColor: '#FECDA6'
                 });
 
             }

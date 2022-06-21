@@ -76,7 +76,7 @@ export default {
         this.$emit('delete-user');
 
       }else{
-        this.fireAlertOn("Brisanje korisnika nije uspelo.");
+        this.fireAlertOn("Korisnika nije moguće obrisati jer ima zakazane rezervacije.");
 
       }
 

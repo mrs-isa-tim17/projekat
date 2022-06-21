@@ -571,9 +571,9 @@ insert into reservation (canceled, end_date, offer_type, price, quick, reviewed,
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '7.05.2022', 0, 4000, false, false, '3.05.2022.', 1, 1,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '9.05.2022', 0, 4000, false, false, '8.05.2022.', 13, 2,false);
+    (false, '9.05.2022', 2, 4000, false, false, '8.05.2022.', 13, 2,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
-    (false, '27.05.2022', 0, 5000, false, false, '26.05.2022.', 12, 2,false);
+    (false, '27.05.2022', 2, 5000, false, false, '26.05.2022.', 12, 2,false);
 insert into reservation (canceled, end_date, offer_type, price, quick, reviewed, start_date, client_id, offer_id, ship_owner_present) values
     (false, '29.05.2022', 0, 5000, false, false, '28.05.2022.', 13, 1,false);
 

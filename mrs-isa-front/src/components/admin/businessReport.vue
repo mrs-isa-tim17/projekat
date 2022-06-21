@@ -111,7 +111,11 @@ export default {
     showIncome() {
       if (this.businessReport.startDate === "" || this.businessReport.endDate === "") {
         this.fireAlertOn("Odaberite početni i krajnji datum za izveštaj");
-      } else {
+      }
+        else if(this.businessReport.startDate > this.businessReport.endDate ){
+        this.fireAlertOn("Poćetni datum mora biti pre krajnjeg.");
+      }
+       else {
         BusinessReportAdminService.getReport(this.businessReport).then((response) => {
           this.allReports = response.data;
           console.log(this.businessReport);

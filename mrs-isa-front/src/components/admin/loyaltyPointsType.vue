@@ -73,9 +73,11 @@ export default {
       } else {
         this.newPoints.type = 'OFFERER';
       }
-
+      let today = new Date();
       if(this.newPoints.points==="" || this.newPoints.startDate===""){
         this.fireAlertOn("Popunite sva polja kako biste definisali nove poene.", false);
+      } else if (this.newPoints.startDate < today){
+        this.fireAlertOn("Datum mora biti u budućnoti.", false);
       }
       else {
         LoyaltyProgramService.defineNewPoint(this.newPoints).then((response) => {
