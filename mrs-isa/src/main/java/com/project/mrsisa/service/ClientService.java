@@ -159,6 +159,9 @@ public class ClientService {
 
 		List<Client> clients = clientRepository.findAllBySubscriptionsId(offer.getId());
 
+		if (clients.size() == 0)
+			return;
+
 		LocalDateTimeToString format = new LocalDateTimeToString();
 
 		String subject = "Nova mogućnost za brzu rezervaciju";

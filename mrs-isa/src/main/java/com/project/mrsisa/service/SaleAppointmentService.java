@@ -79,6 +79,8 @@ public class SaleAppointmentService {
 		save(sa);
 		//Reservation r = new Reservation();
 		Client c = clientService.findOne(dto.getClientId());
+		r.setClient(c);
+		System.out.println(c.getId());
 		if (deleteRequestService.getIfUserMadeDeleteRequest(r.getClient().getId())){
 			throw new NotDefinedValue("Napravili ste zahtev za brisanje naloga, dok zahtev ne bude odbijen, nećete moći da rezervišete");
 		}

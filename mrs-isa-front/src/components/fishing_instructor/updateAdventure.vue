@@ -231,6 +231,7 @@ export default {
         //axios
         AdventureService.updateAdventure(this.adventure).then((response) => {
           this.adventure = response.data;
+          document.getElementById("message").style.color = 'green';
           document.getElementById("message").innerText = this.successMessage;
           console.log(this.adventure);
           //    this.$router.push('/instructor/adventures/')

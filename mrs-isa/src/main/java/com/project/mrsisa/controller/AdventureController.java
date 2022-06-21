@@ -337,16 +337,22 @@ public class AdventureController {
 		adventure.setCancelCondition(cancelConditions);
 		
 		
-		Pricelist pricelist = new Pricelist(adventureDTO.getPrice(),adventureDTO.getStartDatePrice());
+	/*	Pricelist pricelist = new Pricelist(adventureDTO.getPrice(),adventureDTO.getStartDatePrice());
 		pricelist.setOffer(adventure);
 		
 		ArrayList<Pricelist> pricelists = new ArrayList<Pricelist>();
 		pricelists.add(pricelist);
+		adventure.setPricelists(pricelists);  */
+		Pricelist pricelist = new Pricelist(adventureDTO.getPrice(), LocalDate.now());
+		pricelist.setOffer(adventure);
+		List<Pricelist> pricelists = new ArrayList<Pricelist>();
+		pricelists.add(pricelist);
+		pricelists.add(pricelist);
 		adventure.setPricelists(pricelists);
-		
-		
 
-		
+
+
+
 		List<Image> images = new ArrayList<Image>();    // kasnije
 				
 		

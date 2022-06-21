@@ -30,6 +30,7 @@
 
 <script>
 import AdventureService from "@/services/AdventureService";
+import swal from "sweetalert2";
 
 export default {
   name: "simple-adventure",
@@ -50,7 +51,30 @@ export default {
       console.log(this.adventure.id + "  za delete");
       AdventureService.deleteAdventure(this.adventure.id).then((response) => {
         console.log(response);
-        this.$emit('rerender');
+        this.answerDelete = response.data;
+        if(this.answerDelete === false){
+          swal.fire({
+            title: "Upozorenje",
+            text: "Nije moguće brisanje jer avantura ima zakazane rezervacije",
+            background: 'white',
+            color: 'black',
+            confirmButtonColor: '#FECDA6',
+            timer:2000
+          });
+        }
+        else{
+          swal.fire({
+            title: "Obaveštenje",
+            text: "Avantura je obrisana",
+            background: 'white',
+            color: 'black',
+            confirmButtonColor: '#8DF172',
+            timer: 2000
+          });
+          this.$emit('rerender');
+        }
+
+
       })
           .catch(function (error) {
             console.log(error.toJSON());
@@ -78,7 +102,8 @@ export default {
   data() {
     return {
       adventures: [],
-      defaultImg: '/img/instructor/adventurer.png'
+      defaultImg: '/img/instructor/adventurer.png',
+      answerDelete:false,
     }
   }
 }

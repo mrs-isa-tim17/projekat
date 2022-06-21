@@ -221,6 +221,7 @@ export default {
         AdventureService.saveAdventure(this.adventure).then((response) => {
           this.adventure = response.data;
           document.getElementById("message").innerText = this.successMessage;
+          document.getElementById("message").style.color = 'green';
           console.log(this.adventure)
           this.disable = true;
 

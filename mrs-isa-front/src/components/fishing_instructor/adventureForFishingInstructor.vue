@@ -274,6 +274,7 @@ export default {
         });
       }
     },
+
     forceRerendering() {
       window.location.reload()
       this.myKey += 1;

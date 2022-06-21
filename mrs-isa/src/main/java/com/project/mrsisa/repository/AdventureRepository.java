@@ -34,7 +34,7 @@ public interface AdventureRepository extends JpaRepository<Adventure, Long> {
 	List<Offer> findAllByClientId(long subscribers);
 
 
-	@Query(value="select * from adventure a where a.owner=?1",nativeQuery = true)
+	@Query(value="select * from adventure a where a.owner=?1 and a.deleted is false",nativeQuery = true)
 	public List<Adventure> findByOwnerId(Long id);
 
 	@Transactional
