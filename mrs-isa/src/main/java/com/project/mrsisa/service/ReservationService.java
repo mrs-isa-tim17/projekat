@@ -164,10 +164,14 @@ public class ReservationService {
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Reservation makeReservation(ReserveEntityDTO reserveEntityDTO, boolean quick) throws AlreadyCanceled, NotDefinedValue, NotAvailable, MessagingException, MailSendException, TooHighPenaltyNumber {
         Reservation r = new Reservation();
-        r.setQuick(quick);
-        if (reserveEntityDTO.getClientId() == -1){
+
+        System.out.println("idddddd" + reserveEntityDTO.getClientId());
+        if (reserveEntityDTO.getClientId() == null) {
+
+            r.setQuick(quick);
             r.setClient(null);
-        }else{
+        }
+        else{
             r.setClient(clientService.findOne(reserveEntityDTO.getClientId()));
             if (deleteRequestService.getIfUserMadeDeleteRequest(r.getClient().getId())){
                 throw new NotDefinedValue("Napravili ste zahtev za brisanje naloga, dok zahtev ne bude odbijen, nećete moći da rezervišete");

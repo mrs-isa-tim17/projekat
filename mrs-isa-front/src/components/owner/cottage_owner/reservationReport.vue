@@ -1,5 +1,5 @@
 <template>
-  <button id="client" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
+  <button :id="buttonId" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
     Izveštaj o rezervaciji
   </button>
 
@@ -46,19 +46,22 @@ import swal from "sweetalert2";
 export default {
   name: "reservationReport",
   props:["index","header","reservation","client"],
-  created:{
-      function () {
+  created(){
         console.log(this.index);
+        this.buttonId = "button" + this.reservation.reservationId;
         this.modalId = "#"+this.index;
-
-        ReservationReportService.haveReservationReport(this.reservation.id).then((response)=>
+    console.log(this.reservation.reservationId);
+        ReservationReportService.haveReservationReport(this.reservation.reservationId).then((response)=>
         {
+
           if(response.data){
-            var button = document.getElementById("client");
+            console.log(response.data);
+            var button = document.getElementById(this.buttonId);
             button.disabled = true;
+            console.log(button.disabled);
           }
         })
-      }
+
   },
   methods: {
     openForm() {
@@ -71,10 +74,12 @@ export default {
     sendReport(){
       console.log(this.reservationReport);
       ReservationReportService.saveReservationReport(this.reservationReport).then((response)=>
-      {console.log(response.data);}
+      {console.log(response.data);
+        var button = document.getElementById(this.buttonId);
+        button.disabled = true;
+        swal.fire("Uspesno poslat izvestaj!")
+      }
       );
-
-
 
 
       const modal = document.getElementById(this.index);
@@ -84,7 +89,7 @@ export default {
       const modalBackdrops = document.getElementsByClassName('modal-backdrop');
       document.body.removeChild(modalBackdrops[0]);
       document.body.style.overflow = 'auto';
-      swal.fire({title:'Uspešno dodat izveštaj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+
     }
 
   },
@@ -92,10 +97,11 @@ export default {
     return{
       reservationReport: {
         clientId:this.reservation.clientId,
-        reservationId:this.reservation.id,
+        reservationId:this.reservation.reservationId,
         report:"",
         suggestedPenallty:false,
-        unarrivedClient:false
+        unarrivedClient:false,
+        buttonId:""
       }
     }
   }

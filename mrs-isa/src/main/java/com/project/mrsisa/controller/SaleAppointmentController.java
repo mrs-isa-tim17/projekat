@@ -152,7 +152,7 @@ public class SaleAppointmentController {
 
 	@PostMapping(value = "/cottage/define/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('COTTAGE_OWNER')")
-	public ResponseEntity<TextDTO> defineSaleAppointmentCottage(@PathVariable Long id, @RequestBody SaleAppointmentDTO saleAppointmentDTO){
+	public ResponseEntity<TextDTO> defineSaleAppointmentCottage(@PathVariable Long id, @RequestBody SaleAppointmentDTO saleAppointmentDTO) throws MessagingException {
 
 		Cottage cottage = cottageService.findOne(id);
 
@@ -170,7 +170,7 @@ public class SaleAppointmentController {
 			saleAppointment.setPeopleQuantity(saleAppointmentDTO.getPeopleQuantity());
 			System.out.println(saleAppointmentDTO.getStartDateTime());
 			saleAppointment.setStartSaleDate(saleAppointmentDTO.getStartDateTime());
-			saleAppointment.setOfferType(OfferType.COTTAGE);
+			saleAppointment.setOfferType(OfferType.SHIP);
 
 			List<AdditionalServices> additionalServices = new ArrayList<AdditionalServices>();
 			for(String service : saleAppointmentDTO.getAdditionalServices())
@@ -180,7 +180,18 @@ public class SaleAppointmentController {
 			}
 			saleAppointment.setOffer(cottage);
 			saleAppointment.setAdditionalServices(additionalServices);
-
+			saleAppointment.setPeopleQuantity(cottage.getBedQuantity());
+			ReserveEntityDTO reserveDTO = new ReserveEntityDTO();
+			reserveDTO.setOfferType("cottage");
+			reserveDTO.setShipOwnerPresent(false); ////ovo proveri!!!!!!
+			reserveDTO.setChosenAdditionalServices(saleAppointmentDTO.getAdditionalServices());
+			reserveDTO.setOfferId(cottage.getId());
+			reserveDTO.setClientId(null);
+			reserveDTO.setFromDate(saleAppointmentDTO.getStartDateTime());
+			reserveDTO.setUntilDate(saleAppointmentDTO.getStartDateTime().plusDays((long) saleAppointmentDTO.getDuration()));
+			reserveDTO.setPrice(saleAppointmentDTO.getPrice());
+			Reservation r = reservationService.makeReservation(reserveDTO,true);
+			saleAppointment.setReservation(r);
 			saleAppointmentService.save(saleAppointment);
 			return new ResponseEntity<>(new TextDTO("Uspešno dodata akcija") , HttpStatus.CREATED);
 		}

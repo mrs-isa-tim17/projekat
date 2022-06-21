@@ -97,10 +97,11 @@ public class ShipController {
 
 
         for (Ship s : ships) {
-
-            List<Image> images = imageService.findAllByOfferId(s.getId());
-         	double price = pricelistService.getCurrentPriceOfOffer(s.getId());
-            shipsDTO.add(new FindShipsByOwnerDTO(s,images,price));
+			if(!s.isDeleted()) {
+				List<Image> images = imageService.findAllByOfferId(s.getId());
+				double price = pricelistService.getCurrentPriceOfOffer(s.getId());
+				shipsDTO.add(new FindShipsByOwnerDTO(s, images, price));
+			}
         }
         return new ResponseEntity<>(shipsDTO, HttpStatus.OK);
     }
@@ -326,6 +327,7 @@ public class ShipController {
 
 		//jos promena, slike, pravila..
 		Ship updatedShip=  shipService.save(ship);
+		shipService.removeOneFromCacheById(ship.getId());
 		for(AdditionalServices a : updatedShip.getAdditionalServices()){
 			System.out.println("aaddsss" + a.getName());
 		}

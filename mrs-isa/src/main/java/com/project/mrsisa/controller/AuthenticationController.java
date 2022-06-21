@@ -107,7 +107,7 @@ public class AuthenticationController {
 			return new ResponseEntity<>(textDTO, HttpStatus.CREATED);
 		}catch (Exception e){
 			textDTO.setSuccessfull(false);
-			textDTO.setText("Iz nekog razloga nismo bili u stanju da Vas registriramo, molimo Vas pokušavajte kasnije");
+			textDTO.setText("Iz nekog razloga nismo bili u stanju da Vas registrujemo, molimo Vas pokušavajte kasnije.");
 			return new ResponseEntity<>(textDTO, HttpStatus.OK);
 		}
 	}

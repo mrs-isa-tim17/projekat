@@ -82,8 +82,10 @@ public class ReservationReportController {
         ReservationReport rp = reservationReportService.haveReservationReport(id);
 
         if(rp == null){
+
             return new ResponseEntity<>(false,HttpStatus.OK);
         }
+		System.out.println("reportttt" + rp.getReportText());
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 

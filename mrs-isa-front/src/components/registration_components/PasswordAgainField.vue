@@ -22,11 +22,15 @@
 import { ref } from "vue";
 import useFormValidation from "@/validations/useFormValidation";
 export default {
-  setup() {
+  props: ['password'],
+
+  setup(props) {
+
     let input = ref("");
     const { validatePasswordAgainField, errors } = useFormValidation();
     const validateInput = () => {
-      validatePasswordAgainField("passwordAgain", input.value);
+      validatePasswordAgainField("passwordAgain", input.value,props.password);
+      console.log(validatePasswordAgainField("passwordAgain", input.value,props.password));
     };
     return { input, errors, validateInput };
   },

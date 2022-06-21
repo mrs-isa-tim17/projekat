@@ -4,7 +4,7 @@ export default function useValidators() {
         return !fieldValue ? "Polje je obavezno." : "";
     }
     const isEqual = (password, againPassword) => {
-        return !password===againPassword? "Lozinke se ne poklapaju":"";
+        return !(password==againPassword) ? "Lozinke se ne poklapaju":"";
     }
 
     const minLength = (fieldName, fieldValue, min) => {

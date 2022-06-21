@@ -1,5 +1,5 @@
 <template>
-  <button id="client" type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
+  <button type="button" @click="openForm"  class="btn btn-secondary" data-bs-toggle="modal" :data-bs-target=modalId>
     Profil klijenta
   </button>
   <br>

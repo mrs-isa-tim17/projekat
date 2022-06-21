@@ -52,7 +52,10 @@ export default {
           }
         })
 
-  }
+  },
+    forceRerendering(){
+      window.location.reload();
+    },
   },
   created(){
     this.filtered();

@@ -33,7 +33,7 @@
       </div>
         <br>
         <div style="text-align: left;font-size: 20px;text-decoration: underline;"><b>Dodatne usluge</b>
-          <edit-offer-services-modal :servicesList="this.cottage.additionalServices" :header="editServHeader" :index="editServ" @edit-services="editServices"></edit-offer-services-modal>
+          <edit-offer-services-modal :servicesList="services" :header="editServHeader" :index="editServ" @edit-services="editServices"></edit-offer-services-modal>
           <br>
             <div class="" style="display: inline-block;" v-for="(s,i) in this.cottage.additionalServices" :key="i">
               <i
@@ -45,7 +45,7 @@
         <div style="text-align: left;font-size: 20px;"><b>Kućni red</b>
           <edit-behavior-rules-modal :behaviorList="behavior" :header="behaviorHeader" :index="editBeh" @edit-rules="editRules"></edit-behavior-rules-modal>
           <br>
-          <div class="" style="display: inline-block;" v-for="(s,i) in this.behavior" :key="i">
+          <div class="" style="display: inline-block;" v-for="(s,i) in this.cottage.behavioralRules" :key="i">
             <i
                 class=" mr-1 text-primary"
                 :class="behavior_icons[s]"
@@ -117,6 +117,9 @@ import EditCancelConditionsModal from "@/components/owner/cottage_owner/editCanc
 //import lightbox from "vlightbox"
 // import VueGallerySlideshow from 'vue-gallery-slideshow'
 import StarRating from 'vue-star-rating'
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
+import BehaviorRulesService from "@/servieces/BehaviorRulesService";
+
 export default {
   name: "cottageDetail",
   components: {
@@ -152,7 +155,7 @@ export default {
             var img = "@/assets/" + this.cottage.images[i];
 
             this.imagesCottage.push(img);
-          }
+          }})
           ReviewServce.getRating(id).then((response) =>
           {
             this.rating = response.data;
@@ -167,7 +170,20 @@ export default {
           this.d2=this.cottage.days[1];
           this.d3=this.cottage.days[2];
           this.d4=this.cottage.days[3];
-        })
+
+        AdditionalServicesService.getAll().then((response)=>
+            {
+              this.services = response.data;
+              console.log(this.addServices);
+            }
+
+        );
+
+        BehaviorRulesService.getAll().then((response)=>
+            {
+              this.behavior = response.data;
+            }
+        )
       },
   data() {
     return {
@@ -175,7 +191,15 @@ export default {
       ccKey:0,
       d1:"",d2:"",d3:"",d4:"",
       p1:"",p2:"",p3:"",p4:"",
+
       cottage: {
+
+        bedQuantity: "",
+        roomQuantity: "",
+        additionalServices: [],
+        days: [],
+        percents:[],
+        experienceReviews: [],
         id: "",
         name: "",
         longitude: 0,
@@ -184,13 +208,9 @@ export default {
         behavioralRules: [],
         images: [],
         price: "",
-        priceStartDate:"",
-        bedQuantity: "",
-        roomQuantity: "",
-        additionalServices: [],
-        days: [],
-        percents:[],
-        experienceReviews: [],
+        priceListId:"",
+        ownerId:""
+
       },
       width: 600,
       height: 400,
@@ -221,8 +241,8 @@ export default {
         "dozvoljeno pušenje": "fas fa-smoking",
         "zabranjeno pušenje": "fas fa-smoking-ban",
       },
-      services:["bazen", "restoran","spa"],
-      behavior:["zabranjeno pušenje"],
+      services:[],
+      behavior:[],
       config: {
           fullStarColor: '#ed8a19',
           emptyStarColor: '#737373',
@@ -267,43 +287,106 @@ export default {
       }
       else{
         this.cottage.name=name;
-        CottageService.updateCottage(this.cottage);
-        swal.fire({title:'Uspešno izmenjeno ime!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=> {
+          if (this.cottage.name === response.data.name) {
+            swal.fire({
+              title: 'Uspešno izmenjen naziv!',
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          } else {
+            swal.fire({
+              title: 'Naziv nije izmenjen!',
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          }
+        })
       }
 
     },
     editDescription(description){
-      this.cottage.description = description;
-      CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno izmenjen opis!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      if (description === this.cottage.description) {
+        swal.fire({title: 'Opis je isti!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else {
+        this.cottage.description = description;
+        CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+          if(this.cottage.description === response.data.description){
+            swal.fire({title:'Uspešno izmenjen opis!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+          }
+          else{
+            swal.fire({title:'Opis nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+          }
+        })
+      }
     },
     editServices(checked_services){
       this.cottage.additionalServices = checked_services;
-      this.services = checked_services;
-      CottageService.updateCottage(this.cottage);
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+        console.log(response.data);
+        if(JSON.stringify(this.cottage.additionalServices) == JSON.stringify(response.data.additionalServices)){
+          swal.fire({title:'Uspešno izmenjene dodatne usluge!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Dodatne usluge nisu izmenjene!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      })
     },
     editRules(checked_behavior){
       this.cottage.behavioralRules = checked_behavior;
-      this.behavior = checked_behavior;
-      CottageService.updateCottage(this.cottage);
+      console.log(checked_behavior);
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+        if(JSON.stringify(this.cottage.behavioralRules) == JSON.stringify(response.data.behavioralRules)){
+          swal.fire({title:'Uspešno izmenjena pravila ponašanja!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Pravila ponašanja nisu izmenjena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      })
     },
     editCapacity(number){
       this.cottage.bedQuantity = number;
-      CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno izmenjen kapacitet vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+      console.log(response.data);
+
+        if(this.cottage.bedQuantity == response.data.bedQuantity){
+
+          swal.fire({title:'Uspešno izmenjen kapacitet!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Kapacitet nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      })
     },
     editRooms(number){
       this.cottage.roomQuantity = number;
-      CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno izmenjen broj soba vikendice!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+
+        if(this.cottage.roomQuantity == response.data.roomQuantity){
+
+          swal.fire({title:'Uspešno izmenjen broj soba!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Broj soba nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      })
 
     },
-    editPrice(price,startDate){
+    editPrice(price){
       this.cottage.price = price;
-      console.log(startDate);
-      this.cottage.priceStartDate = startDate;
-      CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno izmenjen cenovnik!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>{
+        if(this.cottage.price == response.data.price){
+          swal.fire({title:'Uspešno izmenjena cena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+        else{
+          swal.fire({title:'Cena nije izmenjena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        }
+      })
+
     },
     editCancelConditions(percents){
       this.cottage.percents = percents;
@@ -312,8 +395,14 @@ export default {
       this.p2=percents[1];
       this.p3=percents[2];
       this.p4=percents[3];
-      CottageService.updateCottage(this.cottage);
-      swal.fire({title:'Uspešno izmenjeni uslovi otkazivanja rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      CottageService.updateCottage(this.cottage,this.cottage.id).then((response)=>
+      {if(JSON.stringify(this.cottage.percents) == JSON.stringify(response.data.percents)){
+        swal.fire({title:'Uspešno izmenjeni uslovi otkazivanja rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      else{
+        swal.fire({title:'Uslovi otkazivanaja rezervacije nisu izmenjeni!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      }
+      })
     }
   }
 }
