@@ -27,7 +27,6 @@
 
       <button class="ui button red fluid big"
           @click="signUpButtonPressed"
-          :disabled="isSignupButtonDisabled"
               style="float:right;max-width:300px;background-color: #31708E;font-size:20px;color:whitesmoke;margin-bottom: 60px;">
         Registruj se
       </button>

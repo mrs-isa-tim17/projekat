@@ -19,13 +19,13 @@
                   {{cottage.description}}
                   <br>
                   <br>
-                  Broj soba: {{cottage.roomQuantity}}
-                  <br>
-                  Broj kreveta: {{cottage.bedQuantity}}
-                  <br>
                   Cena: {{parseFloat(cottage.price).toFixed(2)}}
                   <br>
                   Ocena: {{parseFloat(cottage.mark).toFixed(2)}}
+                  <br>
+                  Broj soba: {{cottage.roomQuantity}}
+                  <br>
+                  Broj kreveta: {{cottage.bedQuantity}}
                 </div>
 
                 <div class="col">

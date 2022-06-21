@@ -23,7 +23,7 @@ public interface ExperienceReviewRepository extends JpaRepository<ExperienceRevi
     //@Transactional//status reviewa
     @Query(value = "SELECT AVG(rate) FROM experience_review p WHERE p.offer_id = ?1 and p.rate <> -1 and p.offer_type = ?2 and p.status = 1",
             nativeQuery = true)
-    Optional<Double> findOffersCurrentPriceById(Long offerId, int offerType);
+    Optional<Double> findOffersCurrentRatingById(Long offerId, int offerType);
 
     @Query(value="SELECT * FROM experience_review r WHERE r.status=0", nativeQuery=true)
 	public List<ExperienceReview> findAllUnprocessedExperienceReview();

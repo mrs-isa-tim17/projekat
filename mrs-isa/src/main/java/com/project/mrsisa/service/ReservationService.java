@@ -166,7 +166,7 @@ public class ReservationService {
         Reservation r = new Reservation();
 
         System.out.println("idddddd" + reserveEntityDTO.getClientId());
-        if (reserveEntityDTO.getClientId() == null) {
+        if (reserveEntityDTO.getClientId() == -1) {
 
             r.setQuick(quick);
             r.setClient(null);

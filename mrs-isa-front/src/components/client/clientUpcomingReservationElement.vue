@@ -65,8 +65,8 @@ export default {
     },
     cancelReservation(){
       Swal.fire({
-        title: 'Jeste li sigurni da hoćete da otkažete rezervaciju?\n Otkazivanjem neki deo novca, oni sadrže, i kasnije' +
-            'nećete biti u stanju da isti entitet rezervišete u istom trenutku',
+        title: 'Jeste li sigurni da hoćete da otkažete rezervaciju?\n Otkazivanjem rezervacije neki deo novca zadržava vlasnik i kasnije' +
+            ' nećete biti u mogućnosti da režervišete istu ponudu za isti period.',
         //showDenyButton: true,
         showCancelButton: true,
         cancelButtonText: "Odustani",
@@ -82,7 +82,7 @@ export default {
                 if (response.data.successful) {
                   Swal.fire({
                     icon: 'success',
-                    title: 'Uspešno ste otkazali rezervaciju. Sadrže: ' + response.data.taken,
+                    title: 'Uspešno ste otkazali rezervaciju. Zadržan novac: ' + response.data.taken,
                     showConfirmButton: false,
                     timer: 1500
                   })

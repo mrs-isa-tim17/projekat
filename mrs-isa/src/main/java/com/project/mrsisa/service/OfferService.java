@@ -181,22 +181,22 @@ public class OfferService {
             return true;
         for (SaleAppointment pa : c.getSaleAppointments()){
             //before - less than zero				after - more than zero
-            if (pa.getStartSaleDate().isBefore(fromDate))
-                if (pa.getEndSaleDate().isBefore(untilDate))
-                    if (pa.getEndSaleDate().isAfter(fromDate))//nov
+            if (pa.getStartSaleDate().isBefore(fromDate) || pa.getStartSaleDate() == (fromDate))
+                if (pa.getEndSaleDate().isBefore(untilDate) || pa.getEndSaleDate() == untilDate)
+                    if (pa.getEndSaleDate().isAfter(fromDate) || pa.getEndSaleDate() == fromDate)//nov
                         return true;
 
-            if (pa.getStartSaleDate().isAfter(fromDate))
-                if (pa.getEndSaleDate().isAfter(untilDate))
-                    if (pa.getStartSaleDate().isBefore(untilDate))//nov
+            if (pa.getStartSaleDate().isAfter(fromDate) || pa.getStartSaleDate() == fromDate)
+                if (pa.getEndSaleDate().isAfter(untilDate) || pa.getEndSaleDate() == untilDate)
+                    if (pa.getStartSaleDate().isBefore(untilDate) || pa.getStartSaleDate() == untilDate)//nov
                         return true;
 
-            if (pa.getStartSaleDate().compareTo(fromDate) < 0)
-                if (pa.getEndSaleDate().compareTo(untilDate) > 0)
+            if (pa.getStartSaleDate().compareTo(fromDate) < 0|| pa.getStartSaleDate() == fromDate)
+                if (pa.getEndSaleDate().compareTo(untilDate) > 0|| pa.getEndSaleDate() == untilDate)
                     return true;
 
-            if (pa.getStartSaleDate().compareTo(fromDate) > 0)
-                if (pa.getEndSaleDate().compareTo(untilDate) < 0)
+            if (pa.getStartSaleDate().compareTo(fromDate) > 0|| pa.getStartSaleDate() == fromDate)
+                if (pa.getEndSaleDate().compareTo(untilDate) < 0|| pa.getEndSaleDate() == untilDate)
                     return true;
         }
         return false;
@@ -207,22 +207,22 @@ public class OfferService {
             return true;
         for (Reservation pa : c.getReservations()){
             //before - less than zero				after - more than zero
-            if (pa.getStartDateTime().isBefore(fromDate))
-                if (pa.getEndDateTime().isBefore(untilDate))
-                    if (pa.getEndDateTime().isAfter(fromDate))//nov
+            if (pa.getStartDateTime().isBefore(fromDate) || pa.getStartDateTime() == fromDate)
+                if (pa.getEndDateTime().isBefore(untilDate) || pa.getEndDateTime() == untilDate)
+                    if (pa.getEndDateTime().isAfter(fromDate)|| pa.getEndDateTime() == fromDate)//nov
                         return true;
 
-            if (pa.getStartDateTime().isAfter(fromDate))
-                if (pa.getEndDateTime().isAfter(untilDate))
-                    if (pa.getStartDateTime().isBefore(untilDate))//nov
+            if (pa.getStartDateTime().isAfter(fromDate)|| pa.getStartDateTime() == fromDate)
+                if (pa.getEndDateTime().isAfter(untilDate)|| pa.getEndDateTime() == untilDate)
+                    if (pa.getStartDateTime().isBefore(untilDate)|| pa.getStartDateTime() == untilDate)//nov
                         return true;
 
-            if (pa.getStartDateTime().compareTo(fromDate) < 0)
-                if (pa.getEndDateTime().compareTo(untilDate) > 0)
+            if (pa.getStartDateTime().compareTo(fromDate) <= 0)
+                if (pa.getEndDateTime().compareTo(untilDate) >= 0)
                     return true;
 
-            if (pa.getStartDateTime().compareTo(fromDate) > 0)
-                if (pa.getEndDateTime().compareTo(untilDate) < 0)
+            if (pa.getStartDateTime().compareTo(fromDate) >= 0)
+                if (pa.getEndDateTime().compareTo(untilDate) <= 0)
                     return true;
         }
         return false;

@@ -23,7 +23,7 @@
         <select style="width: 200px; margin-right: 100px; margin-left: 25px;" id="sortBy" @change="sortList" class="form-select" aria-label="Default select">
           <option selected>Sortiraj po</option>
           <option value="1">Naziv</option>
-          <option value="2">Location</option>
+          <option value="2">Lokacija</option>
           <option value="3">Ocena</option>
           <option value="4">Cena</option>
           <option value="5">Kapacitet</option>

@@ -424,7 +424,12 @@ public class CottageController {
 		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
 			@Override
 			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
-				return (int) (c1.getPrice() - c2.getPrice());
+				if (c1.getPrice() - c2.getPrice() > 0)
+					return 1;
+				else if (c1.getPrice() - c2.getPrice() < 0)
+					return -1;
+				else
+					return 0;
 			}
 		});
 		return cottagesDTO;
@@ -434,9 +439,15 @@ public class CottageController {
 		Collections.sort(cottagesDTO, new Comparator<CottageForListViewDTO>() {
 			@Override
 			public int compare(CottageForListViewDTO c1, CottageForListViewDTO c2) {
-				return (int) (c1.getMark() - c2.getMark());
+				if (c1.getMark() - c2.getMark() > 0)
+					return 1;
+				else if (c1.getMark() - c2.getMark() < 0)
+					return -1;
+				else
+					return 0;
 			}
 		});
+		Collections.reverse(cottagesDTO);
 		return cottagesDTO;
 	}
 

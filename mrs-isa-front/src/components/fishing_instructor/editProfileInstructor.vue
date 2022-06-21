@@ -1,14 +1,7 @@
 <template>
   <instructor-header></instructor-header>
-  <div class="container">
-    <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Uspesno izmenjeno!
-    </div>
-    <div class="alert alert-danger alert-dismissible fade show" id="notSuccessChangePass" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Lozinka nije uspesno izmenjena!
-    </div>
+  <div class="container m-2">
+
     <div class="row">
       <div class="col-4  d-flex justify-content-center" style=" border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>

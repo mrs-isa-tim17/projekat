@@ -217,7 +217,8 @@ export default {
           .then((response)=>{
             if(response.data){
               this.updatedOwner.password = new_password;
-              swal.fire("Lozinka je uspešno promenjena!");
+              swal.fire("Lozinka je uspešno promenjena! Molimo prijavite se ponovo.");
+              this.$router.push('/book/site/login');
             }
             else{
               swal.fire("Lozinka nije promenjena!");

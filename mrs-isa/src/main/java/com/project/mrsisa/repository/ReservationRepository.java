@@ -54,7 +54,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value="SELECT * FROM reservation r WHERE r.offer_id=?1 and (r.start_date < ?2 or r.start_date < ?3) and r.end_date > CURRENT_DATE and r.ship_owner_present", nativeQuery = true)
     List<Reservation> getReservationsForShipInPeriodWhenShipOwnerIsPresent(Long id, LocalDateTime fromDate, LocalDateTime untilDate);
 
-    @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date = ?3 and r.end_date = ?4 and r.offer_id = ?2", nativeQuery = true)
+    @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date = ?3 and r.end_date = ?4 and r.offer_id = ?2 and canceled", nativeQuery = true)
     Reservation checkIfClientCanceledReservationWithSameParametars(Long id, long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
 
     @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date > CURRENT_DATE", nativeQuery = true)

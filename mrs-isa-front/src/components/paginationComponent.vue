@@ -62,8 +62,11 @@ export default {
       this.$emit('pagination', newFromElement);
     },
     makeLast(){
-      let newFromElement = parseInt(this.numberOfElements) / parseInt(this.numberOfElementsToDisplay);
-      newFromElement = parseInt(this.numberOfElements) - parseInt(newFromElement);// this.numberOfElements - this.fromElement;
+      let newFromElement = this.numberOfElements % this.numberOfElementsToDisplay;
+      if (newFromElement == 0){
+        newFromElement = this.numberOfElementsToDisplay;
+      }
+      newFromElement = this.numberOfElements - newFromElement;
       this.countNewCurrentlyOn(newFromElement);
       this.$emit('pagination', newFromElement);
     }

@@ -17,6 +17,7 @@ import com.project.mrsisa.dto.simple_user.PaginationDTO;
 import com.project.mrsisa.exception.AlreadyCanceled;
 import com.project.mrsisa.exception.NotAvailable;
 import com.project.mrsisa.exception.NotDefinedValue;
+import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import com.project.mrsisa.service.CottageService;
 import com.project.mrsisa.service.ImageService;
 import com.project.mrsisa.service.ReservationService;
@@ -757,7 +758,10 @@ public class ReservationController {
             return ResponseEntity.ok(new ReserveEntityResponseDTO(na.getMessage()));
         }catch (NotDefinedValue ndv) {
             return ResponseEntity.ok(new ReserveEntityResponseDTO(ndv.getMessage()));
-        }catch (MailSendException mse){
+        }catch (TooHighPenaltyNumber ndv) {
+            return ResponseEntity.ok(new ReserveEntityResponseDTO(ndv.getMessage()));
+        }
+        catch (MailSendException mse){
             return ResponseEntity.ok(new ReserveEntityResponseDTO("Iz nekoga nismo bili u stanju da pošaljemo Vam mejl, kod zakazene rezervacije možete da vidite rezervaciju"));
         }catch (Exception e){
             e.printStackTrace();
