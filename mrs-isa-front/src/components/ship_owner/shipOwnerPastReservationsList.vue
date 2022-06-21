@@ -6,6 +6,7 @@
     <div class="p-2" v-for="(r) in allReservations"  :key="r.id">
       <shipOwnerPastReservationsElement :reservation="r"></shipOwnerPastReservationsElement>
     </div>
+    <p  style="font-size: 30px;"></p>
   </div>
 </template>
 
@@ -19,7 +20,8 @@ export default {
   data(){
     return{
       allReservations:null,
-      name:""
+      name:"",
+      message:""
     }
   },
   created(){
@@ -29,9 +31,15 @@ export default {
         .then((response)=>{
           this.allReservations= response.data;
           console.log(this.allReservations);
-          console.log(this.allReservations[0].name);
-          this.name = this.allReservations[0].name;
+          if(this.allReservations.length==0){
+            this.message="Nema prošlih rezervacija!";
+          }
+          else {
+            console.log(this.allReservations[0].name);
+            this.name = this.allReservations[0].name;
+          }
         })
+
   },
 }
 </script>

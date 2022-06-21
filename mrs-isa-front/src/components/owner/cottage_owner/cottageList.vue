@@ -9,7 +9,7 @@
         <button class="btn-sm" @click="addCottagePage" style="color: #31708E;border-color:#31708E;font-weight: bold;"><i class="fa fa-home" style="color: #31708E;"></i> Dodaj novu vikendicu</button>
       </div>
     </div>
-
+    <p style="font-size: 30px">{{message}}</p>
     <div class="p-2" v-for="(c) in allCottages"  :key="c.id">
       <cottageElement  @rerender="forceRerendering" :cottage="c"></cottageElement>
     </div>
@@ -30,7 +30,8 @@ export default {
       allCottages: null,
       myKey: 1,
       addNewCottage: "/cottage/add",
-      search:""
+      search:"",
+      message:""
     }
   },
 
@@ -58,6 +59,9 @@ export default {
             .then((response) => {
               if(!this.search) {
                 this.allCottages = response.data;
+                if(this.allCottages.length==0){
+                  this.message = "Nemate još uvek dodate vikendice";
+                }
                 console.log(this.allCottages);
               }
               else{

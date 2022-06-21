@@ -11,11 +11,11 @@ export default function useFormValidation() {
     const { isEmpty, minLength, isEmail, isNum, isEqual } = useValidators();
 
     const validateNameField = (fieldName, fieldValue) => {
-        errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 4)
+        errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 2)
     }
 
     const validateSurnameField = (fieldSurname, fieldValue) => {
-        errors[fieldSurname] = !fieldValue ? isEmpty(fieldSurname, fieldValue) : minLength(fieldSurname, fieldValue, 4)
+        errors[fieldSurname] = !fieldValue ? isEmpty(fieldSurname, fieldValue) : minLength(fieldSurname, fieldValue, 2)
     }
 
     const validateAddressField = (fieldAddress, fieldValue) => {
@@ -39,11 +39,11 @@ export default function useFormValidation() {
     }
 
     const validatePasswordField = (fieldName, fieldValue) => {
-        errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 8)
+        errors[fieldName] = !fieldValue ? isEmpty(fieldName, fieldValue) : minLength(fieldName, fieldValue, 4)
     }
 
     const validatePasswordAgainField = (fieldName, fieldValue,password) => {
-        errors[fieldName] = !fieldValue ? minLength(fieldName, fieldValue, 8) : isEqual(password,fieldValue)
+        errors[fieldName] = !fieldValue ? minLength(fieldName, fieldValue, 4) : isEqual(password,fieldValue)
         console.log(isEqual(password,fieldValue));
     }
    /* const validatePasswordConfirm = (password, passwordAgain) =>{

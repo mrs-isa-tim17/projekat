@@ -71,7 +71,7 @@ public class ReservationController {
 	private FishingInstructorService fishingInstructorService;
 
 
-    @RequestMapping(value = "/reservations/future/{id}")
+    @GetMapping(value = "/reservations/future/{id}")
     @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER')")
     public ResponseEntity<List<HistoryFutureReservationOwnerDTO>> getAllFutureReservationForOffer(@PathVariable Long id) {
 

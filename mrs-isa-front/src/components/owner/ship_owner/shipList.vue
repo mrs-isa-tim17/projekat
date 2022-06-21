@@ -9,6 +9,7 @@
       <button class="btn-sm "  @click="addShipPage"><i class="fa fa-ship"></i> Dodaj novi brod</button>
     </div>
   </div>
+    <p style="font-size: 30px;">{{message}}</p>
     <div class="p-2" v-for="(s) in allShips"  :key="s.id">
       <shipElement :ship="s"></shipElement>
     </div>
@@ -26,7 +27,8 @@ export default {
     return {
       allShips: null,
       myKey: 1,
-      search:""
+      search:"",
+      message:""
     }
   },
 
@@ -41,6 +43,9 @@ export default {
         .then((response) => {
           if(!this.search) {
             this.allShips = response.data;
+            if(this.allShips.length == 0){
+              this.message = "Nemate još uvek dodate brodove!";
+            }
             console.log(this.allShips);
           }
           else{

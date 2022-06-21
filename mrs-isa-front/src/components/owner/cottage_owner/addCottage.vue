@@ -21,9 +21,11 @@
         <br>
         <input id="engine_designation" name="engine_designation" type="text" style="max-width:200px;margin-left: 10px;" @blur="checkPrice" placeholder="Cena" v-model="cottage.price"><br>
         <br>
-        <label for="formFile" class="form-label">Slike broda</label><br>
+        <label for="formFile" class="form-label">Slike vikendice</label><br>
         <input class="form-control" type="file" :value="cottage.images" id="formFile" @change="onFileSelected">
+      <!--  <upload-images-modal :index="imageIndex" :header="imageHeader"></upload-images-modal>-->
         </div>
+
       <div class="col-3" >
 
         <div class="checkBox mt-2">
@@ -99,9 +101,11 @@ import AdditionalServicesService from "@/servieces/AdditionalServicesService";
 
 import BehaviorRulesService from "@/servieces/BehaviorRulesService";
 import swal from "sweetalert2";
+
 export default {
   name: "addCottage",
   components:{
+
 
     OpenMaps,
     cottageOwnerHeader,
@@ -126,6 +130,12 @@ export default {
         swal.fire({title:'Polje Broj soba mora biti broj!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
       },
+    onFileSelected (event) {
+      this.cottage.images.push(event.target.files[0].name);
+
+      console.log(this.cottage.images);
+
+    },
     checkCapacity(){
       if(this.cottage.bedQuantity === ""){
         swal.fire({title:'Unesite kapacitet!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
@@ -258,6 +268,8 @@ export default {
     return{
       addServices:null,
       behRules:null,
+      imageHeader:"headerImg",
+      imageIndex:"indexImg",
       cottage: {
         ownerId:"",
         name: "",

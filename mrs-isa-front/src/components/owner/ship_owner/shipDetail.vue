@@ -6,7 +6,7 @@
         <br><br><br>
         <star-rating :rating="rating" :round-start-rating="false" style="width: 15px;"></star-rating>
         <!--    <star-rating :rating="4" :starWidth="20" :star-style="config "></star-rating><br>    -->
-        <experience-reviews-modal :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" :cottage="this.ship"></experience-reviews-modal><br><br>
+        <experience-reviews-modal :cottage="id" :key="reviewKey" :header="experienceReviewsHeader" :index="experienceReviewsIndex" ></experience-reviews-modal><br><br>
         <br>
         <br>
         <br>
@@ -42,7 +42,7 @@
         </div>
         <br>
         <div style="text-align: left;font-size: 20px;text-decoration: underline;"><b>Dodatne usluge</b>
-          <edit-offer-services-modal :servicesList="this.addServices" :header="editServHeader" :index="editServ" @edit-services="editServices"></edit-offer-services-modal>
+          <edit-offer-services-modal :key="servicesKey" :servicesList="this.addServices" :header="editServHeader" :index="editServ" @edit-services="editServices"></edit-offer-services-modal>
           <br>
           <div class="" style="display: inline-block;" v-for="(s,i) in this.ship.additionalServices" :key="i">
             <i
@@ -52,7 +52,7 @@
           </div>
         </div><br>
         <div style="text-align: left;font-size: 20px;"><b>Pecaroška oprema</b>
-          <edit-fishing-equipment :eqList="this.fishEquipment" :header="headerEq" :index="indexEq" @edit-eq="editEquipment"></edit-fishing-equipment>
+          <edit-fishing-equipment :key="fishKey" :eqList="this.fishEquipment" :header="headerEq" :index="indexEq" @edit-eq="editEquipment"></edit-fishing-equipment>
           <br>
           <div class="" style="display: inline-block;" v-for="(s,i) in this.ship.fishingEquipment" :key="i">
             <i
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div style="text-align: left;font-size: 20px;"><b>Kućni red</b>
-          <edit-behavior-rules-modal :behaviorList="this.behavior" :header="behaviorHeader" :index="editBeh" @edit-rules="editRules"></edit-behavior-rules-modal>
+          <edit-behavior-rules-modal :key="behaviorKey" :behaviorList="this.behavior" :header="behaviorHeader" :index="editBeh" @edit-rules="editRules"></edit-behavior-rules-modal>
           <br>
           <div class="" style="display: inline-block;" v-for="(s,i) in ship.behavioralRules" :key="i">
             <i
@@ -91,7 +91,7 @@
 
           <div class="col-8" style="font-weight: bold;color:red;">Uslovi otkazivanja rezervacije</div>
           <div class="col-4">
-            <edit-cancel-conditions-modal :key="ccKey" :header="editCCHeader" :index="editCCIndex" :offer="ship" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal></div>
+            <edit-cancel-conditions-modal :key="ccKey" :header="editCCHeader" :index="editCCIndex" :p1="p1" :p2="p2" :p3="p3" :p4="p4" @edit-cancel-condition="editCancelConditions" ></edit-cancel-conditions-modal></div>
           <br>
           <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d1}} dana pre početka, mora se uplatiti {{this.p1}}% od ukupne cene rezervacije.</p>
           <p><b>*</b>Ukoliko se rezervacija otkaže {{this.d2}} dana pre početka, mora se uplatiti {{this.p2}}% od ukupne cene rezervacije.</p>
@@ -135,6 +135,7 @@ import AdditionalServicesService from "@/servieces/AdditionalServicesService";
 import EditFishingEquipment from "@/components/ship_owner/editFishingEquipment";
 import FishingEquipmentService from "@/servieces/FishingEquipmentService";
 import BehaviorRulesService from "@/servieces/BehaviorRulesService";
+import ReservationService from "@/servieces/ReservationService";
 export default {
   name: "shipDetail",
   components: {
@@ -162,6 +163,7 @@ export default {
   created:
       function () {
         let id = this.$route.params.id;
+        this.id = id;
         ShipService.getShip(id).then((response) => {
           console.log(response.data);
           this.ship = response.data;
@@ -175,12 +177,6 @@ export default {
           this.d4=this.ship.days[3];
           this.reviewKey++;
           this.ccKey++;
-          for (let i = 0; i < this.ship.images.length; i++) {
-
-            var img = "@/assets/" + this.ship.images[i];
-
-            this.imagesCottage.push(img);
-          }
         });
           ReviewServce.getRating(id).then((response) =>
           {
@@ -218,6 +214,9 @@ export default {
     return {
       reviewKey: 0,
       ccKey:0,
+      behaviorKey:0,
+      servicesKey:0,
+      fishKey:0,
       d1:"",d2:"",d3:"",d4:"",
       p1:"",p2:"",p3:"",p4:"",
       ship: {
@@ -303,7 +302,8 @@ export default {
       addServices:"",
       fishEquipment:"",
       indexEq:"equipmentIndex",
-      headerEq:"Izmena pecaroške opreme"
+      headerEq:"Izmena pecaroške opreme",
+      id:""
 
     }
   },
@@ -311,22 +311,46 @@ export default {
     onClick(i) {
       this.index = i;
     },
-    editOfferName(name){
+    editOfferName(name) {
 
-      if(name===""){
-        swal.fire({title:'Nemoguće izmeniti! Ponuda mora imati naziv!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-      }
-      else if(name === this.ship.name){
-        swal.fire({title:'Naziv je isti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-      }
-      else{
-        this.ship.name=name;
-        ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-          if(this.ship.name === response.data.name){
-            swal.fire({title:'Uspešno izmenjen naziv!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-          }
-          else{
-            swal.fire({title:'Naziv nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      if (name === "") {
+        swal.fire({
+          title: 'Nemoguće izmeniti! Ponuda mora imati naziv!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (name === this.ship.name) {
+        swal.fire({title: 'Naziv je isti!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else {
+        ReservationService.getFutureReservations(this.ship.id).then((response) => {
+          if (response.data.length > 0) {
+            var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+            swal.fire({
+              title: message,
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          } else {
+            this.ship.name = name;
+            ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+              if (this.ship.name === response.data.name) {
+                swal.fire({
+                  title: 'Uspešno izmenjen naziv!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              } else {
+                swal.fire({
+                  title: 'Naziv nije izmenjen!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              }
+            })
           }
         })
       }
@@ -335,97 +359,283 @@ export default {
       if (description === this.ship.description) {
         swal.fire({title: 'Opis je isti!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
       } else {
-        this.ship.description = description;
-        ShipService.updateShip(this.ship.id, this.ship).then((response)=>{
-          if(this.ship.description === response.data.description){
-            swal.fire({title:'Uspešno izmenjen opis!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-          }
-          else{
-            swal.fire({title:'Opis nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+        ReservationService.getFutureReservations(this.ship.id).then((response) => {
+          if (response.data.length > 0) {
+            var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+            swal.fire({
+              title: message,
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          } else {
+            this.ship.description = description;
+            ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+              if (this.ship.description === response.data.description) {
+                swal.fire({
+                  title: 'Uspešno izmenjen opis!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              } else {
+                swal.fire({
+                  title: 'Opis nije izmenjen!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              }
+            })
           }
         })
       }
     },
     editServices(checked_services){
-      this.ship.additionalServices = checked_services;
-      this.services = checked_services;
-      ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-        console.log(this.ship);
-        console.log(this.ship.additionalServices);
-        console.log(response.data);
-        if(JSON.stringify(this.ship.additionalServices) == JSON.stringify(response.data.additionalServices)){
-          swal.fire({title:'Uspešno izmenjene dodatne usluge!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Dodatne usluge nisu izmenjene!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      this.servicesKey++;
+      ReservationService.getFutureReservations(this.ship.id).then((response) => {
+        if (response.data.length > 0) {
+          var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+          swal.fire({
+            title: message,
+            background: 'white',
+            color: '#687864',
+            confirmButtonColor: '#687864'
+          });
+        } else {
+          this.ship.additionalServices = checked_services;
+          this.services = checked_services;
+          ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+            console.log(this.ship);
+            console.log(this.ship.additionalServices);
+            console.log(response.data);
+            if (JSON.stringify(this.ship.additionalServices) == JSON.stringify(response.data.additionalServices)) {
+              swal.fire({
+                title: 'Uspešno izmenjene dodatne usluge!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            } else {
+              swal.fire({
+                title: 'Dodatne usluge nisu izmenjene!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            }
+          })
         }
       })
     },
     editRules(checked_behavior){
-      this.ship.behavioralRules = checked_behavior;
-      this.behavior = checked_behavior;
-      console.log(checked_behavior);
-      ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-        if(JSON.stringify(this.ship.behavioralRules) == JSON.stringify(response.data.behavioralRules)){
-          swal.fire({title:'Uspešno izmenjena pravila ponašanja!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Pravila ponašanja nisu izmenjena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      this.behaviorKey++;
+      ReservationService.getFutureReservations(this.ship.id).then((response) => {
+        if (response.data.length > 0) {
+          var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+          swal.fire({
+            title: message,
+            background: 'white',
+            color: '#687864',
+            confirmButtonColor: '#687864'
+          });
+        } else {
+          this.ship.behavioralRules = checked_behavior;
+          this.behavior = checked_behavior;
+          console.log(checked_behavior);
+          ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+            if (JSON.stringify(this.ship.behavioralRules) == JSON.stringify(response.data.behavioralRules)) {
+              swal.fire({
+                title: 'Uspešno izmenjena pravila ponašanja!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            } else {
+              swal.fire({
+                title: 'Pravila ponašanja nisu izmenjena!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            }
+          })
         }
       })
     },
     editCapacity(number){
+      if(number==""){
+        swal.fire({
+          title: "Unesite kapacitet!",
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      }
+      else if(!Number.isInteger(parseInt(number))){
+        swal.fire({
+          title: "Kapacitet mora biti broj!",
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      }
+      else {
+        ReservationService.getFutureReservations(this.ship.id).then((response) => {
+          if (response.data.length > 0) {
+            var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+            swal.fire({
+              title: message,
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          } else {
+            this.ship.capacity = number;
 
-      this.ship.capacity = number;
+            ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+              console.log(this.ship.capacity);
+              console.log(response.data.capacity);
+              if (this.ship.capacity == response.data.capacity) {
 
-     ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-       console.log(this.ship.capacity);
-       console.log(response.data.capacity);
-       if(this.ship.capacity == response.data.capacity){
-
-         swal.fire({title:'Uspešno izmenjen kapacitet!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-       }
-       else{
-         swal.fire({title:'Kapacitet nije izmenjen!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-       }
-     })
+                swal.fire({
+                  title: 'Uspešno izmenjen kapacitet!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              } else {
+                swal.fire({
+                  title: 'Kapacitet nije izmenjen!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              }
+            })
+          }
+        })
+      }
     },
     editPrice(price){
-      this.ship.price = price;
-      console.log(this.ship);
-      ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-        if(this.ship.price == response.data.price){
-          swal.fire({title:'Uspešno izmenjena cena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Cena nije izmenjena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-      })
+      if(price==""){
+        swal.fire({
+          title: "Morate uneti cenu!",
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      }
+      else if(!Number.isInteger(parseInt(price))){
+        swal.fire({
+          title: "Cena mora biti broj!",
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      }else {
+        ReservationService.getFutureReservations(this.ship.id).then((response) => {
+          if (response.data.length > 0) {
+            var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+            swal.fire({
+              title: message,
+              background: 'white',
+              color: '#687864',
+              confirmButtonColor: '#687864'
+            });
+          } else {
+            this.ship.price = price;
+            console.log(this.ship);
+            ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+              if (this.ship.price == response.data.price) {
+                swal.fire({
+                  title: 'Uspešno izmenjena cena!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              } else {
+                swal.fire({
+                  title: 'Cena nije izmenjena!',
+                  background: 'white',
+                  color: '#687864',
+                  confirmButtonColor: '#687864'
+                });
+              }
+            })
+          }
+        })
+      }
     },
     editCancelConditions(percents){
-      this.ship.percents = percents;
-      console.log(this.ship.percents);
-      this.p1=percents[0];
-      this.p2=percents[1];
-      this.p3=percents[2];
-      this.p4=percents[3];
-      ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-        if(JSON.stringify(this.ship.percents) == JSON.stringify(response.data.percents)){
-          swal.fire({title:'Uspešno izmenjeni uslovi otkazivanja rezervacije!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Uslovi otkazivanaja rezervacije nisu izmenjeni!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+
+      ReservationService.getFutureReservations(this.ship.id).then((response) => {
+        if (response.data.length > 0) {
+          var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+          swal.fire({
+            title: message,
+            background: 'white',
+            color: '#687864',
+            confirmButtonColor: '#687864'
+          });
+        } else {
+          this.ship.percents = percents;
+          console.log(this.ship.percents);
+          this.p1 = percents[0];
+          this.p2 = percents[1];
+          this.p3 = percents[2];
+          this.p4 = percents[3];
+          this.ccKey++;
+          ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+            if (JSON.stringify(this.ship.percents) == JSON.stringify(response.data.percents)) {
+              swal.fire({
+                title: 'Uspešno izmenjeni uslovi otkazivanja rezervacije!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            } else {
+              swal.fire({
+                title: 'Uslovi otkazivanaja rezervacije nisu izmenjeni!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            }
+          })
         }
       })
     },
     editEquipment(equipments){
-      this.ship.fishingEquipment = equipments;
-      ShipService.updateShip(this.ship.id,this.ship).then((response)=>{
-        if(JSON.stringify(this.ship.fishingEquipment) == JSON.stringify(response.data.fishingEquipment)){
-          swal.fire({title:'Uspešno izmenjena pecaroška oprema!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
-        }
-        else{
-          swal.fire({title:'Pecaroška oprema nije izmenjena!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+      this.fishKey++;
+      ReservationService.getFutureReservations(this.ship.id).then((response) => {
+        if (response.data.length > 0) {
+          var message = "Za brod " + this.ship.name + " postoje nerealizovane rezervacije, tako da se ne može menjati!"
+          swal.fire({
+            title: message,
+            background: 'white',
+            color: '#687864',
+            confirmButtonColor: '#687864'
+          });
+        } else {
+          this.ship.fishingEquipment = equipments;
+          ShipService.updateShip(this.ship.id, this.ship).then((response) => {
+            if (JSON.stringify(this.ship.fishingEquipment) == JSON.stringify(response.data.fishingEquipment)) {
+              swal.fire({
+                title: 'Uspešno izmenjena pecaroška oprema!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            } else {
+              swal.fire({
+                title: 'Pecaroška oprema nije izmenjena!',
+                background: 'white',
+                color: '#687864',
+                confirmButtonColor: '#687864'
+              });
+            }
+          })
         }
       })
 
