@@ -69,6 +69,7 @@ export default {
   setup() {
     let user = reactive({
       name: "",
+      surname: "",
       email: "",
       phoneNumber: "",
       password: "",
@@ -83,29 +84,40 @@ export default {
     const signUpButtonPressed = () => {
       console.log("presssss");
       console.log(user);
-      loginServce.registration(user).then((response) => {
-        console.log("responseeee");
-        console.log(response.data);
-        if (response.data === null) {
-          swal.fire({
-            title: "Neuspešno",
-            text: "Korisnik već postoji",
-            background: 'white',
-            color: 'black',
-            confirmButtonColor: '#FECDA6'
-          });
-        } else {
-          swal.fire({
-            title: "Uspešno",
-            text: "Registrovali ste novog administratora",
-            background: 'white',
-            color: 'black',
-            confirmButtonColor: '#8DF172'
-          });
-          document.getElementById("register").style.visibility = "hidden";
+      if (user.email === "" || user.name === "" || user.surname === "" || user.phoneNumber === "" || user.password === "") {
+        swal.fire({
+          title: "Neuspešno",
+          text: "Unesite podatke",
+          background: 'white',
+          color: 'black',
+          confirmButtonColor: '#FECDA6'
+        });
+      } else {
+        loginServce.registration(user).then((response) => {
+          console.log("responseeee");
+          console.log(response.data);
+          if (response.data === null) {
+            swal.fire({
+              title: "Neuspešno",
+              text: "Korisnik već postoji",
+              background: 'white',
+              color: 'black',
+              confirmButtonColor: '#FECDA6'
+            });
+          } else {
+            swal.fire({
+              title: "Uspešno",
+              text: "Registrovali ste novog administratora",
+              background: 'white',
+              color: 'black',
+              confirmButtonColor: '#8DF172'
+            });
+            document.getElementById("register").style.visibility = "hidden";
 
-        }
-      });
+          }
+
+        });
+      }
     };
     return {user, signUpButtonPressed, isSignupButtonDisabled};
   },
@@ -117,6 +129,16 @@ export default {
     },
     changeUserType() {
       this.user.userRole = document.getElementById("roles").value;
+    },
+    validatePhoneNum(num) {
+      if (num.length > 10) {
+        return false
+      }
+      if (isNaN(num)) {
+        return true
+      } else {
+        return false;
+      }
     }
   }
 }

@@ -34,7 +34,7 @@
     </div>
 
     <div class="row">
-      <div class="col-3" style="width: 240px;">
+      <div class="col-3">
         <site-ship-search-nav @filter="filterShips"></site-ship-search-nav>
       </div>
       <div class="col">
