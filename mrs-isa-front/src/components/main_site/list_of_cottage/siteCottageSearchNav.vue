@@ -163,7 +163,7 @@ export default {
     Datepicker
   },
   created() {
-    if (localStorage.cottage != "null" && localStorage.cottage != "undefined"){
+    if (localStorage.cottage != "null" && localStorage.cottage != "undefined" && localStorage.cottage != undefined && localStorage.cottage != null){
       this.lon = JSON.parse(localStorage.cottage).longitude;
       this.lat = JSON.parse(localStorage.cottage).latitude;
       this.dateFrom = JSON.parse(localStorage.cottage).dateFrom;

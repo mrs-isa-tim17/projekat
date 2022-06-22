@@ -140,7 +140,8 @@ export default {
     Datepicker
   },
   created() {
-    if (localStorage.adventure != "null"&& localStorage.adventure != "undefined"){
+    console.log(localStorage.adventure);
+    if (localStorage.adventure != "null"&& localStorage.adventure != "undefined" && localStorage.adventure != undefined && localStorage.adventure != null){
       this.lon = JSON.parse(localStorage.adventure).longitude;
       this.lat = JSON.parse(localStorage.adventure).latitude;
       this.dateFrom = JSON.parse(localStorage.adventure).dateFrom;

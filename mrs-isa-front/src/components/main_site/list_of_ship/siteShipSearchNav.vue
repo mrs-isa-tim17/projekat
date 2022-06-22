@@ -164,7 +164,7 @@ export default {
   },
 
   created() {
-    if (localStorage.ship != null && localStorage.ship != "undefined"){
+    if (localStorage.ship != null && localStorage.ship != "undefined" && localStorage.ship != undefined && localStorage.ship != null){
       this.lon = JSON.parse(localStorage.ship).longitude;
       this.lat = JSON.parse(localStorage.ship).latitude;
       this.dateFrom = JSON.parse(localStorage.ship).dateFrom;
