@@ -22,6 +22,7 @@
 import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
 import { GChart } from 'vue-google-charts';
 import ReservationService from "@/servieces/ReservationService";
+import swal from "sweetalert2";
 export default {
   name: "graphIncome",
   components:{cottageOwnerHeader,
@@ -31,6 +32,7 @@ export default {
   function(){
     this.coId = JSON.parse(localStorage.user).id;
     var today = new Date();
+    console.log(today);
     var dd = today.getDate();
     var past = today.getMonth();
     var mm = today.getMonth()+1;
@@ -50,11 +52,13 @@ export default {
     }
 
     today = yyyy + "-" + mm + "-" + dd;
+    this.now = today;
     this.dateStart = today; //yyyy-mm-dd
     console.log(this.dateStart);
     this.datePast = yyyy + "-" + past + "-" + dd; //yyyy-mm-dd
     console.log(this.datePast);
     ReservationService.getReservationsPeriod(this.coId,this.datePast,this.dateStart).then((response)=> {
+
       console.log(response.data);
       this.chartData.push(['Vikendice', 'Rezervacije']);
       for(let i=0;i<response.data.length;i++){
@@ -68,6 +72,7 @@ export default {
       chartData : [],
       dateStart:"",
       datePast:"",
+      now:"",
       chartOptions: {
         chart: {
           title: 'Izveštaj o posećenosti',
@@ -85,15 +90,36 @@ export default {
       this.chartData = [];
       var start = document.getElementById('start').value;
       var end = document.getElementById('end').value;
+      console.log(this.now);
+      if(start > this.now || end > this.now){
+        console.log("vecee");
+        swal.fire({
+          title: "Ne možete uneti datum u budućnosti!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      }
+      else if(end < start){
+        swal.fire({
+          title: "Početni datum mora biti pre krajnjeg datuma!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      }
+      else{
       ReservationService.getReservationsPeriod(this.coId,start,end).then((response)=> {
         console.log(response.data);
         this.chartData.push(['Ponude', 'Rezervacije']);
         for(let i=0;i<response.data.length;i++){
           this.chartData.push([response.data[i].offerName,response.data[i].price]);
           console.log(this.chartData);
+          this.datePast = start;
+          this.dateStart = end;
         }
       })
-    }
+    }}
   }
 
 

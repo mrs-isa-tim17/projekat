@@ -24,7 +24,7 @@
           <edit-offer-name-modal :index="editName" :header="editNameHeader" :name="ship.name" @edit-name="editOfferName"></edit-offer-name-modal>
         </div>
 
-        <div style="text-align: left"><img :src="ship.images[0]" /><br></div>
+        <div style="text-align: left"> <images-carousel :image_paths="ship.images" style="width: 400px;height: 300px;"></images-carousel><br></div>
         <!--<offer-carousel :images="cottage.images" style="width:500px;"></offer-carousel>-->
         <!-- <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>-->
 
@@ -109,7 +109,7 @@
 
 
 import ReviewServce from "@/servieces/ReviewServce";
-
+import imagesCarousel from "@/components/imagesCarousel";
 //import StarRating from 'vue-dynamic-star-rating'
 
 //import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -153,6 +153,7 @@ export default {
     EditPriceModal,
     BirdVueMap,
     shipOwnerHeader,
+    imagesCarousel
 
     //StarRating,
 
@@ -181,6 +182,7 @@ export default {
           ReviewServce.getRating(id).then((response) =>
           {
             this.rating = response.data;
+            console.log(response.data);
           });
           console.log(this.ship);
         console.log(this.ship.percents);

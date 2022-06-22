@@ -19,7 +19,6 @@
           <div class="row">
             <div class="col-6">
               <div style="text-align:left;">
-                Adresa
               </div>
             </div>
           </div>
@@ -74,7 +73,8 @@ export default {
       deleteHeader:"Brisanje broda",
       btnDeleteName:"Izbriši brod",
       TypeOffer:"ship",
-      deleteKey:0
+      deleteKey:0,
+      rating:""
     }
   },
   created() {

@@ -15,11 +15,11 @@
        <edit-offer-name-modal :offerId="cottageId" :index="editName" :header="editNameHeader" :name="cottage.name" @edit-name="editOfferName"></edit-offer-name-modal>
         </div>
 
-      <div style="text-align: left"><img :src="cottage.images[0]" /><br></div>
+      <div style="text-align: left">   <images-carousel :image_paths="cottage.images" style="width: 400px;height: 300px;"></images-carousel><br></div>
        <!--<offer-carousel :images="cottage.images" style="width:500px;"></offer-carousel>-->
        <!-- <upload-images-modal :header="uploadHeader" :index="uploadIndex"></upload-images-modal>-->
 
-      <div class="row pt-2 mt-3">
+      <div class="row pt-2 mt-4">
         <div class="col-5" style="text-align: left">
          <p style="font-size:20px;display: inline-block;">{{cottage.description}}</p>
         </div>
@@ -101,6 +101,7 @@ import ReviewServce from "@/servieces/ReviewServce";
 
 //import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 // import { Splide, SplideSlide } from '@splidejs/vue-splide';
+
 import cottageOwnerHeader from "@/components/owner/cottage_owner/cottageOwnerHeader";
 import BirdVueMap from "@/components/main_site/birdVueMap";
 import EditOfferNameModal from "@/components/owner/cottage_owner/editOfferNameModal";
@@ -112,6 +113,7 @@ import EditNumberModal from "@/components/owner/cottage_owner/editNumberModal";
 import ExperienceReviewsModal from "@/components/owner/cottage_owner/experienceReviewsModal";
 import EditPriceModal from "@/components/owner/cottage_owner/editPriceModal"
 import EditCancelConditionsModal from "@/components/owner/cottage_owner/editCancelConditionsModal";
+import imagesCarousel from "@/components/imagesCarousel";
 //import UploadImagesModal from "@/components/owner/cottage_owner/uploadImagesModal";
 //import OfferCarousel from "@/components/main_site/offer_profile/offerCarousel";
 //import lightbox from "vlightbox"
@@ -127,6 +129,7 @@ export default {
     //OfferCarousel,
     //  UploadImagesModal,
     StarRating,
+    imagesCarousel,
     EditCancelConditionsModal,
     ExperienceReviewsModal,
     EditNumberModal,

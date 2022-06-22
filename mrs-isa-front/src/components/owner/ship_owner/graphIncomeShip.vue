@@ -23,6 +23,7 @@
 import { GChart } from 'vue-google-charts';
 import ReservationService from "@/servieces/ReservationService";
 import shipOwnerHeader from "@/components/ship_owner/shipOwnerHeader";
+import swal from "sweetalert2";
 export default {
   name: "graphIncomeShip",
   components:{shipOwnerHeader,
@@ -51,24 +52,26 @@ export default {
         }
 
         today = yyyy + "-" + mm + "-" + dd;
+        this.now = today;
         this.dateStart = today; //yyyy-mm-dd
         console.log(this.dateStart);
         this.datePast = yyyy + "-" + past + "-" + dd; //yyyy-mm-dd
         console.log(this.datePast);
-        ReservationService.getReservationsPeriodShip(this.coId,this.datePast,this.dateStart).then((response)=> {
-              console.log(response.data);
-              this.chartData.push(['Brodovi', 'Rezervacije']);
-              for(let i=0;i<response.data.length;i++){
-                this.chartData.push([response.data[i].offerName,response.data[i].price]);
-              }
+
+          ReservationService.getReservationsPeriodShip(this.coId, this.datePast, this.dateStart).then((response) => {
+            console.log(response.data);
+            this.chartData.push(['Brodovi', 'Rezervacije']);
+            for (let i = 0; i < response.data.length; i++) {
+              this.chartData.push([response.data[i].offerName, response.data[i].price]);
             }
-        )
+          })
       },
   data(){
     return{
       chartData : [],
       dateStart:"",
       datePast:"",
+      now:"",
       chartOptions: {
         chart: {
           title: 'Izveštaj o posećenosti',
@@ -86,15 +89,35 @@ export default {
       this.chartData = [];
       var start = document.getElementById('start').value;
       var end = document.getElementById('end').value;
+      if(start > this.now || end > this.now){
+        console.log("vecee");
+        swal.fire({
+          title: "Ne možete uneti datum u budućnosti!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      }
+      else if(end < start){
+        swal.fire({
+          title: "Početni datum mora biti pre krajnjeg datuma!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      }
+      else{
       ReservationService.getReservationsPeriodShip(this.coId,start,end).then((response)=> {
         console.log(response.data);
         this.chartData.push(['Ponude', 'Rezervacije']);
         for(let i=0;i<response.data.length;i++){
           this.chartData.push([response.data[i].offerName,response.data[i].price]);
           console.log(this.chartData);
+          this.datePast = start;
+          this.dateStart = end;
         }
       })
-    }
+    }}
   }
 
 

@@ -55,6 +55,12 @@ class ReservationService{
         });
     }
 
+    getReservationsReportWeekly(ownerId) {
+        return axios.get(RESERVATION_API_BASE_URL + '/reportWeekly/' + ownerId, {
+            headers: authHeader()
+        });
+    }
+
     getReservationsPeriodShip(ownerId,start,end){
         let config = {
             headers: authHeader(),

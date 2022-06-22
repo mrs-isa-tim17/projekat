@@ -492,8 +492,8 @@ insert into experience_review (rate, status, text, client_id, offer_id, offer_ty
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 7, 1);
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(3, 1, 'Bilo bi dobro da je hrana ukusnija.', 1, 7, 1);
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 8, 1);
-
-
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlična organizacija.', 1, 9, 1);
+insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale,odlično.', 1, 10, 1);
 --experience review za avanture
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(5, 1, 'Sve pohvale.', 1, 2, 2);
 insert into experience_review (rate, status, text, client_id, offer_id, offer_type) values(4, 1, 'Sve pohvale,odlično.', 1, 2, 2);
@@ -523,14 +523,11 @@ insert into pricelist (end_date, price, start_date, offer_id) values (null, 2500
 
 
 insert into image (path, offer_id) values ('/meda.jpg', 1);
-insert into image (path, offer_id) values ('/meda1.jpg', 1);
 insert into image (path, offer_id) values ('/meda2.jpg', 1);
---insert into image (path, offer_id) values ('/img/cottage/3/132308681.jpg', 2);
-insert into image (path, offer_id) values ('/suma.jpg', 3);
-insert into image (path, offer_id) values ('/suma1.jpg', 3);
+insert into image (path, offer_id) values ('/suma3.jpg', 3);
+insert into image (path, offer_id) values ('/suma4.jpg', 3);
 insert into image (path, offer_id) values ('/kedar.jpg', 4);
 insert into image (path, offer_id) values ('/kedar1.jpg', 4);
-insert into image (path, offer_id) values ('/kedar2.jpg', 4);
 insert into image (path, offer_id) values ('/holiday.jpg', 5);
 insert into image (path, offer_id) values ('/holiday1.jpg', 5);
 insert into image (path, offer_id) values ('/bogut.jpg', 6);
@@ -547,16 +544,7 @@ insert into image (path, offer_id) values ('/party2.jpg',9);
 insert into image (path, offer_id) values ('/party1.jpg',9);
 insert into image (path, offer_id) values ('/silverstar1.jpg',10);
 insert into image (path, offer_id) values ('/silverstar.jpg',10);
-insert into image (path, offer_id) values ('/238068376.jpg', 1);
-insert into image (path, offer_id) values ('/132308681.jpg', 3);
-insert into image (path, offer_id) values ('/331714665.jpg', 4);
-insert into image (path, offer_id) values ('/169294777.jpg', 5);
-insert into image (path, offer_id) values ('/331714665.jpg', 6);
 
-insert into image (path, offer_id) values ('/41.jpg', 7);
-insert into image (path, offer_id) values ('/31.jpg', 10);
-insert into image (path, offer_id) values ('/21.jpg', 9);
-insert into image (path, offer_id) values ('/11.jpg', 8);
 
 insert into image (path, offer_id) values ('/206076_pecanje_zalazak_sunca.jpg', 13);
 insert into image (path, offer_id) values ('/images.jpg', 14);

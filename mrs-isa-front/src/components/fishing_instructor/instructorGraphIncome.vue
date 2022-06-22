@@ -22,6 +22,7 @@
 import { GChart } from 'vue-google-charts';
 import ReservationService from "@/servieces/ReservationService";
 import InstructorHeader from "@/components/insrtuctorHeader";
+import swal from "sweetalert2";
 export default {
   name: "graphIncome",
   components:{
@@ -51,6 +52,7 @@ export default {
         }
 
         today = yyyy + "-" + mm + "-" + dd;
+        this.now = today;
         this.dateStart = today; //yyyy-mm-dd
         console.log(this.dateStart);
         this.datePast = yyyy + "-" + past + "-" + dd; //yyyy-mm-dd
@@ -69,6 +71,7 @@ export default {
       chartData : [],
       dateStart:"",
       datePast:"",
+      now:"",
       chartOptions: {
         chart: {
           title: 'Izveštaj o posećenosti',
@@ -82,18 +85,37 @@ export default {
     }
   },
   methods:{
-    showChart(){
+    showChart() {
       this.chartData = [];
       var start = document.getElementById('start').value;
       var end = document.getElementById('end').value;
-      ReservationService.getReservationsPeriod(this.coId,start,end).then((response)=> {
-        console.log(response.data);
-        this.chartData.push(['Vikendice', 'Rezervacije']);
-        for(let i=0;i<response.data.length;i++){
-          this.chartData.push([response.data[i].offerName,response.data[i].price]);
-          console.log(this.chartData);
-        }
-      })
+      if (start > this.now || end > this.now) {
+        console.log("vecee");
+        swal.fire({
+          title: "Ne možete uneti datum u budućnosti!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      } else if (end < start) {
+        swal.fire({
+          title: "Početni datum mora biti pre krajnjeg datuma!",
+          background: 'white',
+          color: '#31708E',
+          confirmButtonColor: '#31708E'
+        });
+      } else {
+        ReservationService.getReservationsPeriod(this.coId, start, end).then((response) => {
+          console.log(response.data);
+          this.chartData.push(['Vikendice', 'Rezervacije']);
+          for (let i = 0; i < response.data.length; i++) {
+            this.chartData.push([response.data[i].offerName, response.data[i].price]);
+            console.log(this.chartData);
+            this.datePast = start;
+            this.dateStart = end;
+          }
+        })
+      }
     }
   }
 

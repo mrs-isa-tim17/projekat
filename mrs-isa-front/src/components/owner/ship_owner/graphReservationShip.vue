@@ -90,8 +90,8 @@ export default {
       if(data === "monthly"){
         ReservationService.getReservationsReportMonthlyShip(this.coId).then((response)=>{
           console.log(response.data);
-          this.reports.push(['mesec']);
-          this.reports.push(['mesec']);
+          this.reports.push(['Protekli mesec']);
+          this.reports.push(['Protekli mesec']);
           for(let i=0;i<response.data.length;i++){
             this.reports[0].push(response.data[i].offerName); //za head
             this.reports[1].push(response.data[i].numbers);
@@ -102,8 +102,8 @@ export default {
       else if(data === "weekly") {
         ReservationService.getReservationsReportWeeklyShip(this.coId).then((response) => {
           console.log(response.data);
-          this.reports.push(['nedelja']);
-          this.reports.push(['nedelja']);
+          this.reports.push(['Protekla nedelja']);
+          this.reports.push(['Protekla nedelja']);
           for (let i = 0; i < response.data.length; i++) {
             this.reports[0].push(response.data[i].offerName); //za head
             this.reports[1].push(response.data[i].numbers);

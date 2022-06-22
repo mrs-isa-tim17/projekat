@@ -21,7 +21,7 @@
           <div class="row">
           <div class="col-6">
             <div style="text-align:left;">
-              Adresa
+
 
             </div>
           </div>
