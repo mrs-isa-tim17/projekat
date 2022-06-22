@@ -48,7 +48,13 @@ export default {
 
   created :function () {
     console.log(this.scale)
-    this.scale1=this.scale;
+    this.scale1.startDate=this.scale.startDate;
+    this.scale1.endDate = this.scale.endDate;
+    this.scale1.id = this.scale.id;
+    this.scale1.discount = this.scale.discount;
+    this.scale1.role=this.scale.role;
+    this.scale1.trashold = this.scale.trashold;
+    this.scale1.userType = this.scale.userType;
   },
 
   methods:{
@@ -75,9 +81,17 @@ export default {
 
     defineNewScale(){
       let today = new Date();
+      console.log("SCale 1");
+      console.log(this.scale1.startDate);
+      console.log("SCale");
+      console.log(this.scale.startDate);
       if(this.scale1.startDate < today){
         this.fireAlertOn("Datum mora biti u budućnosti.", false)
-      }else {
+      }else  if(this.scale.startDate === this.scale1.startDate) {
+        this.fireAlertOn("Već postoji slala za izabrani datum.", false)
+      }
+      else
+      {
         LoyaltyProgramService.defineNewScale(this.scale1.id, this.scale1).then((response) => {
           this.scale1 = response.data;
           console.log(response);

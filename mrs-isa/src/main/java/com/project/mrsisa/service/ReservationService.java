@@ -93,6 +93,9 @@ public class ReservationService {
     @Autowired
     private DeleteRequestService deleteRequestService;
 
+    @Autowired
+    private SaleAppointmentService saleAppointmentService;
+
     public List<Reservation> getCottageHistoryReservation(Long id){
         return reservationRepository.findCottageReservationHistory(id, OfferType.COTTAGE.getValue());
     }
@@ -304,8 +307,16 @@ public class ReservationService {
 
 
     private boolean checkIfCanceledReservationWithSameParametars(Client client, ReserveEntityDTO reserveEntityDTO) {
-        Reservation r = reservationRepository.checkIfClientCanceledReservationWithSameParametars(client.getId(), reserveEntityDTO.getOfferId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate());
-        if (r == null)
+        Reservation r = reservationRepository.checkIfClientCanceledReservationWithSameParametars(client.getId(), reserveEntityDTO.getOfferId(), reserveEntityDTO.getFromDate(), reserveEntityDTO.getUntilDate()).orElse(new Reservation());
+        if (r.getId() == null)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean checkIfCanceledReservationWithSameParametars(Client c, long offerId, LocalDateTime fromDate, LocalDateTime untilDate) {
+        Reservation r = reservationRepository.checkIfClientCanceledReservationWithSameParametars(c.getId(), offerId, fromDate, untilDate).orElse(new Reservation());
+        if (r.getId() == null)
             return false;
         else
             return true;
@@ -402,6 +413,13 @@ public class ReservationService {
         res.setSuccessful(true);
         r.setCanceled(true);
         reservationRepository.save(r);
+
+        if (r.isQuick()){
+           SaleAppointment sa = saleAppointmentService.findSaleAppointmentByOfferIdAndPeriod(r.getOffer().getId(), r.getStartDateTime());
+           sa.setReserved(false);
+           saleAppointmentService.save(sa);
+        }
+
         if (chosenCancelCondition == null){
             res.setTaken(0);
         }else{

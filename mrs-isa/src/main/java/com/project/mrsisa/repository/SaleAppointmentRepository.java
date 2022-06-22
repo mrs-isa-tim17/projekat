@@ -30,4 +30,7 @@ public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment
 
 	@Query(value="SELECT * FROM sale_appointment r WHERE r.offer_id=?1 and (r.start_sale_date < ?2 or r.start_sale_date < ?3)", nativeQuery = true)
     public List<SaleAppointment> findCurrentSaleAppointmentInInterval(Long id, LocalDateTime dateFrom, LocalDateTime dateUntil);
+
+	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 and r.start_sale_date = ?2", nativeQuery = true)
+	SaleAppointment findSaleAppointmentByOfferIdAndPeriod(Long id, LocalDateTime startDateTime);
 }

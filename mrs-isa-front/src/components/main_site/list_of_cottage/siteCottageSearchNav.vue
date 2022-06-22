@@ -295,6 +295,7 @@ export default {
       this.message += msg;
     },
     checkDates(){
+      let today = new Date();
       if (this.dateFrom !== "" && this.dateUntil === ""){
         this.addMessage("Dat je početni datum, ali krajnji datum nije dat.");
       }
@@ -305,6 +306,12 @@ export default {
         this.addMessage("Početni datum je veći od krajnjeg datuma");
         this.dateFrom = null;
         this.dateUntil = null;
+      } else if (this.dateFrom !== null && this.dateUntil !== null && (this.dateFrom < today || this.dateUntil < today)){
+
+        this.addMessage("Datumi moraju biti u budućnosti");
+        this.dateFrom = null;
+        this.dateUntil = null;
+
       }
     },
     checkRating(){

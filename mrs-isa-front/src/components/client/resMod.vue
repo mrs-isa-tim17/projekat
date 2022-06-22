@@ -214,7 +214,7 @@ export default {
       let splitedDate = date.split("T");
       let splitedDatePart = splitedDate[0].split("-");
       //let splitedTimePart = splitedDate[1].split(":");
-      return splitedDatePart[0] + ". " + splitedDatePart[1] + ". " + splitedDatePart[2] + ".";
+      return splitedDatePart[2] + ". " + splitedDatePart[1] + ". " + splitedDatePart[0] + ".";
     },
     formatTime(date){
       if (date === "" || date === undefined)

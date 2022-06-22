@@ -7,6 +7,7 @@ import java.util.List;
 import com.project.mrsisa.converter.LocalDateTimeToString;
 import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.client.ReserveSaleAppointmentRequestDTO;
+import com.project.mrsisa.exception.AlreadyCanceled;
 import com.project.mrsisa.exception.NotDefinedValue;
 import com.project.mrsisa.exception.TooHighPenaltyNumber;
 import net.bytebuddy.utility.RandomString;
@@ -79,6 +80,19 @@ public class SaleAppointmentService {
 		save(sa);
 		//Reservation r = new Reservation();
 		Client c = clientService.findOne(dto.getClientId());
+
+		System.out.println("SALEEEE");
+		System.out.println(r.getOffer().getId());
+		System.out.println(r.getStartDateTime());
+		System.out.println(r.getEndDateTime());
+		System.out.println(c.getName());
+
+		if (c != null) {
+			if (reservationService.checkIfCanceledReservationWithSameParametars(c, r.getOffer().getId(), r.getStartDateTime(), r.getEndDateTime()))
+				throw new AlreadyCanceled("Već je otkazao rezervaciju sa istim parametrima");
+		}
+
+
 		r.setClient(c);
 		System.out.println(c.getId());
 		if (deleteRequestService.getIfUserMadeDeleteRequest(r.getClient().getId())){
@@ -136,4 +150,8 @@ public class SaleAppointmentService {
 	public List<SaleAppointment> getListOfReservationByOfferInInterval(Long id, LocalDateTime dateFrom, LocalDateTime dateUntil) {
 		return saleAppointmentRepository.findCurrentSaleAppointmentInInterval(id, dateFrom, dateUntil);
 	}
+
+    public SaleAppointment findSaleAppointmentByOfferIdAndPeriod(Long id, LocalDateTime startDateTime) {
+		return saleAppointmentRepository.findSaleAppointmentByOfferIdAndPeriod(id, startDateTime);
+    }
 }

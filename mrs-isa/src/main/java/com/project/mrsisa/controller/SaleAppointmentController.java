@@ -348,6 +348,10 @@ public class SaleAppointmentController {
 			res.setSuccessful(false);
 			res.setExplanation(th.getMessage());
 			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
+		}catch (AlreadyCanceled ac){
+			res.setSuccessful(false);
+			res.setExplanation(ac.getMessage());
+			return new ResponseEntity<SuccessResponseDTO>(res, HttpStatus.OK);
 		}catch (Exception e){
 			e.printStackTrace();
 			res.setSuccessful(false);

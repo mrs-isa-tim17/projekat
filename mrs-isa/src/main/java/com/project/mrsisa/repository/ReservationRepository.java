@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
@@ -55,7 +56,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> getReservationsForShipInPeriodWhenShipOwnerIsPresent(Long id, LocalDateTime fromDate, LocalDateTime untilDate);
 
     @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date = ?3 and r.end_date = ?4 and r.offer_id = ?2 and canceled", nativeQuery = true)
-    Reservation checkIfClientCanceledReservationWithSameParametars(Long id, long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
+    Optional<Reservation> checkIfClientCanceledReservationWithSameParametars(Long id, long offerId, LocalDateTime fromDate, LocalDateTime untilDate);
 
     @Query(value="SELECT * FROM reservation r WHERE r.client_id=?1 and r.start_date > CURRENT_DATE", nativeQuery = true)
     List<Reservation> getUpcomingReservationsForClient(long id);
