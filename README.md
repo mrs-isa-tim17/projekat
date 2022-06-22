@@ -1,7 +1,7 @@
 # projekat
 
 Tim 17:
-  * Violeta Erdelji Sw32/2019
+  * Violeta Erdelji SW32/2019
   * Anastasija Samčović SW44/2019
   * Milica Petrović SW46/2019
  
@@ -18,6 +18,6 @@ Uputstvo za pokretanje:
   * Uživajte :)
 
 Linkovi:
-  * back: 
-  * front: 
+  * back: https://mrs-isa-tim17.herokuapp.com/
+  * front: https://mrs-isa-front-2.herokuapp.com/
   * da biste koristili aplikaciju prvo otvorite link za back, a zatim za front
