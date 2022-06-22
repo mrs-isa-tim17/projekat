@@ -1,14 +1,12 @@
 package com.project.mrsisa.dto.cottage;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.mrsisa.domain.BehaviorRule;
-import com.project.mrsisa.domain.CancelCondition;
-import com.project.mrsisa.domain.Cottage;
-import com.project.mrsisa.domain.Image;
-import com.project.mrsisa.domain.Pricelist;
+import com.project.mrsisa.domain.*;
+import com.project.mrsisa.domain.NavigationEquipment;
 import com.project.mrsisa.service.BehaviorRuleService;
 import com.project.mrsisa.service.PricelistService;
 
@@ -17,11 +15,9 @@ import lombok.Data;
 @Data
 public class FindCottageDTO implements Serializable{
 	    private int roomQuantity;
-	    private String ownersEmail;
-	    private String ownersName;
-	    private String ownersSurname;
 	    private int bedQuantity;
 	    private Long id;
+		private Long priceListId;
 	    private String name;
 	    private double longitude;
 	    private double latitude;
@@ -32,16 +28,16 @@ public class FindCottageDTO implements Serializable{
 		private List<String> cancelConditions;
 		private List<String> experienceReviews;
 		private List<String> additionalServices;
-		private List<String> days;
-		private String p1;
-		private String p2;
-		private String p3;
-		private String p4;
+
+		private List<Integer> days;
+		private List<Double> percents;
 		private double price;
+
+		private LocalDate priceStartDate;
 		public PricelistService pricelistService;
 		public BehaviorRuleService behaviorRuleService = new BehaviorRuleService();
 
-	    public FindCottageDTO(Cottage cottage, List<BehaviorRule> rules, List<Image> imagesCottages, List<CancelCondition> conditions) {
+	    public FindCottageDTO(Cottage cottage, List<BehaviorRule> rules, List<Image> imagesCottages, List<CancelCondition> conditions, List<AdditionalServices> addServices, Pricelist pricelist) {
 	        this.roomQuantity=cottage.getRoomQuantity();
 	        //this.ownersEmail=cottage.getOwner().getEmail();
 	       // this.ownersName=cottage.getOwner().getName();
@@ -53,6 +49,8 @@ public class FindCottageDTO implements Serializable{
 	        this.description=cottage.getDescription();
 	        this.deleted=cottage.isDeleted();
 	        this.id=cottage.getId();
+
+			this.priceListId = pricelist.getId();
 	        
 	        behavioralRules = new ArrayList<String>();
 	        
@@ -65,227 +63,168 @@ public class FindCottageDTO implements Serializable{
 	        	images.add(i.getPath());
 	        }
 	        
-	        cancelConditions = new ArrayList<String>();
+	       	days = new ArrayList<Integer>();
+			percents = new ArrayList<Double>();
 	        for(CancelCondition cc : conditions) {
-	        	this.days.add(String.valueOf(cc.getDays()));
-				switch (cc.getDays()) {
-				case 5:
-					this.p1 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 0 - 5 dana pre početka događaja, naplaćuje se " + this.p1 + "od ukupne cene rezervacije.");
-					break;
-				case 10:
-					this.p2 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 6 - 10 dana pre početka događaja, naplaćuje se " + this.p2 + "od ukupne cene rezervacije.");
-					break;
-				case 15:
-					this.p3 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 11 - 15 dana pre početka događaja, naplaćuje se " + this.p3 + "od ukupne cene rezervacije.");
-					break;
-				case 20:
-					this.p4 = String.valueOf(cc.getPrecent());
-					this.cancelConditions.add("Za otkazni rok od 16 i više dana pre početka događaja, naplaćuje se " + this.p4 + "od ukupne cene rezervacije.");
-					break;
-				default:
-					break;
+
+	        	days.add(cc.getDays());
+				percents.add(cc.getPrecent());
+
 				}
-	        }
-	        
-	        
-	        
+			System.out.println(this.days);
+			System.out.println(this.percents);
+
+
+			additionalServices = new ArrayList<String>();
+			for(AdditionalServices as : addServices){
+				this.additionalServices.add(as.getName());
+			}
+
+			this.price = pricelist.getPrice();
+			this.priceStartDate = pricelist.getStartDate();
 	    }
 
-		public int getRoomQuantity() {
-			return roomQuantity;
-		}
+	public int getRoomQuantity() {
+		return roomQuantity;
+	}
 
-		public void setRoomQuantity(int roomQuantity) {
-			this.roomQuantity = roomQuantity;
-		}
+	public void setRoomQuantity(int roomQuantity) {
+		this.roomQuantity = roomQuantity;
+	}
 
-		public String getOwnersEmail() {
-			return ownersEmail;
-		}
+	public int getBedQuantity() {
+		return bedQuantity;
+	}
 
-		public void setOwnersEmail(String ownersEmail) {
-			this.ownersEmail = ownersEmail;
-		}
+	public void setBedQuantity(int bedQuantity) {
+		this.bedQuantity = bedQuantity;
+	}
 
-		public String getOwnersName() {
-			return ownersName;
-		}
+	public Long getId() {
+		return id;
+	}
 
-		public void setOwnersName(String ownersName) {
-			this.ownersName = ownersName;
-		}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-		public String getOwnersSurname() {
-			return ownersSurname;
-		}
+	public String getName() {
+		return name;
+	}
 
-		public void setOwnersSurname(String ownersSurname) {
-			this.ownersSurname = ownersSurname;
-		}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-		public int getBedQuantity() {
-			return bedQuantity;
-		}
+	public double getLongitude() {
+		return longitude;
+	}
 
-		public void setBedQuantity(int bedQuantity) {
-			this.bedQuantity = bedQuantity;
-		}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 
-		public Long getId() {
-			return id;
-		}
+	public double getLatitude() {
+		return latitude;
+	}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
 
-		public String getName() {
-			return name;
-		}
+	public String getDescription() {
+		return description;
+	}
 
-		public void setName(String name) {
-			this.name = name;
-		}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
 
-		public String getDescription() {
-			return description;
-		}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
-		public void setDescription(String description) {
-			this.description = description;
-		}
+	public List<String> getBehavioralRules() {
+		return behavioralRules;
+	}
 
-		public boolean isDeleted() {
-			return deleted;
-		}
+	public void setBehavioralRules(List<String> behavioralRules) {
+		this.behavioralRules = behavioralRules;
+	}
 
-		public void setDeleted(boolean deleted) {
-			this.deleted = deleted;
-		}
+	public List<String> getImages() {
+		return images;
+	}
 
-		public double getLongitude() {
-			return longitude;
-		}
+	public void setImages(List<String> images) {
+		this.images = images;
+	}
 
-		public void setLongitude(double longitude) {
-			this.longitude = longitude;
-		}
+	public List<String> getCancelConditions() {
+		return cancelConditions;
+	}
 
-		public double getLatitude() {
-			return latitude;
-		}
+	public void setCancelConditions(List<String> cancelConditions) {
+		this.cancelConditions = cancelConditions;
+	}
 
-		public void setLatitude(double latitude) {
-			this.latitude = latitude;
-		}
+	public List<String> getExperienceReviews() {
+		return experienceReviews;
+	}
 
-		public List<String> getBehavioralRules() {
-			return behavioralRules;
-		}
+	public void setExperienceReviews(List<String> experienceReviews) {
+		this.experienceReviews = experienceReviews;
+	}
 
-		public void setBehavioralRules(List<String> behavioralRules) {
-			this.behavioralRules = behavioralRules;
-		}
+	public List<String> getAdditionalServices() {
+		return additionalServices;
+	}
 
-		public List<String> getImages() {
-			return images;
-		}
+	public void setAdditionalServices(List<String> additionalServices) {
+		this.additionalServices = additionalServices;
+	}
 
-		public void setImages(List<String> images) {
-			this.images = images;
-		}
+	public List<Integer> getDays() {
+		return days;
+	}
 
-		public List<String> getCancelConditions() {
-			return cancelConditions;
-		}
+	public void setDays(List<Integer> days) {
+		this.days = days;
+	}
 
-		public void setCancelConditions(List<String> cancelConditions) {
-			this.cancelConditions = cancelConditions;
-		}
+	public List<Double> getPercents() {
+		return percents;
+	}
 
-		public List<String> getExperienceReviews() {
-			return experienceReviews;
-		}
+	public void setPercents(List<Double> percents) {
+		this.percents = percents;
+	}
 
-		public void setExperienceReviews(List<String> experienceReviews) {
-			this.experienceReviews = experienceReviews;
-		}
+	public double getPrice() {
+		return price;
+	}
 
-		public List<String> getAdditionalServices() {
-			return additionalServices;
-		}
+	public Long getPriceListId() {
+		return priceListId;
+	}
 
-		public void setAdditionalServices(List<String> additionalServices) {
-			this.additionalServices = additionalServices;
-		}
+	public void setPriceListId(Long priceListId) {
+		this.priceListId = priceListId;
+	}
 
-		public List<String> getDays() {
-			return days;
-		}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-		public void setDays(List<String> days) {
-			this.days = days;
-		}
+	public LocalDate getPriceStartDate() {
+		return priceStartDate;
+	}
 
-		public String getP1() {
-			return p1;
-		}
-
-		public void setP1(String p1) {
-			this.p1 = p1;
-		}
-
-		public String getP2() {
-			return p2;
-		}
-
-		public void setP2(String p2) {
-			this.p2 = p2;
-		}
-
-		public String getP3() {
-			return p3;
-		}
-
-		public void setP3(String p3) {
-			this.p3 = p3;
-		}
-
-		public String getP4() {
-			return p4;
-		}
-
-		public void setP4(String p4) {
-			this.p4 = p4;
-		}
-
-		public double getPrice() {
-			return price;
-		}
-
-		public void setPrice(double price) {
-			this.price = price;
-		}
-
-		public PricelistService getPricelistService() {
-			return pricelistService;
-		}
-
-		public void setPricelistService(PricelistService pricelistService) {
-			this.pricelistService = pricelistService;
-		}
-
-		public BehaviorRuleService getBehaviorRuleService() {
-			return behaviorRuleService;
-		}
-
-		public void setBehaviorRuleService(BehaviorRuleService behaviorRuleService) {
-			this.behaviorRuleService = behaviorRuleService;
-		}
-	    
-	    
+	public void setPriceStartDate(LocalDate priceStartDate) {
+		this.priceStartDate = priceStartDate;
+	}
 }

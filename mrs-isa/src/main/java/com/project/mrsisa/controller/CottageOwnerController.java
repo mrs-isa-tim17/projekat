@@ -1,9 +1,8 @@
 package com.project.mrsisa.controller;
 
-import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.service.ReservationService;
 import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.project.mrsisa.domain.CottageOwner;
 import com.project.mrsisa.domain.LoyaltyScale;
-import com.project.mrsisa.dto.CottageOwnerProfileResponseDTO;
+import com.project.mrsisa.dto.owner.CottageOwnerProfileResponseDTO;
 import com.project.mrsisa.service.CottageOwnerService;
 import com.project.mrsisa.service.LoyaltyScaleService;
 
@@ -20,7 +19,8 @@ import com.project.mrsisa.service.LoyaltyScaleService;
 @RequestMapping(value = "/cottage_owner", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class CottageOwnerController {
-	
+	@Autowired
+    public ReservationService reservationService;
 	@Autowired
 	private CottageOwnerService coService;
 	@Autowired
@@ -86,4 +86,8 @@ public class CottageOwnerController {
 
        return new ResponseEntity<CottageOwnerProfileResponseDTO>(new CottageOwnerProfileResponseDTO(co, 5), HttpStatus.OK);
     }
+
+
+
+
 }

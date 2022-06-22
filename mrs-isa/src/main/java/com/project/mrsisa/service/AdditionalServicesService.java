@@ -30,7 +30,15 @@ public class AdditionalServicesService {
 		return additionalServicesRepository.findOneByName(name);
 	}
 	
-	public List<AdditionalServices> findAllByAdventureId(Long id){
+	public List<AdditionalServices> findAllByOfferId(Long id){
 		return additionalServicesRepository.findAllByOfferId(id);
+	}
+
+	public List<AdditionalServices> findBySaleAppointmentId(Long id){
+		return additionalServicesRepository.findAllBySaleAppointmentId(id);
+	}
+
+	public void remove(Long id) {
+		additionalServicesRepository.deleteById(id);
 	}
 }

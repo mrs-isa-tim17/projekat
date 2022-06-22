@@ -1,6 +1,7 @@
 <template>
+  <admin-header></admin-header>
   <div id="admin-home-page">
-    <admin-header></admin-header>
+
     <div class="container">
 
       <div class="row justify-content-center">
@@ -10,25 +11,43 @@
         <adminHomePageOption :image_path="complaintImgPath" :option_link="complaintLink"
                              :text="complaintText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="revisionImgPath" :option_link="registrationLink"
+        <adminHomePageOption :image_path="revisionImgPath" :option_link="revisionLink"
                              :text="revisionText"></adminHomePageOption>
 
       </div>
 
       <div class="row justify-content-center ">
 
-        <adminHomePageOption :image_path="percentageImgPath" :option_link="penaltyLink"
+        <adminHomePageOption :image_path="percentageImgPath" :option_link="percentageLink"
                              :text="percentageText"></adminHomePageOption>
 
         <adminHomePageOption :image_path="businessReportImgPath" :option_link="businessReportLink"
                              :text="businessReportText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="loyaltyImgPath" :option_link="loyaltyLink"
-                             :text="loyaltyText"></adminHomePageOption>
 
+          <div class="col-3 px-5" >
+            <div class="dropdown">
+              <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="card-lg">
+                  <div class="card-body">
+                    <img :src=loyaltyImgPath height="150">
+                  </div>
+                  <div class="card-footer text-center text-primary">
+                    {{loyaltyText}}
+                  </div>
+                </div>
+              </a>
 
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" :href="'/admin/loyalty/scale'">Skala</a></li>
+                <li><a class="dropdown-item" :href="'/admin/loyalty/points'">Poeni</a></li>
+              </ul>
+            </div>
+          </div>
 
       </div>
+
+
       <div class="row justify-content-center ">
 
         <div class="col-3 px-5" >
@@ -45,9 +64,9 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" :href="historyOfCottageReservationsLink">Vikendice</a></li>
-              <li><a class="dropdown-item" :href="historyOfShipReservationsLink">Brodovi</a></li>
-              <li><a class="dropdown-item" href="#">Avanture</a></li>
+              <li><a class="dropdown-item" :href="'/admin/cottages'">Vikendice</a></li>
+              <li><a class="dropdown-item" :href="'/admin/ships'">Brodovi</a></li>
+              <li><a class="dropdown-item" href="/admin/adventures">Avanture</a></li>
             </ul>
           </div>
         </div>
@@ -63,14 +82,12 @@
 
       <div class="row justify-content-center ">
 
-        <adminHomePageOption :image_path="reportReservationImgPath" :option_link="reportReservationLink"
-                             :text="reportReservationText"></adminHomePageOption>
 
         <adminHomePageOption :image_path="requestForDeletingAccImgPath" :option_link="requestForDeletingAccAccLink"
                              :text="requestForDeletingAccText"></adminHomePageOption>
 
-        <adminHomePageOption :image_path="profileImgPath" :option_link="profileLink"
-                             :text="profileText"></adminHomePageOption>
+        <adminHomePageOption :image_path="registerAdminImgPath" :option_link="registerAdminLink"
+                             :text="registerAdminText"></adminHomePageOption>
 
       </div>
 
@@ -97,19 +114,19 @@ export default {
 
       revisionImgPath: require("@/assets/icons/revision.png"),
       revisionText: "Revizije",
-      revisionLink: "...",
+      revisionLink: "/admin/revisions",
 
       complaintImgPath: require("@/assets/icons/angry.png"),
       complaintText: "Žalbe",
-      complaintLink: "...",
+      complaintLink: "/admin/complaints",
 
 
       percentageImgPath: require("@/assets/icons/percentage.png"),
-      percentageLink: "...",
+      percentageLink: '/admin/percentage',
       percentageText: "Procenat zarade",
 
       businessReportImgPath: require("@/assets/icons/reportBusiness.png"),
-      businessReportLink: "...",
+      businessReportLink: "/admin/business/report",
       businessReportText: "Izveštaji o poslovanju",
 
       loyaltyImgPath: require("@/assets/icons/loyalty.png"),
@@ -125,11 +142,11 @@ export default {
 
       usersImgPath: require("@/assets/icons/users.png"),
       usersText: 'Korisnici',
-      usersLink: '...',
+      usersLink: '/admin/users',
 
       penaltyImgPath: require("@/assets/icons/penalty.png"),
-      penaltyText: "Penali",
-      penaltyLink: "...",
+      penaltyText: "Izveštaji o rezervacijama i penali",
+      penaltyLink: "/admin/reports",
 
 
 
@@ -138,12 +155,12 @@ export default {
       reportReservationText: "Popuni izveštaj o rezervacijama",
 
       requestForDeletingAccImgPath: require("@/assets/icons/requesForDelete.png"),
-      requestForDeletingAccAccLink: "...",
+      requestForDeletingAccAccLink: "/admin/delete/requests",
       requestForDeletingAccText: "Zahtevi za brisanje naloga",
 
-      profileImgPath: require("@/assets/icons/profile.png"),
-      profileLink: "...",
-      profileText: "Profil"
+      registerAdminImgPath: require("@/assets/icons/registerAdmin.png"),
+      registerAdminLink: "/admin/register/new",
+      registerAdminText: "Registracija admina"
 
     }
   }

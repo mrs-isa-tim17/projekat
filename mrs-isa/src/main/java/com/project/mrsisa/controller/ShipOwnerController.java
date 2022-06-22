@@ -1,5 +1,8 @@
 package com.project.mrsisa.controller;
 
+import com.project.mrsisa.domain.Ship;
+import com.project.mrsisa.dto.PeriodDTO;
+import com.project.mrsisa.service.ShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.domain.ShipOwner;
-import com.project.mrsisa.dto.ShipOwnerProfileResponseDTO;
-import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.dto.owner.ShipOwnerProfileResponseDTO;
 import com.project.mrsisa.service.LoyaltyScaleService;
 import com.project.mrsisa.service.ShipOwnerService;
 import com.project.mrsisa.util.TokenUtils;
@@ -26,7 +28,7 @@ import com.project.mrsisa.util.TokenUtils;
 @CrossOrigin
 public class ShipOwnerController {
     @Autowired
-	public ShipOwnerService soService;
+	public ShipOwnerService shipOwnerService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
     @Autowired
@@ -38,7 +40,7 @@ public class ShipOwnerController {
 	        
 	        ShipOwner so = null;
 	       try {
-	        so = soService.findOne(id);
+	        so = shipOwnerService.findOne(id);
 	        if (so == null) {
 	        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
@@ -64,8 +66,9 @@ public class ShipOwnerController {
 	    public ResponseEntity<ShipOwnerProfileResponseDTO> updateShipOwner(@PathVariable Long id, @RequestBody ShipOwnerProfileResponseDTO shipOwnerDTO){
 	        
 	        ShipOwner so = null;
+			ShipOwner updatedOwner = null;
 	       try {
-	        so = soService.findOne(id);
+	        so = shipOwnerService.findOne(id);
 	        if (so == null) {
 	        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
@@ -82,12 +85,21 @@ public class ShipOwnerController {
 	        so.getAddress().setLatitude(shipOwnerDTO.getLatitude());
 	        so.getAddress().setLongitude(shipOwnerDTO.getLongitude());
 
-	        soService.save(so);
+	        updatedOwner = shipOwnerService.save(so);
 	        
 	       }catch (Exception e) {
 			e.printStackTrace();
 	       }
 
-	       return new ResponseEntity<ShipOwnerProfileResponseDTO>(new ShipOwnerProfileResponseDTO(so, 5), HttpStatus.OK);
+	       return new ResponseEntity<ShipOwnerProfileResponseDTO>(new ShipOwnerProfileResponseDTO(updatedOwner), HttpStatus.OK);
 	    }
+
+		@PostMapping("{id}/free")
+		@PreAuthorize("hasRole('CLIENT')")
+		public ResponseEntity<Boolean> getIfOwnerFree(@PathVariable long id, @RequestBody PeriodDTO periodDTO){
+			if (shipOwnerService.checkIfFreeInPeriod(id, periodDTO))
+				return ResponseEntity.ok(true);
+			else
+				return ResponseEntity.ok(false);
+		}
 }

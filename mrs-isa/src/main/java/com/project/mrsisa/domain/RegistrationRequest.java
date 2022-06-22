@@ -1,21 +1,16 @@
 package com.project.mrsisa.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity	
 public class RegistrationRequest {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Version
+	private Integer version;
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
 	private User userRef;
@@ -25,6 +20,9 @@ public class RegistrationRequest {
 	
 	@Enumerated
 	private ProcessingStatus status;
+
+	@Column(nullable = false)
+	private String requestMessage;
 	
 	
 	public User getUserRef() {
@@ -50,8 +48,21 @@ public class RegistrationRequest {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	} 
+	}
 
-	
-	
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public String getRequestMessage() {
+		return requestMessage;
+	}
+
+	public void setRequestMessage(String requestMessage) {
+		this.requestMessage = requestMessage;
+	}
 }

@@ -17,7 +17,9 @@ public class PricelistService {
 	
 	public Pricelist save(Pricelist pricelist) {
 		return pricelistRepository.save(pricelist);
+
 	}
+
 	
 	public List<Pricelist> findAll(){
 		return pricelistRepository.findAll();
@@ -41,5 +43,9 @@ public class PricelistService {
 		if (p == null)
 			return 0;
 		return p.getPrice();
+	}
+
+	public void setPricelistRepository(PricelistRepository pricelistRepository) {
+		this.pricelistRepository = pricelistRepository;
 	}
 }

@@ -1,15 +1,19 @@
 package com.project.mrsisa.dto.client;
 
 import com.project.mrsisa.converter.DateToStringConverter;
+import com.project.mrsisa.converter.LocalDateTimeToString;
 import com.project.mrsisa.converter.StringToDateConverter;
+import com.project.mrsisa.converter.StringToLocalDateTime;
 import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.dto.simple_user.SizeOfListDTO;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfferHistoryReservationDTO {
+public class OfferHistoryReservationDTO extends SizeOfListDTO {
     private long reservationId;
     private Long id;
     private int offerType;
@@ -26,6 +30,20 @@ public class OfferHistoryReservationDTO {
     private boolean reviewed;
 
     public OfferHistoryReservationDTO() {
+        images = new ArrayList<>();
+        reservationId = -1;
+        id = -1L;
+        offerType = 0;
+        startDate = "2000.01.01 20:00";
+        endDate ="2000.01.01 20:00";
+        quickReservation = false;
+        canceled = false;
+        price = 0;
+        name = "";
+        latitude = 0;
+        longitude = 0;
+        description = "";
+        reviewed = false;
     }
     public long getReservationId() {
         return reservationId;
@@ -67,18 +85,18 @@ public class OfferHistoryReservationDTO {
         this.endDate = endDate;
     }
 
-    public LocalDate getStartDateLocalDate() {
-        StringToDateConverter converter = new StringToDateConverter();
-        return converter.convert(startDate);
+    public LocalDateTime getStartDateLocalDate() {
+        StringToLocalDateTime converter = new StringToLocalDateTime();
+        return converter.format(startDate);
     }
 
     public long getDuration(){
-        return Duration.between(getStartDateLocalDate().atStartOfDay(), getEndDateLocalDate().atStartOfDay()).toDays();
+        return Duration.between(getStartDateLocalDate(), getEndDateLocalDate()).toHours();
     }
 
-    public LocalDate getEndDateLocalDate() {
-        StringToDateConverter converter = new StringToDateConverter();
-        return converter.convert(endDate);
+    public LocalDateTime getEndDateLocalDate() {
+        StringToLocalDateTime converter = new StringToLocalDateTime();
+        return converter.format(endDate);
     }
 
 
@@ -94,7 +112,6 @@ public class OfferHistoryReservationDTO {
     public boolean isCanceled() {
         return canceled;
     }
-
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
     }
@@ -158,9 +175,9 @@ public class OfferHistoryReservationDTO {
     public OfferHistoryReservationDTO(Reservation r) {
         this.reservationId = r.getId();
         this.id = r.getOffer().getId();
-        DateToStringConverter converter = new DateToStringConverter();
-        this.startDate = converter.convert(r.getStartDate());
-        this.endDate = converter.convert(r.getEndDate());
+        LocalDateTimeToString converter = new LocalDateTimeToString();
+        this.startDate = converter.format(r.getStartDateTime());
+        this.endDate = converter.format(r.getEndDateTime());
         this.quickReservation = r.isQuick();
         this.canceled = r.isCanceled();
         this.price = r.getPrice();
@@ -174,5 +191,6 @@ public class OfferHistoryReservationDTO {
         }
         this.reviewed = r.isReviewed();
         this.offerType = r.getOfferType().getValue();
+
     }
 }

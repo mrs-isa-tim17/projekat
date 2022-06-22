@@ -32,9 +32,13 @@ public class Pricelist {
 	
 	public Pricelist() {
 	}
+
 	public Pricelist(double price) {
 		this.price = price;
-		this.startDate =  LocalDate.now();
+	}
+	public Pricelist(double price, LocalDate startDate) {
+		this.price = price;
+		this.startDate =  startDate;
 		this.endDate = null;
 	}
 	public LocalDate getStartDate() {

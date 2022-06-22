@@ -9,12 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Complaint {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Version
+	private Integer version;
 	
 	@Column(nullable=false)
 	private String text;
@@ -24,7 +28,7 @@ public class Complaint {
 	private Client client;
 	
 	@Enumerated
-	private ProcessingStatus status;
+	private ComplaintStatus status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
@@ -32,6 +36,10 @@ public class Complaint {
 
 	@Column
 	private OfferType offerType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="reservationId")
+	private Reservation reservation;
 	
 	public String getText() {
 		return text;
@@ -45,10 +53,10 @@ public class Complaint {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	public ProcessingStatus getStatus() {
+	public ComplaintStatus getStatus() {
 		return status;
 	}
-	public void setStatus(ProcessingStatus status) {
+	public void setStatus(ComplaintStatus status) {
 		this.status = status;
 	}
 	public Long getId() {
@@ -70,6 +78,19 @@ public class Complaint {
 
 	public void setOfferType(OfferType offerType) {
 		this.offerType = offerType;
+	}
+	public Reservation getReservation() {
+		return reservation;
+	}
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 	
 

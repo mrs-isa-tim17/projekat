@@ -10,10 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class AdditionalServices {
@@ -26,15 +23,20 @@ public class AdditionalServices {
 	
 	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Offer> offer;
+
+	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<SaleAppointment> saleAppointment;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "saleAppointmentId")
-	private SaleAppointment saleAppointment;
+	//@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "reservationId")
+	@ManyToMany(mappedBy = "additionalServices", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Reservation> reservation;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "reservationId")
-	private Reservation reservation;
+	@Column(name="price", nullable=false)
+	private double price;
 	
+	@Column(name="deleted", nullable=false)
+	private boolean deleted;
 
 	public AdditionalServices() {
 		this.offer = new ArrayList<Offer>();
@@ -70,22 +72,38 @@ public class AdditionalServices {
 		this.offer = offer;
 	}
 
-	public SaleAppointment getSaleAppointment() {
+	public List<SaleAppointment> getSaleAppointment() {
 		return saleAppointment;
 	}
 
-	public void setSaleAppointment(SaleAppointment saleAppointment) {
+	public void setSaleAppointment(List<SaleAppointment> saleAppointment) {
 		this.saleAppointment = saleAppointment;
 	}
 
-	public Reservation getReservation() {
+	public List<Reservation> getReservation() {
 		return reservation;
 	}
 
-	public void setReservation(Reservation reservation) {
+	public void setReservation(List<Reservation> reservation) {
 		this.reservation = reservation;
 	}
-	
-	
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public boolean isDeleted() {
+		return deleted;
+	}
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
+
+	public AdditionalServices(String name, double price) {
+		this.name=name;
+		this.price = price;
+
+	}
 }

@@ -26,10 +26,12 @@ public enum NavigationEquipment {
     		return NavigationEquipment.FISHFINDER;
     	}
     }
+
     
     
     public int getValue() {
         return value;
     }
+
 
 }

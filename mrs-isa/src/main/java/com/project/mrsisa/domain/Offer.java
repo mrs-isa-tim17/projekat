@@ -80,9 +80,8 @@ public abstract class Offer {
 	@OneToMany(mappedBy = "offer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
 	
-	@ManyToMany
-	@JoinTable(name = "subscriptions", joinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
-	protected List<Client> subscribers;
+	@ManyToMany(mappedBy = "subscriptions", fetch = FetchType.LAZY)
+	protected List<Client> client;
 	
 	public Offer() {
 		this.complaints = new ArrayList<Complaint>();
@@ -166,13 +165,56 @@ public abstract class Offer {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<Client> getSubscribers() {
-		return subscribers;
+	public List<Client> getClient() {
+		return client;
 	}
-	public void setSubscribers(List<Client> subscribers) {
-		this.subscribers = subscribers;
+	public void setClient(List<Client> client) {
+		this.client = client;
 	}
-	
-	
-	
+
+	public List<PeriodAvailability> getPeriodAvailabilities() {
+		return periodAvailabilities;
+	}
+
+	public void setPeriodAvailabilities(List<PeriodAvailability> periodAvailabilities) {
+		this.periodAvailabilities = periodAvailabilities;
+	}
+
+	public List<PeriodUnavailability> getPeriodUnavailabilities() {
+		return periodUnavailabilities;
+	}
+
+	public void setPeriodUnavailabilities(List<PeriodUnavailability> periodUnavailabilities) {
+		this.periodUnavailabilities = periodUnavailabilities;
+	}
+
+	public List<SaleAppointment> getSaleAppointments() {
+		return saleAppointments;
+	}
+
+	public void setSaleAppointments(List<SaleAppointment> saleAppointments) {
+		this.saleAppointments = saleAppointments;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public void addPeriodAvailability(PeriodAvailability pa){
+		if (this.periodAvailabilities == null){
+			this.periodAvailabilities = new ArrayList<PeriodAvailability>();
+		}
+		this.periodAvailabilities.add(pa);
+	}
+
+	public void addReservation(Reservation r){
+		if (this.reservations == null){
+			this.reservations = new ArrayList<Reservation>();
+		}
+		this.reservations.add(r);
+	}
 }

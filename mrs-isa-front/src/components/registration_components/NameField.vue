@@ -12,9 +12,9 @@
           @blur="validateInput"
       />
     </div>
-    <div class="ui basic label pointing red" v-if="errors.name" style="color:red;font-size:15px;">
+    <p class="ui basic label pointing red" v-if="errors.name" style="color:red;font-size:15px;">
       {{ errors.name }}
-    </div>
+    </p>
   </div>
 </template>
 
@@ -22,6 +22,7 @@
 import { ref } from "vue";
 import useFormValidation from "@/validations/useFormValidation";
 export default {
+
   setup() {
     let input = ref("");
     const { validateNameField, errors } = useFormValidation();
@@ -30,6 +31,7 @@ export default {
     };
     return { input, errors, validateInput };
   },
+
 };
 </script>
 

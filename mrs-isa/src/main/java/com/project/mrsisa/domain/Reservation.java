@@ -1,19 +1,11 @@
 package com.project.mrsisa.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Reservation {
@@ -22,15 +14,17 @@ public class Reservation {
 	private Long id;
 	
 	@Column(nullable=false)
-	private LocalDate startDate;
+	private LocalDateTime startDate;
 	
 	@Column(nullable=false)
-	private LocalDate endDate;
+	private LocalDateTime endDate;
 	
 	@Column(nullable=false)
 	private double price;
 	
-	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
+	//@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "additionalServices_reservation", joinColumns=@JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "additional_service_id", referencedColumnName = "id"))
 	private List<AdditionalServices> additionalServices;
 
 	@Column(nullable = false)
@@ -46,12 +40,18 @@ public class Reservation {
 	private boolean canceled;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "clientId")
+	@JoinColumn(name = "clientId", nullable = true)
 	private Client client;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
+
+	@OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Complaint> complaints;
+
+	@Column(nullable = true)
+	private boolean shipOwnerPresent;
 
 	public boolean isReviewed() {
 		return reviewed;
@@ -76,19 +76,53 @@ public class Reservation {
 	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-
-	public LocalDate getStartDate() {
+	
+	public LocalDateTime getStartDateTime() {
 		return startDate;
 	}
-	public void setStartDate(LocalDate startDate) {
+
+	public void setStartDateTime(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
-	public LocalDate getEndDate() {
+
+	public LocalDateTime getEndDateTime() {
 		return endDate;
 	}
-	public void setEndDate(LocalDate endDate) {
+
+	public void setEndDateTime(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
+
+
+	public LocalDate getStartDate() {
+		return startDate.toLocalDate();
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate.atStartOfDay();
+	}
+
+	public LocalDate getEndDate() {
+		return endDate.toLocalDate();
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate.atStartOfDay();
+	}
+
+
+	
+	
+	
+	
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+
 	public double getPrice() {
 		return price;
 	}
@@ -125,7 +159,20 @@ public class Reservation {
 	public void setClient(Client client) {
 		this.client = client;
 	}
-	
-	
-	
+
+	public boolean isShipOwnerPresent() {
+		return shipOwnerPresent;
+	}
+
+	public void setShipOwnerPresent(boolean shipOwnerPresent) {
+		this.shipOwnerPresent = shipOwnerPresent;
+	}
+
+	public Reservation() {
+	}
+
+	public Reservation(LocalDateTime startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 }

@@ -1,9 +1,11 @@
 package com.project.mrsisa.controller;
 
-import com.project.mrsisa.domain.Reservation;
+import com.project.mrsisa.domain.*;
 import com.project.mrsisa.dto.UserTokenState;
+import com.project.mrsisa.dto.client.CurrentClientDTO;
 import com.project.mrsisa.dto.client.HomePageInfoDTO;
 import com.project.mrsisa.dto.client.OfferHistoryReservationDTO;
+import com.project.mrsisa.dto.client.SubscriebedEntitiesDTO;
 import com.project.mrsisa.service.*;
 import com.project.mrsisa.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +15,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.mrsisa.domain.Client;
-import com.project.mrsisa.domain.LoyaltyScale;
 import com.project.mrsisa.dto.ClientProfileResponseDTO;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin
 public class ClientController {
-	
+    @Autowired
+    private ReservationService reservationService;
+
+    @Autowired
+    private CottageOwnerService cottageOwnerService;
 	@Autowired
-	private ClientService clientService;
+    private CottageService cottageService;
+
+    @Autowired
+    private ShipService shipService;
+
+    @Autowired
+    private ShipOwnerService shipOwnerService;
+    @Autowired
+    private ClientService clientService;
 	@Autowired
 	private LoyaltyScaleService loyaltyScaleService;
     @Autowired
     private TokenUtils tokenUtils;
     @Autowired
-    private ReservationService reservationService;
-    @Autowired
-    private CottageService cottageService;
-    @Autowired
-    private ImageService imageService;
-    @Autowired
-    private ShipService shipService;
-    @Autowired
     private DeleteRequestService deleteRequestService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FishingInstructorService fishingInstructorService;
+    @Autowired
+    private AdventureService adventureService;
 
     @GetMapping("/verify/{code}")
     public ResponseEntity<UserTokenState> verifyAccount(@PathVariable("code") String code){
@@ -53,199 +60,6 @@ public class ClientController {
         String jwt = tokenUtils.generateToken(c.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
         return ResponseEntity.ok(new UserTokenState(jwt, expiresIn, c.getRoleId(), c.getId()));//new ResponseEntity<Client>(c, HttpStatus.OK);
-    }
-
-    @GetMapping("/cottage/history/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllCottagePastReservations(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        List<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            System.out.println(r.getOffer().getId());
-            r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/cottage/history/name/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByName(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList, new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                int NameCompare = c1.getName().compareTo(
-                        c2.getName());
-
-                return NameCompare;
-            }
-        });
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/cottage/history/date/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDate(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList, //(x, y) -> x.getStartDate().compareTo(y.getEndDate()));
-                new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                int dateCompare = c1.getEndDateLocalDate().compareTo(
-                        c2.getEndDateLocalDate());
-
-                return dateCompare;
-            }
-        });//*/
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/cottage/history/duration/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByDuration(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                return Comparator.comparing(OfferHistoryReservationDTO::getDuration).compare(c1, c2);
-            }
-        });
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/cottage/history/price/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllCottagePastReservationsSortByPrice(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getCottageHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(cottageService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                return Comparator.comparing(OfferHistoryReservationDTO::getPrice).compare(c1, c2);
-            }
-        });
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/ship/history/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<List<OfferHistoryReservationDTO>> getAllShipPastReservations(@PathVariable Long id){
-        List<Reservation> pastShipReservations = reservationService.getShipHistoryReservation(id);
-        List<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastShipReservations){
-            r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/ship/history/name/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByName(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getShipHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList, new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                int NameCompare = c1.getName().compareTo(
-                        c2.getName());
-
-                return NameCompare;
-            }
-        });
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/ship/history/date/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDate(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getShipHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList, //(x, y) -> x.getStartDate().compareTo(y.getEndDate()));
-                new Comparator<OfferHistoryReservationDTO>() {
-                    @Override
-                    public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                        int dateCompare = c1.getEndDateLocalDate().compareTo(
-                                c2.getEndDateLocalDate());
-
-                        return dateCompare;
-                    }
-                });//*/
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/ship/history/duration/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByDuration(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getShipHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                return Comparator.comparing(OfferHistoryReservationDTO::getDuration).compare(c1, c2);
-            }
-        });
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/ship/history/price/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<ArrayList<OfferHistoryReservationDTO>> getAllShipPastReservationsSortByPrice(@PathVariable Long id){
-        List<Reservation> pastCottageReservations = reservationService.getShipHistoryReservation(id);
-        ArrayList<OfferHistoryReservationDTO> dtoList = new ArrayList<OfferHistoryReservationDTO>();
-        for (Reservation r : pastCottageReservations){
-            r.setOffer(shipService.findOne(r.getOffer().getId()));
-            r.getOffer().setImages(imageService.findAllByOfferId(r.getOffer().getId()));
-            dtoList.add(new OfferHistoryReservationDTO(r));
-        }
-        Collections.sort(dtoList,new Comparator<OfferHistoryReservationDTO>() {
-            @Override
-            public int compare(OfferHistoryReservationDTO c1, OfferHistoryReservationDTO c2) {
-                return Comparator.comparing(OfferHistoryReservationDTO::getPrice).compare(c1, c2);
-            }
-        });
-        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/penalties/{id}")
@@ -259,9 +73,9 @@ public class ClientController {
     }
 
     @GetMapping("/profile/{id}")
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('COTTAGE_OWNER') or hasRole('SHIP_OWNER') or hasRole('FISHINSTRUCTOR')")
     public ResponseEntity<ClientProfileResponseDTO> getClient(@PathVariable Long id){
-        
+  
         Client client = null;
        try {
         client = clientService.findOne(id);
@@ -273,7 +87,7 @@ public class ClientController {
 		e.printStackTrace();
        }
         
-        LoyaltyScale ls = loyaltyScaleService.loyaltyScalesGreaterMinimumTrashhold(client.getLoyaltyPoints());
+        LoyaltyScale ls = loyaltyScaleService.findCurrentLoyaltyScaleByUserType(client.getRoleId(), client.getUserType());//findCurrentLoyaltyScaleForUser(1);//loyaltyScalesGreaterMinimumTrashhold(client.getLoyaltyPoints());
         int discount;
         if (ls == null) {
         	discount = 0;
@@ -315,5 +129,118 @@ public class ClientController {
        }
 
        return new ResponseEntity<ClientProfileResponseDTO>(new ClientProfileResponseDTO(client, 5), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/current/{id}")
+    @PreAuthorize("hasRole('COTTAGE_OWNER') or hasRole('FISHINSTRUCTOR')")
+    public ResponseEntity<List<CurrentClientDTO>> getCurrentClients(@PathVariable Long id){
+    	User user = userService.findById(id);
+    	Long roleId = user.getRoleId();
+	    List<String> emails = new ArrayList<>();
+
+    	
+    	List<CurrentClientDTO> current = new ArrayList<>();
+    	switch (roleId.intValue()) {
+		case 3:    // cottage owner
+			 CottageOwner owner = cottageOwnerService.findOne(id);
+		    //    List<String> emails = new ArrayList<>();
+		        List<Cottage> cottages = cottageService.getCottagesByOwner(owner);
+		        
+		        for(Cottage c : cottages){
+		            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(c.getId());
+		            for(Reservation r : reservations){
+		                System.out.println("rez" + r.getId());
+		                Client client = clientService.findOne(r.getClient().getId());
+		                CurrentClientDTO currentdto = new CurrentClientDTO(client,c,r);
+		                current.add(currentdto);
+		               /* if(!emails.contains(currentdto.getClientEmail())){
+		                    current.add(currentdto);
+		                    emails.add(currentdto.getClientEmail());
+		                }*/
+		            }
+		        }
+		        for(CurrentClientDTO currenttt : current){
+		            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+		        }
+
+		        return new ResponseEntity<>(current,HttpStatus.OK);
+
+		        
+
+		case 4:  // ship owner
+			break;
+			
+			
+		case 5:  // fishinstructor
+			FishingInstructor instructor = fishingInstructorService.findOne(id);
+	        List<Adventure> adventures = adventureService.getAdventuresByOwner(instructor);
+	        for(Adventure a : adventures){
+	            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(a.getId());
+	            for(Reservation r : reservations){
+	                System.out.println("rez" + r.getId());
+	                Client client = clientService.findOne(r.getClient().getId());
+	                CurrentClientDTO currentdto = new CurrentClientDTO(client, a, r);
+	                current.add(currentdto);
+	            }
+	        }
+	        for(CurrentClientDTO currenttt : current){
+	            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+	        }
+
+	        return new ResponseEntity<>(current,HttpStatus.OK);
+		       
+
+		default:
+			return new ResponseEntity<>(current,HttpStatus.OK);
+		}
+    	
+    	return new ResponseEntity<>(current,HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/ship/current/{id}")
+    @PreAuthorize("hasRole('SHIP_OWNER')")
+    public ResponseEntity<List<CurrentClientDTO>> getCurrentShipClients(@PathVariable Long id){
+        ShipOwner owner = shipOwnerService.findOne(id);
+        List<String> emails = new ArrayList<>();
+        List<Ship> ships = shipService.getShipsByOwner(owner);
+        List<CurrentClientDTO> current = new ArrayList<>();
+        for(Ship s : ships){
+            List<Reservation> reservations = reservationService.getCurrentReservationsForOffer(s.getId());
+            for(Reservation r : reservations){
+                System.out.println("rez" + r.getId());
+                Client client = clientService.findOne(r.getClient().getId());
+                CurrentClientDTO currentdto = new CurrentClientDTO(client,s,r);
+                current.add(currentdto);
+               /* if(!emails.contains(currentdto.getClientEmail())){
+                    current.add(currentdto);
+                    emails.add(currentdto.getClientEmail());
+                }*/
+            }
+        }
+        for(CurrentClientDTO currenttt : current){
+            System.out.println("trenutnoooooo" + currenttt.getClientEmail());
+        }
+
+        return new ResponseEntity<>(current,HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribed/{clientId}/{offerId}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Boolean> getIfSubscribed(@PathVariable Long clientId, @PathVariable Long offerId){
+        if (clientService.findIfSubscribed(clientId, offerId))
+            return ResponseEntity.ok(true);
+        return ResponseEntity.ok(false);
+    }
+
+    @GetMapping("/subscribed/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<List<SubscriebedEntitiesDTO>> getEntitiesClientSubscribed(@PathVariable Long id){
+        List<Offer> offers = clientService.getEntitiesClientSubscribedFor(id);
+        List<SubscriebedEntitiesDTO> res = new ArrayList<>();
+        for (Offer o : offers){
+            res.add(new SubscriebedEntitiesDTO(o));
+        }
+        return ResponseEntity.ok(res);
     }
 }

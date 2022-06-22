@@ -11,6 +11,36 @@ class ReviewServce{
             headers: authHeader()
         });
     }
+
+    getReviews(id){
+        console.log(id);
+        return axios.get(REVIEW_API_BASE_URL+'/all/'+id, {
+            headers: authHeader()
+        });
+    }
+    getRating(id){
+        return axios.get(REVIEW_API_BASE_URL+'/rate/'+id, {
+            headers: authHeader()
+        });
+    }
+    getUnproccessedReviews(){
+        return axios.get(REVIEW_API_BASE_URL + '/unprocessed', {
+            headers: authHeader()
+        });
+    }
+
+    acceptReview(id){
+        return axios.get(REVIEW_API_BASE_URL + '/accept/' + id,{
+            headers: authHeader()
+        });
+    }
+
+    rejectReview(id){
+        return axios.get(REVIEW_API_BASE_URL + '/reject/'+id,{
+            headers: authHeader()
+        });
+    }
+
 }
 
 export default new ReviewServce();

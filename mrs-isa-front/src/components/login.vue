@@ -1,31 +1,36 @@
 <template>
-  <div>
+
     <basic-header></basic-header>
-<div id="login">
-  <br>
-    <div class="">
-      <img src="../assets/icons/user.png">
-      <br>
-      <br>
-    </div>
-
-    <div class="container">
-
-      <input type="text" placeholder="Unesite email" id="uname" required><br>
-      <br>
-      <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
-      <br>
-      <button type="submit" @click="login">Prijavite se</button><br>
-
-    </div>
 
 
-</div>
-  </div>
+
+      <div class="container mt-5">
+        <p style="font-size: 30px;color:#31708E;font-weight: bold">Prijava</p>
+        <!--<div class="">
+
+          <img src="../assets/icons/user.png">
+          <br>
+          <br>
+        </div>-->
+        <i class="fa fa-envelope icon"></i>
+        <input type="text" placeholder="Unesite email" id="uname" required><br>
+        <br>
+        <i class="fa fa-key icon"></i>
+        <input type="password" placeholder="Unesite lozinku" id="psw" required><br>
+        <br>
+        <button type="submit" @click="login">Prijavite se</button>
+        <br>
+
+      </div>
+
+
+
 </template>
 <script>
 import loginServce from "@/servieces/LoginServce";
-import basicHeader from "@/components/basicHeader";
+import basicHeader from "@/components/main_site/main_home_page/basicHeader";
+import swal from "sweetalert2";
+
 export default {
   name: "loginUsers",
   components: {
@@ -34,54 +39,73 @@ export default {
   data() {
 
   },
-  computed: {
-  },
+  computed: {},
   created() {
-    if (this.loggedIn){
+    if (this.loggedIn) {
       this.$router.push('client/home');
     }
   },
   methods: {
-    login(){
+    login() {
       let emailForm = document.getElementById("uname").value;
       let passwordForm = document.getElementById("psw").value;
       var user = {
         username: emailForm,
         password: passwordForm
       }
-      loginServce.login(user).then((response) => {
-        console.log(response);
-        if (response.roleID === 1){
-          this.$router.push("/client/home");
+      if (user.username === "" || user.password === "") {
+          swal.fire({
+            title: "Neuspešna prijava",
+            text: "Netačni korisničko ime ili lozinka",
+            background: 'white',
+            color: 'black',
+            confirmButtonColor: '#FECDA6'
+          });
+      } else {
+
+        loginServce.login(user).then((response) => {
+          console.log("loooogin");
+          console.log(response);
+          if (response === "") {
+            swal.fire({
+              title: "Neuspešna prijava",
+              text: "Netačni korisničko ime ili lozinka",
+              background: 'white',
+              color: 'black',
+              confirmButtonColor: '#FECDA6'
+            });
+            return;
+          }
+
+          if (response.roleID === 1) {
+            this.$router.push("/client/home");
+          } else if (response.roleID === 2 && response.changePassword === false) {
+            this.$router.push("/admin/home");//admin
+          } else if (response.roleID === 2 && response.changePassword === true) {
+            this.$router.push("/admin/change/password");     // promena lozinke
+          } else if (response.roleID === 3) {
+            this.$router.push("/cottageOwner/home");
+          } else if (response.roleID === 4) {
+            this.$router.push("/shipOwner/home");//ship owner
+          } else if (response.roleID === 5) {
+            this.$router.push("/instructor/home");//fishing instructor
+          }
         }
-        else if (response.roleID === 2){
-          this.$router.push("/admin/home");//admin
-        }
-        else if (response.roleID === 3){
-          this.$router.push("/cottageOwner/home");
-        }
-        else if (response.roleID === 4){
-          this.$router.push("/shipOwner/home");//ship owner
-        }
-        else if (response.roleID === 5){
-          this.$router.push("/instructor/home");//fishing instructor
-        }
-      }
-      )
+        )}
 
     }
   },
 };
 </script>
 <style scoped>
-#login{
-  text-align:center;
+#login {
+  text-align: center;
   border: 1px solid black;
-  background-color:#687864;
+  background-color: #687864;
   font-size: 20px;
   padding: 20px;
   width: 50%;
-  height:70%;
+  height: 60%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -89,30 +113,35 @@ export default {
   color: white;
 
 }
+
 form {
 
 }
-label{
+
+label {
 
 
   text-align: center;
 }
-img{
+
+img {
   border-radius: 50%;
-  width:10px;
-  height:10px;
+  width: 10px;
+  height: 10px;
 }
-.imgcontainer{
-  width:80px;
-  height:80px;
-  border:1px solid white;
+
+.imgcontainer {
+  width: 80px;
+  height: 80px;
+  border: 1px solid white;
   display: inline-block;
   border-radius: 50%;
 }
+
 /* Full-width inputs */
 input[type=text], input[type=password] {
-  width: 60%;
-  padding: 12px 20px;
+  width: 400pt;
+  padding: 12px 10px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
@@ -127,16 +156,18 @@ button {
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 60%;
+  width: 400pt;
 }
 
 /* Add a hover effect for buttons */
 button:hover {
   opacity: 0.8;
 }
-a{
-  color:#31708E;
+
+a {
+  color: #31708E;
 }
+
 /* Extra style for the cancel button (red) */
 .cancelbtn {
   width: auto;
@@ -145,9 +176,10 @@ a{
   float: left;
 
 }
-img{
-  width:90px;
-  height:90px;
+
+img {
+  width: 90px;
+  height: 90px;
 }
 
 /* Center the avatar image inside this container */
@@ -167,17 +199,27 @@ img.avatar {
 
 
 }
-#footer{
 
-  width:100%;
-  height:15%;
+i{
+  padding:16px;
+  background: #5085A5;
+  color: white;
+  width: 40px;
+  text-align: center;
+
+}
+
+#footer {
+
+  width: 100%;
+  height: 15%;
   position: absolute;
   bottom: 0px;
-  left:0px;
+  left: 0px;
   padding-top: 10px;
   padding-left: 30px;
   padding-right: 30px;
-  background-color: rgba(255,255,255,60%)
+  background-color: rgba(255, 255, 255, 60%)
 }
 
 /* The "Forgot password" text */
@@ -192,6 +234,7 @@ span.psw {
     display: block;
     float: none;
   }
+
   .cancelbtn {
     width: 100%;
   }

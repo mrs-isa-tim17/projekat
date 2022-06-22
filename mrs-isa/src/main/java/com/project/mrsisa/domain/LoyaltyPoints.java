@@ -2,11 +2,16 @@ package com.project.mrsisa.domain;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class LoyaltyPoints {
@@ -21,8 +26,12 @@ public class LoyaltyPoints {
 	@Column(nullable = false)
 	private LocalDate startDate;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private LocalDate endDate;
+	
+	@Enumerated
+	private UserTypeLoyaltyPoints userTypeLoyaltyPoints;
+	
 	
 	public double getPoints() {
 		return points;
@@ -48,7 +57,12 @@ public class LoyaltyPoints {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+	public UserTypeLoyaltyPoints getUserTypeLoyaltyPoints() {
+		return userTypeLoyaltyPoints;
+	}
+	public void setUserTypeLoyaltyPoints(UserTypeLoyaltyPoints userTypeLoyaltyPoints) {
+		this.userTypeLoyaltyPoints = userTypeLoyaltyPoints;
+	}
 	
 	
 

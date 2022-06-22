@@ -76,6 +76,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> findAllActive(){
+    	return userRepository.findAllActive();
+    }
+    
     public User save(UserRequest userRequest) {
         int userId = userRequest.getUserRole().intValue();
         switch (userId) {
@@ -95,34 +99,37 @@ public class UserService {
                 Admin a = new Admin();
                 a = (Admin) fillUserAttributes(a, userRequest);
                 a.setInitLoginChanged(false);
+                a.setEnabled(true);
                 return userRepository.save(a);
             case 3:
                 CottageOwner co = new CottageOwner();
-                co = (CottageOwner) fillUserAttributes(co, userRequest);
-                RegistrationRequest rrCO = makeRegistrationRequest(co);
+                co = (CottageOwner) fillUserAttributes(co, userRequest); //gde ide request objasnjenje??
+                RegistrationRequest rrCO = makeRegistrationRequest(co, userRequest.getRequestMessage(), RegistrationType.COTTAGE_OWNER);
                 co.setRegistrationRequest(rrCO);
                 return userRepository.save(co);
             case 4:
                 ShipOwner so = new ShipOwner();
                 so = (ShipOwner) fillUserAttributes(so, userRequest);
-                RegistrationRequest rrSO = makeRegistrationRequest(so);
+                RegistrationRequest rrSO = makeRegistrationRequest(so, userRequest.getRequestMessage(), RegistrationType.SHIP_OWNER);
                 so.setRegistrationRequest(rrSO);
                 return userRepository.save(so);
             case 5:
                 FishingInstructor fi = new FishingInstructor();
                 fi = (FishingInstructor) fillUserAttributes(fi, userRequest);
-                RegistrationRequest rrFI = makeRegistrationRequest(fi);
+                RegistrationRequest rrFI = makeRegistrationRequest(fi, userRequest.getRequestMessage(), RegistrationType.FISHING_INSTRUCTOR);
                 fi.setRegistrationRequest(rrFI);
                 return userRepository.save(fi);
         }
         return null;
     }
 
-    private RegistrationRequest makeRegistrationRequest(User u) {
+    private RegistrationRequest makeRegistrationRequest(User u, String requestMessage, RegistrationType regType) {
         RegistrationRequest rr = new RegistrationRequest();
         rr.setUserRef(u);
         rr.setRegistrationType(RegistrationType.valueOf(u.getRoleId().intValue()));
         rr.setStatus(ProcessingStatus.UNPROCESSED);
+        rr.setRequestMessage(requestMessage);
+        rr.setRegistrationType(regType);
         return  rr;
     }
 
@@ -142,6 +149,14 @@ public class UserService {
     public User save(User user) {
     	return userRepository.save(user);
     }
+    
+	public void remove(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	public List<User> findAllDeleted() {
+		return userRepository.findAllDeleted();
+	}
    
     }
 

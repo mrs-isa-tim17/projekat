@@ -10,9 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class FishingEquipment {
@@ -23,9 +21,10 @@ public class FishingEquipment {
 	@Column(nullable=false)
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "shipId", nullable = true)
-	private Ship ship;
+
+
+	@ManyToMany(mappedBy="fishingEquipments", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Ship> ship;
 	
 	@ManyToMany(mappedBy="fishingEquipments", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Adventure> adventure;
@@ -52,19 +51,19 @@ public class FishingEquipment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Ship getShip() {
-		return ship;
-	}
-	public void setShip(Ship ship) {
-		this.ship = ship;
-	}
+
 	public List<Adventure> getAdventure() {
 		return adventure;
 	}
 	public void setAdventure(List<Adventure> adventure) {
 		this.adventure = adventure;
 	}
-	
-	
 
+	public List<Ship> getShip() {
+		return ship;
+	}
+
+	public void setShip(List<Ship> ship) {
+		this.ship = ship;
+	}
 }

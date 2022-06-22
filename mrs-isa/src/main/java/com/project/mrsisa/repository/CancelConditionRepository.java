@@ -19,4 +19,5 @@ public interface CancelConditionRepository extends JpaRepository<CancelCondition
 
 	public CancelCondition findOneByOfferIdAndDays(Long id, int days);
 
+	public List<CancelCondition> findByOfferIdOrderByDaysAsc(Long id);
 }

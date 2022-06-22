@@ -23,4 +23,8 @@ public class CottageOwnerService {
 	public CottageOwner findOne(Long id) {
 		return coRepository.findById(id).orElseGet(null);
 	}
+
+    public void setCottageOwnerRepository(CottageOwnerRepository cottageOwnerRepository) {
+		this.coRepository = cottageOwnerRepository;
+    }
 }

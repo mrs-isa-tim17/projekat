@@ -29,7 +29,7 @@ public class ClientProfileResponseDTO {
         this.phoneNumber = client.getPhoneNumber();
         this.userType = client.getUserType();
         this.loyaltyPoints = client.getLoyaltyPoints();
-        this.penaltyNumber = client.getLoyaltyPoints();
+        this.penaltyNumber = client.getPenaltyNumber();
         this.benefits = "Imate pravo za popust od " + discount;
         this.longitude = client.getAddress().getLongitude();
         this.latitude = client.getAddress().getLatitude();

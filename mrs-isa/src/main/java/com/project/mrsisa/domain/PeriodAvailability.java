@@ -1,5 +1,6 @@
 package com.project.mrsisa.domain;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 
 @Entity
 public class PeriodAvailability {
@@ -16,40 +18,47 @@ public class PeriodAvailability {
 	private Long id;
 	
 	@Column(nullable=false)
-	private String startDate;
+	private LocalDateTime startDate;
 	
 	@Column(nullable=false)
-	private String endDate;
+	private LocalDateTime endDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "offerId")
 	private Offer offer;
 	
-	public String getStartDate() {
+
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Offer getCalendar() {
+	public Offer getOffer() {
 		return offer;
 	}
-	public void setCalendar(Offer offer) {
+	public void setOffer(Offer offer) {
 		this.offer = offer;
 	}
-	
-	
-	
+
+	public PeriodAvailability() {
+	}
+
+	public PeriodAvailability(LocalDateTime startDate, LocalDateTime endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
 }

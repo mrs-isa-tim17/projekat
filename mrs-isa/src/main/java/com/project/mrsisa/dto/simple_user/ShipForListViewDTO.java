@@ -3,7 +3,7 @@ package com.project.mrsisa.dto.simple_user;
 import com.project.mrsisa.domain.Cottage;
 import com.project.mrsisa.domain.Ship;
 
-public class ShipForListViewDTO {
+public class ShipForListViewDTO extends SizeOfListDTO {
 
     private double longitude;
     private double latitude;

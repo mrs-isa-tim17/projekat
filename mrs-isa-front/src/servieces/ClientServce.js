@@ -7,11 +7,16 @@ const CLIENT_API_BASE_URL = Config.BASE_URL + '/client';
 
 class ClientServce{
     getClient(clientID){
-        console.log(authHeader());
         return axios.get(CLIENT_API_BASE_URL+'/profile/'+clientID, {
             headers: authHeader()
         });
     }
+    checkIfSubscribed(clientID, offerId){
+        return axios.get(CLIENT_API_BASE_URL+'/subscribed/'+clientID + "/" + offerId, {
+            headers: authHeader()
+        });
+    }
+
     getClientPenalties(clientId){
         return axios.get(CLIENT_API_BASE_URL+'/penalties/'+clientId, {
             headers: authHeader()
@@ -22,57 +27,19 @@ class ClientServce{
             headers: authHeader()
         });
     }
-    getPastCottageReservations(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/" + clientID, {
-            headers : authHeader()
+
+    getCurrentClients(ownerId){
+        return axios.get(CLIENT_API_BASE_URL+'/current/'+ownerId, {
+            headers: authHeader()
         });
     }
 
-    getPastShipReservations(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/" + clientID, {
-            headers : authHeader()
+    getCurrentShipClients(ownerId){
+        return axios.get(CLIENT_API_BASE_URL+'/ship/current/'+ownerId, {
+            headers: authHeader()
         });
     }
-    getSortedPastCottageReservationsByName(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/name/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByDate(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/date/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByPrice(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/price/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastCottageReservationsByDuration(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/cottage/history/duration/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByName(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/name/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByDate(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/date/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByPrice(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/price/" + clientID, {
-            headers : authHeader()
-        });
-    }
-    getSortedPastShipReservationsByDuration(clientID){
-        return axios.get(CLIENT_API_BASE_URL + "/ship/history/duration/" + clientID, {
-            headers : authHeader()
-        });
-    }
+
     verify(code){
         return axios.get(CLIENT_API_BASE_URL + "/verify/" + code)
             .then((response) =>{
@@ -86,6 +53,12 @@ class ClientServce{
                 return response.data;
 
             })
+    }
+
+    getEntitiesSubscribedFor(id) {
+        return axios.get(CLIENT_API_BASE_URL + "/subscribed/" + id, {
+            headers: authHeader()
+        });
     }
 }
 
