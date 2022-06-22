@@ -1,43 +1,54 @@
 <template>
-  <div>
-    <admin-header></admin-header>
-    <section class="signup-view">
-      <div>
-        <div id="left">
-          <NameField v-model="user.name"/>
-          <br>
-          <LastNameField v-model="user.surname"/>
-          <br>
-          <EmailField v-model="user.email"/>
-          <br>
-          <PasswordField v-model="user.password"/>
-          <br>
-          <PasswordAgainField v-model="user.password"/>
-          <br>
-          <PhoneField v-model="user.phoneNumber"/>
-          <br>
-
-        </div>
-        <div id="right" style="margin-left:700px; margin-bottom:280px;">
-          <label> Izaberite adresu</label>
-          <open-maps :lon="user.longitude" :lat="user.latitude" @coordinate-changed="updateCoordinats"
-                     style="width: 400px; height: 400px;"></open-maps>
-        </div>
-        <div class="footer">
-          <button id="register" class="ui button red fluid big"
-                  @click="signUpButtonPressed"
-                  style="float:right;width:200px;background-color: #31708E;margin-bottom: 60px;">
-            Registruj
-          </button>
-        </div>
+  <admin-header></admin-header>
+  <div class="container">
+    <div class="row mt-3">
+      <p style="text-align: center;color:#31708E">Registracija novog administratora</p>
+      <div class="col-6">
+        <NameField v-model="user.name" /><br>
+        <LastNameField v-model="user.surname"/><br>
+        <EmailField v-model="user.email" /><br>
+        <PasswordField v-model="user.password" /><br>
+        <PasswordAgainField id="passwordAgain" :password="user.password"/><br>
+        <PhoneField v-model="user.phoneNumber" /><br>
 
       </div>
-    </section>
+      <div class="col-6" >
+        <p style="text-align: left;font-size: 15px;color:#31708E;">Izaberite adresu</p>
+        <open-maps :lon="user.longitude" :lat="user.latitude" @coordinate-changed="updateCoordinats" style="width: 400px; height: 400px;"></open-maps>
+
+        <button class="ui button red fluid big"
+                @click="signUpButtonPressed"
+                style="float:right;max-width:300px;background-color: #31708E;font-size:20px;color:whitesmoke;margin-bottom: 60px;">
+          Registruj se
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!--  <div> <div class="modal fade"  :id=index role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Modal title</h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+
 </template>
 
 <script>
-import {reactive} from "vue";
+import { reactive } from "vue";
+
 
 
 import useFormValidation from "@/validations/useFormValidation";
@@ -51,8 +62,9 @@ import LastNameField from "@/components/registration_components/LastNameField";
 import PasswordAgainField from "@/components/registration_components/PasswordAgainField";
 import OpenMaps from "@/components/VueMaps";
 import loginServce from "@/servieces/LoginServce";
-import adminHeader from "@/components/admin/adminHeader";
 import swal from "sweetalert2";
+import adminHeader from "@/components/admin/adminHeader";
+
 
 export default {
   components: {
@@ -69,142 +81,139 @@ export default {
   setup() {
     let user = reactive({
       name: "",
-      surname: "",
+      surname:"",
       email: "",
       phoneNumber: "",
       password: "",
       userRole: 2,
       longitude: 0,
-      latitude: 0
+      latitude: 0,
+      requestMessage:"klijent"
     });
 
-    const {errors} = useFormValidation();
-    const {isSignupButtonDisabled} = useSubmitButton(user, errors);
+    const { errors } = useFormValidation();
+    const { isSignupButtonDisabled } = useSubmitButton(user, errors);
 
     const signUpButtonPressed = () => {
-      console.log("presssss");
-      console.log(user);
-      if (user.email === "" || user.name === "" || user.surname === "" || user.phoneNumber === "" || user.password === "") {
+
+      if (user.name == "") {
+        swal.fire({title: 'Unesite ime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.surname == "") {
+        swal.fire({title: 'Unesite prezime!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.email == "") {
+        swal.fire({title: 'Unesite email!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.phoneNumber == "") {
         swal.fire({
-          title: "Neuspešno",
-          text: "Unesite podatke",
+          title: 'Unesite broj telefona!',
           background: 'white',
-          color: 'black',
-          confirmButtonColor: '#FECDA6'
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.password == "") {
+        swal.fire({
+          title: 'Unesite lozinku ponovo!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (document.getElementById("passwordAgain").value == "") {
+        swal.fire({
+          title: 'Unesite lozinku ponovo!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.longitude == "" && user.latitude == "") {
+        swal.fire({title: 'Unesite adresu!', background: 'white', color: '#687864', confirmButtonColor: '#687864'});
+      } else if (user.userRole != 1 && user.requestMessage == "") {
+        swal.fire({
+          title: 'Unesite obrazloženje!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (user.password == document.getElementById("passwordAgain").value) {
+        console.log(document.getElementById("passwordAgain").value);
+        swal.fire({
+          title: 'Lozinke se ne poklapaju!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
+        });
+      } else if (!Number.isInteger(parseInt(user.phoneNumber))) {
+        swal.fire({
+          title: 'Polje broj telefona treba da sadrži samo brojeve!',
+          background: 'white',
+          color: '#687864',
+          confirmButtonColor: '#687864'
         });
       } else {
-        loginServce.registration(user).then((response) => {
-          console.log("responseeee");
-          console.log(response.data);
-          if (response.data === null) {
-            swal.fire({
-              title: "Neuspešno",
-              text: "Korisnik već postoji",
-              background: 'white',
-              color: 'black',
-              confirmButtonColor: '#FECDA6'
-            });
-          } else {
-            swal.fire({
-              title: "Uspešno",
-              text: "Registrovali ste novog administratora",
-              background: 'white',
-              color: 'black',
-              confirmButtonColor: '#8DF172'
-            });
-            document.getElementById("register").style.visibility = "hidden";
 
-          }
+        loginServce.registration(user)
+            .then((response) => {
+              console.log("REGISTER");
+              console.log(user.userRole);
+              console.log(response.data);
+              if (response.data.successfull) {
 
-        });
+                  swal.fire({
+                    title: "Uspešno",
+                    text: "Uspešno ste registrovali novog administratora.",
+                    background: 'white',
+                    color: 'black',
+                    confirmButtonColor: '#8DF172',
+                    timer: 3000,
+                  });
+
+                //uspesno
+              } else {
+                swal.fire({
+                  title: "Neuspešno",
+                  text: response.data.text,
+                  background: 'white',
+                  color: 'black',
+                  confirmButtonColor: '#FECDA6',
+                  timer: 1500,
+                });
+              }
+            }).catch(console.log("PROBLEM"));
       }
     };
-    return {user, signUpButtonPressed, isSignupButtonDisabled};
+    return { user, signUpButtonPressed, isSignupButtonDisabled };
   },
-  methods: {
-    updateCoordinats(lon, lat) {
+  data(){
+    return{
+      text:"",
+      index:""
+    }
+  },
+  methods:{
+    updateCoordinats(lon, lat){
       this.user.longitude = lon;
       this.user.latitude = lat;
       console.log(lon, lat)
     },
-    changeUserType() {
-      this.user.userRole = document.getElementById("roles").value;
-    },
-    validatePhoneNum(num) {
-      if (num.length > 10) {
-        return false
-      }
-      if (isNaN(num)) {
-        return true
-      } else {
-        return false;
-      }
-    }
   }
-}
+};
 </script>
 
 <style scoped>
-.signup-view {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
-#left {
-  border: 1px solid black;
-  text-align: center;
-  background-color: #687864;
-  font-size: 20px;
-  padding: 40px;
-  width: 40%;
-  height: 70%;
-  position: absolute;
-  left: 30%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-}
 
-#right {
-
-}
-
-.footer {
-  bottom: 50px;
-  position: absolute;
-  width: 80%;
-  left: 60px;
-
-}
-
-#cancel {
-  float: left;
-  left: 30px;
-  width: 150px;
-  color: white;
-  background-color: red;
-}
-
-p {
+p{
   font-size: 30px;
   font-weight: bold;
-  color: white;
-  top: 0px;
+  color:white;
+  top:0px;
 }
 
-select {
-  width: 300px;
-  height: 35px;
-}
-
-i {
+i{
   padding: 7px;
   background: #5085A5;
   color: white;
   min-width: 30px;
   text-align: center;
 }
+
 
 </style>

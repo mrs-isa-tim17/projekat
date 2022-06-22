@@ -76,7 +76,7 @@ export default {
       else if(this.periodDate.end - this.periodDate.start < 1){
         swal.fire({title:'Krajnji datum ne može biti pre početnog!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
-      else if(this.periodDate.end < today || this.periodDate.start){
+      else if(this.periodDate.start < today || this.periodDate.end < today){
         swal.fire({title:'Unesite datume u budućnosti!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
       }
       else {

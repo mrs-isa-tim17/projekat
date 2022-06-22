@@ -120,7 +120,9 @@ export default {
         additionalServices: [],
         price: "",
       },
-      message:""
+      message:{
+        text:""
+      }
     }
   },
   methods:{
@@ -145,7 +147,7 @@ export default {
       if(this.Validate()){
         SaleAppointmentService.defineSaleAppointmentForCottage(cottage.id, this.saleAppointmentDTO).then((response) => {
           this.message = response.data;
-          swal.fire({title:"Uspešno kreirana akcija!",background:'white',color:'#31708E',confirmButtonColor:'#31708E'});
+          swal.fire({title:"Obaveštenje",text: this.message.text, background:'white',color:'#31708E',confirmButtonColor:'#31708E'});
           this.value=null;
           this.date=null;
           this.duration=null;

@@ -221,7 +221,7 @@ export default {
       numLoyaltyPointsLabel: "Broj lojaltih bodova",
       userCategoryLabel: "Kategorija",
       benefitsLabel: "Pogodnosti",
-      numPenaltiesLabel: "Penale",
+      numPenaltiesLabel: "Penali",
       nameLabel: "Ime*",
       surnameLabel: "Prezime*",
       emailLabel: "Email*",

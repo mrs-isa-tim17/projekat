@@ -3,8 +3,8 @@
   <div class="container p-3">
 
     <div class="pb-5" style="text-align: center;font-weight: bold;font-size: 30px;">Kreiranje akcije</div>
-    <div  style="border:1px solid #31708E;background-color:#31708E;color:white;">
-      <div class="row" >
+    <div style="border:1px solid #31708E;background-color:#31708E;color:white;">
+      <div class="row">
         <div class="col-1"></div>
         <div class="col-4">
           <br>
@@ -23,12 +23,13 @@
           <br><br>
           <div style="border:2px solid white;">
             <label class="pb-3" style="font-size: 23px;text-align: left;">Dodatne usluge</label><br>
-            <div class="" style="display: inline-block;font-size: 20px;color:white;" v-for="(s,i) in this.allSystemServices" :key="i">
-              <input type="checkbox" style="width:20px;height:20px;color:red" @change="checkService(s)" >&nbsp;<i
+            <div class="" style="display: inline-block;font-size: 20px;color:white;"
+                 v-for="(s,i) in this.allSystemServices" :key="i">
+              <input type="checkbox" style="width:20px;height:20px;color:red" @change="checkService(s)">&nbsp;<i
                 class=" mr-1 text-primary"
                 :class="icons[s]"
                 style="width:25px;height:25px;"
-            ></i>&nbsp;{{s}}&nbsp;&nbsp;&nbsp;
+            ></i>&nbsp;{{ s }}&nbsp;&nbsp;&nbsp;
             </div>
           </div>
           <label class="pt-4" style="font-size: 23px;text-align: left;">Cena(din.)</label><br>
@@ -40,7 +41,10 @@
       <div class="row">
         <div class="col-4"></div>
         <div class="col-3">
-          <button @click="createQuickRes" style="width:180px;font-size:23px;margin-left:20px;border:none;color:#31708E;font-weight: bold; --dp-border-color-hover:#31708E ">Kreiraj akciju</button>
+          <button @click="createQuickRes"
+                  style="width:180px;font-size:23px;margin-left:20px;border:none;color:#31708E;font-weight: bold; --dp-border-color-hover:#31708E ">
+            Kreiraj akciju
+          </button>
         </div>
         <div class="col-4"></div>
       </div>
@@ -48,10 +52,6 @@
       <br>
       <br>
     </div>
-
-
-
-
 
 
   </div>
@@ -64,36 +64,41 @@ import swal from "sweetalert2";
 import SaleAppointmentService from "@/servieces/SaleAppointmentService";
 import Datepicker from "@vuepic/vue-datepicker";
 import ShipService from "@/servieces/ship_owner/ShipService";
+import AdditionalServicesService from "@/servieces/AdditionalServicesService";
 
 
 export default {
   name: "quickReservationShip",
-  components:{ shipOwnerHeader,  Multiselect,Datepicker},
+  components: {shipOwnerHeader, Multiselect, Datepicker},
   created() {
     this.coID = JSON.parse(localStorage.user).id;
     console.log(this.coID);
     ShipService.getShipByOwner(this.coID)
         .then((response) => {
           this.allShips = response.data;
-          for(let i=0;i<response.data.length;i++)
+          for (let i = 0; i < response.data.length; i++)
             this.shipsName.push(response.data[i].name);
           console.log(this.shipsName);
         });
 
+    AdditionalServicesService.getAll().then((response) => {
+          this.allSystemServices = response.data;
 
+        }
+    );
 
   },
-  data(){
-    return{
-      allShips:[],
-      shipsName:[],
-      classes:[],
-      value:null,
-      price:null,
-      date:null,
-      duration:null,
-      checked_services:[],
-      icons:{
+  data() {
+    return {
+      allShips: [],
+      shipsName: [],
+      classes: [],
+      value: null,
+      price: null,
+      date: null,
+      duration: null,
+      checked_services: [],
+      icons: {
         "restoran": "fas fa-utensils text-black",
         "doručak": "fas fa-bread-slice text-black",
         "bar": "fas fa-glass-martini-alt text-black",
@@ -102,7 +107,7 @@ export default {
         "spa": "fas fa-spa text-black",
         "teretana": "fas fa-dumbbell text-black",
       },
-      allSystemServices:["restoran","doručak","bar","wifi","bazen","spa","teretana"],
+      allSystemServices: [],
       saleAppointmentDTO: {
         id: "",
         offerId: "",
@@ -114,15 +119,17 @@ export default {
         additionalServices: [],
         price: "",
       },
-      message:""
+      message: {
+        text:""
+      }
     }
   },
-  methods:{
+  methods: {
 
-    createQuickRes(){
+    createQuickRes() {
       var ship = "";
-      for(let i=0; i<this.allShips.length; i++){
-        if(this.allShips[i].name === this.value){
+      for (let i = 0; i < this.allShips.length; i++) {
+        if (this.allShips[i].name === this.value) {
           ship = this.allShips[i];
           console.log(ship);
         }
@@ -136,14 +143,20 @@ export default {
       this.saleAppointmentDTO.startDateTime = this.date;
       this.saleAppointmentDTO.additionalServices = this.checked_services;
       console.log(this.saleAppointmentDTO);
-      if(this.Validate()){
+      if (this.Validate()) {
         SaleAppointmentService.defineSaleAppointmentForShip(ship.id, this.saleAppointmentDTO).then((response) => {
           this.message = response.data;
-          swal.fire({title:"Uspešno kreirana akcija!",background:'white',color:'#31708E',confirmButtonColor:'#31708E'});
-          this.value=null;
-          this.date=null;
-          this.duration=null;
-          this.price=null;
+          swal.fire({
+            title: "Obaveštenje",
+            text:this.message.text,
+            background: 'white',
+            color: '#31708E',
+            confirmButtonColor: '#31708E'
+          });
+          this.value = null;
+          this.date = null;
+          this.duration = null;
+          this.price = null;
 
         })
       }
@@ -165,20 +178,16 @@ export default {
       if(this.value === null){
         swal.fire("Niste odabrali brod!");
         return false;
-      }
-      else if(this.date === null){
+      } else if (this.date === null) {
         swal.fire("Niste odabrali datum!");
         return false;
-      }
-      else if(this.duration === null){
+      } else if (this.duration === null) {
         swal.fire("Niste uneli trajanje akcije!");
         return false;
-      }
-      else if(this.price === null){
+      } else if (this.price === null) {
         swal.fire("Niste uneli cenu akcije!");
         return false;
-      }
-      else{
+      } else {
         return true;
       }
     },
@@ -190,8 +199,8 @@ export default {
 </script>
 <style src="@vueform/multiselect/themes/default.css">
 
-button:hover{
-  background-color:red;
+button:hover {
+  background-color: red;
 }
 
 

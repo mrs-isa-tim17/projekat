@@ -212,7 +212,8 @@ export default {
       PasswordService.matchPassword(this.passwords,this.coID)
           .then((response)=>{
                 if(response.data){
-                  swal.fire({title:'Uspešno izmenjeno!',background:'white',color:'#687864',confirmButtonColor:'#687864'});
+                  swal.fire({title:'Uspešno izmenjena lozinka! Molimo da se prijavite ponovo.',background:'white',color:'#687864',confirmButtonColor:'#687864', timer:2000});
+                  this.$router.push('/book/site/login');
                 }
                 else{
                   swal.fire({title:'Neuspešne izmene!',background:'white',color:'#687864',confirmButtonColor:'#687864'});

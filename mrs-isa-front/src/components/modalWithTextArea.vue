@@ -17,6 +17,7 @@
               <textarea class="my-4" rows="5" cols="50" name="text" v-model="text"></textarea>
           </div>
           <div class="modal-footer">
+            <p id="emptyError" style="visibility: hidden;"> Ne može da se pošalje prazano. </p>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
             <button type="button" class="btn btn-primary" @click.prevent="sendValue">Pošalji</button>
           </div>
@@ -62,8 +63,8 @@ export default {
     },
     sendValue(){
       if (this.text == ""){
-        document.getElementById("emptyErrorModalWithTextArea").style.color = "red";
-        document.getElementById("emptyErrorModalWithTextArea").style.visibility = "visible";
+        document.getElementById("emptyError").style.color = "red";
+        document.getElementById("emptyError").style.visibility = "visible";
         return;
       }
 

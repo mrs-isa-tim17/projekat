@@ -1,15 +1,8 @@
 <template>
   <adminHeader></adminHeader>
-  <div class="container">
-    <div class="alert alert-success alert-dismissible fade show" id="successChange" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Uspesno izmenjeno!
-    </div>
-    <div class="alert alert-danger alert-dismissible fade show" id="notSuccessChangePass" role="alert" style="visibility: hidden;">
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      Lozinka nije uspesno izmenjena!
-    </div>
-    <div class="row">
+  <div class="container m-2 d-flex justify-content-center ml-3" align="center">
+
+    <div class="row ml-3">
       <div class="col-4  d-flex justify-content-center" style=" border-style: solid; border-width: medium; background-color: #CDCDCD;">
         <div>
           <disabledInputField :label="numLoyaltyPointsLabel" :info="owner.loyaltyPoints"> </disabledInputField>
@@ -66,7 +59,7 @@
           <div class="col-6 d-flex justify-content-right">
             <div>
               <br>
-              <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 300px; height: 300px; margin-left:30px;"></open-maps>
+              <open-maps :lon="owner.longitude" :lat="owner.latitude" @coordinate-changed="updateCoordinats" style="width: 250px; height: 300px; margin-left:30px;"></open-maps>
               <div style="margin-top: 20px;">
                 <button type="button" class="btn" @click="cancel" style="background-color:#3399FF;">Odustani</button>
                 <button type="button" class="btn" @click="updateProfile" style="background-color:#3399FF;">Promeni</button>

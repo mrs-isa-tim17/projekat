@@ -392,8 +392,15 @@ public class AdventureController {
 	private Adventure updateAdventure(Adventure adventure, AdventureDTO adventureDTO) {
 		
 		adventure.setName(adventureDTO.getName());
+		//Address a = new Address();
+	//	a.setLongitude(adventureDTO.getLongitude());
+	//	a.setLatitude(adventureDTO.getLatitude());
 		adventure.getAddress().setLatitude(adventureDTO.getLatitude());
 		adventure.getAddress().setLongitude(adventureDTO.getLongitude());
+	//	adventure.setAddress(a);
+		System.out.println("ADDRESA adv");
+		System.out.println(adventure.getAddress().getLatitude());
+		System.out.println(adventure.getAddress().getLongitude());
 		adventure.setCapacity(adventureDTO.getCapacity());
 		adventure.setDescription(adventureDTO.getDescription());
 		adventure.setInstructorBiography(adventureDTO.getInstructorBiography());
@@ -537,7 +544,12 @@ public class AdventureController {
 		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
 			@Override
 			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
-				return (int) (c1.getPrice() - c2.getPrice());
+				if (c1.getPrice() - c2.getPrice() > 0)
+					return 1;
+				else if (c1.getPrice() - c2.getPrice() < 0)
+					return -1;
+				else
+					return 0;
 			}
 		});
 		return adventuresDTO;
@@ -547,7 +559,13 @@ public class AdventureController {
 		Collections.sort(adventuresDTO, new Comparator<AdventureForListViewDTO>() {
 			@Override
 			public int compare(AdventureForListViewDTO c1, AdventureForListViewDTO c2) {
-				return (int) (c1.getMark() - c2.getMark());
+				if (c1.getMark() - c2.getMark() > 0)
+					return 1;
+				else if (c1.getMark() - c2.getMark() < 0)
+					return -1;
+				else{
+					return 0;
+				}
 			}
 		});
 		Collections.reverse(adventuresDTO);

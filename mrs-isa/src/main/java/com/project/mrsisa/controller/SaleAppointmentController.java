@@ -187,7 +187,7 @@ public class SaleAppointmentController {
 			reserveDTO.setShipOwnerPresent(false); ////ovo proveri!!!!!!
 			reserveDTO.setChosenAdditionalServices(saleAppointmentDTO.getAdditionalServices());
 			reserveDTO.setOfferId(cottage.getId());
-			reserveDTO.setClientId(null);
+			reserveDTO.setClientId(-1);
 			reserveDTO.setFromDate(saleAppointmentDTO.getStartDateTime());
 			reserveDTO.setUntilDate(saleAppointmentDTO.getStartDateTime().plusDays((long) saleAppointmentDTO.getDuration()));
 			reserveDTO.setPrice(saleAppointmentDTO.getPrice());
@@ -244,6 +244,7 @@ public class SaleAppointmentController {
 			reserveDTO.setShipOwnerPresent(false); ////ovo proveri!!!!!!
 			reserveDTO.setChosenAdditionalServices(saleAppointmentDTO.getAdditionalServices());
 			reserveDTO.setOfferId(ship.getId());
+			reserveDTO.setClientId(-1);
 			reserveDTO.setFromDate(saleAppointmentDTO.getStartDateTime());
 			reserveDTO.setUntilDate(saleAppointmentDTO.getStartDateTime().plusDays((long) saleAppointmentDTO.getDuration()));
 			reserveDTO.setPrice(saleAppointmentDTO.getPrice());

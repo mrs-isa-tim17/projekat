@@ -32,7 +32,7 @@ public class ExperienceReviewService {
     private Environment env;
 
 	public double getReatingByOfferId(long id, OfferType offerType){
-		return experienceReviewRepository.findOffersCurrentPriceById(id, offerType.getValue()).orElse(0.0);
+		return experienceReviewRepository.findOffersCurrentRatingById(id, offerType.getValue()).orElse(0.0);
 	}
 	
 	public ExperienceReview save(ExperienceReview experienceReview) {
