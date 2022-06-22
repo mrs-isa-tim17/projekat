@@ -19,5 +19,5 @@ Uputstvo za pokretanje:
 
 Linkovi:
   * back: https://mrs-isa-tim17.herokuapp.com/
-  * front: https://mrs-isa-front-2.herokuapp.com/
+  * front: https://mrs-isa-front-2.herokuapp.com/book/site/home
   * da biste koristili aplikaciju prvo otvorite link za back, a zatim za front
