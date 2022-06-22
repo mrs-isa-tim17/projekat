@@ -646,8 +646,7 @@ insert into reservation(canceled, end_date, offer_type, price, quick, reviewed, 
 
 
 
-insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 3,1, 'Hocu da koristim aplikaciju');
-insert into registration_request (registration_type, status, user_id, version,request_message) values (1, 0, 4,1, 'Imam entitete koje bih reklamisala ovde');
+insert into registration_request (registration_type, status, user_id, version,request_message) values (0, 0, 11,1, 'Hocu da koristim aplikaciju');
 
 
 
@@ -740,4 +739,3 @@ insert into reservation_report(version, report_text, penallty, reservation_id, c
 		
 
 
-insert into registration_request (registration_type, status, user_id, version,request_message) values (2, 0, 9,1, 'Avanturiste');
