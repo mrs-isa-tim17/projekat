@@ -15,8 +15,14 @@ public class CottageConstants {
 
 
     public static final Long COTTAGE_ID = 1L;
-    public static final String COTTAGE_NAME = "Meda na Tari";
+    public static final String COTTAGE_NAME = "Medica";
     public static final String COTTAGE_DESCRIPTION = "Stević";
+    public static final int ROOM_QUANTITY = 3;
+    public static final int BED_QUANTITY = 5;
+
+    public static final String NEW_NAME = "Ana";
+
+    public static final String NEW_PHONE = "06555555";
 
 
 
