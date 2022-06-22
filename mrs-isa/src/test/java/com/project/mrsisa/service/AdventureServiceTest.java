@@ -59,7 +59,7 @@ public class AdventureServiceTest {
     @javax.transaction.Transactional
     @Rollback(true)
     public void testDeleteAdventure(){
-    	boolean answer = adventureService.deleteAdventure(2L);
+    	boolean answer = adventureService.deleteAdventure(3L);
     	assertFalse(answer);
     		
     }
@@ -68,7 +68,7 @@ public class AdventureServiceTest {
     @javax.transaction.Transactional
     @Rollback(true)
     public void testDeleteAdventure2(){
-    	boolean answer = adventureService.deleteAdventure(3L);
+    	boolean answer = adventureService.deleteAdventure(4L);
     	assertTrue(answer);
     		
     }
