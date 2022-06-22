@@ -84,7 +84,7 @@ public class ReservationReportService {
         helper.setTo(dto.getOwnerEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
 		
@@ -107,7 +107,7 @@ public class ReservationReportService {
         helper.setTo(dto.getClientEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
 		
@@ -149,7 +149,7 @@ public class ReservationReportService {
         helper.setTo(dto.getOwnerEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
 		
@@ -169,7 +169,7 @@ public class ReservationReportService {
         helper.setTo(dto.getClientEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
 	

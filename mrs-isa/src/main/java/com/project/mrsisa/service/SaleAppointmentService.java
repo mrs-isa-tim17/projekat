@@ -140,7 +140,7 @@ public class SaleAppointmentService {
 		helper.setTo(c.getEmail());
 		helper.setSubject(subject);
 		helper.setFrom(env.getProperty("spring.mail.username"));
-		javaMailSender.send(mimeMessage);
+		//javaMailSender.send(mimeMessage);
 	}
 	
 	public List<SaleAppointment> findAllByOfferId(Long offerId){
