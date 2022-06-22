@@ -302,7 +302,7 @@ public class ReservationService {
         helper.setTo(client.getEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
     }
 
 

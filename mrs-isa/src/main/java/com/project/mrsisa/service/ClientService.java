@@ -179,10 +179,8 @@ public class ClientService {
 		helper.setFrom(env.getProperty("spring.mail.username"));
 		for (Client c : clients){
 			helper.setTo(c.getEmail());
-			javaMailSender.send(mimeMessage);
+			//javaMailSender.send(mimeMessage);
 		}
-		helper.setTo("evioletta121@gmail.com");
-		javaMailSender.send(mimeMessage);
 
 	}
 	

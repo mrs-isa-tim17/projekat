@@ -21,8 +21,8 @@ public interface SaleAppointmentRepository extends JpaRepository<SaleAppointment
 
 
 	@Transactional
-	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 and r.start_sale_date > CURRENT_DATE and reserved = false", nativeQuery = true)
-	List<SaleAppointment> findActiveFreeSaleAppoinments(Long id);
+	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 and r.start_sale_date > ?2 and reserved = false", nativeQuery = true)
+	List<SaleAppointment> findActiveFreeSaleAppoinments(Long id, LocalDateTime before);
 
 	@Transactional
 	@Query(value="SELECT * from sale_appointment r WHERE r.offer_id=?1 order by start_sale_date", nativeQuery = true)

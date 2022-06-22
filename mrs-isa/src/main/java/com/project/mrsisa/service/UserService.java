@@ -68,7 +68,7 @@ public class UserService {
         helper.setTo(c.getEmail());
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
 
     }
 

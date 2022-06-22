@@ -79,7 +79,7 @@ public class ComplaintService {
         helper.setTo(clientMail);
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
     }
@@ -100,7 +100,7 @@ public class ComplaintService {
         helper.setTo(ownerMail);
         helper.setSubject(subject);
         helper.setFrom(env.getProperty("spring.mail.username"));
-        javaMailSender.send(mimeMessage);
+        //javaMailSender.send(mimeMessage);
         
         System.out.println("Poslat mail");
     }
